@@ -27,7 +27,7 @@
         .carga {
            display: none;
            position: fixed;
-           z-index: 1000;
+           z-index: 1050;
            top: 0;
            left: 0;
            height: 100%;
@@ -178,7 +178,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-md-2">
-                        <img src="{{asset('Content/image/logo.png')}}" alt="Logo" />
+                        <!--<img src="{{asset('Content/image/logo.png')}}" alt="Logo" />-->
                     </div>
                     <div class="col-xs-12 col-md-9">
                         <h1 style="margin-top: 0.6em; text-transform: uppercase"><strong>Encuesta Ad Hoc</strong></h1>

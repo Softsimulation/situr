@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1185897477805201d22919eec9336155",
+    "content-hash": "fdd65263bdc459e50f017ef84eaf1059",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -925,16 +925,16 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "2.1.27",
+            "version": "2.1.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "ea758fe5a9d33e0d88b40f099d1df652a0c99d38"
+                "reference": "06e397a30595d1082963d6aa5ec0c3a9961d70c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/ea758fe5a9d33e0d88b40f099d1df652a0c99d38",
-                "reference": "ea758fe5a9d33e0d88b40f099d1df652a0c99d38",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/06e397a30595d1082963d6aa5ec0c3a9961d70c8",
+                "reference": "06e397a30595d1082963d6aa5ec0c3a9961d70c8",
                 "shasum": ""
             },
             "require": {
@@ -999,7 +999,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2018-03-09T13:14:19+00:00"
+            "time": "2018-05-09T14:34:18+00:00"
         },
         {
             "name": "monolog/monolog",
