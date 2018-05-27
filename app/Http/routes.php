@@ -28,7 +28,6 @@ Route::controller('/turismoreceptor','TurismoReceptorController');
 
 Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
 
-Route::get('/actividades', 'TurismoReceptorController@actividades');
 
 
 Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
