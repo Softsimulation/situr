@@ -571,6 +571,7 @@ class ComposerStaticInit635bc917630258a315658786beb8dd2e
         'App\\Models\\Digitador' => __DIR__ . '/../..' . '/app/Models/Digitador.php',
         'App\\Models\\Edificacion' => __DIR__ . '/../..' . '/app/Models/Edificacion.php',
         'App\\Models\\Empleo' => __DIR__ . '/../..' . '/app/Models/Empleo.php',
+<<<<<<< HEAD
         'App\\Models\\EncuestaDinamica\\Encuestas_dinamica' => __DIR__ . '/../..' . '/app/Models/EncuestaDinamica/Encuestas_dinamica.php',
         'App\\Models\\EncuestaDinamica\\Encuestas_idioma' => __DIR__ . '/../..' . '/app/Models/EncuestaDinamica/Encuestas_idioma.php',
         'App\\Models\\EncuestaDinamica\\Encuestas_usuario' => __DIR__ . '/../..' . '/app/Models/EncuestaDinamica/Encuestas_usuario.php',
@@ -591,6 +592,8 @@ class ComposerStaticInit635bc917630258a315658786beb8dd2e
         'App\\Models\\EncuestaDinamica\\Secciones_encuesta' => __DIR__ . '/../..' . '/app/Models/EncuestaDinamica/Secciones_encuesta.php',
         'App\\Models\\EncuestaDinamica\\Sub_pregunta' => __DIR__ . '/../..' . '/app/Models/EncuestaDinamica/Sub_pregunta.php',
         'App\\Models\\EncuestaDinamica\\Tipo_campo' => __DIR__ . '/../..' . '/app/Models/EncuestaDinamica/Tipo_campo.php',
+=======
+>>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
         'App\\Models\\Estrato' => __DIR__ . '/../..' . '/app/Models/Estrato.php',
         'App\\Models\\Grupo_Viaje' => __DIR__ . '/../..' . '/app/Models/Grupo_Viaje.php',
         'App\\Models\\Historial_Encuesta' => __DIR__ . '/../..' . '/app/Models/Historial_Encuesta.php',
@@ -609,7 +612,10 @@ class ComposerStaticInit635bc917630258a315658786beb8dd2e
         'App\\Models\\Pais' => __DIR__ . '/../..' . '/app/Models/Pais.php',
         'App\\Models\\Pais_Con_Idioma' => __DIR__ . '/../..' . '/app/Models/Pais_Con_Idioma.php',
         'App\\Models\\Persona' => __DIR__ . '/../..' . '/app/Models/Persona.php',
+<<<<<<< HEAD
         'App\\Models\\Proveedor' => __DIR__ . '/../..' . '/app/Models/Proveedor.php',
+=======
+>>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
         'App\\Models\\Sitio' => __DIR__ . '/../..' . '/app/Models/Sitio.php',
         'App\\Models\\Sitio_Con_Idioma' => __DIR__ . '/../..' . '/app/Models/Sitio_Con_Idioma.php',
         'App\\Models\\Tipo_Alojamiento' => __DIR__ . '/../..' . '/app/Models/Tipo_Alojamiento.php',
@@ -657,6 +663,10 @@ class ComposerStaticInit635bc917630258a315658786beb8dd2e
         'App\\Planificador_Proveedor' => __DIR__ . '/../..' . '/app/Models/Planificador_Proveedor.php',
         'App\\Poblacion_Dane' => __DIR__ . '/../..' . '/app/Models/Poblacion_Dane.php',
         'App\\Prestamo_Servicio' => __DIR__ . '/../..' . '/app/Models/Prestamo_Servicio.php',
+<<<<<<< HEAD
+=======
+        'App\\Proveedor' => __DIR__ . '/../..' . '/app/Models/Proveedor.php',
+>>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
         'App\\Proveedor_Caracteristica' => __DIR__ . '/../..' . '/app/Models/Proveedor_Caracteristica.php',
         'App\\Proveedor_Con_Idioma' => __DIR__ . '/../..' . '/app/Models/Proveedor_Con_Idioma.php',
         'App\\Proveedor_Favorito' => __DIR__ . '/../..' . '/app/Models/Proveedor_Favorito.php',

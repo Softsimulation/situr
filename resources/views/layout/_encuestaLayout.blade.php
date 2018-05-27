@@ -8,7 +8,7 @@
         <meta name="description" content="Sistema de Información Turistica del Magdalena">
         <meta name="author" content="SITUR Magdalena">
         <title>@yield('title')</title>
-        <link rel="icon" type="image/ico" href="~/Content/icons/favicon-96x96.png" />
+        <link rel="icon" type="image/ico" href="{{asset('/Content/icons/favicon-96x96.png')}}" />
         <!--<link href="@Url.Content("/Content/mdl/bootstrap_mdl/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />-->
         <!--<link href="@Url.Content("~/Content/mdl/material.min.css")" rel="stylesheet" type="text/css" />-->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
@@ -17,6 +17,7 @@
         <link href="{{asset('/Content/bootstrap_material/dist/css/bootstrap-material-design.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('/Content/bootstrap_material/dist/css/ripples.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('/Content/sweetalert.css')}}" rel='stylesheet' type='text/css' />
+        <link href="{{asset('/css/select.min.css')}}" rel='stylesheet' type='text/css' />
         <link href="{{asset('/Content/ionicons/css/ionicons.min.css')}}" rel='stylesheet' type='text/css' />
         <link href="{{asset('/Content/styleLoading.css')}}" rel='stylesheet' type='text/css' />
         @yield('estilos')
@@ -72,9 +73,9 @@
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
                 vertical-align: middle;
             }
-            .dropdown-menu {
-                left: -85%;
-            }
+            /*.dropdown-menu {*/
+            /*    left: -85%;*/
+            /*}*/
             .fixed {
                 position: fixed;
                 top: 0;
@@ -137,8 +138,8 @@
         <div id="preloader">
             <div>
                 <div class="loader"></div>
-                <h1>@Resource.LabelPreloader</h1>
-                <h4>@Resource.LabelPorFavorEspere</h4>
+                <h1>Cargando</h1>
+                <h4>Por favor espere</h4>
                 <img src="/Content/image/logo.min.png" width="200" />
             </div>
         </div>
@@ -181,9 +182,12 @@
             $.material.init();
         </script>
         <script src="{{asset('/js/plugins/checklist-model.js')}}"></script>
-        <script src="{{asset('js/plugins/angular-filter.js')}}"></script>
+        <script src="{{asset('/js/plugins/select.min.js')}}" type="text/javascript"></script>
+        <script src="{{asset('/js/plugins/angular-filter.js')}}"></script>
         <script src="{{asset('/js/plugins/angular-repeat-n.min.js')}}"></script>
+        
         <script src="{{asset('/js/sweetalert.min.js')}}"></script>
+        <script src="{{asset('/js/dir-pagination.js')}}"></script>
         <script src="{{asset('/js/encuestas/turismoReceptor/encuesta.js')}}"></script>
         <script src="{{asset('/js/encuestas/turismoReceptor/datos_encuestado.js')}}"></script>
         <script src="{{asset('/js/encuestas/turismoReceptor/estanciayvisitados.js')}}"></script>
@@ -194,6 +198,7 @@
         <script src="{{asset('/js/encuestas/turismoReceptor/enteran.js')}}"></script>
         
         <script src="{{asset('/js/encuestas/turismoReceptor/services/receptorServices.js')}}"></script>
+        <script src="{{asset('/js/encuestas/turismoReceptor/services/grupoViajeServices.js')}}"></script>
         
         <script>
             $(window).load(function () { $("#preloader").delay(1e3).fadeOut("slow") });
