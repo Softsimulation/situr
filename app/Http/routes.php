@@ -32,7 +32,9 @@ Route::controller('/exportacion','ExportacionController');
 
 Route::group(['middleware' => 'cors'], function(){
  
-   Route::controller('/api/turismointerno','TurismoInternoCorsController');
+   Route::controller('/turismointernoapi','TurismoInternoCorsController');
+   
+   Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
   
 });
 
