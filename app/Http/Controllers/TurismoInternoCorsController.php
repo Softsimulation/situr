@@ -6,6 +6,90 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
+use App\Models\Municipio;
+use App\Models\Nivel_Educacion;
+use App\Models\Motivo_No_Viaje;
+use App\Models\Estrato;
+use App\Models\Barrio;
+use App\Models\Digitador;
+
+use App\Models\Edificacion;
+use App\Models\Hogar;
+use App\Models\Persona;
+use App\Models\No_Viajero;
+use App\Models\Transporte;
+use App\Models\Tipo_Transporte_Interno;
+use App\Models\Viaje;
+use App\Models\Empresa_Terrestre_Interno;
+use App\Models\Historial_Encuesta_Interno;
+
+use App\Models\Rubro_Interno;
+use App\Models\Financiador_Viaje;
+use App\Models\Viaje_Financiadore;
+use App\Models\Viaje_Gasto_Interno;
+use App\Models\Viaje_Excursion;
+use App\Models\Servicio_Paquete_Interno;
+use App\Models\Opcion_Lugar;
+use App\Models\Divisa;
+use App\Models\Servicio_Excursion_Incluido_Interno;
+use App\Models\Lugar_Agencia_Viaje;
+use App\Models\Pago_Peso_Colombiano;
+
+use App\Models\Opcion_Actividad_Realizada;
+use App\Models\Sub_Opcion_Actividad_Realizada_Interno;
+use App\Models\Opcion_Actividad_Realizada_Interno;
+
+use App\Models\Pais_Con_Idioma;
+use App\Models\Departamento;
+use App\Models\Tipo_Alojamiento_Con_Idioma;
+use App\Models\Acompaniante_Viaje;
+use App\Models\Frecuencia_Viaje;
+use App\Models\Motivo_Viaje_Con_Idioma;
+use App\Models\Motivo_Viaje;
+use App\Models\Actividad_Realizada;
+use App\Models\Tipo_Atraccion;
+use App\Models\Atracciones;
+use App\Models\Atraccion_Por_Tipo_Actividad_Realizada;
+use App\Models\Actividad_Realizada_Con_Actividad;
+use App\Models\Municipio_Visitado_Magdalena;
+use App\Models\Atraccion_Visitada_Interno;
+use App\Models\Lugar_Visitado_Interno;
+use App\Models\Actividad_Realizada_Interno;
+use App\Models\Actividad_Realizada_Viajero;
+
+
+use App\Models\Ciudad_Visitada;
+use App\Models\Acompaniante_Viaje_Hogar;
+use App\Models\Acompaniante_Sin_Gasto;
+use App\Models\Otros_Turistas_Interno;
+
+use App\Models\Ubicacion_Agencia_Viaje;
+
+use App\Models\Fuente_Informacion_Antes_Viaje;
+use App\Models\Fuente_Informacion_Durante_Viaje;
+use App\Models\Redes_Sociales;
+use App\Models\Experiencia_Departamento;
+use App\Models\Valor_Calificacion;
+use App\Models\Otra_Fuente_Informacion_Antes_Viaje_Interno;
+use App\Models\Viajero_Redes_Sociales;
+use App\Models\Fuente_Informacion_Antes_Viaje_Interno;
+use App\Models\Fuente_Informacion_Durante_Viaje_Interno;
+use App\Models\Calificacion_Experiencia_Interno;
+use App\Models\Redes_Sociales_Viajero;
+use App\Models\Otra_Fuente_Informacion_Durante_Viaje_Interno;
+use App\Models\EstadosCiviles;
+use App\Models\MediosTransporte;
+use App\Models\ViajesTransporte;
+use App\Models\ViajeMedioTransporte;
+use App\Models\Porcentajes_servicios_paquete_viaje;
+use App\Models\Porcentaje_rubros_internos_viaje;
+use App\Models\Viaje_terrestre;
+use App\Models\Tipo_Proveedor_Paquete;
+use App\Models\Ocupacion;
+use App\Models\OcupacionPersona;
+use App\Models\OtraRed;
+
+
 class TurismoInternoCorsController extends Controller
 {
     public function getDatoshogar(){
@@ -22,7 +106,7 @@ class TurismoInternoCorsController extends Controller
     }
     
     public function postBarrios(Request $request){
-        
+        https://situr-jeferbustamante.c9users.io/situr/public/api/turismointerno/datoshogar
         $barrios=Barrio::where('municipio_id',$request->id)->get();
         return ['barrios'=>$barrios];
         
