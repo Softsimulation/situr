@@ -70,7 +70,7 @@ class TurismoReceptorController extends Controller
     public function __construct()
 	{
 	    //$this->middleware('auth');
-	    $this->middleware('receptor',['except' => ['getEncuestas','getListadoencuestas'] ]);
+	    $this->middleware('receptor',['only' =>  ['getSeccionestancia','getSecciontransporte','getSecciongrupoviaje','getSecciongastos','getSeccionpercepcionviaje','getSeccionfuentesinformacion'] ]);
 	    //$this->user = Auth::user();
 	}
     
@@ -1512,13 +1512,13 @@ class TurismoReceptorController extends Controller
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('fuentes_informacion_antes_viaje_id','nombre');
-        }])->get();
+        }])->orderBy('peso')->get();
         
         $fuentesDurante = Fuente_Informacion_Durante_Viaje::with(["fuentesInformacionDuranteViajeConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('fuente_informacion_durante_viaje_id','nombre');
-        }])->get();
+        }])->orderBy('peso')->get();
         
         $redes = Redes_Sociales::where('estado',1)->get(['id as Id','nombre as Nombre']);
         

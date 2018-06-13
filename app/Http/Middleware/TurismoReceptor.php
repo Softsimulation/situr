@@ -18,8 +18,9 @@ class TurismoReceptor
     public function handle($request, Closure $next)
     {
         $visitante = Visitante::find($request->one);
+        
         if(!$visitante){
-            return \Redirect::to('/turismoreceptor/L¿listadoencuestas')->with('message', 'El visitante no se encuentra registrado en el sistema.')
+            return \Redirect::to('/turismoreceptor/listadoencuestas')->with('message', 'El visitante no se encuentra registrado en el sistema.')
                     ->withInput();
         }else{
             $url = $request->route()->uri();
