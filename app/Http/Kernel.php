@@ -53,5 +53,6 @@ class Kernel extends HttpKernel
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         'interno' => \App\Http\Middleware\TurismoInterno::class,
+        'receptor' => \App\Http\Middleware\TurismoReceptor::class,
     ];
 }

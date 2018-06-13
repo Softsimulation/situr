@@ -80,7 +80,7 @@ angular.module('interno.hogares', [])
     
 
     $scope.SavePersona = function () {
-
+        console.log($scope.IntegranteForm)
         if ($scope.IntegranteForm.$valid) {
             if ($scope.aux == -1) {
                 $scope.integrante.jefe_hogar = 'false';

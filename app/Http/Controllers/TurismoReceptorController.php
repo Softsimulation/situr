@@ -67,6 +67,13 @@ use App\Models\Lugar_Aplicacion_Encuesta;
 
 class TurismoReceptorController extends Controller
 {
+    public function __construct()
+	{
+	    //$this->middleware('auth');
+	    $this->middleware('receptor',['except' => ['getEncuestas','getListadoencuestas'] ]);
+	    //$this->user = Auth::user();
+	}
+    
     public function getDatosencuestados(){
         return view('turismoReceptor.DatosEncuestados');
     }
@@ -1012,7 +1019,7 @@ class TurismoReceptorController extends Controller
         
         $encuesta["Otro"] = null;
         if(in_array(11,$encuesta["Financiadores"])){
-           $encuesta["Otro"]= Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first()->pivot->otro;
+           $encuesta["Otro"]= Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first() != null ? Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first()->pivot->otro : null;
         }
         
          
