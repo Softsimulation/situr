@@ -77,10 +77,7 @@ angular.module('interno.hogares', [])
 
     }
 
-    
-
     $scope.SavePersona = function () {
-        console.log($scope.IntegranteForm)
         if ($scope.IntegranteForm.$valid) {
             if ($scope.aux == -1) {
                 $scope.integrante.jefe_hogar = 'false';
@@ -115,7 +112,6 @@ angular.module('interno.hogares', [])
         }
 
         if ($scope.DatosForm.$valid) {
-            
             $("body").attr("class", "charging");
             $http.post('/turismointerno/guardarhogar', $scope.encuesta)
                 .success(function (data) {
@@ -324,7 +320,8 @@ angular.module('interno.hogares', [])
 
     $scope.enviar = function () {
         $scope.encuesta.id=$scope.id;
-        if ($scope.DatosForm.$valid) {
+        console.log($scope.encuesta.Fecha_aplicacion)
+        /*if ($scope.DatosForm.$valid) {
             $("body").attr("class", "charging");
             $http.post('/turismointerno/guardareditarhogar', $scope.encuesta)
                 .success(function (data) {
@@ -359,7 +356,7 @@ angular.module('interno.hogares', [])
 
             swal("Error", "Formulario incompleto corrige los errores", "error")
 
-        }
+        }*/
 
     }
     
