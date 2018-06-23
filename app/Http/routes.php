@@ -21,3 +21,11 @@ Route::controller('/turismointerno','TurismoInternoController');
 Route::controller('/turismoreceptor','TurismoReceptorController');
 
 Route::get('/actividades', 'TurismoReceptorController@actividades');
+
+//Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
+
+Route::controller('/administrarmunicipios', 'AdministrarMunicipiosController');
+
+Route::controller('/administrardepartamentos', 'AdministrarDepartamentosController');
+
+Route::controller('/administrarpaises', 'AdministrarPaisesController');
