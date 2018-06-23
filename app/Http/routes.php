@@ -28,4 +28,6 @@ Route::controller('/turismoreceptor','TurismoReceptorController');
 
 Route::controller('/grupoviaje','GrupoViajeController');
 
+Route::controller('/usuario','UsuarioController');
+
 
