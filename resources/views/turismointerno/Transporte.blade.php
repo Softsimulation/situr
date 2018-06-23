@@ -50,8 +50,9 @@
 @section('contenido')
 <div class="main-page">
     <input type="hidden" ng-model="id" ng-init="id={{$id}}" />
+    
     <div class="alert alert-danger" ng-if="errores != null">
-        <label><b>@Resource.EncuestaMsgError:</b></label>
+        <label><b>{{trans('resources.EncuestaMsgError')}}:</b></label>
         <br />
         <div ng-repeat="error in errores" ng-if="error.length>0">
             -@{{error[0]}}
@@ -126,7 +127,7 @@
         -->
         
         <div class="row" style="text-align:center">
-            <a href="#" class="btn btn-raised btn-default">{{trans('resources.EncuestaBtnAnterior')}}</a>
+            <a href="/turismointerno/actividadesrealizadas/{{$id}}" class="btn btn-raised btn-default">{{trans('resources.EncuestaBtnAnterior')}}</a>
             <input type="submit" class="btn btn-raised btn-success" value="{{trans('resources.EncuestaBtnSiguiente')}}" ng-click="guardar()">
         </div>
         <br />

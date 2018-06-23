@@ -28,6 +28,7 @@ angular.module('interno.hogares', [])
             $scope.estratos=data.estratos
             $scope.encuestadores=data.encuestadores
             $scope.estados=data.estados
+            $scope.ocupaciones=data.ocupaciones
 
         })
         .error(function () {
@@ -76,10 +77,7 @@ angular.module('interno.hogares', [])
 
     }
 
-    
-
     $scope.SavePersona = function () {
-
         if ($scope.IntegranteForm.$valid) {
             if ($scope.aux == -1) {
                 $scope.integrante.jefe_hogar = 'false';
@@ -114,14 +112,25 @@ angular.module('interno.hogares', [])
         }
 
         if ($scope.DatosForm.$valid) {
-            
             $("body").attr("class", "charging");
             $http.post('/turismointerno/guardarhogar', $scope.encuesta)
                 .success(function (data) {
                     $("body").attr("class", "");
-                    if (data.success) {                      
+                    if (data.success) {    
                         
-                        window.location = "/turismointerno/editarhogar/"+data.id;
+                        swal({
+                                title: "Realizado",
+                                text: "Se ha guardado el hogar exitosamente",
+                                type: "success",
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                            
+                    setTimeout(function () {
+                         window.location = "/turismointerno/editarhogar/"+data.id;
+                    }, 1000);
+                        
+                       
                         
                     } else {
                         swal("Error", "Hay errores en el formulario corrigelos", "error")
@@ -161,6 +170,7 @@ angular.module('interno.hogares', [])
                 $scope.niveles = data.datos.niveles
                 $scope.motivos = data.datos.motivos
                 $scope.estratos = data.datos.estratos
+                $scope.ocupaciones=data.datos.ocupaciones
                 $scope.barrios = data.barrios
                 $scope.municipio = String(data.encuesta.edificacione.barrio.municipio_id)
                 $scope.encuestadores=data.datos.encuestadores
@@ -310,14 +320,25 @@ angular.module('interno.hogares', [])
 
     $scope.enviar = function () {
         $scope.encuesta.id=$scope.id;
-        if ($scope.DatosForm.$valid) {
+        console.log($scope.encuesta.Fecha_aplicacion)
+        /*if ($scope.DatosForm.$valid) {
             $("body").attr("class", "charging");
             $http.post('/turismointerno/guardareditarhogar', $scope.encuesta)
                 .success(function (data) {
                     $("body").attr("class", "");
                     if (data.success) {
 
-                        window.location = "/turismointerno/editarhogar/" + data.id;
+                       swal({
+                                title: "Realizado",
+                                text: "Se ha guardado el hogar exitosamente",
+                                type: "success",
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                            
+                    setTimeout(function () {
+                         window.location = "/turismointerno/editarhogar/"+data.id;
+                    }, 1000);
 
                     } else {
                         swal("Error", "Hay errores en el formulario corrigelos", "error")
@@ -335,7 +356,7 @@ angular.module('interno.hogares', [])
 
             swal("Error", "Formulario incompleto corrige los errores", "error")
 
-        }
+        }*/
 
     }
     
@@ -353,11 +374,16 @@ angular.module('interno.hogares', [])
             array[i].jefe_hogar=String(array[i].jefe_hogar);
             
             array[i].Civil=String(array[i].estado_civil_id);
-            array[i].Ocupacion=String(array[i].ocupacion);
+            array[i].Ocupacion=String(array[i].ocupacion_id);
             array[i].Vive=(array[i].es_residente)?"1":"0";
             
             if(array[i].motivo_no_viajes.length>0){
                 array[i].Motivo=String(array[i].motivo_no_viajes[0].motivo_no_viaje_id);
+             }
+             
+             if(array[i].otraocupacion != null){
+                 
+                array[i].Otra_ocupacion=String(array[i].otraocupacion.otro);
              }
                    
                }

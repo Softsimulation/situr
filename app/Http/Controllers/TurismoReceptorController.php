@@ -67,6 +67,13 @@ use App\Models\Lugar_Aplicacion_Encuesta;
 
 class TurismoReceptorController extends Controller
 {
+    public function __construct()
+	{
+	    //$this->middleware('auth');
+	    $this->middleware('receptor',['only' =>  ['getSeccionestancia','getSecciontransporte','getSecciongrupoviaje','getSecciongastos','getSeccionpercepcionviaje','getSeccionfuentesinformacion'] ]);
+	    //$this->user = Auth::user();
+	}
+    
     public function getDatosencuestados(){
         return view('turismoReceptor.DatosEncuestados');
     }
@@ -203,7 +210,8 @@ class TurismoReceptorController extends Controller
 		
 		$year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
 		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$numeroEncuesta = Visitante::whereYear('fecha_aplicacion','=',$year)->whereMonth('fecha_aplicacion','=',$month)->get()->count() + 1;
+		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
+		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
 		
 		$digitador = Digitador::find($request->Encuestador);
 		
@@ -1012,7 +1020,7 @@ class TurismoReceptorController extends Controller
         
         $encuesta["Otro"] = null;
         if(in_array(11,$encuesta["Financiadores"])){
-           $encuesta["Otro"]= Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first()->pivot->otro;
+           $encuesta["Otro"]= Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first() != null ? Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first()->pivot->otro : null;
         }
         
          
@@ -1505,13 +1513,13 @@ class TurismoReceptorController extends Controller
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('fuentes_informacion_antes_viaje_id','nombre');
-        }])->get();
+        }])->orderBy('peso')->get();
         
         $fuentesDurante = Fuente_Informacion_Durante_Viaje::with(["fuentesInformacionDuranteViajeConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('fuente_informacion_durante_viaje_id','nombre');
-        }])->get();
+        }])->orderBy('peso')->get();
         
         $redes = Redes_Sociales::where('estado',1)->get(['id as Id','nombre as Nombre']);
         
@@ -1520,10 +1528,10 @@ class TurismoReceptorController extends Controller
         $compar_redes = $visitante->redesSociales()->pluck('id')->toArray();
         
         if(in_array(14,$fuentes_antes)){
-            $OtroFuenteAntes = $visitante->otrasFuenteInformacionAntesViaje->nombre;
+            $OtroFuenteAntes = $visitante->otrasFuenteInformacionAntesViaje != null ? $visitante->otrasFuenteInformacionAntesViaje->nombre : null;
         }
         if(in_array(14,$fuentes_durante)){
-            $OtroFuenteDurante = $visitante->otrasFuenteInformacionDuranteViaje->nombre;
+            $OtroFuenteDurante = $visitante->otrasFuenteInformacionDuranteViaje != null ? $visitante->otrasFuenteInformacionDuranteViaje->nombre : null;
         }
         
         $retorno = [
