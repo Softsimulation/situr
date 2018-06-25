@@ -22,6 +22,7 @@ var pp=angular.module('admin.temporadas', ['objectTable'])
         .then(function(data){
              $("body").attr("class", "cbp-spmenu-push");
             $scope.temporadas = data.temporadas;
+            
         })
         .catch(function(){
             $("body").attr("class", "cbp-spmenu-push");
@@ -149,7 +150,7 @@ var pp=angular.module('admin.temporadas', ['objectTable'])
         adminService.DatosTemporada($scope.id)
             .then(function (data) {
                 $scope.temporada = data.temporada;
-                $scope.temporada.Personas=data.hogares
+                $scope.temporada.encuestas=data.encuestas
                 $("body").attr("class", "cbp-spmenu-push");
             }).catch(function () {
                 $("body").attr("class", "cbp-spmenu-push");

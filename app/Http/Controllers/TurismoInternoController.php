@@ -229,9 +229,10 @@ class TurismoInternoController extends Controller
         if($persona==null){
             return ['success'=>false, "error"=>"La persona seleccionada no existe"];
         }
+        /*
         if($persona->viajes->count()>0){
             return ["success"=>false,"error"=>"La persona tiene viajes registrados no puede ser eliminado"];
-        }
+        }*/
         if($persona->motivoNoViajes->count()>0){
             
             $aux=No_Viajero::where('persona_id',$request->id)->delete();
@@ -543,6 +544,7 @@ class TurismoInternoController extends Controller
         $compar_redes=[];
         $OtroFuenteAntes="";
         $OtroFuenteDurante="";
+        $OtroRedes="";
         $facebook="";
         $twitter="";
         $invitacion=0;
@@ -793,7 +795,7 @@ class TurismoInternoController extends Controller
         ];
         
         
-        $encuesta["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
+        $dor["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
         $encuesta["noRealiceGastos"] = $encuesta["noRealiceGastos"] == null  ? 0 : $encuesta["noRealiceGastos"];
         
         $divCop =  Divisa::where("id",39)->with([ "divisasConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get()->toArray();
@@ -1061,7 +1063,7 @@ class TurismoInternoController extends Controller
     
     public function getViajeprincipal($one){
          $id = $one;
-         $hogar =Hogar::find($id)->id;
+         $hogar =Viaje::find($id)->hogar_id;
         return view('turismointerno.ViajePrincipal',compact('id','hogar'));
     }
     
@@ -1691,7 +1693,7 @@ class TurismoInternoController extends Controller
         
     }
     
-     public function postSiguienteviaje (Request $request){
+    public function postSiguienteviaje (Request $request){
      
       $validator = \Validator::make($request->all(), [
       'id' => 'required|exists:hogares,id',
@@ -1706,8 +1708,18 @@ class TurismoInternoController extends Controller
       if($validator->fails()){
         return ["success"=>false,"errores"=>$validator->errors()];
     }
+        
+        $travel=Viaje::where('hogar_id',$request->id)->where('es_principal',true);
+        
+        if($travel->count()>0){
+            $principal=$travel->first()->codigo_encuesta;
+        }else{
+            $data = \DB::select("SELECT *from codigo_encuesta_viajes(?)", array($request->principal));
+            $principal= $data[0]->codigo_encuesta_viajes;
+        }
+    
         Viaje::where("hogar_id",$request->id)->update(['es_principal' => false]);
-        Viaje::where("hogar_id",$request->id)->where("id",$request->principal)->update(['es_principal' => true]);
+        Viaje::where("hogar_id",$request->id)->where("id",$request->principal)->update(['es_principal' => true,'codigo_encuesta'=>$principal]);
         $sw = 0;
         
        $data = Viaje::where("id",$request->principal)->first();
