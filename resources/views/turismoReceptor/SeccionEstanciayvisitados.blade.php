@@ -58,7 +58,7 @@
         <div class="panel panel-success">
             <div class="panel-heading">
                 <!-- P1. Duración de la estancia-->
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Duración de la estancia</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> B2 Registre los municipios que visitó en el Cesar</b></h3>
             </div>
             <div class="panel-footer"><b>Complete la siguiente tabla</b></div>
             <div class="panel-body">

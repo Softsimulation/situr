@@ -37,4 +37,6 @@ Route::group(['middleware' => 'cors'], function(){
   
 });
 
+Route::controller('/usuario','UsuarioController');
+
 
