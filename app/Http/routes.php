@@ -25,6 +25,14 @@ Route::controller('/turismointerno','TurismoInternoController');
 
 Route::controller('/turismoreceptor','TurismoReceptorController');
 
+
+//Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
+
+Route::controller('/administrarmunicipios', 'AdministrarMunicipiosController');
+
+Route::controller('/administrardepartamentos', 'AdministrarDepartamentosController');
+
+Route::controller('/administrarpaises', 'AdministrarPaisesController');
 Route::controller('/grupoviaje','GrupoViajeController');
 Route::controller('/exportacion','ExportacionController');
 

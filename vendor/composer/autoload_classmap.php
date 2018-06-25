@@ -10,6 +10,7 @@ return array(
     'App\\Actividad_Deportiva' => $baseDir . '/app/Models/Actividad_Deportiva.php',
     'App\\Actividad_Favorita' => $baseDir . '/app/Models/Actividad_Favorita.php',
     'App\\Actividad_Realizada_Atraccion' => $baseDir . '/app/Models/Actividad_Realizada_Atraccion.php',
+
     'App\\Actividad_Servicio' => $baseDir . '/app/Models/Actividad_Servicio.php',
     'App\\Adicional_Usuario' => $baseDir . '/app/Models/Adicional_Usuario.php',
     'App\\Agencia_Operadora' => $baseDir . '/app/Models/Agencia_Operadora.php',
@@ -18,6 +19,7 @@ return array(
     'App\\Alquiler_Vehiculo' => $baseDir . '/app/Models/Alquiler_Vehiculo.php',
     'App\\Apartamento' => $baseDir . '/app/Models/Apartamento.php',
     'App\\Asignacion_Salarial' => $baseDir . '/app/Models/Asignacion_Salarial.php',
+
     'App\\Atraccion_Con_Idioma' => $baseDir . '/app/Models/Atraccion_Con_Idioma.php',
     'App\\Atraccion_Con_Tipo' => $baseDir . '/app/Models/Atraccion_Con_Tipo.php',
     'App\\Atraccion_Favorita' => $baseDir . '/app/Models/Atraccion_Favorita.php',
@@ -39,6 +41,7 @@ return array(
     'App\\Categoria_Turismo_Con_Evento' => $baseDir . '/app/Models/Categoria_Turismo_Con_Evento.php',
     'App\\Categoria_Turismo_Con_Idioma' => $baseDir . '/app/Models/Categoria_Turismo_Con_Idioma.php',
     'App\\Categoria_Turismo_Con_Proveedor' => $baseDir . '/app/Models/Categoria_Turismo_Con_Proveedor.php',
+
     'App\\Comentario_Actividad' => $baseDir . '/app/Models/Comentario_Actividad.php',
     'App\\Comentario_Atraccion' => $baseDir . '/app/Models/Comentario_Atraccion.php',
     'App\\Comentario_Destino' => $baseDir . '/app/Models/Comentario_Destino.php',
@@ -72,6 +75,7 @@ return array(
     'App\\Dato_Rnt' => $baseDir . '/app/Models/Dato_Rnt.php',
     'App\\Destino' => $baseDir . '/app/Models/Destino.php',
     'App\\Destino_Con_Idioma' => $baseDir . '/app/Models/Destino_Con_Idioma.php',
+
     'App\\Dominiosingles' => $baseDir . '/app/Models/Dominiosingles.php',
     'App\\DuracionEstanciaMediaReceptor' => $baseDir . '/app/Models/DuracionEstanciaMediaReceptor.php',
     'App\\Edad_Empleado' => $baseDir . '/app/Models/Edad_Empleado.php',
@@ -83,11 +87,13 @@ return array(
     'App\\Especialidad' => $baseDir . '/app/Models/Especialidad.php',
     'App\\Estadisitica_Secundaria' => $baseDir . '/app/Models/Estadisitica_Secundaria.php',
     'App\\Estado_Indicador' => $baseDir . '/app/Models/Estado_Indicador.php',
+
     'App\\Evento' => $baseDir . '/app/Models/Evento.php',
     'App\\Evento_Con_Idioma' => $baseDir . '/app/Models/Evento_Con_Idioma.php',
     'App\\Evento_Favorita' => $baseDir . '/app/Models/Evento_Favorita.php',
     'App\\Events\\Event' => $baseDir . '/app/Events/Event.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
+
     'App\\H_Alojamiento_Interno_Emisor' => $baseDir . '/app/Models/H_Alojamiento_Interno_Emisor.php',
     'App\\H_Alojamiento_Receptor' => $baseDir . '/app/Models/H_Alojamiento_Receptor.php',
     'App\\H_Capacidad_Restaurante' => $baseDir . '/app/Models/H_Capacidad_Restaurante.php',
@@ -287,6 +293,7 @@ return array(
     'App\\Multimedia_Evento' => $baseDir . '/app/Models/Multimedia_Evento.php',
     'App\\Multimedia_Ruta' => $baseDir . '/app/Models/Multimedia_Ruta.php',
     'App\\Multimedia_Sitio' => $baseDir . '/app/Models/Multimedia_Sitio.php',
+
     'App\\Municipio_Paquete_Turistico' => $baseDir . '/app/Models/Municipio_Paquete_Turistico.php',
     'App\\Oferta_Transporte' => $baseDir . '/app/Models/Oferta_Transporte.php',
     'App\\Opcion_Persona_Destino' => $baseDir . '/app/Models/Opcion_Persona_Destino.php',
@@ -3933,6 +3940,17 @@ return array(
     'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => $vendorDir . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
     'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => $vendorDir . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
     'Webmozart\\Assert\\Assert' => $vendorDir . '/webmozart/assert/src/Assert.php',
+    'Wilgucki\\Csv\\Commands\\Export' => $vendorDir . '/wilgucki/csv/src/Commands/Export.php',
+    'Wilgucki\\Csv\\Commands\\Import' => $vendorDir . '/wilgucki/csv/src/Commands/Import.php',
+    'Wilgucki\\Csv\\CsvCollection' => $vendorDir . '/wilgucki/csv/src/CsvCollection.php',
+    'Wilgucki\\Csv\\CsvServiceProvider' => $vendorDir . '/wilgucki/csv/src/CsvServiceProvider.php',
+    'Wilgucki\\Csv\\Facades\\Reader' => $vendorDir . '/wilgucki/csv/src/Facades/Reader.php',
+    'Wilgucki\\Csv\\Facades\\Writer' => $vendorDir . '/wilgucki/csv/src/Facades/Writer.php',
+    'Wilgucki\\Csv\\Reader' => $vendorDir . '/wilgucki/csv/src/Reader.php',
+    'Wilgucki\\Csv\\Traits\\CsvCustomCollection' => $vendorDir . '/wilgucki/csv/src/Traits/CsvCustomCollection.php',
+    'Wilgucki\\Csv\\Traits\\CsvExportable' => $vendorDir . '/wilgucki/csv/src/Traits/CsvExportable.php',
+    'Wilgucki\\Csv\\Traits\\CsvImportable' => $vendorDir . '/wilgucki/csv/src/Traits/CsvImportable.php',
+    'Wilgucki\\Csv\\Writer' => $vendorDir . '/wilgucki/csv/src/Writer.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
     'Zizaco\\Entrust\\Contracts\\EntrustPermissionInterface' => $vendorDir . '/zizaco/entrust/src/Entrust/Contracts/EntrustPermissionInterface.php',
     'Zizaco\\Entrust\\Contracts\\EntrustRoleInterface' => $vendorDir . '/zizaco/entrust/src/Entrust/Contracts/EntrustRoleInterface.php',
