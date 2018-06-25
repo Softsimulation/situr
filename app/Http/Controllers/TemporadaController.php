@@ -27,6 +27,8 @@ class TemporadaController extends Controller
     
     public function getCargardatos($one){
         
+        
+        
         $temporada=Temporada::where('id',$one)
         ->first(["id",
                   "nombre as Nombre",
@@ -39,11 +41,11 @@ class TemporadaController extends Controller
             $q->where('temporada_id',$temporada->id);
         })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.aspNetUser')->get();
         
-        //$encuestas=Viaje::where('es_principal',true)->with('hogare')->orderby('id');
+        $encuestas=Viaje::where('es_principal',true)->whereHas('hogare.edificacione',function($q)use($temporada){
+            $q->where('temporada_id',$temporada->id);
+        })->with('hogare.digitadore.aspNetUser')->with('hogare.edificacione.barrio.municipio')->orderby('codigo_encuesta')->get();
         
-        
-        
-        return ['temporada'=>$temporada];
+        return ['temporada'=>$temporada,'encuestas'=>$encuestas];
         
     }
     
