@@ -101,7 +101,7 @@
         </div>    
     </div>
     
-    <div class="blank-page widget-shadow scroll" id="style-2 div1">
+    <div class="blank-page widget-shadow scroll">
         <form role="form" name="crearForm" novalidate>
             <div class="row">
                 <div class="col-xs-12">
@@ -150,12 +150,12 @@
                 
                 <div class="col-sm-6">
                     <label class="form-group">Roles</label>
-                  <ui-select multiple sortable="true" ng-model="usuario.rol" theme="select2" title="Escoja rol(es)">
-                    <ui-select-match placeholder="Seleccione rol(es)">@{{$item.display_name}}</ui-select-match>
-                    <ui-select-choices repeat="item.id as item in roles | filter: $select.search">
-                      <div ng-bind-html="item.display_name | highlight: $select.search"></div>
-                    </ui-select-choices>
-                  </ui-select>
+                    <ui-select multiple sortable="true" ng-model="usuario.rol" theme="select2" title="Escoja rol(es)" style="width:100%;">
+                        <ui-select-match placeholder="Seleccione rol(es)">@{{$item.display_name}}</ui-select-match>
+                        <ui-select-choices repeat="item.id as item in roles | filter: $select.search">
+                          <div ng-bind-html="item.display_name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                      </ui-select>
         
                 </div>
               </div>

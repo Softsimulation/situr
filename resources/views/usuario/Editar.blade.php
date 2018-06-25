@@ -130,35 +130,26 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.passwordAnterior.$touched)))}">
-                        <label class="control-label" for="passwordAnterior">Contraseña anterior</label>
-                        <input class="form-control" type="password" name="passwordAnterior" id="passwordAnterior" ng-model="usuario.passwordAnterior" ng-maxlength="150" />
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password1.$touched) && (usuario.passwordAnterior!=null && usuario.password1!= usuario.password2)))}">
+                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password1.$touched) && (usuario.password1!= usuario.password2)))}">
                         <label class="control-label" for="password1">Contraseña nueva</label>
                         <input class="form-control" type="password" name="password1" id="password1" ng-model="usuario.password1" ng-maxlength="150" />
-                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password1.$touched) && (usuario.passwordAnterior!=null && usuario.password1!= usuario.password2)">&nbsp;</span>
+                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password1.$touched) && (usuario.password1!= usuario.password2)">&nbsp;</span>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password2.$touched) && (usuario.passwordAnterior!=null && usuario.password1!= usuario.password2) ))}">
+                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password2.$touched) && (usuario.password1!= usuario.password2) ))}">
                         <label class="control-label" for="password2">Confirmar contraseña</label>
                         <input class="form-control" type="password" name="password2" id="password2" ng-model="usuario.password2" ng-maxlength="150" />
-                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password2.$touched) && (usuario.passwordAnterior!=null && usuario.password1!= usuario.password2)">&nbsp;</span>
+                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password2.$touched) && (usuario.password1!= usuario.password2)">&nbsp;</span>
                         <span class="text-error" ng-show="usuario.password2 != usuario.password1">&nbsp;</span>
                     </div>
                 </div>
             </div>
             
             <div class="row">
-                
                 <div class="col-sm-6">
                     <label class="form-group"><span class="asterisk">*</span>Roles</label>
-                  <ui-select multiple sortable="true" ng-model="usuario.rol" theme="select2" title="Escoja rol(es)">
+                  <ui-select multiple sortable="true" ng-model="usuario.rol" theme="select2" title="Escoja rol(es)" style="width:100%;">
                     <ui-select-match placeholder="Seleccione rol(es)">@{{$item.display_name}}</ui-select-match>
                     <ui-select-choices repeat="item.id as item in roles | filter: $select.search">
                       <div ng-bind-html="item.display_name | highlight: $select.search"></div>
