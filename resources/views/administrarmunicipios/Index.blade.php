@@ -248,7 +248,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{secure_asset('/js/administrador/municipios/municipiosController.js')}}"></script>
-<script src="{{secure_asset('/js/administrador/municipios/services.js')}}"></script>
-<script src="{{secure_asset('/js/administrador/municipios/app.js')}}"></script>
+<script src="{{asset('/js/administrador/municipios/municipiosController.js')}}"></script>
+<script src="{{asset('/js/administrador/municipios/services.js')}}"></script>
+<script src="{{asset('/js/administrador/municipios/app.js')}}"></script>
 @endsection

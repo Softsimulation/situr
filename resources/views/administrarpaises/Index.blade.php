@@ -254,7 +254,7 @@
 @endsection
 
 @section('javascript')
-<script src="{{secure_asset('/js/administrador/paises/paisesController.js')}}"></script>
-<script src="{{secure_asset('/js/administrador/paises/services.js')}}"></script>
-<script src="{{secure_asset('/js/administrador/paises/app.js')}}"></script>
+<script src="{{asset('/js/administrador/paises/paisesController.js')}}"></script>
+<script src="{{asset('/js/administrador/paises/services.js')}}"></script>
+<script src="{{asset('/js/administrador/paises/app.js')}}"></script>
 @endsection
