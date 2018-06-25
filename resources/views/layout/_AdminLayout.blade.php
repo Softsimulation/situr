@@ -246,14 +246,10 @@
        
     <script src="{{asset('/js/administrador/administrador.js')}}" type="text/javascript"></script> 
     <script src="{{asset('/js/administrador/temporadas.js')}}" type="text/javascript"></script> 
-<<<<<<< HEAD
-    <script src="{{asset('/js/administrador/services.js')}}" type="text/javascript"></script> 
-    <script src="{{asset('/js/administrador/usuarios/administrador/usuario.js')}}" type="text/javascript"></script> 
-    <script src="{{asset('/js/administrador/usuarios/services/usuarioServices.js')}}" type="text/javascript"></script> 
-=======
     <script src="{{asset('/js/administrador/services.js')}}" type="text/javascript"></script>
     <script src="{{asset('/js/administrador/exportaciones.js')}}" type="text/javascript"></script> 
->>>>>>> refs/remotes/origin/release
+    <script src="{{asset('/js/administrador/usuarios/administrador/usuario.js')}}" type="text/javascript"></script> 
+    <script src="{{asset('/js/administrador/usuarios/services/usuarioServices.js')}}" type="text/javascript"></script> 
     
     <script src="{{asset('/js/sweetalert.min.js')}}"></script>
     <script src="{{asset('/js/dir-pagination.js')}}"></script>
