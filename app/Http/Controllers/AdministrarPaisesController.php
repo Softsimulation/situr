@@ -48,7 +48,7 @@ class AdministrarPaisesController extends Controller
             return ["success"=>false,'errores'=>$validator->errors()];
         }
         $errores = [];
-        $pais_ = Pais_Con_Idioma::whereRaw("LOWER(nombre) = '".strtolower($request->nombre)."'")->GET();
+        $pais_ = Pais_Con_Idioma::whereRaw("LOWER(nombre) = '".strtolower($request->nombre)."'")->first();
         if ($pais_ != null){
             $errores["existe"][0] = "Este país ya está registrado en el sistema.";
         }
