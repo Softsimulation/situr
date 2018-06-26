@@ -98,6 +98,7 @@ class UsuarioController extends Controller
         foreach($request->rol as $rol){
             $user->roles()->attach($rol);
         }
+        return ['success'=> true];
     }
     public function postEditarusuario(Request $request){
         //return $request->all();
@@ -130,16 +131,9 @@ class UsuarioController extends Controller
             $errores["Email"][0] = "El email ingresado ya se encuentra registrado en el sistema";    
             
         }
-        if($request->passwordAnterior != null){
-            if(\Hash::check($request->passwordAnterior,$user->password)){
-                if($request->password1 != $request->password2){
-                    $errores["password"][0] = "Las contraseñas no coinciden";
-                }
-            }else{
-                $errores["passwordAnterior"][0] = "Debe ingresar correctamente la contraseña anterior";
-            }    
+        if($request->password1 != $request->password2){
+            $errores["password"][0] = "Las contraseñas no coinciden";
         }
-        
         
         foreach($request->rol as $rolSeleccionado){
             if(Role::where('id',$rolSeleccionado)->first() == null){
