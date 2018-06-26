@@ -124,7 +124,7 @@ class AdministrarPaisesController extends Controller
             }])->select('pais_id', 'nombre', 'idioma_id');
         }])->select('id', 'user_update', 'updated_at')->first();
         
-        return ['success' => true, 'pais_con_idioma' => $paisReturn];
+        return ['success' => true, 'pais' => $paisReturn];
     }
     
     public function postEditarpais (Request $request){
