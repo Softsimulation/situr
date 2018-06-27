@@ -91,7 +91,7 @@
 
 
 <div class="main-page">
-    <h1 class="title1">Registro de usuario</h1><br />
+    <h1 class="title1">Editar usuario</h1><br />
     <div class="alert alert-danger" ng-if="errores != null">
         <h3>Corriga los siguientes errores:</h3>
         <div ng-repeat="error in errores">
