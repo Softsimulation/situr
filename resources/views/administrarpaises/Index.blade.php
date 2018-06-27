@@ -207,10 +207,6 @@
           </div>
         </div>
     </div>
-    
-    <div class='carga'>
-
-    </div>
 </div>
 
 <!-- Modal -->
@@ -243,7 +239,7 @@
                 </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             <button ng-click="guardarPais()" ng-if="sw != 3" type="submit" class="btn btn-primary">Guardar</button>
           </div>
       </form>
@@ -251,6 +247,9 @@
   </div>
 </div>
 
+<div class='carga'>
+
+</div>
 @endsection
 
 @section('javascript')
