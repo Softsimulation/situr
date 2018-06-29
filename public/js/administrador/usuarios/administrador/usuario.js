@@ -63,7 +63,6 @@ situr.controller('guardarUsuarioCtrl', ['$scope','usuarioServi', function ($scop
         $("body").attr("class", "charging");
         usuarioServi.guardar($scope.usuario).then(function (data) {
             if (data.success) {
-                $scope.usuarios.push(data.usuario);
                 swal({
                     title: "Realizado",
                     text: "Acción realizada satisfactoriamente.",
