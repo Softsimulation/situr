@@ -320,8 +320,7 @@ angular.module('interno.hogares', [])
 
     $scope.enviar = function () {
         $scope.encuesta.id=$scope.id;
-        console.log($scope.encuesta.Fecha_aplicacion)
-        /*if ($scope.DatosForm.$valid) {
+        if ($scope.DatosForm.$valid) {
             $("body").attr("class", "charging");
             $http.post('/turismointerno/guardareditarhogar', $scope.encuesta)
                 .success(function (data) {
@@ -356,7 +355,7 @@ angular.module('interno.hogares', [])
 
             swal("Error", "Formulario incompleto corrige los errores", "error")
 
-        }*/
+        }
 
     }
     

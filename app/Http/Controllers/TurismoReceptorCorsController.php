@@ -201,7 +201,8 @@ class TurismoReceptorCorsController extends Controller
 		
 		$year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
 		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$numeroEncuesta = Visitante::whereYear('fecha_aplicacion','=',$year)->whereMonth('fecha_aplicacion','=',$month)->get()->count() + 1;
+		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
+		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
 		
 		$digitador = Digitador::find($request->Encuestador);
 		
@@ -255,7 +256,6 @@ class TurismoReceptorCorsController extends Controller
         
 		return ["success" => true, 'id' => $visitante->id, 'terminada' => $condicion];
     }
-    
     
     
     public function getCargareditardatos($id){
@@ -453,8 +453,7 @@ class TurismoReceptorCorsController extends Controller
         return $municipios;
     }
     
-    
-    
+   
     public function getCargardatosseccionestancia($id = null){
         $municipios = Municipio::where('departamento_id', 1396)->select('id','nombre')->get();
         

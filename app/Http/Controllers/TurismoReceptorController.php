@@ -157,7 +157,7 @@ class TurismoReceptorController extends Controller
        		'Encuestador.exists' => 'El encuenstador seleccionado no se encuentra registrado en el sistema.',
        		'Llegada.required' => 'El campo fecha de llegada es requerido.',
        		'Llegada.date' => 'El formato del campo fecha de llegada es inválido.',
-       		'Llegada.before_or_equal' => 'La fecha de llegada debe ser menor al día de hoy.',
+       		'Llegada.before' => 'La fecha de llegada debe ser menor al día de hoy.',
        		'Salida.required' => 'El campo fecha de salida es requerido.',
        		'Salida.date' => 'El formato del campo fecha de salida es inválido.',
        		'Salida.after' => 'La fecha de salida debe ser mayor o igual a la de llegada.',
@@ -1330,6 +1330,7 @@ class TurismoReceptorController extends Controller
         //$infraestructura = count(Calificacion::where("visitante_id",$visitante->id)->whereIn('item_evaluar_id',[21,23])->get()) >0 ?1:0;
         
         $sostenibilidad = Sostenibilidad_Visitante::find($id);
+        $respuestaElementos = null;
         if($sostenibilidad != null){
             $respuestaElementos = $sostenibilidad->actividadesSostenibilidad()->pluck('id')->toArray();
             $flora = $sostenibilidad->es_informado?1:0;
@@ -1338,8 +1339,10 @@ class TurismoReceptorController extends Controller
         
         
         $otroElemento = null;
-        if(in_array(12,$respuestaElementos)){
-           $otroElemento= $sostenibilidad->actividadesSostenibilidad()->wherePivot('nombre','<>',null)->first()->pivot->nombre;
+        if(isset($respuestaElementos)){
+            if(in_array(12,$respuestaElementos)){
+               $otroElemento= $sostenibilidad->actividadesSostenibilidad()->wherePivot('nombre','<>',null)->first()->pivot->nombre;
+            }
         }
         
         $valo = Valoracion_General::where('visitante_id',$visitante->id)->select(["recomendaciones as Recomendacion","calificacion as Calificacion", "volveria as Volveria","recomendaria as Recomienda","veces_visitadas as Veces"])->first();
@@ -1365,8 +1368,8 @@ class TurismoReceptorController extends Controller
             'valoracion' => $valo,
             'otroElemento' => $otroElemento,
             'actividades'=>$actividades,
-            'flora'=>$flora,
-            'sost'=>$sost,
+            'flora'=> isset($flora) ? $flora : null,
+            'sost'=> isset($sost) ? $sost : null,
         ];
         
         return $retorno;
@@ -1388,7 +1391,7 @@ class TurismoReceptorController extends Controller
 			'Recomienda' => 'required|exists:volveria_visitar,id',
 			'VecesVisitadas' => 'required',
 			'OtroElementos' => 'max:100',
-			'Evaluacion' => 'required',
+			'Evaluacion' => 'array',
     	],[
        		'Id.required' => 'Debe seleccionar el visitante a realizar la encuesta.',
        		'Id.exists' => 'El visitante seleccionado no se encuentra seleccionado en el sistema.',

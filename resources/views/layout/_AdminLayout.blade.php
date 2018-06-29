@@ -253,7 +253,7 @@
 
     <script src="{{asset('/js/administrador/services.js')}}" type="text/javascript"></script>
     <script src="{{asset('/js/administrador/exportaciones.js')}}" type="text/javascript"></script> 
-
+        
     
     <script src="{{asset('/js/sweetalert.min.js')}}"></script>
     <script src="{{asset('/js/dir-pagination.js')}}"></script>
