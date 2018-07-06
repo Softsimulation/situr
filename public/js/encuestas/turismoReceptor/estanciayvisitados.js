@@ -190,7 +190,9 @@ angular.module('receptor.estanciayvisitados', [])
 
 
     $scope.Validar = function () {
-        
+        if($scope.encuesta.ActividadesRelizadas.length == 0){
+            return true;
+        }
         for(var i = 0; i < $scope.encuesta.ActividadesRelizadas.length; i++){
             if($scope.encuesta.ActividadesRelizadas[i].opciones.length > 0 && ($scope.encuesta.ActividadesRelizadas[i].Respuestas.length == 0||$scope.encuesta.ActividadesRelizadas[i].Respuestas==undefined) ){
                 return true;

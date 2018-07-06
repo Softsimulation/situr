@@ -71,11 +71,6 @@
                             <label for="inputNombreEncuestado" class="col-xs-12 control-label">Fecha de aplicación</label>
                             <div class="col-xs-12">
                                 <adm-dtp name="fecha_aplicacion" ng-model="encuesta.Fecha_aplicacion" maxdate="'<?php echo e(\Carbon\Carbon::now()->format('Y-m-d')); ?>'" options="optionFecha" placeholder="Ingrese fecha de aplicacion"  ng-required="true"></adm-dtp>
-                                <span ng-show="DatosForm.$submitted || DatosForm.fecha_aplicacion.$touched">
-                                    <!--P4P1Input1. El campo fecha de aplicación es requerido-->
-                                    <span class="label label-danger" ng-show="DatosForm.fecha_aplicacion.$error.required">*El campo es requerido</span>
-                                    <span class="label label-danger" ng-show="DatosForm.fecha_aplicacion.$error.date">*El campo debe ser una fecha válida</span>
-                                </span>
                             </div>
                         </div>
                     </div>
