@@ -1,6 +1,6 @@
 var situr = angular.module("listado_receptor", ['adminservice','angularUtils.directives.dirPagination']);
 
-situr.controller('listadoEncuestasCtrl', ['$scope','receptorServi', function ($scope,receptorServi) {
+situr.controller('listadoEncuestasCtrl', ['$scope','adminService', function ($scope,receptorServi) {
     $scope.prop = {
         search:''
     }

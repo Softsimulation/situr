@@ -94,7 +94,7 @@ class ExportacionController extends Controller
                 $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
                 $exportacion->save();
                 
-                return '/excel/exports/Exportacion.xlsx'; 
+                return '/excel/exports/ExportacionInterno.xlsx'; 
         
         
         }catch(Exception $e){

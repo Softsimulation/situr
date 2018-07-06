@@ -273,6 +273,7 @@
 </div>
 @endsection
 @section('javascript')
+<script src="{{asset('/js/ADM-dateTimePicker.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/dir-pagination.js')}}"></script>
 <script src="{{asset('/js/administrador/temporadas/temporadas.js')}}"></script>
 <script src="{{asset('/js/administrador/temporadas/services.js')}}"></script>
