@@ -256,6 +256,10 @@
 @endsection
 
 @section('javascript')
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/plugins/checklist-model.js')}}"></script>
+<script src="{{asset('/js/plugins/angular-sanitize.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/plugins/select.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('/js/administrador/municipios/municipiosController.js')}}"></script>
 <script src="{{asset('/js/administrador/municipios/services.js')}}"></script>
 <script src="{{asset('/js/administrador/municipios/app.js')}}"></script>

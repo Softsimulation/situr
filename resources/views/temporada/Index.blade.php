@@ -1,7 +1,7 @@
 @extends('layout._AdminLayout')
 
 @section('Title','Administrador de temporadas :: SITUR Atlántico')
-@section('app','ng-app="situr_admin"')
+@section('app','ng-app="admin.temporadas"')
 @section ('estilos')
     <style>
         .panel-body {
@@ -258,53 +258,9 @@
 
 </div>
 @endsection
- @section('javascript')
-        <script src="{{asset('/js/plugins/list.js')}}"></script>
-    
-    
-        <script src="{{asset('/js/plugins/moment-with-locales.js')}}"></script>
-        <script src="{{asset('/js/plugins/bootstrap-datetimepicker.js')}}"></script>
-        <script src="{{asset('/js/plugins/bootstrap-slider.js')}}"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                inicializate();
-                function inicializate() {
-                    $('#date_apli1').datetimepicker({
-                        format: 'YYYY/MM/DD',
-                        //maxDate: new Date
-                    });
-                    $('#date_apli2').datetimepicker({
-                        format: 'YYYY/MM/DD',
-                        //maxDate: new Date
-                    });
-                    $('#date_apli3').datetimepicker({
-                        format: 'YYYY/MM/DD',
-                        //maxDate: new Date
-                    });
-                    $('#date_apli4').datetimepicker({
-                        format: 'YYYY/MM/DD',
-                        //maxDate: new Date
-                    });
-    
-                    $("#date_apli1").on("dp.change", function (e) {
-                        $('#date_apli2').data("DateTimePicker").minDate(e.date);
-                    });
-    
-                    $("#date_apli2").on("dp.change", function (e) {
-                        $('#date_apli1').data("DateTimePicker").maxDate(e.date);
-                    });
-    
-                    $("#date_apli3").on("dp.change", function (e) {
-                        $('#date_apli4').data("DateTimePicker").minDate(e.date);
-                    });
-    
-                    $("#date_apli4").on("dp.change", function (e) {
-                        $('#date_apli3').data("DateTimePicker").maxDate(e.date);
-                    });
-                }
-    
-    
-            });
-    
-        </script>
-    @endsection
+@section('javascript')
+<script src="{{asset('/js/ADM-dateTimePicker.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/administrador/temporadas/temporadas.js')}}"></script>
+<script src="{{asset('/js/administrador/temporadas/services.js')}}"></script>
+@endsection

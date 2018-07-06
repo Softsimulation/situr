@@ -103,6 +103,7 @@
 
 @section('NumSeccion', '0%')
 
+
 @section('controller','ng-controller="ver_grupo"')
 
 @section('content')

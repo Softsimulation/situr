@@ -173,3 +173,12 @@
     
 </div>
 @endsection
+@section('javascript')
+<script src="{{asset('/js/plugins/angular-sanitize.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/plugins/select.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/administrador/usuarios/administrador/usuario.js')}}" type="text/javascript"></script> 
+<script src="{{asset('/js/administrador/usuarios/services/usuarioServices.js')}}" type="text/javascript"></script> 
+
+@endsection
+

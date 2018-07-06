@@ -47,12 +47,11 @@
 
 @section('app','ng-app="admin.usuario"')
 
-@section('controller','ng-controller="listadoUsuariosCtrl"')
 
 @section('content')
     
 
-<div class="container">
+<div class="container" ng-controller="listadoUsuariosCtrl">
     <h1 class="title1">Listado de usuarios</h1>
     <br />
     <div class="blank-page widget-shadow scroll" id="style-2 div1">
@@ -123,6 +122,12 @@
 
     </div>
 </div>
+
+@endsection
+@section('javascript')
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/administrador/usuarios/administrador/usuario.js')}}" type="text/javascript"></script> 
+<script src="{{asset('/js/administrador/usuarios/services/usuarioServices.js')}}" type="text/javascript"></script> 
 
 @endsection
 
