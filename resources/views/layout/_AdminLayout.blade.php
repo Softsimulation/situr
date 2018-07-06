@@ -254,7 +254,7 @@
 			<div style="border-top:1px solid rgba(69, 74, 84, 0.7)"></div>
 			<!--/down-->
 							<div class="down">	
-									  <a href="#"><img src="images/admin.jpg"></a>
+									  <a href="#"><img class="img-responsive text-center" style='display:inline-block' src="{{asset('Content/image/user.png')}}"></a>
 									  <a href="#"><span class=" name-caret">Usuario</span></a>
 									 <p>Rol</p>
 									<ul>
