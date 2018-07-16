@@ -185,6 +185,7 @@
             }
     </style>
 </head>
+
 <body @yield('app')  @yield('controller') >
     
     <div id="preloader">
@@ -217,9 +218,9 @@
 				     <div class="title-section">
             <h3 style="margin-top: 0.5em;"><strong>@yield('TitleSection')</strong></h3>
         </div>
-       
+       <div class='container'>
         @yield('content')
-    
+    </div>
   
 									<!--/charts-inner-->
 									</div>

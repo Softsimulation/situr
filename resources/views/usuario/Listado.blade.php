@@ -52,7 +52,7 @@
     
 
 <div class="container" ng-controller="listadoUsuariosCtrl">
-    <h1 class="title1">Listado de usuarios</h1>
+   
     <br />
     <div class="blank-page widget-shadow scroll" id="style-2 div1">
         <div class="row">
