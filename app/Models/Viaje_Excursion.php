@@ -68,7 +68,7 @@ class Viaje_Excursion extends Model
      */
     public function ubicacionAgenciaViajes()
     {
-        return $this->belongsToMany('App\Models\Ubicacion_Agencia_Viaje', 'lugar_agencia_viaje', 'viaje_excursion_id', 'ubicacion_agencia_viajes_id');
+        return $this->belongsToMany('App\Models\Opcion_Lugar', 'lugar_agencia_viaje', 'viaje_excursion_id', 'ubicacion_agencia_viajes_id');
     }
 
     /**
@@ -84,6 +84,10 @@ class Viaje_Excursion extends Model
      */
     public function serviciosPaqueteInternos()
     {
-        return $this->belongsToMany('App\Models\Servicio_Paquete_Interno', 'servicios_excursion_incluidos_interno', 'viajes_id', 'servicios_paquete_id');
+        return $this->belongsToMany('App\Models\Servicio_Paquete_Interno', 'servicios_excursion_incluidos_interno', 'viajes_id', 'servicios_paquete_id')->withPivot('nombre');    
+        //return $this->belongsToMany('App\Models\Servicio_Paquete_Interno', 'servicios_excursion_incluidos_interno', 'viajes_id', 'servicios_paquete_id');
     }
+    
+    
+    
 }

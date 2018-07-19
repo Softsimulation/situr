@@ -186,7 +186,6 @@ return array(
     'App\\Models\\Digitador' => $baseDir . '/app/Models/Digitador.php',
     'App\\Models\\Edificacion' => $baseDir . '/app/Models/Edificacion.php',
     'App\\Models\\Empleo' => $baseDir . '/app/Models/Empleo.php',
-<<<<<<< HEAD
     'App\\Models\\EncuestaDinamica\\Encuestas_dinamica' => $baseDir . '/app/Models/EncuestaDinamica/Encuestas_dinamica.php',
     'App\\Models\\EncuestaDinamica\\Encuestas_idioma' => $baseDir . '/app/Models/EncuestaDinamica/Encuestas_idioma.php',
     'App\\Models\\EncuestaDinamica\\Encuestas_usuario' => $baseDir . '/app/Models/EncuestaDinamica/Encuestas_usuario.php',
@@ -207,8 +206,6 @@ return array(
     'App\\Models\\EncuestaDinamica\\Secciones_encuesta' => $baseDir . '/app/Models/EncuestaDinamica/Secciones_encuesta.php',
     'App\\Models\\EncuestaDinamica\\Sub_pregunta' => $baseDir . '/app/Models/EncuestaDinamica/Sub_pregunta.php',
     'App\\Models\\EncuestaDinamica\\Tipo_campo' => $baseDir . '/app/Models/EncuestaDinamica/Tipo_campo.php',
-=======
->>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
     'App\\Models\\Estrato' => $baseDir . '/app/Models/Estrato.php',
     'App\\Models\\Grupo_Viaje' => $baseDir . '/app/Models/Grupo_Viaje.php',
     'App\\Models\\Historial_Encuesta' => $baseDir . '/app/Models/Historial_Encuesta.php',
@@ -227,10 +224,7 @@ return array(
     'App\\Models\\Pais' => $baseDir . '/app/Models/Pais.php',
     'App\\Models\\Pais_Con_Idioma' => $baseDir . '/app/Models/Pais_Con_Idioma.php',
     'App\\Models\\Persona' => $baseDir . '/app/Models/Persona.php',
-<<<<<<< HEAD
     'App\\Models\\Proveedor' => $baseDir . '/app/Models/Proveedor.php',
-=======
->>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
     'App\\Models\\Sitio' => $baseDir . '/app/Models/Sitio.php',
     'App\\Models\\Sitio_Con_Idioma' => $baseDir . '/app/Models/Sitio_Con_Idioma.php',
     'App\\Models\\Tipo_Alojamiento' => $baseDir . '/app/Models/Tipo_Alojamiento.php',
@@ -278,10 +272,7 @@ return array(
     'App\\Planificador_Proveedor' => $baseDir . '/app/Models/Planificador_Proveedor.php',
     'App\\Poblacion_Dane' => $baseDir . '/app/Models/Poblacion_Dane.php',
     'App\\Prestamo_Servicio' => $baseDir . '/app/Models/Prestamo_Servicio.php',
-<<<<<<< HEAD
-=======
     'App\\Proveedor' => $baseDir . '/app/Models/Proveedor.php',
->>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
     'App\\Proveedor_Caracteristica' => $baseDir . '/app/Models/Proveedor_Caracteristica.php',
     'App\\Proveedor_Con_Idioma' => $baseDir . '/app/Models/Proveedor_Con_Idioma.php',
     'App\\Proveedor_Favorito' => $baseDir . '/app/Models/Proveedor_Favorito.php',

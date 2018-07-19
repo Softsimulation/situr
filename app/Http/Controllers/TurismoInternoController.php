@@ -35,6 +35,12 @@ use App\Models\Servicio_Excursion_Incluido_Interno;
 use App\Models\Lugar_Agencia_Viaje;
 use App\Models\Pago_Peso_Colombiano;
 
+use App\Models\Tipo_Proveedor_Paquete;
+use App\Models\Porcentajes_servicios_paquete_viaje;
+use App\Models\Porcentaje_rubros_internos_viaje;
+use App\Models\Viaje_terrestre;
+
+
 use App\Models\Pais_Con_Idioma;
 use App\Models\Departamento;
 use App\Models\Tipo_Alojamiento_Con_Idioma;
@@ -836,59 +842,82 @@ class TurismoInternoController extends Controller
         
     }
     
-    public function getGastos($id){
-        return view('turismointerno.Gastos', ["id"=>$id]);
+    public function getGastos($id){     
+        return view('turismointerno.Gastos', ["id"=>$id] );
     }
-     public function postDatagastos(Request $request){
+    
+    public function postDatagastos(Request $request){
         
         $idioma = 1;
         $idViaje = $request->id;
         
         $encuesta = [
-                "rubros"=> Rubro_Interno::with([ "viajesGastosInternos"=>function($q) use($idViaje){ $q->where("viajes_id",$idViaje); } ])->get(),
+                "noRealiceGastos"=> Viaje::find($idViaje)->no_hizo_gasto==true ? 1 : 0,
+                "rubros"=> Rubro_Interno::with([ "viajesGastosInternos"=>function($q) use($idViaje){ $q->where("viajes_id",$idViaje); } ])->orderBy("id")->get(),
                 "financiadores"=> Viaje_Financiadore::where("viaje_id",$idViaje)->pluck('financiadores_id')->toArray(),
                 "viajeExcursion"=> Viaje_Excursion::where("viajes_id",$idViaje)->first(),
                 "serviciosPaquetes"=> Servicio_Excursion_Incluido_Interno::where("viajes_id",$idViaje)->pluck('servicios_paquete_id')->toArray(),
                 "lugarAgencia"=> Lugar_Agencia_Viaje::where("viaje_excursion_id",$idViaje)->pluck('ubicacion_agencia_viajes_id')->first(),
-                "modalidadPago"=> Pago_Peso_Colombiano::where("viajes_id",$idViaje)->pluck('es_efectivo')->first()
+                "modalidadPago"=> Pago_Peso_Colombiano::where("viajes_id",$idViaje)->pluck('es_efectivo')->first(),
+                "gastosServicosPaquetes"=> Porcentajes_servicios_paquete_viaje::where("viaje_id",$idViaje)->get(),
+                "porcentajeGastoRubros"=> Porcentaje_rubros_internos_viaje::where("viaje_id",$idViaje)->get(),
+                "otrosServicios"=> Servicio_Excursion_Incluido_Interno::where([ ["viajes_id",$idViaje], ["servicios_paquete_id",12] ])->pluck('otro')->first(), 
+                "otroFinanciadores"=> Viaje_Financiadore::where([ ["viaje_id",$idViaje], ["financiadores_id",11] ])->pluck('otro')->first(), 
+                "empresaTransporte"=> Viaje_terrestre::where("viaje_id",$idViaje)->pluck('nombre')->first(),
         ];
         
-        $encuesta["realizoGasto"] = Viaje_Gasto_Interno::where("viajes_id",$idViaje)->count() > 0 ? 1 : ( $encuesta["viajeExcursion"] != null > 0 ? 1 : 0 );
-        $encuesta["viajePaquete"] = $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
-        $encuesta["gastosAparte"] = Viaje_Gasto_Interno::where("viajes_id",$idViaje)->count() > 0 ? 1 :0;
-        $encuesta["comproEnAgencia"] = $encuesta["lugarAgencia"] != null > 0 ? 1 : 0;
+        
+        $encuesta["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
+        $encuesta["noRealiceGastos"] = $encuesta["noRealiceGastos"] == null  ? 0 : $encuesta["noRealiceGastos"];
+        
+        $divCop =  Divisa::where("id",39)->with([ "divisasConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get()->toArray();
+        $divisas = Divisa::where("id","!=",39)->with([ "divisasConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get()->toArray();
+        
         
         return [ 
-                "financiadores"=> Financiador_Viaje::with([ "financiadoresViajesConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get(),
-                "serviciosPaquetes"=> Servicio_Paquete_Interno::get(),
+                "financiadores"=> Financiador_Viaje::where("id","!=",11)->with([ "financiadoresViajesConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get(),
+                "serviciosPaquetes"=> Servicio_Paquete_Interno::orderBy('id')->get(),
                 "opcionesLugares"=> Opcion_Lugar::with([ "opcionesLugaresConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get(),
-                "divisas"=> Divisa::with([ "divisasConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get(),
+                "divisas"=> array_merge($divCop, $divisas),
+                "TipoProveedorPaquete"=>Tipo_Proveedor_Paquete::where("id","!=",3)->with([ "tipoProveedorPaqueteConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get(),
                 "encuesta"=>$encuesta,
             ];
         
     }
    
-    public function postGuardargastos(Request $request){
-      
-        $validator=\Validator::make($request->all(),[
-                'id'=>'required|exists:viajes,id',
-                'financiadores'=>'required|array|min:1',
-                'financiadores.*'=>'required|numeric|exists:financiadores_viajes,id',
-                'realizoGasto'=>'required',
-                'viajePaquete'=>'required',
-                'gastosAparte'=>'required',
-                
-                'rubros'=>'required_if:gastosAparte,1|array|min:1',
-                'rubros.*.rubros_id'=>'required|exists:rubro_interno,id',
-                
-                'viajeExcursion'=>'required_if:viajePaquete,1',
-                'viajeExcursion.divisas_id'=>'required_if:viajePaquete,1|exists:divisas,id',
-                'viajeExcursion.valor_paquete'=>'required_if:viajePaquete,1',
-                
-                'serviciosPaquetes'=>'required_if:viajePaquete,1|array|min:1',
-                'serviciosPaquetes.*'=>'required|numeric|exists:servicios_paquete_interno,id',
-                'lugarAgencia'=>'required_if:viajePaquete,1|exists:ubicacion_agencia_viajes,id',
-                'modalidadPago'=>'required_if:viajeExcursion.divisas_id,39',
+    public function postGuardargastos(Request $request){  
+       
+        $validator = \Validator::make($request->all(),[
+                        'id'=>'required|exists:viajes,id',
+                        'financiadores'=>'required|array|min:1',
+                        'financiadores.*'=>'required|numeric|exists:financiadores_viajes,id',
+                        
+                        'viajePaquete'=>'required',
+                        'noRealiceGastos'=>'required',
+                        
+                        'rubros'=>'required_if:gastosAparte,1|array|min:1',
+                        'rubros.*.rubros_id'=>'required|exists:rubro_interno,id',
+                        'rubros.*.divisa_id'=>'exists:divisas,id',
+                        'rubros.*.alquila_vehiculo_id'=>'exists:opciones_lugares,id',
+                        
+                        'viajeExcursion'=>'required_if:viajePaquete,1',
+                        'viajeExcursion.divisas_id'=>'required_if:viajePaquete,1|exists:divisas,id',
+                        'viajeExcursion.valor_paquete'=>'required_if:viajePaquete,1',
+                        'viajeExcursion.tipo_proveedor_paquete_id'=>'required_if:viajePaquete,1|exists:tipo_proveedor_paquete,id',
+                        
+                        'gastosServicosPaquetes'=>'array',
+                        'gastosServicosPaquetes.*.servicio_paquete_id'=>'required|exists:servicios_paquete_interno,id',
+                        'gastosServicosPaquetes.*.dentro'=>'required',
+                        'gastosServicosPaquetes.*.fuera'=>'required',
+                        
+                        'porcentajeGastoRubros'=>'array',
+                        'porcentajeGastoRubros.*.rubro_interno_id'=>'required|exists:rubro_interno,id',
+                        'porcentajeGastoRubros.*.dentro'=>'required',
+                        'porcentajeGastoRubros.*.fuera'=>'required',
+                        
+                        'serviciosPaquetes'=>'required_if:viajePaquete,1|array|min:1',
+                        'serviciosPaquetes.*'=>'required|numeric|exists:servicios_paquete_interno,id',
+                        'lugarAgencia'=>'required_if:viajePaquete,1|exists:opciones_lugares,id',
             ]);
             
         if($validator->fails()){
@@ -900,7 +929,6 @@ class TurismoInternoController extends Controller
         
         if(Viaje_Financiadore::where("viaje_id",$idViaje)->count()==0){
             $viaje->ultima_sesion=4;
-            $viaje->save();
         }
         
         Pago_Peso_Colombiano::where("viajes_id",$idViaje)->delete();
@@ -909,41 +937,83 @@ class TurismoInternoController extends Controller
         Viaje_Excursion::where("viajes_id",$idViaje)->delete();
         Viaje_Financiadore::where("viaje_id",$idViaje)->delete();
         Viaje_Gasto_Interno::where("viajes_id",$idViaje)->delete();
+        Porcentajes_servicios_paquete_viaje::where("viaje_id",$idViaje)->delete();
+        Porcentaje_rubros_internos_viaje::where("viaje_id",$idViaje)->delete();
+        Viaje_terrestre::where("viaje_id",$idViaje)->delete();
         
+        $viaje->no_hizo_gasto = $request->noRealiceGastos;
+        $viaje->save();
         
-        
-        if($request->realizoGasto==1){
+        if($request->viajePaquete==1){
+            $viajeExcursion = new Viaje_Excursion();
+            $viajeExcursion->viajes_id = $idViaje;
+            $viajeExcursion->valor_paquete = $request->viajeExcursion["valor_paquete"];
+            if(array_key_exists('personas_cubrio',$request->viajeExcursion)){ $viajeExcursion->personas_cubrio = $request->viajeExcursion["personas_cubrio"]; }
+            $viajeExcursion->divisas_id = $request->viajeExcursion["divisas_id"];
+            $viajeExcursion->tipo_proveedor_paquete_id = $request->viajeExcursion["tipo_proveedor_paquete_id"];
+            $viajeExcursion->save();
             
-            if($request->viajePaquete==1){
-                $viajeExcursion = new Viaje_Excursion();
-                $viajeExcursion->viajes_id = $idViaje;
-                $viajeExcursion->valor_paquete = $request->viajeExcursion["valor_paquete"];
-                if(array_key_exists('personas_cubrio',$request->viajeExcursion)){ $viajeExcursion->personas_cubrio = $request->viajeExcursion["personas_cubrio"]; }
-                $viajeExcursion->divisas_id = $request->viajeExcursion["divisas_id"];
-                $viajeExcursion->save();
-                
-                $viajeExcursion->serviciosPaqueteInternos()->attach($request->serviciosPaquetes);
-                $viajeExcursion->ubicacionAgenciaViajes()->attach($request->lugarAgencia);
-                
-                if($request->viajeExcursion["divisas_id"] == 39){
-                    $pago = new Pago_Peso_Colombiano();
-                    $pago->es_efectivo = $request->modalidadPago;
-                    $viajeExcursion->pagoPesosColombiano()->save($pago);
+            
+            foreach($request->serviciosPaquetes as $el){
+                if($el == 12){
+                    $viajeExcursion->serviciosPaqueteInternos()->attach($el,['otro'=>$request->otrosServicios]);
+                }else{
+                    $viajeExcursion->serviciosPaqueteInternos()->attach($el);
+                }
+            }
+            
+            
+            if( $viajeExcursion->tipo_proveedor_paquete_id==1 ){
+              $viajeExcursion->ubicacionAgenciaViajes()->attach($request->lugarAgencia);
+            }
+            
+            if( array_key_exists(12,$request->serviciosPaquetes) ){
+                $serv = Servicio_Excursion_Incluido_Interno::where([ ["viajes_id",$idViaje],["servicios_paquete_id",12] ])->first();
+                $serv->otro = $request->otroServicio;
+                $serv->save();
+            }
+            
+        }
+        
+        if(!$request->noRealiceGastos){
+        
+            foreach($request->rubros as $rubroGasto){ 
+              
+               $viaje->viajesGastosInternos()->save( new Viaje_Gasto_Interno($rubroGasto) );
+               
+                if( $rubroGasto["rubros_id"]==6){ 
+                    $terrestre = new Viaje_terrestre();
+                    $terrestre->viaje_id = $idViaje;
+                    $terrestre->nombre = $request->empresaTransporte;
+                    $terrestre->save(); 
                 }
                 
-            }
+            } 
             
-            if($request->gastosAparte==1){
-               foreach($request->rubros as $rubroGasto){
-                   $viaje->viajesGastosInternos()->save( new Viaje_Gasto_Interno($rubroGasto) );
-               } 
+            foreach($request->gastosServicosPaquetes as $gastoSerViaje){
+                $aux = new Porcentajes_servicios_paquete_viaje();
+                $aux->viaje_id = $idViaje;
+                $aux->servicio_paquete_id = $gastoSerViaje["servicio_paquete_id"];
+                $aux->dentro = $gastoSerViaje["dentro"];
+                $aux->fuera = $gastoSerViaje["fuera"];
+                $aux->save();
+            }
+        
+            foreach($request->porcentajeGastoRubros as $gastoRubro){
+                $aux = new Porcentaje_rubros_internos_viaje();
+                $aux->viaje_id = $idViaje;
+                $aux->rubro_interno_id = $gastoRubro["rubro_interno_id"];
+                $aux->dentro = $gastoRubro["dentro"];
+                $aux->fuera = $gastoRubro["fuera"];
+                $aux->save();
             }
         }
+        
         
         $viaje->financiadoresViajes()->attach($request->financiadores);
        
         $historial = new Historial_Encuesta_Interno([ 
-                                                      'digitador_id'=>1, 
+                                                      'digitador_id'=> 1, 
                                                       'estado_id'=> ( $viaje->ultima_sesion!=5 ? 2 : 3 ), 
                                                       'viajes_id'=> $viaje->id, 
                                                       'fecha_cambio'=> date("Y-m-d H:i:s"), 
