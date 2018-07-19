@@ -80,7 +80,7 @@ class Visitante extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id','encuestador_creada', 'digitada', 'grupo_viaje_id', 'motivo_viaje', 'municipio_residencia', 'destino_principal', 'opciones_lugares_id', 'pais_nacimiento', 'transporte_interno', 'transporte_llegada', 'nombre', 'edad', 'sexo', 'email', 'telefono', 'celular', 'fecha_llegada', 'fecha_salida', 'ultima_sesion', 'tamaño_grupo_visitante', 'invitacion_correo', 'token', 'es_ingles', 'es_verificado', 'facilidad','acepta_autorizacion','acepta_tratamiento','conoce_marca','codigo_encuesta'];
+    protected $fillable = ['id','encuestador_creada', 'digitada', 'grupo_viaje_id', 'motivo_viaje', 'municipio_residencia', 'destino_principal', 'opciones_lugares_id', 'pais_nacimiento', 'transporte_interno', 'transporte_llegada', 'nombre', 'edad', 'sexo', 'email', 'telefono', 'celular', 'fecha_llegada', 'fecha_salida', 'ultima_sesion', 'tamaño_grupo_visitante', 'invitacion_correo', 'token', 'es_ingles', 'es_verificado', 'facilidad','acepta_autorizacion','acepta_tratamiento','conoce_marca','codigo_encuesta','codigo_grupo','fecha_aplicacion','lugar_aplicacion_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -89,8 +89,7 @@ class Visitante extends Model
     {
         return $this->belongsTo('App\Models\Digitador', 'encuestador_creada');
     }
-
-    /**
+     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function digitadoreDigitada()
@@ -111,7 +110,7 @@ class Visitante extends Model
      */
     public function motivosViaje()
     {
-        return $this->belongsTo('App\MotivosViaje', 'motivo_viaje');
+        return $this->belongsTo('App\Models\Motivo_Viaje', 'motivo_viaje');
     }
 
     /**
@@ -135,7 +134,7 @@ class Visitante extends Model
      */
     public function opcionesLugare()
     {
-        return $this->belongsTo('App\OpcionesLugare', 'opciones_lugares_id');
+        return $this->belongsTo('App\Models\Opcion_Lugar', 'opciones_lugares_id');
     }
 
     /**
@@ -143,7 +142,7 @@ class Visitante extends Model
      */
     public function paise()
     {
-        return $this->belongsTo('App\Paise', 'pais_nacimiento');
+        return $this->belongsTo('App\Models\Paise', 'pais_nacimiento');
     }
 
     /**
@@ -151,7 +150,7 @@ class Visitante extends Model
      */
     public function tiposTransporteInterno()
     {
-        return $this->belongsTo('App\TiposTransporte', 'transporte_interno');
+        return $this->belongsTo('App\Models\Tipo_Transporte', 'transporte_interno');
     }
 
     /**
@@ -159,7 +158,7 @@ class Visitante extends Model
      */
     public function tiposTransporteLlegada()
     {
-        return $this->belongsTo('App\TiposTransporte', 'transporte_llegada');
+        return $this->belongsTo('App\Models\Tipo_Transporte', 'transporte_llegada');
     }
 
     /**
@@ -311,7 +310,7 @@ class Visitante extends Model
      */
     public function otrosFinanciadoresViaje()
     {
-        return $this->hasOne('App\OtrosFinanciadoresViaje', 'visitante_id');
+        return $this->hasOne('App\Models\Otro_Financiador_Viaje', 'visitante_id');
     }
 
     /**
@@ -380,7 +379,7 @@ class Visitante extends Model
      */
     public function visitantePaqueteTuristico()
     {
-        return $this->hasOne('App\VisitantePaqueteTuristico', 'visitante_id');
+        return $this->hasOne('App\Models\Visitante_Paquete_Turistico', 'visitante_id');
     }
     
     public function sostenibilidadVisitantes()
@@ -393,7 +392,7 @@ class Visitante extends Model
      */
     public function financiadoresViajes()
     {
-        return $this->belongsToMany('App\Models\Financiador_Viaje', 'visitante_gastos_pagados', 'visitante_id', 'financiadores_viajes_id');
+        return $this->belongsToMany('App\Models\Financiador_Viaje', 'visitante_gastos_pagados', 'visitante_id', 'financiadores_viajes_id')->withPivot('otro');
     }
 
     /**

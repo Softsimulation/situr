@@ -29,14 +29,15 @@ angular.module('receptor.percepcion_viaje', [])
                     $scope.elementos = data.elementos;
                     $scope.veces = data.veces;
                     $scope.actividades = data.actividades;
-    
-                    if (data.respuestaElementos.length ==0 && data.valoracion == null) {
-                        $scope.estadoEncuesta = 0;
+                    
+                    
+                    if (data.respuestaElementos != undefined && data.valoracion == null) {
+                        if(data.respuestaElementos.length == 0){
+                            $scope.estadoEncuesta = 0;    
+                        }
                     } else {
                         $scope.calificacion.Alojamiento = data.alojamiento;
-                        $scope.calificacion.Factores = data.factores;
-                        $scope.calificacion.Ocio = data.ocio;
-                        $scope.calificacion.Infra = data.infraestructura;
+                        
                         if($scope.calificacion.Infra == 1){
                             document.getElementById("infraestructuraSi").checked = true;
                         }else{

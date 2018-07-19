@@ -11,12 +11,15 @@
 |
 */
 
+<<<<<<< HEAD
 Route::controller('/indicadores','IndicadoresCtrl');
+=======
+>>>>>>> 5e9a562b0cc80fe366fe39de667aa347ec026397
 
 Route::get('/', function () {
-    
-    $date = new Carbon\Carbon('2018-04-02 00:00:00', 'Europe/London');  
-    return  $date->diffInDays('2018-03-28 00:00:00');
+
+    return "hola";
+  
     
     
 });
@@ -28,6 +31,27 @@ Route::controller('/turismoreceptor','TurismoReceptorController');
 
 Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
 
+
+//Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
+
+Route::controller('/administrarmunicipios', 'AdministrarMunicipiosController');
+
+Route::controller('/administrardepartamentos', 'AdministrarDepartamentosController');
+
+Route::controller('/administrarpaises', 'AdministrarPaisesController');
+Route::controller('/grupoviaje','GrupoViajeController');
+Route::controller('/exportacion','ExportacionController');
+
+
+Route::group(['middleware' => 'cors'], function(){
+ 
+   Route::controller('/turismointernoapi','TurismoInternoCorsController');
+   
+   Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
+  
+});
+
+Route::controller('/usuario','UsuarioController');
 
 
 Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );

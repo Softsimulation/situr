@@ -104,7 +104,7 @@
                                         Fecha final
                                     </th>
                                     <th>
-                                        Principal
+                                        Seleccionado
 
                                     </th>
                                     <th style="width: 120px">
@@ -172,7 +172,7 @@
                                <label for="fechaLlegada" class="col-xs-12 control-label">fecha de inicio del viaje</label>
 
                                <div class="col-xs-12">
-                                   <input type="date" class="form-control" id="fechaLlegada" name="llegada" ng-model="encuesta.Inicio" max="@DateTime.Now.ToString("yyyy-MM-dd")" placeholder="YYYY-MM-DD" ng-required="true" />
+                                   <adm-dtp name="llegada" ng-model="encuesta.Inicio" maxdate="'{{\Carbon\Carbon::now()->format('Y-m-d')}}'" options="optionFecha" placeholder="Ingrese fecha de aplicacion"  ng-required="true"></adm-dtp>
                                    <span ng-show="EstanciaForm.$submitted || EstanciaForm.llegada.$touched">
                                        <!--P3P1Alert1. El campo fecha de llegada es requerido-->
                                        <span class="label label-danger" ng-show="EstanciaForm.llegada.$error.required">*El campo fecha de llegada es requerido</span>
@@ -188,7 +188,7 @@
                                <label for="fechaSalida" class="col-xs-12 control-label">fecha fin del viaje</label>
 
                                <div class="col-xs-12">
-                                   <input type="date" id="fechaSalida" name="salida" class="form-control" min="@{{encuesta.Inicio}}" ng-model="encuesta.Fin" placeholder="YYYY-MM-DD" ng-required="true" />
+                                   <adm-dtp name="salida" ng-model="encuesta.Fin" maxdate="'{{\Carbon\Carbon::now()->format('Y-m-d')}}'" options="optionFecha" placeholder="Ingrese fecha de aplicacion"  ng-required="true"></adm-dtp>
                                    <span ng-show="EstanciaForm.$submitted || EstanciaForm.salida.$touched">
                                        <!--P3P2Alert1. El campo fecha de salida es requerido-->
                                        <span class="label label-danger" ng-show="EstanciaForm.salida.$error.required">*El campo fecha de salida es requerido</span>
@@ -217,26 +217,15 @@
                            <table class="table table-striped">
                                <thead>
                                    <tr>
-                                       <th style="width: 16.6%">
+                                       <th style="width: 26.6%">
                                            País
                                        </th>
-                                       <th style="width: 16.6%">
+                                       <th style="width: 26.6%">
                                            Departamento
                                        </th>
-                                       <th style="width: 16.6%">
+                                       <th style="width: 26.6%">
                                            Ciudad/Municipio
                                        </th>
-                                       <th style="width: 8%">
-                                           Número de noches
-
-                                       </th>
-                                       <th style="width: 22%">
-                                           Tipo de Alojamiento utilizados
-                                           <i class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right" title=""
-                                              data-original-title="">
-                                           </i>
-                                       </th>
-
                                        <th style="width: 10%">
                                            Destino Principal
                                        </th>
@@ -287,49 +276,6 @@
                                                <!--P1Col1Alert1. Debe seleccionar un municipio-->
                                                <span class="label label-danger" ng-show="EstanciaForm.municipio@{{$index}}.$error.required">Campo obligatorio</span>
                                            </span>
-                                       </th>
-
-                                       <th>
-
-                                           <input class="form-control" style="margin-bottom: -13px;" name="noche@{{$index}}" ng-change="cambionoches(es)" min="0" type="number" ng-model="es.Noches" placeholder="1" ng-required="true" /><br />
-                                           <span class="messages" ng-show="EstanciaForm.$submitted || EstanciaForm.noche@{{$index}}.$touched">
-                                               <!--EncuestaEstanciaP1Col2Select1Alert1. El campo es obligatorio-->
-                                               <span class="label label-danger" ng-show="EstanciaForm.noche@{{$index}}.$error.required">Campo obligatorio</span>
-                                               <!--EncuestaEstanciaP1Col2Select1Alert2. No es un número válido-->
-                                               <span class="label label-danger" ng-show="EstanciaForm.noche@{{$index}}.$error.number">Solo números</span>
-                                               <!--EncuestaEstanciaP1Col2Alert3. El número de noches debe ser mínimo 0 -->
-                                               <span class="label label-danger" ng-show="EstanciaForm.noche@{{$index}}.$error.min">Números mayores a 0</span>
-                                           </span>
-                                       </th>
-                                       <th>
-
-                                           <select ng-model="es.Alojamiento" name="alojamiento@{{$index}}" style="width:100%" ng-change="cambioselectalojamiento(es)" class="form-control" ng-options="alojamiento.id as alojamiento.nombre for alojamiento in Datos.Alojamientos " ng-required="true">
-                                               <!--EncuestaEstanciaP1Col3Select1. Selecione tipo de alojamiento-->
-                                               <option value="" disabled>Seleccione alojamiento</option>
-                                           </select>
-                                           <i ng-if="es.Alojamiento==2" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="ayuda"
-                                              style="text-align:right;">
-                                           </i>
-                                           <i ng-if="es.Alojamiento==3" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="ayuda"
-                                              style="text-align:right;">
-                                           </i>
-                                           <i ng-if="es.Alojamiento==4" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="ayuda"
-                                              style="text-align:right;">
-                                           </i>
-                                           <i ng-if="es.Alojamiento==5" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="ayuda"
-                                              style="text-align:right;">
-                                           </i>
-                                           <i ng-if="es.Alojamiento==6" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="ayuda"
-                                              style="text-align:right;">
-                                           </i>
-                                           <i ng-if="es.Alojamiento==10" class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left" title="ayuda"
-                                              style="text-align:right;">
-                                           </i>
-                                           <span ng-show="EstanciaForm.$submitted || EstanciaForm.alojamiento@{{$index}}.$touched">
-                                               <!--EncuestaEstanciaP1Col3Select1Alert1. Debe seleccionar un tipo de alojamiento-->
-                                               <span class="label label-danger" ng-show="EstanciaForm.alojamiento@{{$index}}.$error.required">Campo obligatorio</span>
-                                           </span>
-
                                        </th>
 
                                        <th style="text-align: center;">
@@ -455,13 +401,13 @@
            <div class="panel panel-success" ng-if="existe(2)">
                <div class="panel-heading">
                    <!-- -->
-                   <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>¿Cuántas personas del hogar? </b></h3>
+                   <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>¿Cuántas personas del hogar compartiendo gastos? </b></h3>
                </div>
                <div class="panel-footer"><b>Campo Numero</b></div>
                <div class="panel-body">
                    <div class="row">
                        <div class="col-md-12">
-                           <input type="number" name="numerohogar" class="form-control" min="1" max="@{{TotalD}}" ng-model="encuesta.Numerohogar" ng-change="verificaT()" ng-required="true" placeholder="Ingrese el No. de personas del hogar"/>
+                           <input type="number" name="numerohogar" class="form-control" min="1" max="@{{TotalD}}" ng-model="encuesta.Numerohogar" ng-change="verificaT()" ng-required="true" placeholder="Ingrese el No. de personas del hogar con gatos"/>
                        </div>
                    </div>
                    <span ng-show="EstanciaForm.$submitted || EstanciaForm.numerohogar.$touched">
@@ -473,7 +419,28 @@
            </div>
 
 
-           <div class="panel panel-success" ng-if="existe(4)">
+           <div class="panel panel-success" ng-if="existe(3)">
+               <div class="panel-heading">
+                   <!-- -->
+                   <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>¿Cuántas personas del hogar sin compartir gastos? </b></h3>
+               </div>
+               <div class="panel-footer"><b>Campo Numero</b></div>
+               <div class="panel-body">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <input type="number" name="numerohogarsingasto" class="form-control" min="1" max="@{{TotalG}}" ng-model="encuesta.NumerohogarSinGasto" ng-change="verificaT()" ng-required="true" placeholder="Ingrese el No. de personas del hogar sin gatos"/>
+                       </div>
+                   </div>
+                   <span ng-show="EstanciaForm.$submitted || EstanciaForm.numerohogarsingasto.$touched">
+                       <span class="label label-danger" ng-show="EstanciaForm.numerohogarsingasto.$error.required">El campo es requerido.</span>
+                       <span class="label label-danger" ng-show="EstanciaForm.numerohogarsingasto.$error.number">Debe introducir solo números</span>
+                       <span class="label label-danger" ng-show="!EstanciaForm.numerohogarsingasto.$valid">Número menor o igual @{{TotalG}}</span>
+                   </span>
+               </div>
+           </div>
+
+
+           <div class="panel panel-success" ng-if="existe(6)">
                <div class="panel-heading">
                    <!-- -->
                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>¿Cuántos eran otros turistas?  </b></h3>
