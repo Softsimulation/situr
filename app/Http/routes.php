@@ -11,17 +11,42 @@
 |
 */
 
-<<<<<<< HEAD
 Route::controller('/indicadores','IndicadoresCtrl');
-=======
->>>>>>> 5e9a562b0cc80fe366fe39de667aa347ec026397
 
 Route::get('/', function () {
 
-    return "hola";
+    return view('home.index');
   
-    
-    
+});
+Route::get('/quienesSomos', function () {
+
+    return view('publico.situr.quienesSomos');
+  
+});
+Route::get('/historia', function () {
+
+    return view('publico.situr.historia');
+  
+});
+Route::get('/vision', function () {
+
+    return view('publico.situr.vision');
+  
+});
+Route::get('/equipo', function () {
+
+    return view('publico.situr.equipo');
+  
+});
+Route::get('/queHacemos', function () {
+
+    return view('publico.situr.queHacemos');
+  
+});
+Route::get('/entidadesAsociadas', function () {
+
+    return view('publico.situr.entidadesAsociadas');
+  
 });
 
 Route::controller('/temporada','TemporadaController');
