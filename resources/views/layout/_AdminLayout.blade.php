@@ -51,7 +51,11 @@
         .carga {
            display: none;
            position: fixed;
+<<<<<<< HEAD
+           z-index: 1050;
+=======
            z-index: 1000;
+>>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
            top: 0;
            left: 0;
            height: 100%;
@@ -343,3 +347,4 @@
    
 </body>
 </html>
+

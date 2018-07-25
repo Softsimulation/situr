@@ -33,6 +33,7 @@ var $sanitizeMinErr = angular.$$minErr('$sanitize');
  * See {@link ngSanitize.$sanitize `$sanitize`} for usage.
  */
 
+
 /**
  * @ngdoc service
  * @name $sanitize
