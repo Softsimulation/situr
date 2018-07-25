@@ -275,8 +275,9 @@ class Viaje extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-public function financiadoresViajes()
+    public function financiadoresViajes()
     {
+        //return $this->belongsToMany('App\Models\Financiador_Viaje', 'viajes_financiadores', "viaje_id", 'financiadores_id')->withPivot('otro');
         return $this->belongsToMany('App\Models\Financiador_Viaje', 'viajes_financiadores', "viaje_id", 'financiadores_id');
     }
 

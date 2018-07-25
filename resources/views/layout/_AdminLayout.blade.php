@@ -51,7 +51,11 @@
         .carga {
            display: none;
            position: fixed;
+<<<<<<< HEAD
+           z-index: 1050;
+=======
            z-index: 1000;
+>>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
            top: 0;
            left: 0;
            height: 100%;
@@ -185,6 +189,7 @@
             }
     </style>
 </head>
+
 <body @yield('app')  @yield('controller') >
     
     <div id="preloader">
@@ -217,9 +222,9 @@
 				     <div class="title-section">
             <h3 style="margin-top: 0.5em;"><strong>@yield('TitleSection')</strong></h3>
         </div>
-       
+       <div class='container'>
         @yield('content')
-    
+    </div>
   
 									<!--/charts-inner-->
 									</div>
@@ -342,3 +347,4 @@
    
 </body>
 </html>
+

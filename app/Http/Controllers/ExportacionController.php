@@ -55,7 +55,42 @@ class ExportacionController extends Controller
         $exportacion->hora_comienzo=\Carbon\Carbon::now()->format('h:i:s');
         $exportacion->save();
         
-        $this->dispatchNow(new Exportarturismoreceptor($fecha_inicial,$fecha_final,$exportacion->id));
+        $datos = \DB::select("SELECT *from exportacionreceptor(?,?)", array($fecha_inicial ,$fecha_final));
+        $array= json_decode( json_encode($datos), true);
+        $datos=$array;
+        
+        try{
+        
+               \Excel::create('Exportacion', function($excel) use($datos) {
+        
+                    $excel->sheet('Turismo receptor', function($sheet) use($datos) {
+                       
+                
+                        $sheet->fromArray($datos, null, 'A1', false, true);
+                
+                    });
+                
+                })->store('xlsx', public_path('excel/exports'));
+                
+                
+                
+                $exportacion->estado=2;
+                $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
+                $exportacion->save();
+                
+                return '/excel/exports/Exportacion.xlsx'; 
+        
+        
+        }catch(Exception $e){
+            
+            
+            $exportacion=$e;
+            $exportacion->estado=3;
+            $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
+            $exportacion->save();
+            
+        }
+        
         
     }
     

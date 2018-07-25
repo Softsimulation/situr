@@ -11,6 +11,10 @@
 |
 */
 
+<<<<<<< HEAD
+Route::controller('/indicadores','IndicadoresCtrl');
+=======
+>>>>>>> 5e9a562b0cc80fe366fe39de667aa347ec026397
 
 Route::get('/', function () {
 
@@ -26,6 +30,8 @@ Route::controller('/turismointerno','TurismoInternoController');
 Route::controller('/turismoreceptor','TurismoReceptorController');
 
 Route::controller('/ofertaempleo','OfertaEmpleoController');
+Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
+
 
 //Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
 
@@ -49,3 +55,6 @@ Route::group(['middleware' => 'cors'], function(){
 Route::controller('/usuario','UsuarioController');
 
 
+Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
+Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
+Route::controller('/encuesta','EncuestaDinamicaCtrl');
