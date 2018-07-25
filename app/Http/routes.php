@@ -25,6 +25,7 @@ Route::controller('/turismointerno','TurismoInternoController');
 
 Route::controller('/turismoreceptor','TurismoReceptorController');
 
+Route::controller('/ofertaempleo','OfertaEmpleoController');
 
 //Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
 
