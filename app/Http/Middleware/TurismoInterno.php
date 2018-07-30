@@ -44,10 +44,10 @@ class TurismoInterno
         
         if(strlen(strstr($request->path(),'turismointerno/viajesrealizados'))>0){
             
-            $hogar=Hogar::find($request->one);
+            
             $sw = 1;
         
-            $persona=$hogar->personas->where('es_viajero',true)->where('es_residente',true)->first();
+            $persona=Persona::where('es_viajero',true)->where('es_residente',true)->where('id',$request->one)->first();
             
             if($persona == null){
                 $sw = 0;
