@@ -478,7 +478,8 @@
                     <div class="col-md-12">
                         <div class="radio" ng-repeat="item in motivos">
                             <label>
-                                <input type="radio" ng-change="cambiomotivo()" name="motivo" ng-model="encuesta.Motivo" value="@{{item.id}}" ng-required="true">@{{item.motivos_viaje_con_idiomas[0].nombre}} <input type="text" class="form-control" name="otro" ng-model="encuesta.Otro" ng-change="otro()" ng-if="item.id == 18" />
+                                <input type="radio" ng-change="cambiomotivo()" name="motivo" ng-model="encuesta.Motivo" value="@{{item.id}}" ng-required="true">@{{item.motivos_viaje_con_idiomas[0].nombre}} 
+                                <input type="text" class="form-control" name="otro" ng-model="encuesta.Otro" ng-change="otro()" ng-if="item.id == 18" />
                             </label>
                         </div>
                         <!-- P6Alert1. El campo motivo principal es requerido-->

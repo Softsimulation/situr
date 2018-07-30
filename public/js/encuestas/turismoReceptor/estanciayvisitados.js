@@ -92,7 +92,7 @@ angular.module('receptor.estanciayvisitados', [])
 
         }
       
-    }
+    };
 
     $scope.cambionoches = function (es) {
     
@@ -187,7 +187,6 @@ angular.module('receptor.estanciayvisitados', [])
         }
         return false;
     }
-
 
     $scope.Validar = function () {
         if($scope.encuesta.ActividadesRelizadas.length == 0){
