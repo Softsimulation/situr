@@ -223,7 +223,7 @@
             });
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip();
-            });
+            });cpc
         </script>
         
         @yield('javascript')

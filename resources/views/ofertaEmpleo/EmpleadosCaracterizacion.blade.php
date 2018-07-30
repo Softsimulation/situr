@@ -127,7 +127,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Necesidades de capacitación: ¿Hubo cargos que requerían capacitación?</b></h3>
                 </div>
-                <div class="panel-footer"><b>@Resource.EncuestaMsgSeleccionUnica</b></div>
+                <div class="panel-footer"><b>Seleccione una opción</b></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -431,7 +431,7 @@
 
 
         <div class="row" style="text-align:center">
-            <a href="/ofertaempleo/empleomensual/{{$id}}" class="btn btn-raised btn-default">@Resource.EncuestaBtnAnterior</a>
+            <a href="/ofertaempleo/empleomensual/{{$id}}" class="btn btn-raised btn-default">Anterior</a>
             <input type="submit" class="btn btn-raised btn-success" ng-click="guardar()" value="Siguiente" />
         </div>
         <br />
