@@ -140,7 +140,8 @@ class TurismoReceptorCorsController extends Controller
 			//'Actor' => 'required',
 			//'codigo_encuesta' => 'required|max:50',
 			//'codigo_grupo' => 'required|unique:visitantes,codigo_grupo',
-			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id'
+			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id',
+			'fechaAplicacion' => 'required|date'
     	],[
        		'Grupo.required' => 'Debe seleccionar el grupo de viaje.',
        		'Grupo.exists' => 'El grupo de viaje seleccionado no se encuentra registrado en el sistema.',
@@ -152,6 +153,8 @@ class TurismoReceptorCorsController extends Controller
        		'Salida.required' => 'El campo fecha de salida es requerido.',
        		'Salida.date' => 'El formato del campo fecha de salida es inválido.',
        		'Salida.after' => 'La fecha de salida debe ser mayor o igual a la de llegada.',
+       		'fechaAplicacion.required' => 'La fecha de aplicación es requerida.',
+       		'fechaAplicacion.date' => 'La fecha de apliación debe ser tipo fecha.',
        		'Nombre.required' => 'El campo nombre es requerido.',
        		'Nombre.max' => 'El campo nombre no debe exceder los 150 caracteres.',
        		'Edad.required' => 'EL campo edad es requerido.',

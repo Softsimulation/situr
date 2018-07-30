@@ -390,9 +390,9 @@ angular.module('interno.viajesrealizados', [])
         $scope.env.id = $scope.id; 
         $scope.env.principal = $scope.PrincipalViaje.id;
 
+        
 
-
-          serviInterno.siguienteviaje($scope.env).then(function (data) {
+        serviInterno.siguienteviaje($scope.env).then(function (data) {
                 $("body").attr("class", "cbp-spmenu-push");
                 if (data.success == true) {
                                           swal({
@@ -629,7 +629,8 @@ angular.module('interno.viajesrealizados', [])
 
          $scope.errores = null
          $("body").attr("class", "cbp-spmenu-push charging");
-     
+        
+       
           serviInterno.guardarviajePrincipal($scope.encuesta).then(function (data) {
                 $("body").attr("class", "cbp-spmenu-push");
                 if (data.success == true) {
