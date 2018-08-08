@@ -82,7 +82,7 @@ class OfertaEmpleoController extends Controller
     
     public function getListado(){
       
-      $provedores = Sitio_Para_Encuesta::with(["proveedor"=> function($q1){ $q1->with([ "estadop", "categoria", "idiomas"=>function($q){ $q->where("idioma_id",1); } ])->get(); }])->get();
+      $provedores = Sitio_Para_Encuesta::with(["proveedor"=> function($q1){ $q1->with([ "estadop", "categoria", "proveedor_rnt_idioma"=>function($q){ $q->where("idioma_id",1); } ])->get(); }])->get();
       
       return ["success" => true, "proveedores"=> $provedores];
     }
@@ -1624,10 +1624,10 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         if($agencia){
             $retornado["planes"] = $agencia->numero_planes;
             $retornado["actividades"] = $agencia->actividadesDeportivas->pluck('id');
-            $retornado["toures"] = $agencia->tours->pluck('id');
+            //$retornado["toures"] = $agencia->tours->pluck('id');
             $retornado["otraC"] = $agencia->otras_actividades;
             $retornado["otraD"] = count($agencia->otraActividads) > 0 ? $agencia->otraActividads->first()->nombre : null;
-            $retornado["otroT"] = count($agencia->otroTours) > 0 ? $agencia->otroTours->first()->nombre : null;
+            //$retornado["otroT"] = count($agencia->otroTours) > 0 ? $agencia->otroTours->first()->nombre : null;
         }
         
         return ['toures' => $toures, 'actividades' => $actividadesDeportivas, 'retornado' => $retornado];
@@ -1639,11 +1639,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 			'planes' => 'required|min:1',
 			'actividades' => 'required',
 			'actividades.*.' => 'exists:actividades_deportivas,id',
-			'toures' => 'required',
-			'toures.*.id' => 'exists:tours,id',
+// 			'toures' => 'required',
+// 			'toures.*.id' => 'exists:tours,id',
 			'otraD' => 'max:255',
 			'otraC' => 'max:255',
-			'otroT' => 'max:255'
+			//'otroT' => 'max:255'
     	],[
        		'id.required' => 'Verifique la información y vuelva a intentarlo.',
        		'id.exists' => 'La encuesta seleccionada no se encuentra registrada en el sistema.',
@@ -1662,22 +1662,22 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     		return ["success"=>false,"errores"=>$validator->errors()];
 		}
 		
-		if( (!isset($request->otraD)) && in_array(15,$request->actividades) ){
+		if( (!isset($request->otraD)) && in_array(11,$request->actividades) ){
 		    return ["success" => false, "errores" => [["El campo otra actividad deportiva es requerido."]] ];
 		}
-		if( (!isset($request->otroT)) && in_array(14,$request->toures) ){
-		    return ["success" => false, "errores" => [["El campo otro tour es requerido."]] ];
-		}
+// 		if( (!isset($request->otroT)) && in_array(14,$request->toures) ){
+// 		    return ["success" => false, "errores" => [["El campo otro tour es requerido."]] ];
+// 		}
 		
 		$encuesta = Encuesta::find($request->id);
 		$agencia = $encuesta->agenciasOperadoras->first();
 		if($agencia){
-		    if(!in_array(15,$request->actividades)){
+		    if(!in_array(11,$request->actividades)){
 		        $agencia->otraActividads()->delete();
 		    }
-		    if(!in_array(14,$request->toures)){
-		        $agencia->otroTours()->delete();
-		    }
+		  //  if(!in_array(14,$request->toures)){
+		  //      $agencia->otroTours()->delete();
+		  //  }
 		    $agencia->actividadesDeportivas()->detach();
 		    $agencia->tours()->detach();
 		}else{
@@ -1689,7 +1689,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		$agencia->otras_actividades = $request->otraC;
 		$agencia->save();
 		
-		if(in_array(15,$request->actividades)){
+		if(in_array(11,$request->actividades)){
 		    $otraActividad = $agencia->otraActividads->first();
 		    if($otraActividad){
 		        $otraActividad->nombre = $request->otraD;
@@ -1702,21 +1702,21 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		    }
 		}
 		
-		if(in_array(14,$request->toures)){
-		    $otrTour = $agencia->otroTours->first();
-		    if($otrTour){
-		        $otrTour->nombre = $request->otroT;
-		        $otrTour->save();
-		    }else{
-		        Otro_Tour::create([
-	                'nombre' => $request->otroT,
-	                'agencias_operadoras_id' => $agencia->id
-	            ]);
-		    }
-		}
+// 		if(in_array(14,$request->toures)){
+// 		    $otrTour = $agencia->otroTours->first();
+// 		    if($otrTour){
+// 		        $otrTour->nombre = $request->otroT;
+// 		        $otrTour->save();
+// 		    }else{
+// 		        Otro_Tour::create([
+// 	                'nombre' => $request->otroT,
+// 	                'agencias_operadoras_id' => $agencia->id
+// 	            ]);
+// 		    }
+// 		}
 		
 		$agencia->actividadesDeportivas()->attach($request->actividades);
-		$agencia->tours()->attach($request->toures);
+		//$agencia->tours()->attach($request->toures);
 		
 		Historial_Encuesta_Oferta::create([
 	        'encuesta_id' => $encuesta->id,
