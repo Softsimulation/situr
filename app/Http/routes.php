@@ -11,10 +11,7 @@
 |
 */
 
-<<<<<<< HEAD
 Route::controller('/indicadores','IndicadoresCtrl');
-=======
->>>>>>> 5e9a562b0cc80fe366fe39de667aa347ec026397
 
 Route::get('/', function () {
 
