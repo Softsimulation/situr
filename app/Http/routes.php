@@ -83,3 +83,5 @@ Route::controller('/usuario','UsuarioController');
 Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
 Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
 Route::controller('/encuesta','EncuestaDinamicaCtrl');
+
+Route::controller('/importarRnt','ImportacionRntController');

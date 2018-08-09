@@ -17,6 +17,8 @@ class Proveedores_rnt_idioma extends Model
 {
     public $timestamps = false;
     
+    public $incrementing = false;
+    
     /**
      * @var array
      */
