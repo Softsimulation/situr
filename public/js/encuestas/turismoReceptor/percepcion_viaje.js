@@ -138,6 +138,7 @@ angular.module('receptor.percepcion_viaje', [])
     }
 
     $scope.checkedRadio = function (id, obj, selected) {
+
         if ($scope.estadoEncuesta == 1) {
             if (obj == selected) {
                 document.getElementById(id).checked = true;
@@ -217,6 +218,7 @@ angular.module('receptor.percepcion_viaje', [])
     }
 
 }])
+
 .controller('percepcion-crear_visitante', ['$scope','$http',function ($scope, $http) {
 
     $scope.bandera = false;

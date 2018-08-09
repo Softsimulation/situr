@@ -4262,6 +4262,8 @@
         "autoload": {
             "psr-4": {
                 "Wilgucki\\Csv\\": "src"
+            }
+        },
         "name": "symfony/polyfill-mbstring",
         "version": "v1.8.0",
         "version_normalized": "1.8.0.0",
@@ -4618,7 +4620,9 @@
         "keywords": [
             "csv",
             "laravel"
-        ]
+        ],
+        "authors": [
+            {
                 "name": "Frank de Jonge",
                 "email": "info@frenky.net"
             }

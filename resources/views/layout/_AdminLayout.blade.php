@@ -272,20 +272,23 @@
                            <div class="menu">
 									<ul id="menu" >
 										
-										 <li id="menu-academico" ><a href="{{asset('turismoreceptor/listadoencuestas')}}"><i class="fa fa-table"></i> <span> Turismo Receptor</span></span></a>
+										 <li id="menu-academico" ><a href="{{asset('turismoreceptor/listadoencuestas')}}"><span> Turismo Receptor</span></span></a>
 										  
 										</li>
-										 <li id="menu-academico" ><a href="{{asset('temporada')}}"><i class="fa fa-file-text-o"></i> <span>Turismo Interno y Emisor</span></a>
+										 <li id="menu-academico" ><a href="{{asset('ofertaempleo/listadoproveedores')}}"> <span> Oferta y Empleo</span></span></a>
+										  
+										</li>
+										 <li id="menu-academico" ><a href="{{asset('temporada')}}"> <span>Interno y Emisor</span></a>
 											
 										 </li>
-										 <li id="menu-academico" ><a href="{{asset('usuario/listadousuarios')}}"><i class="fa fa-file-text-o"></i> <span>Administrar usuarios</span></a>
+										 <li id="menu-academico" ><a href="{{asset('usuario/listadousuarios')}}"> <span>Administrar usuarios</span></a>
 											
 										 </li>
-										  <li id="menu-academico" ><a href="{{asset('exportacion')}}"><i class="fa fa-file-text-o"></i> <span>Exportación</span></a>
+										  <li id="menu-academico" ><a href="{{asset('exportacion')}}"> <span>Exportación</span></a>
 											
 										 </li>
 								
-									<li id="menu-academico" ><a href="#"><i class="lnr lnr-book"></i> <span>Administrar paises</span> </span></a>
+									<li id="menu-academico" ><a href="#"> <span>Administrar paises</span> </span></a>
 										  <ul id="menu-academico-sub" >
 										    <li id="menu-academico-avaliacoes" ><a href="{{asset('administrarpaises')}}">Paises</a></li>
 										    <li id="menu-academico-boletim" ><a href="{{asset('administrardepartamentos')}}">Departamentos</a></li>

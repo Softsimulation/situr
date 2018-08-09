@@ -38,11 +38,6 @@ use App\Models\Pago_Peso_Colombiano;
 use App\Models\Opcion_Actividad_Realizada;
 use App\Models\Sub_Opcion_Actividad_Realizada_Interno;
 use App\Models\Opcion_Actividad_Realizada_Interno;
-use App\Models\Tipo_Proveedor_Paquete;
-use App\Models\Porcentajes_servicios_paquete_viaje;
-use App\Models\Porcentaje_rubros_internos_viaje;
-use App\Models\Viaje_terrestre;
-
 
 use App\Models\Pais_Con_Idioma;
 use App\Models\Departamento;
@@ -86,10 +81,10 @@ use App\Models\EstadosCiviles;
 use App\Models\MediosTransporte;
 use App\Models\ViajesTransporte;
 use App\Models\ViajeMedioTransporte;
-use App\Models\Porcentajes_servicios_paquete_viaje;
-use App\Models\Porcentaje_rubros_internos_viaje;
-use App\Models\Viaje_terrestre;
-use App\Models\Tipo_Proveedor_Paquete;
+
+
+
+
 use App\Models\Ocupacion;
 use App\Models\OcupacionPersona;
 use App\Models\OtraRed;
@@ -800,7 +795,7 @@ class TurismoInternoController extends Controller
         ];
         
         
-        $encuesta["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
+        $dor["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
         $encuesta["noRealiceGastos"] = $encuesta["noRealiceGastos"] == null  ? 0 : $encuesta["noRealiceGastos"];
         
         $divCop =  Divisa::where("id",39)->with([ "divisasConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get()->toArray();
@@ -940,10 +935,8 @@ class TurismoInternoController extends Controller
                 $aux->fuera = $gastoRubro["fuera"];
                 $aux->save();
             }
-            
         }
         
-
         
         $viaje->financiadoresViajes()->attach($request->financiadores);
        

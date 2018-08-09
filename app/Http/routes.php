@@ -15,10 +15,38 @@ Route::controller('/indicadores','IndicadoresCtrl');
 
 Route::get('/', function () {
 
-    return "hola";
+    return view('home.index');
   
-    
-    
+});
+Route::get('/quienesSomos', function () {
+
+    return view('publico.situr.quienesSomos');
+  
+});
+Route::get('/historia', function () {
+
+    return view('publico.situr.historia');
+  
+});
+Route::get('/vision', function () {
+
+    return view('publico.situr.vision');
+  
+});
+Route::get('/equipo', function () {
+
+    return view('publico.situr.equipo');
+  
+});
+Route::get('/queHacemos', function () {
+
+    return view('publico.situr.queHacemos');
+  
+});
+Route::get('/entidadesAsociadas', function () {
+
+    return view('publico.situr.entidadesAsociadas');
+  
 });
 
 Route::controller('/temporada','TemporadaController');
@@ -26,6 +54,7 @@ Route::controller('/turismointerno','TurismoInternoController');
 
 Route::controller('/turismoreceptor','TurismoReceptorController');
 
+Route::controller('/ofertaempleo','OfertaEmpleoController');
 Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
 
 
@@ -54,3 +83,5 @@ Route::controller('/usuario','UsuarioController');
 Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
 Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
 Route::controller('/encuesta','EncuestaDinamicaCtrl');
+
+Route::controller('/importarRnt','ImportacionRntController');

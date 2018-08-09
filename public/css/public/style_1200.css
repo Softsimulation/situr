@@ -1,0 +1,29 @@
+.nav-bar > .brand a img {
+    height: 100px;
+}
+.nav-bar > .brand a h1 {
+    font-size: 1.125rem;
+}
+.carousel-inner > .item{
+    height: 650px;
+}
+.carousel-inner.carousel-second > .item{
+    height: 350px;
+}
+#links-navigation li span:first-child{
+    font-size: 2rem;
+}
+.nav-bar nav>ul>li>a{
+    font-size: 1rem;
+    padding: 1rem;
+}
+.carousel-caption h2{
+    font-size: 2.125rem;
+}
+/*Otros elementos*/
+.tile .tile-img .text-overlap p, .tile .tile-img .text-overlap h3{
+    font-size: 0.875rem;
+}
+.tiles .tile.tile-lg .tile-img{
+    height: 220px;
+}
