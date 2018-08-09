@@ -31,7 +31,7 @@ class OfertaEmpleo
             
         }    
     
-    
+   
      if(strlen(strstr($request->path(),'ofertaempleo/actividadcomercial'))>0){
             $sitio = Sitio_Para_Encuesta::find($request->three);
             if($sitio != null){
@@ -52,6 +52,8 @@ class OfertaEmpleo
         
     }
     
+    $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where id =".$one));
+        
     if($encuesta == null){
          \Session::flash('mensaje','No existe la encuesta');
                 return redirect('/ofertaempleo/listadoproveedores');
@@ -59,18 +61,29 @@ class OfertaEmpleo
     
     if(strlen(strstr($request->path(),'ofertaempleo/agenciaviajes'))>0){
             $encuesta = Encuesta::find($request->one);
-            
+            if($data->mes_id%3 != 0){
+                        return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 15){
+                            
+                
                          return $next($request);
             }else{
+                
+
                 \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
                 return redirect('/ofertaempleo/encuesta/'.$request->one);
             }
+            
+         
             
         }
         
     if(strlen(strstr($request->path(),'ofertaempleo/ofertaagenciaviajes'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                        return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 15){
                          return $next($request);
             }else{
@@ -82,6 +95,9 @@ class OfertaEmpleo
         
     if(strlen(strstr($request->path(),'ofertaempleo/caracterizacionalquilervehiculo'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                 return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 21){
                          return $next($request);
             }else{
@@ -93,6 +109,9 @@ class OfertaEmpleo
      
     if(strlen(strstr($request->path(),'ofertaempleo/caracterizacionagenciasoperadoras'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 14){
                          return $next($request);
             }else{
@@ -104,6 +123,9 @@ class OfertaEmpleo
      
     if(strlen(strstr($request->path(),'ofertaempleo/ocupacionagenciasoperadoras'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 14){
                          return $next($request);
             }else{
@@ -115,6 +137,9 @@ class OfertaEmpleo
         
     if(strlen(strstr($request->path(),'ofertaempleo/caracterizaciontransporte'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            } 
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 22){
                          return $next($request);
             }else{
@@ -126,6 +151,9 @@ class OfertaEmpleo
      
     if(strlen(strstr($request->path(),'ofertaempleo/ofertatransporte'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 22){
                          return $next($request);
             }else{
@@ -137,6 +165,9 @@ class OfertaEmpleo
         
     if(strlen(strstr($request->path(),'ofertaempleo/caracterizacionalimentos'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 12 || $encuesta->sitiosParaEncuesta->proveedor->categoria->id == 11 ){
                          return $next($request);
             }else{
@@ -148,6 +179,10 @@ class OfertaEmpleo
      
     if(strlen(strstr($request->path(),'ofertaempleo/capacidadalimentos'))>0){
             $encuesta = Encuesta::find($request->one);
+            if($data->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            }
+
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 12 || $encuesta->sitiosParaEncuesta->proveedor->categoria->id == 11){
                          return $next($request);
             }else{
