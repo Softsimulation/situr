@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\Viaje;
 use App\Models\Ciudad_Visitada;
-use App\Models\Hogar;
+use App\Models\Persona;
 
 class TurismoInterno
 {
