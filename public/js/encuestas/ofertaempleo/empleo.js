@@ -405,32 +405,12 @@ $scope.$watch('id', function () {
             return true;
         }
         
-        if($scope.empleo.medios.length < 1 || $scope.empleo.medios.length >3 ){
-            
-            return true;
-        }
-       
-       if($scope.empleo.tipos.length < 1 || $scope.empleo.tipos.length >3 ){
-            
-            return true;
-        }
-        
-        if($scope.empleo.lineasadmin.length < 1 || $scope.empleo.lineasadmin.length >3 ){
-            
-            return true;
-        }
-        
-        if($scope.empleo.lineasopvt.length < 1 || $scope.empleo.lineasopvt.length >3 ){
-            
-            return true;
-        }
-        return false;
+    
     }
     
     
     $scope.guardar = function () {
         $scope.empleo.Encuesta = $scope.id;
-
 
         if ($scope.empleoForm.$valid || $scope.validar()) {
             $("body").attr("class", "cbp-spmenu-push charging")
@@ -445,7 +425,7 @@ $scope.$watch('id', function () {
                         showConfirmButton: false
                     });
                     setTimeout(function () {
-                          window.location.href = "/ofertaempleo/encuesta/" + data.idsitio;
+                          window.location.href = "/ofertaempleo/encuestas/" + data.idsitio;
                     }, 1000);
     
     

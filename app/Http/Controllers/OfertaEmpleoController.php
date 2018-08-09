@@ -82,8 +82,7 @@ class OfertaEmpleoController extends Controller
     
     public function getListado(){
       
-      $provedores = Sitio_Para_Encuesta::with(["proveedor"=> function($q1){ $q1->with([ "estadop", "categoria", "idiomas"=>function($q){ $q->where("idioma_id",1); } ])->get(); }])->get();
-      
+      $provedores = new Collection(DB::select("SELECT *from listado_sitios_para_encuestas"));
       return ["success" => true, "proveedores"=> $provedores];
     }
     
@@ -938,10 +937,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
   	         'esta_acuerdo' => 'required|min:0|max:1',
   	         'medios_actualizacion_id'=> 'required|exists:medios_actualizaciones,id',
 			 'medios.*' => 'required|exists:medios_capacitaciones,id',
-		     'tipos.*' => 'required|exists:tipos_programas_capacitaciones,id',
-		     'lineasadmin.*' => 'required|exists:lineas_tematicas,id',
-			 'lineasopvt.*' => 'required|exists:lineas_tematicas,id',
-		
 		
     	],[
        		'Encuesta.required' => 'Error no se encontro la encuesta.',
@@ -963,16 +958,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     	     }
 	
 	         
-	         if(in_array(10,$request->medios )&& $request->otromedio == null){
-	             return ["success" => false, "errores" => [["No se encontro el valor del otro en medios."]] ];    
-	             
-	         }
-	    
-              if(in_array(6,$request->tipos) && $request->otrotipo == null){
-	             return ["success" => false, "errores" => [["No se encontro el valor del otro tipos."]] ];    
-	             
-	         }
-	 
               $capacitacion = Capacitacion_Empleo::where("encuesta_id", $request->Encuesta)->first();
 
                 if ($capacitacion == null)
@@ -996,33 +981,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $encuesta->medios_actualizacion_id = $request->medios_actualizacion_id;
             $encuesta->save();    
                 
-            $capacitacion->lineasTematicas()->detach();
-            $capacitacion->mediosCapacitacion()->detach();
-            $capacitacion->programasCapaciacion()->detach();      
-            $capacitacion->lineasTematicas()->attach($request->lineasadmin);   
-            $capacitacion->lineasTematicas()->attach($request->lineasopvt);   
-            
-            for($i = 0; $i < count($request->medios);$i++){
-                
-                if($request->medios[$i] == 6){
-                      $capacitacion->mediosCapacitacion()->attach($request->medios[$i],['otro' => $request->otromedio]);
-                    
-                }else{
-                    $capacitacion->mediosCapacitacion()->attach($request->medios[$i]);
-                }  
-                
-            }
-            
-            for($i = 0; $i < count($request->tipos);$i++){
-                
-                if($request->tipos[$i] == 10){
-                      $capacitacion->programasCapaciacion()->attach($request->tipos[$i],['otro' => $request->otrotipo]);
-                    
-                }else{
-                     $capacitacion->programasCapaciacion()->attach($request->tipos[$i]);
-                } 
-                
-            }
+         
             
     		foreach($request->tematicas as $tematica){
 		  
