@@ -1846,12 +1846,19 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		return ["success" => true];
     }
     
+    
+    /*
     public function getCaracterizacion($id){
         return View('ofertaEmpleo.caracterizacionAlojamientos', ["id"=>$id] );
     }
     
     public function getOferta($id){
         return View('ofertaEmpleo.ofertaAlojamientos', ["id"=>$id] );
+    }
+    */
+    
+    public function getAlojamiento($id){
+        return View('ofertaEmpleo.alojamientos', ["id"=>$id] );
     }
     
     
@@ -1885,6 +1892,194 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         return [ "alojamiento"=>$alojamiento, "servicios"=>$servicios ];
     } 
     
+    public function postGuardaralojamiento(Request $request){ 
+    
+        $validate = \ Validator::make($request->all(),
+                    [ 
+                      "encuesta" => "required|exists:encuestas,id",
+                      
+                      "habitaciones"=>"array|max:1",
+                      "habitaciones.*.total" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.capacidad" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.tarifa" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.numero_personas" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.viajeros_locales" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.habitaciones_ocupadas" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.total_huespedes" => "required_if:servicios.habitacion,true",
+                      
+                      "apartamentos"=>"array|max:1",
+                      "apartamentos.*.total" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.capacidad" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.tarifa" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.capacidad_ocupada" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.viajeros" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.viajeros_colombianos" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.total_huespedes" => "required_if:servicios.apartamento,true",
+                      
+                      "casas"=>"array|max:1",
+                      "casas.*.total" => "required_if:servicios.casa,true",
+                      "casas.*.capacidad" => "required_if:servicios.casa,true",
+                      "casas.*.promedio" => "required_if:servicios.casa,true",
+                       "casas.*.tarifa" => "required_if:servicios.casa,true",
+                      "casas.*.viajeros" => "required_if:servicios.casa,true",
+                      "casas.*.viajeros_colombia" => "required_if:servicios.casa,true",
+                      "casas.*.capacidad_ocupadas" => "required_if:servicios.casa,true",
+                      "casas.*.total_huespedes" => "required_if:servicios.casa,true",
+                      
+                      "campings"=>"array|max:1",
+                      "campings.*.area" => "required_if:servicios.camping,true",
+                      "campings.*.total_parcelas" => "required_if:servicios.camping,true",
+                      "campings.*.capacidad" => "required_if:servicios.camping,true",
+                      "campings.*.tarifa" => "required_if:servicios.camping,true",
+                      "campings.*.viajeros" => "required_if:servicios.camping,true",
+                      "campings.*.capacidad_ocupada" => "required_if:servicios.camping,true",
+                      "campings.*.viajeros_extranjeros" => "required_if:servicios.camping,true",
+                      "campings.*.total_huespedes" => "required_if:servicios.camping,true",
+                      
+                      "cabanas"=>"array|max:1",
+                      "cabanas.*.total" => "required_if:servicios.cabana,true",
+                      "cabanas.*.capacidad" => "required_if:servicios.cabana,true",
+                      "cabanas.*.promedio" => "required_if:servicios.cabana,true",
+                      "cabanas.*.tarifa" => "required_if:servicios.cabana,true",
+                      "cabanas.*.viajeros" => "required_if:servicios.cabana,true",
+                      "cabanas.*.capacidad_ocupada" => "required_if:servicios.cabana,true",
+                      "cabanas.*.viajeros_colombia" => "required_if:servicios.cabana,true",
+                      "cabanas.*.total_huespedes" => "required_if:servicios.cabana,true",
+                      
+                    ]);
+            
+        if ($validate->fails())
+        {
+            return [ "success"=>false, "errores"=>$validate->errors() ];
+        }
+       
+    
+        $alojamiento = alojamiento::where("encuestas_id",$request->encuesta)->first();
+    
+        if(!$alojamiento){
+           $alojamiento = new alojamiento();
+           $alojamiento->encuestas_id = $request->encuesta;
+           $alojamiento->save();
+        }
+      
+        /////////////////////////////////////////////////////////////////////////
+        $habitacion = Habitacion::where("alojamientos_id", $alojamiento->id)->first();
+        if( $request->servicios["habitacion"] ){
+            if(!$habitacion){
+                $habitacion = new Habitacion();
+                $habitacion->alojamientos_id = $alojamiento->id;
+            }
+            $habitacion->total = $request->habitaciones[0]["total"];
+            $habitacion->capacidad = $request->habitaciones[0]["capacidad"];
+            $habitacion->tarifa = $request->habitaciones[0]["tarifa"];
+            $habitacion->numero_personas = $request->habitaciones[0]["numero_personas"];
+            $habitacion->viajeros_locales = $request->habitaciones[0]["viajeros_locales"];
+            $habitacion->habitaciones_ocupadas = $request->habitaciones[0]["habitaciones_ocupadas"];
+            $habitacion->total_huespedes = $request->habitaciones[0]["total_huespedes"];
+            $habitacion->save();
+        }
+        else{
+            if($habitacion){ $habitacion->delete(); }
+        }
+        
+        /////////////////////////////////////////////////////////////////////////
+        $apartamento = Apartamento::where("alojamientos_id", $alojamiento->id)->first();
+        if( $request->servicios["apartamento"] ){
+            if(!$apartamento){
+                $apartamento = new Apartamento();
+                $apartamento->alojamientos_id = $alojamiento->id;
+            }
+            $apartamento->total = $request->apartamentos[0]["total"];
+            $apartamento->capacidad = $request->apartamentos[0]["capacidad"];
+            $apartamento->tarifa = $request->apartamentos[0]["tarifa"];
+            $apartamento->viajeros = $request->apartamentos[0]["viajeros"];
+            $apartamento->viajeros_colombianos = $request->apartamentos[0]["viajeros_colombianos"];
+            $apartamento->capacidad_ocupada = $request->apartamentos[0]["capacidad_ocupada"];
+            $apartamento->total_huespedes = $request->apartamentos[0]["total_huespedes"];
+            $apartamento->save();
+        }
+        else{
+            if($apartamento){ $apartamento->delete(); }
+        }
+        
+        /////////////////////////////////////////////////////////////////////////
+        $casa = Casa::where("alojamientos_id", $alojamiento->id)->first();
+        if( $request->servicios["casa"] ){
+            if(!$casa){
+                $casa = new Casa();
+                $casa->alojamientos_id = $alojamiento->id;
+            }
+            $casa->total = $request->casas[0]["total"];
+            $casa->capacidad = $request->casas[0]["capacidad"];
+            $casa->promedio = $request->casas[0]["promedio"];
+            $casa->tarifa = $request->casas[0]["tarifa"];
+            $casa->viajeros = $request->casas[0]["viajeros"];
+            $casa->viajeros_colombia = $request->casas[0]["viajeros_colombia"];
+            $casa->capacidad_ocupadas = $request->casas[0]["capacidad_ocupadas"];
+            $casa->total_huespedes = $request->casas[0]["capacidad_ocupadas"];
+            $casa->save();
+        }
+        else{
+            if($casa){ $casa->delete(); }
+        }
+        
+        /////////////////////////////////////////////////////////////////////////
+        $camping = Camping::where("alojamientos_id", $alojamiento->id)->first();
+        if( $request->servicios["camping"] ){
+            if(!$camping){
+                $camping = new Camping();
+                $camping->alojamientos_id = $alojamiento->id;
+            }
+            $camping->area = $request->campings[0]["area"];
+            $camping->total_parcelas = $request->campings[0]["total_parcelas"];
+            $camping->capacidad = $request->campings[0]["capacidad"];
+            $camping->tarifa = $request->campings[0]["tarifa"];
+            $camping->viajeros = $request->campings[0]["viajeros"];
+            $camping->viajeros_extranjeros = $request->campings[0]["viajeros_extranjeros"];
+            $camping->capacidad_ocupada = $request->campings[0]["capacidad_ocupada"];
+            $camping->total_huespedes = $request->campings[0]["total_huespedes"];
+            $camping->save();
+        }
+        else{
+            if($camping){ $camping->delete(); }
+        }
+        
+        /////////////////////////////////////////////////////////////////////////
+        $cabana = Cabana::where("alojamientos_id", $alojamiento->id)->first();
+        if( $request->servicios["cabana"] ){
+            if(!$cabana){
+                $cabana = new Cabana();
+                $cabana->alojamientos_id = $alojamiento->id;
+            }
+            $cabana->total = $request->cabanas[0]["total"];
+            $cabana->capacidad = $request->cabanas[0]["capacidad"];
+            $cabana->promedio = $request->cabanas[0]["promedio"];
+            $cabana->tarifa = $request->cabanas[0]["tarifa"];
+            $cabana->viajeros = $request->cabanas[0]["viajeros"];
+            $cabana->viajeros_colombia = $request->cabanas[0]["viajeros_colombia"];
+            $cabana->capacidad_ocupada = $request->cabanas[0]["capacidad_ocupada"];
+            $cabana->total_huespedes = $request->cabanas[0]["total_huespedes"];
+            $cabana->save();
+        }
+        else{
+            if($cabana){ $cabana->delete(); }
+        }
+        
+        Historial_Encuesta_Oferta::create([
+           'encuesta_id' => $request->encuesta,
+           'user_id' => 1,
+           'estado_encuesta_id' => 2,
+           'fecha_cambio' => Carbon::now()
+        ]);
+        
+        
+        $encuesta = Encuesta::find($request->encuesta);
+        
+        return [ "success"=>true, "ruta"=>"/ofertaempleo/encuestas/" . $encuesta->sitios_para_encuestas_id ];
+    }
+    
+    
+    /*
     public function postGuardarcaracterizacionalojamientos(Request $request){ 
     
         $validate = \ Validator::make($request->all(),
@@ -2149,6 +2344,9 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         
         return [ "success"=>true ];
     }
+
+    */
+    
     
 
     public function postGuardarofertaalimentos(Request $request)
