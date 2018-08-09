@@ -31,7 +31,8 @@ angular.module('receptor.gasto', ['ui.select'])
             });
         }
     })
-     $scope.limpiarGasto = function(){
+    
+    $scope.limpiarGasto = function(){
         if($scope.encuestaReceptor.RealizoGasto == 0){
             var aux = [];
             aux = $scope.encuestaReceptor.Financiadores;
@@ -74,7 +75,6 @@ angular.module('receptor.gasto', ['ui.select'])
             $scope.encuestaReceptor.Municipios = [];
         }
     }
-    
     
     $scope.limpiarMatriz = function(){
         
@@ -132,6 +132,7 @@ angular.module('receptor.gasto', ['ui.select'])
         }
         
     }
+    
     $scope.verificarOtro = function () {
         
         var i = $scope.encuestaReceptor.Financiadores.indexOf(11)

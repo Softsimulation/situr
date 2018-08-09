@@ -69,7 +69,7 @@ class Exportarturismoreceptor extends Job implements ShouldQueue
                    "G4","G5","G5_1_1","G5_1_2"];
         $datos=[];
         $datos[]=$columnas;
-        $visitante=Visitante::get();
+        $visitante=Visitante::where('fecha_aplicacion','>=',$this->fecha_inicio)->where('fecha_aplicacion','<=',$this->fecha_fin)->get();
         foreach($visitante as $visit){
             
             $fila=[];
@@ -163,7 +163,7 @@ class Exportarturismoreceptor extends Job implements ShouldQueue
             $fila[]=(count($municipios)>6)?$municipios[6]->tiposAlojamiento->tiposAlojamientoConIdiomas->where('idiomas_id',1)->first()->nombre:"";
             $fila[]="";
             
-            $fila[]=(count($municipios)>0)?$municipios->where('destino_principal',true)->first()->municipio->nombre:"";
+            $fila[]=(count($municipios)>0 && $municipios->where('destino_principal',true)->count()>0)?$municipios->where('destino_principal',true)->first()->municipio->nombre:"";
             
             $fila[]=($visit->actividadesRealizadasPorVisitantes->where('actividades_realizadas_id',1)->count()>0)?"Si":"No";
             $fila[]=($visit->actividadesRealizadasPorVisitantes->where('actividades_realizadas_id',2)->count()>0)?"Si":"No";

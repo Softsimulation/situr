@@ -103,7 +103,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="title1">Lista de países</h1>
+   
     <br />
     <div class="blank-page widget-shadow scroll" id="style-2 div1">
         <div class="row" style="margin: 0;">
@@ -253,6 +253,8 @@
 @endsection
 
 @section('javascript')
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/plugins/checklist-model.js')}}"></script>
 <script src="{{asset('/js/administrador/paises/paisesController.js')}}"></script>
 <script src="{{asset('/js/administrador/paises/services.js')}}"></script>
 <script src="{{asset('/js/administrador/paises/app.js')}}"></script>

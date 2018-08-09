@@ -29,9 +29,12 @@ angular.module('receptor.percepcion_viaje', [])
                     $scope.elementos = data.elementos;
                     $scope.veces = data.veces;
                     $scope.actividades = data.actividades;
-    
-                    if (data.respuestaElementos.length ==0 && data.valoracion == null) {
-                        $scope.estadoEncuesta = 0;
+                    
+                    
+                    if (data.respuestaElementos != undefined && data.valoracion == null) {
+                        if(data.respuestaElementos.length == 0){
+                            $scope.estadoEncuesta = 0;    
+                        }
                     } else {
                         $scope.calificacion.Alojamiento = data.alojamiento;
                         
@@ -135,6 +138,7 @@ angular.module('receptor.percepcion_viaje', [])
     }
 
     $scope.checkedRadio = function (id, obj, selected) {
+
         if ($scope.estadoEncuesta == 1) {
             if (obj == selected) {
                 document.getElementById(id).checked = true;
@@ -214,6 +218,7 @@ angular.module('receptor.percepcion_viaje', [])
     }
 
 }])
+
 .controller('percepcion-crear_visitante', ['$scope','$http',function ($scope, $http) {
 
     $scope.bandera = false;

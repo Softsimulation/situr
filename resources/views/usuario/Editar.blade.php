@@ -89,87 +89,97 @@
 
 @section('content')
 
+<div class='container'>
 
-<div class="main-page">
-    <h1 class="title1">Editar usuario</h1><br />
-    <div class="alert alert-danger" ng-if="errores != null">
-        <h3>Corriga los siguientes errores:</h3>
-        <div ng-repeat="error in errores">
-            -@{{error[0]}}
-        </div>
-    </div>
-
-    <div class="blank-page widget-shadow scroll" id="style-2 div1">
-        <form role="form" name="crearForm" novalidate>
-            <input type="hidden" name="id" id="id" ng-init="usuario.id={{$id}}"/>
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="input-group">
-                        <div role="textbox" class="form-control" style="background-color: rgba(255,216,0,.5)"><strong>Todos los campos son obligatorios</strong> </div>
-                    </div>
+        <div class="main-page">
+            <h1 class="title1">Editar usuario</h1><br />
+            <div class="alert alert-danger" ng-if="errores != null">
+                <h3>Corriga los siguientes errores:</h3>
+                <div ng-repeat="error in errores">
+                    -@{{error[0]}}
                 </div>
             </div>
-            
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group" ng-class="{'error': (crearForm.$submitted || crearForm.nombres.$touched) && crearForm.nombres.$error.required }">
-                        <label class="control-label" for="nombres"><span class="asterisk">*</span>Nombres</label>
-                        <input type="text" class="form-control" name="nombres" id="nombres" placeholder="Ingrese el o los nombres del docente. Máx. 255 caracteres" maxlength="255" ng-model="usuario.nombres" required />
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.email.$touched) && crearForm.email.$error.required))}">
-                        <label class="control-label" for="email"><span class="asterisk">*</span>Correo electrónico</label>
-                        <input class="form-control" type="email" name="email" id="email"  placeholder="Ej: micorreo@dominio.com. Máx. 255 caracteres" maxlength="255" ng-model="usuario.email" required />
-                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.email.$touched) && crearForm.email.$error.required">&nbsp;</span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password1.$touched) && (usuario.password1!= usuario.password2)))}">
-                        <label class="control-label" for="password1">Contraseña nueva</label>
-                        <input class="form-control" type="password" name="password1" id="password1" ng-model="usuario.password1" ng-maxlength="150" />
-                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password1.$touched) && (usuario.password1!= usuario.password2)">&nbsp;</span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password2.$touched) && (usuario.password1!= usuario.password2) ))}">
-                        <label class="control-label" for="password2">Confirmar contraseña</label>
-                        <input class="form-control" type="password" name="password2" id="password2" ng-model="usuario.password2" ng-maxlength="150" />
-                        <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password2.$touched) && (usuario.password1!= usuario.password2)">&nbsp;</span>
-                        <span class="text-error" ng-show="usuario.password2 != usuario.password1">&nbsp;</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-sm-6">
-                    <label class="form-group"><span class="asterisk">*</span>Roles</label>
-                  <ui-select multiple sortable="true" ng-model="usuario.rol" theme="select2" title="Escoja rol(es)" style="width:100%;">
-                    <ui-select-match placeholder="Seleccione rol(es)">@{{$item.display_name}}</ui-select-match>
-                    <ui-select-choices repeat="item.id as item in roles | filter: $select.search">
-                      <div ng-bind-html="item.display_name | highlight: $select.search"></div>
-                    </ui-select-choices>
-                  </ui-select>
         
-                </div>
-              </div>
-            
-
-            <div class="row" style="text-align: center;">
-                <a type="button" class="btn btn-default" href="/usuario/listadousuarios">Cancelar</a>
-                <button type="button" class="btn btn-success" ng-click="editarUsuario()" ng-disabled="crearForm.$invalid">Guardar</button>
+            <div class="blank-page widget-shadow scroll" id="style-2 div1">
+                <form role="form" name="crearForm" novalidate>
+                    <input type="hidden" name="id" id="id" ng-init="usuario.id={{$id}}"/>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <div role="textbox" class="form-control" style="background-color: rgba(255,216,0,.5)"><strong>Todos los campos son obligatorios</strong> </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group" ng-class="{'error': (crearForm.$submitted || crearForm.nombres.$touched) && crearForm.nombres.$error.required }">
+                                <label class="control-label" for="nombres"><span class="asterisk">*</span>Nombres</label>
+                                <input type="text" class="form-control" name="nombres" id="nombres" placeholder="Ingrese el o los nombres del docente. Máx. 255 caracteres" maxlength="255" ng-model="usuario.nombres" required />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.email.$touched) && crearForm.email.$error.required))}">
+                                <label class="control-label" for="email"><span class="asterisk">*</span>Correo electrónico</label>
+                                <input class="form-control" type="email" name="email" id="email"  placeholder="Ej: micorreo@dominio.com. Máx. 255 caracteres" maxlength="255" ng-model="usuario.email" required />
+                                <span class="text-error" ng-show="(crearForm.$submitted || crearForm.email.$touched) && crearForm.email.$error.required">&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password1.$touched) && (usuario.password1!= usuario.password2)))}">
+                                <label class="control-label" for="password1">Contraseña nueva</label>
+                                <input class="form-control" type="password" name="password1" id="password1" ng-model="usuario.password1" ng-maxlength="150" />
+                                <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password1.$touched) && (usuario.password1!= usuario.password2)">&nbsp;</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" ng-class="{ 'error':(((crearForm.$submitted || crearForm.password2.$touched) && (usuario.password1!= usuario.password2) ))}">
+                                <label class="control-label" for="password2">Confirmar contraseña</label>
+                                <input class="form-control" type="password" name="password2" id="password2" ng-model="usuario.password2" ng-maxlength="150" />
+                                <span class="text-error" ng-show="(crearForm.$submitted || crearForm.password2.$touched) && (usuario.password1!= usuario.password2)">&nbsp;</span>
+                                <span class="text-error" ng-show="usuario.password2 != usuario.password1">&nbsp;</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="form-group"><span class="asterisk">*</span>Roles</label>
+                          <ui-select multiple sortable="true" ng-model="usuario.rol" theme="select2" title="Escoja rol(es)" style="width:100%;">
+                            <ui-select-match placeholder="Seleccione rol(es)">@{{$item.display_name}}</ui-select-match>
+                            <ui-select-choices repeat="item.id as item in roles | filter: $select.search">
+                              <div ng-bind-html="item.display_name | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                
+                        </div>
+                      </div>
+                    
+        
+                    <div class="row" style="text-align: center;">
+                        <a type="button" class="btn btn-default" href="/usuario/listadousuarios">Cancelar</a>
+                        <button type="button" class="btn btn-success" ng-click="editarUsuario()" ng-disabled="crearForm.$invalid">Guardar</button>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-    <div class='carga'>
-
-    </div>
-
-    
+            <div class='carga'>
+        
+            </div>
+        
+            
+        </div>
 </div>
 @endsection
+@section('javascript')
+<script src="{{asset('/js/plugins/angular-sanitize.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/plugins/select.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/administrador/usuarios/administrador/usuario.js')}}" type="text/javascript"></script> 
+<script src="{{asset('/js/administrador/usuarios/services/usuarioServices.js')}}" type="text/javascript"></script> 
+@endsection
+

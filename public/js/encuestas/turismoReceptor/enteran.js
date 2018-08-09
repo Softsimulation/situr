@@ -48,6 +48,7 @@ angular.module('receptor.enteran', [])
     })
 
     $scope.validar = function (sw, id) {
+        console.log(sw, id)
         if (sw == 0) {
             if (id == 13) {
                 var i = $scope.enteran.FuentesDurante.indexOf(13);
