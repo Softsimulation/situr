@@ -154,7 +154,6 @@ class UsuarioController extends Controller
         $user->nombre = $request->nombres;
         $user->username = $request->email;
         $user->email = $request->email;
-        $user->estado = 1;
         $user->save();
         
         return ['success'=> true];

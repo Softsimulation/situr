@@ -322,6 +322,7 @@
         $.material.init();
     </script>
 
+
     <script src="{{asset('/js/sweetalert.min.js')}}"></script>
     <script>
         $(window).load(function () { $("#preloader").delay(1e3).fadeOut("slow") });
