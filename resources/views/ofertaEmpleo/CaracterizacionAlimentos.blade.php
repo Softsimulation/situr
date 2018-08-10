@@ -75,10 +75,14 @@
                         <select id="especialidad" name="especialidad" class="form-control" ng-options="especialidad.id as especialidad.nombre for especialidad in especialidades" ng-model="alimentos.especialidad" ng-required="true">
                             <option value="" disabled>Seleccione una especialidad</option>
                         </select>
+                        <input ng-show="alimentos.especialidad == 13" type="text" class="form-control" name="otro" ng-model="alimentos.especialidadOtra" ng-required="alimentos.especialidad == 13" placeholder="Ingrese otra especialidad"/> 
                     </div>
                 </div>
                 <span ng-show="carAlim.$submitted || carAlim.especialidad.$touched">
                     <span class="label label-danger" ng-show="carAlim.especialidad.$error.required">* El campo es requerido.</span>
+                </span>
+                <span ng-show="carAlim.$submitted || carAlim.otro.$touched">
+                    <span class="label label-danger" ng-show="carAlim.otro.$error.required">* El campo es requerido.</span>
                 </span>
             </div>
         </div>

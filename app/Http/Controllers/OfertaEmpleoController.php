@@ -33,6 +33,7 @@ use App\Models\Persona_Destino_Con_Viaje_Turismo;
 use App\Models\Plan_Santamarta;
 use App\Models\Actividad_Servicio;
 use App\Models\Provision_Alimento;
+use App\Models\Provision_Alimento_Otro;
 use App\Models\Especialidad;
 use App\Models\Capacidad_Alimento;
 use App\Models\Actividad_Deportiva;
@@ -1486,14 +1487,21 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 
 
             }
-            return ["success"=>true];
+            Historial_Encuesta_Oferta::create([
+               'encuesta_id' => $request->id, 
+               'user_id' => 1,
+               'estado_encuesta_id' => 2,
+               'fecha_cambio' => Carbon::now()
+           ]);
+            $encuesta = Encuesta::where('id',$request->id)->first();
+            return ["success"=>true,"sitio"=>$encuesta->sitios_para_encuestas_id];
     }
         
         
     public function getInfocaracterizacionalimentos($id)
     {
         $actividades_servicios = Actividad_Servicio::all();
-        $especialidades = Especialidad::where('id','<>',13)->get();
+        $especialidades = Especialidad::all();
         
         $encuesta = Encuesta::with('sitiosParaEncuesta')->where('id',$id)->firstOrFail();
         $especialidad = null;
@@ -1512,6 +1520,10 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         }
         $provision = [];
         $provision["especialidad"] = $especialidad;
+        if($provisionesAlimentos->provisionesAlimentosOtros != null){
+            $provision["especialidadOtra"] = $provisionesAlimentos->provisionesAlimentosOtros->otro;
+        }
+        
         $provision["sirvePlatos"] = $sirvePlatos;
         $provision["mesas"] = $mesas;
         $provision["asientos"] = $asientos;
@@ -1546,6 +1558,9 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         if($validator->fails()){
             return ["success"=>false,"errores"=>$validator->errors()];
         }
+        if($request->especialidad == 13 && $request->especialidadOtra == null){
+            return ["success" => false, "errores" => [["El campo otra especialidad es requerido."]] ];
+        }
         //return $request->all();
             $encuesta = Encuesta::where('id',$request->id)->first();
             $provision = Provision_Alimento::where('encuestas_id',$encuesta->id)->first();
@@ -1557,6 +1572,14 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 $provision->actividades_servicio_id = $request->sirvePlatos;
                 $provision->numero_mesas = $request->mesas;
                 $provision->numero_asientos = $request->asientos;
+                $provision->save();
+                
+                if($request->especialidad == 13){
+                    $provisionOtra = new Provision_Alimento_Otro();
+                    $provisionOtra->provision_alimento_id = $provision->id;
+                    $provisionOtra->otro = $request->especialidadOtra;
+                    $provisionOtra->save();
+                }
                 
             }
             else
@@ -1565,8 +1588,27 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 $provision->actividades_servicio_id = $request->sirvePlatos;
                 $provision->numero_mesas = $request->mesas;
                 $provision->numero_asientos = $request->asientos;
+                $provision->save();
+                if($request->especialidad != 13){
+                    if(Provision_Alimento_Otro::where('provision_alimento_id',$provision->id)->first() != null){
+                       $provision->provisionesAlimentosOtros->delete(); 
+                    }
+                    
+                }else{
+                    $provisionOtra = Provision_Alimento_Otro::where('provision_alimento_id',$provision->id)->first();
+                    if($provisionOtra == null){
+                       $provisionOtra = new Provision_Alimento_Otro();
+                        $provisionOtra->provision_alimento_id = $provision->id; 
+                    }
+                    $provisionOtra->otro = $request->especialidadOtra;
+                    $provisionOtra->save();
+                }
+                
+                
+                
+                
             }
-            $provision->save();
+            
 
             $historial = new Historial_Encuesta_Oferta();
             $historial->encuesta_id = $encuesta->id;
@@ -2528,7 +2570,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $historial->user_id = 1;
             $historial->save();
             
-            return ["success"=>true];
+            return ["success"=>true,"sitio"=>$encuesta->sitios_para_encuestas_id];
         }
 
     }
@@ -2826,7 +2868,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $historial->user_id = 1;
         $historial->save();
         
-        return ["success"=>true];
+        $encuesta = Encuesta::where('id',$request->id)->first();
+        return ["success"=>true,"sitio"=>$encuesta->sitios_para_encuestas_id];
         
     }
     
