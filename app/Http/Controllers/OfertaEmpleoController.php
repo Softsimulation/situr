@@ -2407,9 +2407,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             
             'platosPromedio' => 'numeric|min:1',
             'unidadServida' => 'numeric|min:1',
-            'precioUnidad' => 'numeric|min:1',
-            
-            'porcentajeOtrasRegiones' => 'numeric|min:0|max:100',
+            'precioUnidad' => 'numeric',
             
             /*'bebidasMaximo' => 'required|numeric|min:1',
             'bebidasServidas' => 'required|numeric|min:1',
@@ -2434,14 +2432,10 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             'platosPromedio.min' => 'El número de unidades promedio debe ser mayor que cero.',
             
             'unidadServida.numeric' => 'El número de unidades servidas solo puede ser numérico.',
-            'unidadServida.min' => 'El número de unidades servidas debe ser mayor que cero.',
             
             'precioUnidad.numeric' => 'El precio de la unidad  más servida solo puede ser numérico.',
             'precioUnidad.min' => 'El precio de la unidad  más servida debe ser mayor que cero.',
             
-            'porcentajeOtrasRegiones.numeric' => 'El porcentaje de atención a visitantes a no residentes solo puede ser numérico.',
-            'porcentajeOtrasRegiones.min' => 'El porcentaje de atención a visitantes a no residentes solo puede ser de manera porcentual.',
-            'porcentajeOtrasRegiones.max' => 'El porcentaje de atención a visitantes a no residentes solo puede ser de manera porcentual.',
             
             /*'bebidasMaximo.required' => 'El número de bebidas máximo es requerido.',
             'bebidasMaximo.numeric' => 'El número de bebidas máximo solo puede ser numérico.',
@@ -2465,6 +2459,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             if($request->platosMaximo == 0 || $request->platoServido == 0  || $request->precioPlato == 0){
                 $errores["InformacionCompleta"][0] = "Complete la información.";
             }
+            
         }else{
             if($request->unidadServida == 0 || $request->precioUnidad == 0 || $request->platosPromedio == 0){
                 $errores["InformacionCompleta"][0] = "Complete la información.";

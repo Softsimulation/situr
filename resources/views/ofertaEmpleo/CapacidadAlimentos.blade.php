@@ -199,12 +199,11 @@
                             <tr>
                                 <td>¿Qué porcentaje de sus clientes del mes anterior considera son de otras regiones fuera del Atlántico? (%)
                                     <span ng-show="capacidadForm.$submitted || capacidadForm.porcentajeOtrasRegiones.$touched">
-                                        <span class="label label-danger" ng-show="capacidadForm.porcentajeOtrasRegiones.$error.required">* El campo es requerido.</span>
                                         <span class="label label-danger" ng-show="capacidadForm.porcentajeOtrasRegiones.$error.number">* El campo recibe solo números.</span>
-                                        <span class="label label-danger" ng-show="capacidadForm.porcentajeOtrasRegiones.$error.min">* El campo recibe solo números iguales o mayores que 1.</span>
+                                        <span class="label label-danger" ng-show="capacidadForm.porcentajeOtrasRegiones.$error.min">* El campo recibe solo números iguales o mayores que 0.</span>
                                     </span>
                                 </td>
-                                <td><input type="number" min="1" name="porcentajeOtrasRegiones" class="form-control" ng-model="alimentos.porcentajeOtrasRegiones" ng-required="true" placeholder="Solo números"/></td>
+                                <td><input type="number" min="0" name="porcentajeOtrasRegiones" class="form-control" ng-model="alimentos.porcentajeOtrasRegiones" placeholder="Solo números"/></td>
                             </tr>
 
 
