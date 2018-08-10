@@ -163,7 +163,7 @@ situr.controller('ofertaTransporteCtrl', ['$scope','transporteServi', function (
                     showConfirmButton: false
                 });
                 setTimeout(function () {
-                    window.location.href = "/ofertaempleo/encuestas/" + data.sitio;
+                    window.location.href = data.ruta;
                 }, 1000);
             } else {
                 $("body").attr("class", "cbp-spmenu-push")

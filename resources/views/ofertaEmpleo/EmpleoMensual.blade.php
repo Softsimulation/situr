@@ -99,6 +99,9 @@
             font-weight: 400;
             padding: .16em .5em;
         }
+        .headTable, #fixedtableheader0{
+            background-color: #eee;
+        }
     </style>
 @endsection
 @section('TitleSection','Empleo Mensual')
@@ -125,12 +128,12 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Empleados </b></h3>
                 </div>
-                <div class="panel-footer"><b>Complete la información de la tabla</b></div>
+                <div class="panel-footer"><b>@Resource.EncuestaMsgCompleteTabla</b></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div style="overflow-x: auto;">
-                                <table id="tgastos" class="table table-condensed table-bordered table-hover">
+                                <table id="tablaEmpleo" class="table table-condensed table-bordered table-hover">
                                     <thead id="head-tgastos">
                                         <tr>
                                             <th class="text-center" colspan="4" rowspan="2" >Pregunta \ empleados nivel</th>
@@ -208,9 +211,8 @@
                                                 </span>
                                             </td>
                                             
-                                            <td style="text-align: right"><strong>@{{Totalcargo()}}</strong></td>
+                                            <td style="text-align: right"><strong></strong></td>
                                         </tr>
-                                        
                                     <tr>
                                             <td colspan="3"  rowspan="5" >
                                                 ¿por favor clasifique sus empleados en el siguiente rango de edad?
@@ -506,7 +508,16 @@
                                         
                                         <td style="text-align: right"><strong>@{{Total('Edad','mas65')}}</strong></td>
                                     </tr>
-                                    
+                                    <tr style ="background : #eee" >
+                                        <td  colspan="4" class="text-center" > Totales Edad</td>
+                                        <td>@{{totalfila(empleo.Edad,1,1)}} </td>
+                                        <td>@{{totalfila(empleo.Edad,1,0)}} </td>
+                                        <td>@{{totalfila(empleo.Edad,2,1)}} </td>
+                                        <td>@{{totalfila(empleo.Edad,2,0)}} </td>
+                                        <td>@{{totalfila(empleo.Edad,3,1)}} </td>
+                                        <td>@{{totalfila(empleo.Edad,3,0)}} </td>
+                                        <td> </td>
+                                    </tr>
                                     
                                     <tr>
                                             <td colspan="3"  rowspan="6" >
@@ -567,7 +578,7 @@
                                             </td>
                                             
                                             
-                                            <td style="text-align: right"><strong>@{{Total('Edad','ventiseisa40')}}</strong></td>
+                                            <td style="text-align: right"><strong>@{{Total('Educacion','ninguno')}}</strong></td>
                                         </tr>
                                     <tr>
                                              <td>
@@ -855,6 +866,19 @@
                                         
                                         <td style="text-align: right"><strong>@{{Total('Educacion','posgrado')}}</strong></td>
                                     </tr>
+                                    
+                                  <tr style ="background : #eee" >
+                                        <td  colspan="4" class="text-center" > Totales Educacion </td>
+                                        <td>@{{totalfila(empleo.Educacion,1,1)}} </td>
+                                        <td>@{{totalfila(empleo.Educacion,1,0)}} </td>
+                                        <td>@{{totalfila(empleo.Educacion,2,1)}} </td>
+                                        <td>@{{totalfila(empleo.Educacion,2,0)}} </td>
+                                        <td>@{{totalfila(empleo.Educacion,3,1)}} </td>
+                                        <td>@{{totalfila(empleo.Educacion,3,0)}} </td>
+                                        <td> </td>
+                                    </tr>
+                                    
+                                    
                                     
                                     <tr>
                                             <td colspan="4" >
@@ -1318,6 +1342,17 @@
                                         <td style="text-align: right"><strong>@{{Total('Vinculacion','cuenta_propia')}}</strong></td>
                                     </tr>
                                     
+                                     <tr style ="background : #eee" >
+                                        <td  colspan="4" class="text-center" > Totales Vinculacion</td>
+                                        <td>@{{totalfila(empleo.Vinculacion,1,1)}} </td>
+                                        <td>@{{totalfila(empleo.Vinculacion,1,0)}} </td>
+                                        <td>@{{totalfila(empleo.Vinculacion,2,1)}} </td>
+                                        <td>@{{totalfila(empleo.Vinculacion,2,0)}} </td>
+                                        <td>@{{totalfila(empleo.Vinculacion,3,1)}} </td>
+                                        <td>@{{totalfila(empleo.Vinculacion,3,0)}} </td>
+                                        <td> </td>
+                                    </tr>
+                                    
                                     
                                     <tr>
                                             <td colspan="3"  rowspan="2" >
@@ -1437,8 +1472,19 @@
                                             <td style="text-align: right"><strong>@{{Total('Empleo','medio_tiempo')}}</strong></td>
                                         </tr>
                                     
-                                    
-                                    <tr>
+                                 <tr style ="background : #eee" >
+                                        <td  colspan="4" class="text-center" > Totales Tiempo empleo</td>
+                                        <td>@{{totalfila(empleo.Empleo,1,1)}} </td>
+                                        <td>@{{totalfila(empleo.Empleo,1,0)}} </td>
+                                        <td>@{{totalfila(empleo.Empleo,2,1)}} </td>
+                                        <td>@{{totalfila(empleo.Empleo,2,0)}} </td>
+                                        <td>@{{totalfila(empleo.Empleo,3,1)}} </td>
+                                        <td>@{{totalfila(empleo.Empleo,3,0)}} </td>
+                                        <td> </td>
+                                    </tr>
+                                        <tr>
+                                        
+                                      
                                             <td colspan="4" >
                                                 Remuneración promedio
                                             </td>
@@ -1511,7 +1557,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Número de vacantes </b></h3>
                 </div>
-                <div class="panel-footer"><b>Complete la información</b></div>
+                <div class="panel-footer"><b>@Resource.EncuestaMsgCompleteInformacion</b></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -1627,7 +1673,7 @@
         
         
         <div class="row" style="text-align:center">
-            <a href="{{$ruta}}/{{$id}}" class="btn btn-raised btn-default" >Anterior</a>
+            <a href="{{$ruta}}/{{$id}}" class="btn btn-raised btn-default" >@Resource.EncuestaBtnAnterior</a>
             <input type="submit" class="btn btn-raised btn-success" ng-click="guardar()" value="Siguiente" />
         </div>
         <br />
@@ -1636,4 +1682,16 @@
     <div class='carga'>
 
     </div>
+    @endsection
+
+    @section('javascript')
+    <script type="text/javascript" src="{{asset('/js/fixedtableheader.js')}}"></script>
+    <script type="text/javascript"> 
+    $(document).ready(function() { 
+       $('#tablaEmpleo').fixedtableheader({ 
+             headerrowsize:2,
+             highlightclass: 'headTable' 
+           });  
+    }); 
+    </script>
     @endsection

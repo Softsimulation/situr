@@ -68,7 +68,7 @@ class OfertaEmpleoController extends Controller
     {
         
         $this->middleware('oferta', ['only' => ['getEncuesta','getActividadcomercial','getAgenciaviajes','getOfertaagenciaviajes','getCaracterizacionalimentos',
-                                    'getCapacidadalimentos','getOfertatransporte','getCaracterizaciontransporte','getCaracterizacion','getOferta',
+                                    'getCapacidadalimentos','getOfertatransporte','getCaracterizaciontransporte','getAlojamiento',
                                     'getCaracterizacionagenciasoperadoras','getOcupacionagenciasoperadoras','getCaracterizacionalquilervehiculo','getCaracterizacion','getCaracterizacion','getEmpleomensual','getNumeroempleados']]);
     }
     
@@ -82,8 +82,6 @@ class OfertaEmpleoController extends Controller
     }
     
     public function getListado(){
-      
-      
       $provedores = new Collection(DB::select("SELECT *from listado_sitios_para_encuestas"));
       return ["success" => true, "proveedores"=> $provedores];
     }
@@ -101,7 +99,7 @@ class OfertaEmpleoController extends Controller
           $tipo = Sitio_Para_Encuesta::where("id",$id)->first();
          
           if($tipo->proveedor->categoria->tipoProveedore->id == 1){
-              $ruta = "/ofertaempleo/caracterizacion";
+              $ruta = "/ofertaempleo/alojamiento";
               }else{
                   
                     if($tipo->proveedor->categoria->id == 15){
@@ -124,10 +122,6 @@ class OfertaEmpleoController extends Controller
                     }
               }
          
-          
- 
-        
-        
         return ["success"=>true, "encuestas"=>$data, 'ruta'=>$ruta];
 
     }
@@ -299,14 +293,11 @@ class OfertaEmpleoController extends Controller
         }
 
 
-        
-       
-        
-     
+    
        $tipo = Sitio_Para_Encuesta::where("id",$encuesta->sitios_para_encuestas_id)->first();
          
           if($tipo->proveedor->categoria->tipoProveedore->id == 1){
-              $ruta = "/ofertaempleo/caracterizacion";
+              $ruta = "/ofertaempleo/alojamiento";
               }else{
                   
                     if($tipo->proveedor->categoria->id == 15){
@@ -427,7 +418,7 @@ class OfertaEmpleoController extends Controller
         $tipo = Sitio_Para_Encuesta::where("id",$encuesta->sitios_para_encuestas_id)->first();
          
           if($tipo->proveedor->categoria->tipoProveedore->id == 1){
-              $ruta = "/ofertaempleo/caracterizacion";
+              $ruta = "/ofertaempleo/alojamiento";
               }else{
                   
                     if($tipo->proveedor->categoria->id == 15){
@@ -605,8 +596,8 @@ class OfertaEmpleoController extends Controller
      for ($i =0; $i < collect($request->Sexo)->Count(); $i++)
     {
         $cargo = Tipo_Cargo::where("id",$request->Sexo[$i]["tipo_cargo_id"])->first();
-        $edad = collect($request->Edad)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",1)->first();
-       
+        $edad = collect($request->Edad)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",true)->first();
+   
         if($edad){
             
             if(($edad["diecinuevea25"] + $edad["ventiseisa40"] + $edad["cuarentayunoa64"] + $edad["mas65"] + $edad["docea18"] ) !=  $request->Sexo[$i]["hombres"] ){
@@ -615,7 +606,8 @@ class OfertaEmpleoController extends Controller
             }
         }
             
-         $edad = collect($request->Edad)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",0)->first();
+         $edad = collect($request->Edad)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",false)->first();
+        
          if($edad){
             if(($edad["diecinuevea25"] + $edad["ventiseisa40"] + $edad["cuarentayunoa64"] + $edad["mas65"] + $edad["docea18"] )  !=  $request->Sexo[$i]["mujeres"] ){
                  
@@ -623,7 +615,7 @@ class OfertaEmpleoController extends Controller
             }
          }
             
-        $educacion = collect($request->Educacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",1)->first();
+        $educacion = collect($request->Educacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",true)->first();
         if($educacion){
             if(($educacion["ninguno"] + $educacion["bachiller"] + $educacion["posgrado"] + $educacion["tecnico"] + $educacion["tecnologo"] + $educacion["universitario"] ) !=  $request->Sexo[$i]["hombres"] ){
                  
@@ -631,7 +623,7 @@ class OfertaEmpleoController extends Controller
             }
         }
         
-        $educacion = collect($request->Educacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",0)->first();
+        $educacion = collect($request->Educacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",false)->first();
         if($educacion){
             if(($educacion["ninguno"] + $educacion["bachiller"] + $educacion["posgrado"] + $educacion["tecnico"] + $educacion["tecnologo"] + $educacion["universitario"] ) !=  $request->Sexo[$i]["mujeres"] ){
                  
@@ -639,7 +631,7 @@ class OfertaEmpleoController extends Controller
             }
         }
         
-        $ingl = collect($request->ingles)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",1)->first();
+        $ingl = collect($request->ingles)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",true)->first();
         if($ingl){
             if($ingl["sabeningles"]   > $request->Sexo[$i]["hombres"] ){
                  
@@ -648,7 +640,7 @@ class OfertaEmpleoController extends Controller
         }
         
         
-           $ingl = collect($request->ingles)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",0)->first();
+           $ingl = collect($request->ingles)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",false)->first();
         if($ingl){
             if($ingl["sabeningles"]  > $request->Sexo[$i]["mujeres"] ){
                  
@@ -657,7 +649,7 @@ class OfertaEmpleoController extends Controller
             
         }
 
-        $vinculacion = collect($request->Vinculacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",1)->first();
+        $vinculacion = collect($request->Vinculacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",true)->first();
         if($vinculacion){
             if(($vinculacion["personal_permanente"] + $vinculacion["personal_agencia"] + $vinculacion["propietario"] + $vinculacion["contrato_direto"] + $vinculacion["trabajador_familiar"] + $vinculacion["cuenta_propia"] + $vinculacion["aprendiz"] ) !=  $request->Sexo[$i]["hombres"] ){
                  
@@ -666,7 +658,7 @@ class OfertaEmpleoController extends Controller
             
         }
         
-        $vinculacion = collect($request->Vinculacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",0)->first();
+        $vinculacion = collect($request->Vinculacion)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",false)->first();
         if($vinculacion){
             if(($vinculacion["personal_permanente"] + $vinculacion["personal_agencia"] + $vinculacion["propietario"] + $vinculacion["contrato_direto"] + $vinculacion["trabajador_familiar"] + $vinculacion["cuenta_propia"] + $vinculacion["aprendiz"] ) !=  $request->Sexo[$i]["mujeres"] ){
                  
@@ -674,7 +666,7 @@ class OfertaEmpleoController extends Controller
             }  
         }
 
-       $empleo = collect($request->Empleo)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",1)->first();
+       $empleo = collect($request->Empleo)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",true)->first();
         if($vinculacion){
             if(($empleo["tiempo_completo"]  + $empleo["medio_tiempo"] ) !=  $request->Sexo[$i]["hombres"] ){
                  
@@ -682,7 +674,7 @@ class OfertaEmpleoController extends Controller
             }
         }
 
-        $empleo = collect($request->Empleo)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",0)->first();
+        $empleo = collect($request->Empleo)->where("tipo_cargo_id",$request->Sexo[$i]["tipo_cargo_id"])->where("sexo",false)->first();
         if($vinculacion){
             if(($empleo["tiempo_completo"]  + $empleo["medio_tiempo"]) !=  $request->Sexo[$i]["mujeres"] ){
                  
@@ -693,6 +685,7 @@ class OfertaEmpleoController extends Controller
         }
         
     }
+    
 
     for ($i =0; $i < collect($request->Sexo)->Count(); $i++)
     {
@@ -1494,7 +1487,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                'fecha_cambio' => Carbon::now()
            ]);
             $encuesta = Encuesta::where('id',$request->id)->first();
-            return ["success"=>true,"sitio"=>$encuesta->sitios_para_encuestas_id];
+            return ["success"=>true,"ruta"=>"/ofertaempleo/encuestas/" . $encuesta->sitios_para_encuestas_id];
     }
         
         
@@ -1846,8 +1839,12 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 	        'estado_encuesta_id' => 2,
 	        'fecha_cambio' => Carbon::now()
 	    ]);
+	    
+	    
+        
+        return [ "success"=>true, "ruta"=>"/ofertaempleo/encuestas/" . $encuesta->sitios_para_encuestas_id ];	
 		
-		return ["success" => true];
+	
     }
     
     public function getCaracterizacionalquilervehiculo($id){
@@ -2570,7 +2567,9 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $historial->user_id = 1;
             $historial->save();
             
-            return ["success"=>true,"sitio"=>$encuesta->sitios_para_encuestas_id];
+            $encuesta = Encuesta::find($request->id);
+        
+            return [ "success"=>true, "ruta"=>"/ofertaempleo/encuestas/" . $encuesta->sitios_para_encuestas_id ];
         }
 
     }
@@ -2868,8 +2867,9 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $historial->user_id = 1;
         $historial->save();
         
-        $encuesta = Encuesta::where('id',$request->id)->first();
-        return ["success"=>true,"sitio"=>$encuesta->sitios_para_encuestas_id];
+           $encuesta = Encuesta::find($request->id);
+        
+        return [ "success"=>true, "ruta"=>"/ofertaempleo/encuestas/" . $encuesta->sitios_para_encuestas_id ];
         
     }
     

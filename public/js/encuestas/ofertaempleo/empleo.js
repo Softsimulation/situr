@@ -85,7 +85,29 @@ angular.module('empleo.Empleo', [])
 
         }   
 
+    $scope.totalfila = function(obj,tipo,sexo){
+        if(obj){
+                for(i = 0; i < obj.length ; i ++){
+                    
+                    if(obj[i].tipo_cargo_id == tipo && obj[i].sexo == sexo ){
+                        var suma = 0;
+                        for (item in obj[i]) {
+                        if(!(item == "id" || item == "sexo" || item == "tipo_cargo_id" || item == "encuestas_id" || item == "encuesta_id"))
+                                suma = suma + (obj[i][item] == null ? 0 : (obj[i][item] == undefined ? 0 :obj[i][item]));
+                              
+                            
+                        }
+                        return suma;
+                    }
+                    
+                }
+        
+        }
+        return 0;
 
+                
+    }
+    
 
     $scope.edadempleado = function(tipo,sexo){
         if($scope.empleo.Edad){
@@ -100,7 +122,7 @@ angular.module('empleo.Empleo', [])
         
         obj = {};
         obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
+        obj.sexo = sexo == 1 ? true : false ;
 		obj.docea18 = 0;
 		obj.diecinuevea25 = 0;
 		obj.ventiseisa40 = 0;
@@ -127,7 +149,7 @@ angular.module('empleo.Empleo', [])
         
         obj = {};
         obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
+        obj.sexo = sexo == 1 ? true : false;
 		obj.ninguno = 0;
 		obj.posgrado = 0;
 		obj.bachiller = 0;
@@ -155,7 +177,7 @@ angular.module('empleo.Empleo', [])
         
         obj = {};
         obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
+        obj.sexo = sexo == 1 ? true : false ;
         obj.sabeningles = 0;
         $scope.empleo.ingles.push(obj);
         
@@ -177,10 +199,9 @@ angular.module('empleo.Empleo', [])
         }
         
         obj = {};
+        obj.sexo = sexo == 1 ? true : false ;
         obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
-        obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
+        obj.sexo = sexo == 1 ? true : false ;
 		obj.contrato_direto = 0;
 		obj.personal_permanente = 0;
 		obj.personal_agencia = 0;
@@ -209,7 +230,7 @@ angular.module('empleo.Empleo', [])
         
         obj = {};
         obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
+        obj.sexo = sexo == 1 ? true : false ;
 		obj.tiempo_completo = 0;
 		obj.medio_tiempo = 0;
         $scope.empleo.Empleo.push(obj);
@@ -232,7 +253,7 @@ angular.module('empleo.Empleo', [])
         
         obj = {};
         obj.tipo_cargo_id = tipo;
-        obj.sexo = sexo;
+        obj.sexo = sexo == 1 ? true : false ;
 		obj.valor = 0;
         $scope.empleo.Remuneracion.push(obj);
         

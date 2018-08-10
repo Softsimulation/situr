@@ -91,7 +91,7 @@ situr.controller('capacidadAlimentosCtrl', ['$scope','restauranteServi', functio
                     showConfirmButton: false
                 });
                 setTimeout(function () {
-                    window.location.href = "/ofertaempleo/encuestas/" + data.sitio;
+                   window.location.href = data.ruta;
                 }, 1000);
             } else {
                 $scope.errores = data.errores

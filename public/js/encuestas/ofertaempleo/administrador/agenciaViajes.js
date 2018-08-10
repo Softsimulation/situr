@@ -165,8 +165,8 @@ situr.controller('ofertaAgenciaViajesCtrl', ['$scope','agenciaViajeServi', funct
                     });
                     setTimeout(function () {
     
-    
-                        window.location = "/ofertaempleo/encuestas/"+data.sitio;
+
+                        window.location.href = data.ruta;
     
     
                     }, 1000);
