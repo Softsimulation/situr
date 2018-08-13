@@ -87,3 +87,5 @@ Route::controller('/encuesta','EncuestaDinamicaCtrl');
 Route::controller('/importarRnt','ImportacionRntController');
 
 Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
+
+Route::controller('/sostenibilidadhogares','SostenibilidadHogaresController');
