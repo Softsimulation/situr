@@ -1,5 +1,72 @@
 var app = angular.module('appEncuestaAlojamiento', ["OfertaEmpleoServices"] );
 
+
+app.controller("OfertaEmpleoAlojamientoCtrl", function($scope, OfertaEmpleoServi){
+    
+    $scope.alojamiento = { habitaciones:{}, apartamentos:{}, casas:{}, cabanas:{}, campins:{} };
+    
+    $("body").attr("class", "cbp-spmenu-push charging");
+    
+    OfertaEmpleoServi.getDataAlojamiento( $("#id").val() ).then(function(data){
+            
+            if(data.alojamiento){
+                $scope.alojamiento = data.alojamiento;
+            }
+            
+            $scope.servicios = data.servicios;
+            $("body").attr("class", "cbp-spmenu-push");
+        }).catch(function(){
+           $("body").attr("class", "cbp-spmenu-push");
+           swal("Error","Error en la carga de pagina","error"); 
+        });
+    
+    
+    $scope.guardar = function(){
+        
+        if(!$scope.carForm.$valid){
+            swal("Error","Corrija los errores","error");  return;
+        }
+        
+        
+        $scope.ErrorServicio = false;
+        var sw = true;
+        for ( var name in $scope.servicios ) {
+          if($scope.servicios[name]==true){ sw = false; }
+        }
+        if(sw){
+            $scope.ErrorServicio = true;
+            swal("Error","Corrija los errores","error");  return;
+        }
+        
+        $("body").attr("class", "cbp-spmenu-push charging");
+        
+        var data = angular.copy($scope.alojamiento);
+        data.encuesta = $("#id").val();
+        data.servicios = angular.copy($scope.servicios);
+        
+        OfertaEmpleoServi.Guardaralojamiento( data ).then(function(data){
+            
+            if(data.success){
+                window.location.href = data.ruta;
+            }
+            else{
+                $scope.errores = data.errores;
+                swal("Error","Corrija los errores","error");
+            }
+            
+            $("body").attr("class", "cbp-spmenu-push");
+        }).catch(function(){
+           $("body").attr("class", "cbp-spmenu-push");
+           swal("Error","Error en la carga de pagina","error"); 
+        });
+        
+    }
+    
+});
+
+
+/*
+
 app.controller("CaracterizacionAlojamientoCtrl", function($scope, OfertaEmpleoServi){
     
     $scope.alojamiento = { habitaciones:{}, apartamentos:{}, casas:{}, cabanas:{}, campins:{} };
@@ -111,3 +178,6 @@ app.controller("OfertaAlojamientoCtrl", function($scope, OfertaEmpleoServi){
     }
     
 });
+
+
+*/

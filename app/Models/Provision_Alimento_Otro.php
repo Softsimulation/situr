@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $viajes_turismo_id
  * @property string $otro
  */
-class Viaje_Turismo_Otro extends Model
+class Provision_Alimento_Otro extends Model
 {
     /**
      * The table associated with the model.
@@ -18,14 +18,14 @@ class Viaje_Turismo_Otro extends Model
      */
      public $timestamps = false;
      public $incrementing = false;
-    protected $table = 'viajes_turismos_otro';
+    protected $table = 'provision_alimentos_otros';
 
     /**
      * The primary key for the model.
      * 
      * @var string
      */
-    protected $primaryKey = 'viajes_turismo_id';
+    protected $primaryKey = 'provision_alimento_id';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -42,8 +42,8 @@ class Viaje_Turismo_Otro extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function viajesTurismo()
+    public function provisionAlimento()
     {
-        return $this->belongsTo('App\Models\Viaje_Turismo');
+        return $this->belongsTo('App\Models\Provision_Alimento');
     }
 }

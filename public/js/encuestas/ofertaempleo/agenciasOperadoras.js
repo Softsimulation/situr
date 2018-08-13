@@ -37,7 +37,7 @@ angular.module('oferta.agenciasOperadoras', ["checklist-model","ofertaService"])
                     showConfirmButton: false
                 });
                 setTimeout(function () {
-                    window.location.href = "/ofertaempleo/empleomensual/" + $scope.id;
+                  window.location.href = data.ruta;
                 }, 1000);
             } else {
                 $scope.errores = data.errores
