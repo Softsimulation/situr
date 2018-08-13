@@ -85,3 +85,5 @@ Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
 Route::controller('/encuesta','EncuestaDinamicaCtrl');
 
 Route::controller('/importarRnt','ImportacionRntController');
+
+Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
