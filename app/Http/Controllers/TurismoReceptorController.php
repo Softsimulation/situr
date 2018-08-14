@@ -82,7 +82,7 @@ class TurismoReceptorController extends Controller
         
         //$grupos = Grupo_Viaje::orderBy('id')->get()->pluck('id');
         
-        $encuestadores = Digitador::with([ 'aspNetUser'=>function($q){$q->select('id','username');} ])->get();
+        $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
         
         $lugar_nacimiento = Opcion_Lugar::with(["opcionesLugaresConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
@@ -208,62 +208,71 @@ class TurismoReceptorController extends Controller
 // 		    return ["success"=>false,"errores"=> [ ["El grupo seleccionado ya tiene el número de encuestas completas."] ] ];
 // 		}
 		
-		$year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
-		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
+		\DB::beginTransaction();
 		
-		$digitador = Digitador::find($request->Encuestador);
-		
-		$visitante = new Visitante();
-		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
-		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
-		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = 1;
-		$visitante->edad = $request->Edad;
-		$visitante->email = isset($request->Email) ? $request->Email : null;
-		$visitante->encuestador_creada = $request->Encuestador;
-		$visitante->fecha_llegada = $request->Llegada;
-		$visitante->fecha_salida = $request->Salida;
-		//$visitante->grupo_viaje_id = $request->Grupo;
-		$visitante->motivo_viaje = $request->Motivo;
-		$visitante->municipio_residencia = $request->Municipio;
-		$visitante->nombre = $request->Nombre;
-		$visitante->opciones_lugares_id = $request->Nacimiento;
-		$visitante->pais_nacimiento = $request->Nacimiento != 3 ? 47 : $request->Pais_Nacimiento;
-		$visitante->sexo = $request->Sexo;
-		$visitante->ultima_sesion = 1;
-		$visitante->codigo_encuesta = $numeroEncuesta;
-		$visitante->codigo_grupo = $year.'_'.$month.'_'.$digitador->codigo.'_'.$numeroEncuesta;
-		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$visitante->lugar_aplicacion_id = $request->aplicacion;
-		$visitante->save();
-		
-		switch ($visitante->motivo_viaje)
-        {
-
-            case 3:
-                $visitante->visitantesTransito()->save( new Visitante_Transito(['horas_transito' => $request->Horas]) );
-                break;
-            case 5:
-                $visitante->tiposAtencionSaluds()->attach($request->Salud);
-                break;
-            case 18:
-                $visitante->otrosMotivo()->save( new Otro_Motivo([ 'otro_motivo' => $request->Otro ]) );
-                break;
-        }
-        
-        $condicion = ($visitante->motivo_viaje == 3 && $request->Horas <5) || ($visitante->motivo_viaje == 17) ? 1 : 0;
-        
-        $visitante->historialEncuestas()->save(new Historial_Encuesta([
-            'estado_id' => $condicion == 1  ? 3 : 1,
-            'fecha_cambio' => date('Y-m-d H:i:s'), 
-            'mensaje' => 'La encuesta ha sido creada',
-            'usuario_id' => 1
-        ]));
-        
-        
-		return ["success" => true, 'id' => $visitante->id, 'terminada' => $condicion];
+		try{
+		    
+		    $year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+    		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+    		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
+    		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
+    		
+    		$digitador = Digitador::find($request->Encuestador);
+    		
+    		$visitante = new Visitante();
+    		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
+    		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
+    		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
+    		$visitante->digitada = 1;
+    		$visitante->edad = $request->Edad;
+    		$visitante->email = isset($request->Email) ? $request->Email : null;
+    		$visitante->encuestador_creada = $request->Encuestador;
+    		$visitante->fecha_llegada = $request->Llegada;
+    		$visitante->fecha_salida = $request->Salida;
+    		//$visitante->grupo_viaje_id = $request->Grupo;
+    		$visitante->motivo_viaje = $request->Motivo;
+    		$visitante->municipio_residencia = $request->Municipio;
+    		$visitante->nombre = $request->Nombre;
+    		$visitante->opciones_lugares_id = $request->Nacimiento;
+    		$visitante->pais_nacimiento = $request->Nacimiento != 3 ? 47 : $request->Pais_Nacimiento;
+    		$visitante->sexo = $request->Sexo;
+    		$visitante->ultima_sesion = 1;
+    		$visitante->codigo_encuesta = $numeroEncuesta;
+    		$visitante->codigo_grupo = $year.'_'.$month.'_'.$digitador->codigo.'_'.$numeroEncuesta;
+    		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+    		$visitante->lugar_aplicacion_id = $request->aplicacion;
+    		$visitante->save();
+    		
+    		switch ($visitante->motivo_viaje)
+            {
+    
+                case 3:
+                    $visitante->visitantesTransito()->save( new Visitante_Transito(['horas_transito' => $request->Horas]) );
+                    break;
+                case 5:
+                    $visitante->tiposAtencionSaluds()->attach($request->Salud);
+                    break;
+                case 18:
+                    $visitante->otrosMotivo()->save( new Otro_Motivo([ 'otro_motivo' => $request->Otro ]) );
+                    break;
+            }
+            
+            $condicion = ($visitante->motivo_viaje == 3 && $request->Horas <5) || ($visitante->motivo_viaje == 17) ? 1 : 0;
+            
+            $visitante->historialEncuestas()->save(new Historial_Encuesta([
+                'estado_id' => $condicion == 1  ? 3 : 1,
+                'fecha_cambio' => date('Y-m-d H:i:s'), 
+                'mensaje' => 'La encuesta ha sido creada',
+                'usuario_id' => 1
+            ]));
+		    
+		    
+		    \DB::commit();
+		    return ["success" => true, 'id' => $visitante->id, 'terminada' => $condicion];
+		}catch(\Exception $e){
+		    \DB::rollback();
+		    return ["success" => false];
+		}
     }
     
     public function getEditardatos($id){
