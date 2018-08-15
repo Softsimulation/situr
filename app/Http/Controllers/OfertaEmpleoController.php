@@ -249,7 +249,7 @@ class OfertaEmpleoController extends Controller
             $anio = Anio::where("anio",$request->Anio)->first();
             if($anio == null){
                 $anio = new Anio();
-                $anio = $request->Anio;
+                $anio->anio = $request->Anio;
                 $anio->save();
             }
             $mesid->mes_id = $request->Mes;
@@ -493,7 +493,8 @@ class OfertaEmpleoController extends Controller
     {
             $empleo = collect();
     
-        
+            $empleo["Hubo_capacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("hubo_capacitacion")->first();
+            $empleo["TemaCapacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("temas")->first();
             $empleo["capacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("realiza_proceso")->first();
             $empleo["tematicas"] = Tematica_Capacitacion::where("encuesta_id",$id)->get();
             $empleo["lineasadmin"] = Capacitacion_Empleo::join("tematicas_aplicadas_encuestas",'capacitaciones_empleo.encuesta_id','=','tematicas_aplicadas_encuestas.encuesta_id')->join("lineas_tematicas","id","=","linea_tematica_id")->where("capacitaciones_empleo.encuesta_id",$id)->where("tipo_nivel",true)->pluck("linea_tematica_id as id")->toArray();
@@ -926,6 +927,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     public function postGuardarempcaracterizacion(Request $request){
         $validator = \Validator::make($request->all(), [
   	         'Encuesta' => 'required|exists:encuestas,id',
+  	         'Hubo_capacitacion' => 'required|min:0|max:1',
   	         'capacitacion' => 'required|min:0|max:1',
   	         'autorizacion' => 'required|min:0|max:1',
   	         'esta_acuerdo' => 'required|min:0|max:1',
@@ -950,7 +952,15 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     	    
     		     }
     	     }
-	
+	        
+ 		  if($request->Hubo_capacitacion == 1 ){
+    		     if($request->TemaCapacitacion == null ){
+    	                return ["success" => false, "errores" => [["Es requerido los temas."]] ];    
+    	    
+    		     }
+    	     }else{
+    	         $request->TemaCapacitacion = null;
+    	     }
 	         
               $capacitacion = Capacitacion_Empleo::where("encuesta_id", $request->Encuesta)->first();
 
@@ -959,13 +969,15 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                    $capacitacion = new Capacitacion_Empleo();
                     $capacitacion->encuesta_id = $request->Encuesta;
                     $capacitacion->realiza_proceso = $request->capacitacion;
-                
+                    $capacitacion->hubo_capacitacion = $request->Hubo_capacitacion;
+                    $capacitacion->temas = $request->TemaCapacitacion;
                     $capacitacion->save();
                 }
                 else
                 {
                     $capacitacion->realiza_proceso = $request->capacitacion;
-        
+                    $capacitacion->hubo_capacitacion = $request->Hubo_capacitacion;
+                    $capacitacion->temas = $request->TemaCapacitacion;
                     $capacitacion->save();
                 }
 

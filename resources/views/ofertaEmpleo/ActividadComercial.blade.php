@@ -64,6 +64,7 @@
         </div>
     </div>
     <form name="ActividadForm" novalidate>
+        
         <div class="panel panel-success">
             <div class="panel-heading">
 
