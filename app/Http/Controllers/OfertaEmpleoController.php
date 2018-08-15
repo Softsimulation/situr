@@ -1989,6 +1989,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "habitaciones.*.viajeros_locales" => "required_if:servicios.habitacion,true",
                       "habitaciones.*.habitaciones_ocupadas" => "required_if:servicios.habitacion,true",
                       "habitaciones.*.total_huespedes" => "required_if:servicios.habitacion,true",
+                      "habitaciones.*.viajeros_locales" => "max:numero_personas",
                       
                       "apartamentos"=>"array|max:1",
                       "apartamentos.*.total" => "required_if:servicios.apartamento,true",
@@ -1998,16 +1999,18 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "apartamentos.*.viajeros" => "required_if:servicios.apartamento,true",
                       "apartamentos.*.viajeros_colombianos" => "required_if:servicios.apartamento,true",
                       "apartamentos.*.total_huespedes" => "required_if:servicios.apartamento,true",
+                      "apartamentos.*.viajeros_colombianos" => "max:viajeros",
                       
                       "casas"=>"array|max:1",
                       "casas.*.total" => "required_if:servicios.casa,true",
                       "casas.*.capacidad" => "required_if:servicios.casa,true",
                       "casas.*.promedio" => "required_if:servicios.casa,true",
-                       "casas.*.tarifa" => "required_if:servicios.casa,true",
+                      "casas.*.tarifa" => "required_if:servicios.casa,true",
                       "casas.*.viajeros" => "required_if:servicios.casa,true",
                       "casas.*.viajeros_colombia" => "required_if:servicios.casa,true",
                       "casas.*.capacidad_ocupadas" => "required_if:servicios.casa,true",
                       "casas.*.total_huespedes" => "required_if:servicios.casa,true",
+                      "casas.*.viajeros_colombia" => "max:viajeros",
                       
                       "campings"=>"array|max:1",
                       "campings.*.area" => "required_if:servicios.camping,true",
@@ -2018,6 +2021,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "campings.*.capacidad_ocupada" => "required_if:servicios.camping,true",
                       "campings.*.viajeros_extranjeros" => "required_if:servicios.camping,true",
                       "campings.*.total_huespedes" => "required_if:servicios.camping,true",
+                      "campings.*.viajeros_extranjeros" => "max:viajeros",
                       
                       "cabanas"=>"array|max:1",
                       "cabanas.*.total" => "required_if:servicios.cabana,true",
@@ -2028,8 +2032,12 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "cabanas.*.capacidad_ocupada" => "required_if:servicios.cabana,true",
                       "cabanas.*.viajeros_colombia" => "required_if:servicios.cabana,true",
                       "cabanas.*.total_huespedes" => "required_if:servicios.cabana,true",
+                      "campings.*.viajeros_colombia" => "max:viajeros",
                       
-                    ]);
+                    ], [
+                         "encuesta.required"=> "Error en los datos la encuesta no existe.",
+                         "encuesta.exists"=> "Error en los datos la encuesta no existe.",
+                       ]);
             
         if ($validate->fails())
         {
