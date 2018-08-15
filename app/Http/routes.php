@@ -69,6 +69,18 @@ Route::controller('/grupoviaje','GrupoViajeController');
 Route::controller('/exportacion','ExportacionController');
 
 
+Route::controller('/administradorproveedores', 'AdministradorProveedoresController');
+
+Route::controller('/administradoreventos', 'AdministradorEventosController');
+
+Route::controller('/administradorrutas', 'AdministradorRutasController');
+
+Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
+
+Route::controller('/administradoractividades', 'AdministradorActividadesController');
+
+Route::controller('/administradordestinos', 'AdministradorDestinosController');
+
 Route::group(['middleware' => 'cors'], function(){
  
    Route::controller('/turismointernoapi','TurismoInternoCorsController');
@@ -85,3 +97,7 @@ Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
 Route::controller('/encuesta','EncuestaDinamicaCtrl');
 
 Route::controller('/importarRnt','ImportacionRntController');
+
+Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
+
+Route::controller('/sostenibilidadhogares','SostenibilidadHogaresController');

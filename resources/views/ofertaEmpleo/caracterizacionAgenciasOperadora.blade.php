@@ -90,7 +90,7 @@
     
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> De las siguientes actividades deportivas, ¿Cuáles ofrece su empresa?</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> ¿Cuáles actividades deportivas ofrece la empresa?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Pregunta de selección múltiple</b></div>
                 <div class="panel panel-body">
