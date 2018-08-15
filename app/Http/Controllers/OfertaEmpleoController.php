@@ -1501,7 +1501,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $sirvePlatos = null;
         $mesas = null;
         $asientos = null;
-        
+        $provisionesAlimentos = null;
+        //return $provisionesAlimentos;
         if($encuesta != null){
             $provisionesAlimentos = Provision_Alimento::where('encuestas_id',$encuesta->id)->first();
             if($provisionesAlimentos != null){
@@ -1513,8 +1514,12 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         }
         $provision = [];
         $provision["especialidad"] = $especialidad;
-        if($provisionesAlimentos->provisionesAlimentosOtros != null){
-            $provision["especialidadOtra"] = $provisionesAlimentos->provisionesAlimentosOtros->otro;
+        
+        if($provisionesAlimentos != null){
+            if($provisionesAlimentos->provisionesAlimentosOtros != null){
+                $provision["especialidadOtra"] = $provisionesAlimentos->provisionesAlimentosOtros->otro;
+            }
+            
         }
         
         $provision["sirvePlatos"] = $sirvePlatos;
@@ -2577,7 +2582,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     public function getInfocaracterizaciontransporte($id)
     {
         
-        $transporte = Transporte::with('tipoTransporteOferta')->where('encuestas_id',$id)->get();
+        $transporte = Transporte::with('ofertaTransportes')->where('encuestas_id',$id)->get();
         
         return ["transporte"=>$transporte];
     }
@@ -2588,49 +2593,37 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $validator = \Validator::make($request->all(),[
         
             'id' => 'required|exists:encuestas,id',
-            
+            'VehiculosTerrestre' => 'required|numeric',
+            'PersonasVehiculosTerrestre' => 'required|numeric',
+            'TotalTerrestre' => 'numeric|min:1',
+            'TarifaTerrestre' => 'numeric|min:1000',
         ],[
             'id.required' => 'Tuvo primero que haber creado una encuesta.',
             'id.exists' => 'Tuvo primero que haber creado una encuesta.',
+            'VehiculosTerrestre.required' => 'El campo de cuantos vehículos estuvieron disponibles es requerido.',
+            'PersonasVehiculosTerrestre.required' => 'El campo referente a la capacidad para transportar pasajeros es requerido.',
+            'VehiculosTerrestre.numeric' => 'Por favor para el campo de cuantos vehículos estuvieron disponibles, sólo debe ser numérico.',
+            'PersonasVehiculosTerrestre.numeric' => 'Por favor para el campo de la capacidad de transporte, sólo debe ser numérico.',
+            
+            'TotalTerrestre.numeric' => 'Por favor ingrese un valor mayor que cero en el campo de transporte terrestre.',
+            'TotalTerrestre.min' => 'Por favor ingrese un valor mayor que cero en el campo de transporte terrestre.',
+            
+            'TarifaTerrestre.numeric' => 'Por favor ingrese un valor válido para tarifa de transporte terrestre.',
+            'TarifaTerrestre.min' => 'El valor para tarifa de transporte terrestre debe ser mayor o igual a 1000.',
             ]
         );
         if($validator->fails()){
             return ["success"=>false,"errores"=>$validator->errors()];
         }
-        
-        //return $request->all();
-        $errores = [];
-        if($request->Terrestre == null && $request->Aereo == null && $request->Maritimo == null){
-            $errores["VehiculosTerrestre"][0] = "No se ha diligenciado el formulario correctamente.";    
-        }
-        if($request->Terrestre != 1 && $request->Aereo != 2 && $request->Maritimo != 3){
-            $errores["VehiculosTerrestre"][0] = "Se ha manipulado la información, favor recargar la página.";    
-        }else{
-            if($request->Terrestre != null && $request->Terrestre == 1){
-                if($request->VehiculosTerrestre == null || $request->PersonasVehiculosTerrestre == null){
-                    $errores["VehiculosTerrestre"][0] = "Por favor complete la sección de transporte terrestre.";    
-                }
-            }
-            if($request->Aereo != null && $request->Aereo == 2){
-                if($request->VehiculosAereo == null || $request->PersonasVehiculosAereo == null){
-                    $errores["VehiculosAereo"][0] = "Por favor complete la sección de transporte aéreo.";    
-                }
-            }
-            if($request->Maritimo != null && $request->Maritimo == 3){
-                if($request->VehiculosMaritimo == null || $request->PersonasVehiculosMaritimo == null){
-                    $errores["VehiculosMaritimo"][0] = "Por favor complete la sección de transporte marítimo.";    
-                }
-            }    
-        }
-        if(sizeof($errores) > 0){
-            return ['success'=>false, 'errores'=>$errores];
+        if ($request->TotalTerrestre > $request->PersonasVehiculosTerrestre) {
+            return ['success'=>false, 'errores'=>[["Por favor el campo total de personas transportadas el mes anterior no puede superar la capacidad total de transporte"]]];
         }
         //return $request->all();
         /*if(Transporte::where('encuestas_id',$request->id)->count() > 0){
             
             $busquedaTransporte = Transporte::where('encuestas_id',$request->id)->delete();
         }*/
-        $busquedaTransporte = Transporte::where('encuestas_id',$request->id)->get();
+        /*$busquedaTransporte = Transporte::where('encuestas_id',$request->id)->get();
         if($busquedaTransporte != null){
             //return $busquedaTransporte;
             foreach($busquedaTransporte as $busqueda){
@@ -2719,7 +2712,26 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 $transporte->encuestas_id = $request->id;
                 $transporte->save();
             }
+        }*/
+        
+        $transporte = Transporte::where('encuestas_id',$request->id)->where('tipos_transporte_oferta_id',1)->first();
+        if($transporte == null){
+            $transporte = new Transporte();
+            $transporte->tipos_transporte_oferta_id = 1;
+            $transporte->encuestas_id = intval($request->id);
         }
+        $transporte->numero_vehiculos = intval($request->VehiculosTerrestre);
+        $transporte->personas = intval($request->PersonasVehiculosTerrestre);
+        $transporte->save();
+        
+        $ofertaTransporte = Oferta_Transporte::where('transporte_id',$transporte->id)->first();
+        if($ofertaTransporte == null){
+            $ofertaTransporte = new Oferta_Transporte();
+            $ofertaTransporte->transporte_id = $transporte->id;
+        }
+        $ofertaTransporte->tarifa_promedio = $request->TarifaTerrestre;
+        $ofertaTransporte->personas_total = $request->TotalTerrestre;
+        $ofertaTransporte->save();
             
         $historial = new Historial_Encuesta_Oferta();
         $historial->encuesta_id = $request->id;
@@ -2728,7 +2740,9 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $historial->user_id = 1;
         $historial->save();
         
-        return ["success"=>true];
+        $encuesta = Encuesta::find($request->id);
+        
+        return [ "success"=>true, "ruta"=>"/ofertaempleo/encuestas/" . $encuesta->sitios_para_encuestas_id ];
             
     }
     
