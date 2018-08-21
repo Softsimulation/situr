@@ -1,4 +1,4 @@
-@extends('layout._sostenibilidadPstLayout')
+@extends('layout._encuestaLayout',['saltoSeccion' => $id])
 
 @section('title', 'SOSTENIBILIDAD DE LAS ACTIVIDADES TURÍSTICAS - PRESTADORES SERVICIOS TURÍSTICOS (PST)')
 
