@@ -75,35 +75,35 @@
                     <div class="col-xs-12 col-md-offset-1 col-md-2">
                         <div class="checkbox" style="display: inline-block; margin-right: 1em" >
                             <label>
-                                <input type="checkbox"  ng-model="servicios.habitacion" ng-true-value="true" ng-false-value="false"  > Habitaciones
+                                <input type="checkbox"  ng-model="servicios.habitacion" ng-true-value="true" ng-false-value="false" ng-change="resetDatos(1, servicios.habitacion)" > Habitaciones
                             </label>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="checkbox" style="display: inline-block; margin-right: 1em">
                             <label>
-                                <input type="checkbox"  ng-model="servicios.apartamento" ng-true-value="true" ng-false-value="false" > Apartamentos
+                                <input type="checkbox"  ng-model="servicios.apartamento" ng-true-value="true" ng-false-value="false" ng-change="resetDatos(2, servicios.apartamento)" > Apartamentos
                             </label>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="checkbox" style="display: inline-block; margin-right: 1em">
                             <label>
-                                <input type="checkbox"  ng-model="servicios.casa" ng-true-value="true" ng-false-value="false"  > Casas
+                                <input type="checkbox"  ng-model="servicios.casa" ng-true-value="true" ng-false-value="false" ng-change="resetDatos(3, servicios.casa)" > Casas
                             </label>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="checkbox" style="display: inline-block; margin-right: 1em">
                             <label>
-                                <input type="checkbox"  ng-model="servicios.cabana" ng-true-value="true" ng-false-value="false" > Cabañas
+                                <input type="checkbox"  ng-model="servicios.cabana" ng-true-value="true" ng-false-value="false" ng-change="resetDatos(4, servicios.cabana)" > Cabañas
                             </label>
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-2">
                         <div class="checkbox" style="display: inline-block; margin-right: 1em">
                             <label>
-                                <input type="checkbox"  ng-model="servicios.camping" ng-true-value="true" ng-false-value="false" > Camping
+                                <input type="checkbox"  ng-model="servicios.camping" ng-true-value="true" ng-false-value="false" ng-change="resetDatos(5, servicios.camping)" > Camping
                             </label>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                                     <td><input type="number" name="HabitacionPersonas" id="HabitacionPersonas" class="form-control" ng-model="alojamiento.habitaciones[0].numero_personas" min="1" ng-required="true" placeholder="Solo números"/></td>
                                 </tr>
                                 <tr>
-                                    <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Atlántico? (De otros departamentos de Colombia)
+                                    <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Cesar? (De otros departamentos de Colombia)
                                         <span ng-show="carForm.$submitted || carForm.HabitacionCol.$touched">
                                             <span class="label label-danger" ng-show="carForm.HabitacionCol.$error.required">*El campo es requerido.</span>
                                             <span class="label label-danger" ng-show="carForm.HabitacionCol.$error.number">*El campo debe ser un número.</span>
@@ -271,7 +271,7 @@
                                     <td><input type="number" name="ApartamentosPersonas" id="ApartamentosPersonas" class="form-control" ng-model="alojamiento.apartamentos[0].viajeros" min="1" ng-required="true" placeholder="Solo números"/></td>
                                 </tr>
                                 <tr>
-                                    <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Atlántico? (De otros departamentos de Colombia)
+                                    <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Cesar? (De otros departamentos de Colombia)
                                         <span ng-show="carForm.$submitted || carForm.ApartamentosCol.$touched">
                                             <span class="label label-danger" ng-show="carForm.ApartamentosCol.$error.required">*El campo es requerido</span>
                                             <span class="label label-danger" ng-show="carForm.ApartamentosCol.$error.number">*El campo debe ser un número.</span>
@@ -379,7 +379,7 @@
                                     <td><input type="number" name="CasaPersonas" id="CasaPersonas" class="form-control" ng-model="alojamiento.casas[0].viajeros" min="1" ng-required="true" placeholder="Solo números"/></td>
                                 </tr>
                                 <tr>
-                                    <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Atlántico? (De otros departamentos de Colombia)
+                                    <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Cesar? (De otros departamentos de Colombia)
                                         <span ng-show="carForm.$submitted || carForm.CasaCol.$touched">
                                             <span class="label label-danger" ng-show="carForm.CasaCol.$error.required">*El campo es requerido.</span>
                                             <span class="label label-danger" ng-show="carForm.CasaCol.$error.number">*El campo debe ser un número.</span>
@@ -488,7 +488,7 @@
                                 <td><input type="number" name="CabPersonas" id="CabPersonas" class="form-control" ng-model="alojamiento.cabanas[0].viajeros" min="1" ng-required="true" placeholder="Solo números"/></td>
                             </tr>
                             <tr>
-                                <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Atlántico? (De otros departamentos de Colombia)
+                                <td>¿Cuántos viajeros que ingresaron durante el mes anterior tienen residencia fuera del Cesar? (De otros departamentos de Colombia)
                                     <span ng-show="carForm.$submitted || carForm.CabCol.$touched">
                                         <span class="label label-danger" ng-show="carForm.CabCol.$error.required">*El campo es requerido.</span>
                                         <span class="label label-danger" ng-show="carForm.CabCol.$error.number">*El campo debe ser un número.</span>
@@ -597,7 +597,7 @@
                                 <td><input type="number" name="CamPersonas" id="CamPersonas" class="form-control" ng-model="alojamiento.campings[0].viajeros" min="1" ng-required="true" placeholder="Solo números"/></td>
                             </tr>
                             <tr>
-                                <td>¿Cuántos viajeros que ingresaron durante el mes de junio tienen residencia fuera del Atlántico? 
+                                <td>¿Cuántos viajeros que ingresaron durante el mes de junio tienen residencia fuera del Cesar? 
                                     <span ng-show="carForm.$submitted || carForm.CamExtra.$touched">
                                         <span class="label label-danger" ng-show="carForm.CamExtra.$error.required">*El campo es requerido.</span>
                                         <span class="label label-danger" ng-show="carForm.CamExtra.$error.number">*El campo debe ser un número.</span>

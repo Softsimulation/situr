@@ -1994,7 +1994,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "habitaciones.*.viajeros_locales" => "required_if:servicios.habitacion,true",
                       "habitaciones.*.habitaciones_ocupadas" => "required_if:servicios.habitacion,true",
                       "habitaciones.*.total_huespedes" => "required_if:servicios.habitacion,true",
-                      "habitaciones.*.viajeros_locales" => "max:numero_personas",
                       
                       "apartamentos"=>"array|max:1",
                       "apartamentos.*.total" => "required_if:servicios.apartamento,true",
@@ -2004,7 +2003,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "apartamentos.*.viajeros" => "required_if:servicios.apartamento,true",
                       "apartamentos.*.viajeros_colombianos" => "required_if:servicios.apartamento,true",
                       "apartamentos.*.total_huespedes" => "required_if:servicios.apartamento,true",
-                      "apartamentos.*.viajeros_colombianos" => "max:viajeros",
                       
                       "casas"=>"array|max:1",
                       "casas.*.total" => "required_if:servicios.casa,true",
@@ -2015,7 +2013,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "casas.*.viajeros_colombia" => "required_if:servicios.casa,true",
                       "casas.*.capacidad_ocupadas" => "required_if:servicios.casa,true",
                       "casas.*.total_huespedes" => "required_if:servicios.casa,true",
-                      "casas.*.viajeros_colombia" => "max:viajeros",
                       
                       "campings"=>"array|max:1",
                       "campings.*.area" => "required_if:servicios.camping,true",
@@ -2026,7 +2023,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "campings.*.capacidad_ocupada" => "required_if:servicios.camping,true",
                       "campings.*.viajeros_extranjeros" => "required_if:servicios.camping,true",
                       "campings.*.total_huespedes" => "required_if:servicios.camping,true",
-                      "campings.*.viajeros_extranjeros" => "max:viajeros",
                       
                       "cabanas"=>"array|max:1",
                       "cabanas.*.total" => "required_if:servicios.cabana,true",
@@ -2037,7 +2033,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                       "cabanas.*.capacidad_ocupada" => "required_if:servicios.cabana,true",
                       "cabanas.*.viajeros_colombia" => "required_if:servicios.cabana,true",
                       "cabanas.*.total_huespedes" => "required_if:servicios.cabana,true",
-                      "campings.*.viajeros_colombia" => "max:viajeros",
                       
                     ], [
                          "encuesta.required"=> "Error en los datos la encuesta no existe.",
@@ -2061,6 +2056,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         /////////////////////////////////////////////////////////////////////////
         $habitacion = Habitacion::where("alojamientos_id", $alojamiento->id)->first();
         if( $request->servicios["habitacion"] ){
+            
+            if( $request->habitaciones[0]["viajeros_locales"] > $request->habitaciones[0]["numero_personas"] ){ 
+                return ["success"=>false, "Error"=> "El numero viajes fuera de cesar no puede ser mayor al numero de personas que hicieron Check in o ingresaron, habitaciones." ];
+            }
+            
             if(!$habitacion){
                 $habitacion = new Habitacion();
                 $habitacion->alojamientos_id = $alojamiento->id;
@@ -2081,6 +2081,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         /////////////////////////////////////////////////////////////////////////
         $apartamento = Apartamento::where("alojamientos_id", $alojamiento->id)->first();
         if( $request->servicios["apartamento"] ){
+            
+            if( $request->apartamentos[0]["viajeros_colombianos"] > $request->apartamentos[0]["viajeros"] ){ 
+                return ["success"=>false, "Error"=> "El numero viajes fuera de cesar no puede ser mayor al numero de personas que hicieron Check in o ingresaron, apartamentos." ];
+            }
+            
             if(!$apartamento){
                 $apartamento = new Apartamento();
                 $apartamento->alojamientos_id = $alojamiento->id;
@@ -2101,6 +2106,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         /////////////////////////////////////////////////////////////////////////
         $casa = Casa::where("alojamientos_id", $alojamiento->id)->first();
         if( $request->servicios["casa"] ){
+            
+            if( $request->casas[0]["viajeros_colombia"] > $request->casas[0]["viajeros"] ){ 
+                return ["success"=>false, "Error"=> "El numero viajes fuera de cesar no puede ser mayor al numero de personas que hicieron Check in o ingresaron, casas." ];
+            }
+            
             if(!$casa){
                 $casa = new Casa();
                 $casa->alojamientos_id = $alojamiento->id;
@@ -2122,6 +2132,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         /////////////////////////////////////////////////////////////////////////
         $camping = Camping::where("alojamientos_id", $alojamiento->id)->first();
         if( $request->servicios["camping"] ){
+            
+            if( $request->campings[0]["viajeros_extranjeros"] > $request->campings[0]["viajeros"] ){ 
+                return ["success"=>false, "Error"=> "El numero viajes fuera de cesar no puede ser mayor al numero de personas que se hospedaron, campings." ];
+            }
+            
             if(!$camping){
                 $camping = new Camping();
                 $camping->alojamientos_id = $alojamiento->id;
@@ -2143,10 +2158,16 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         /////////////////////////////////////////////////////////////////////////
         $cabana = Cabana::where("alojamientos_id", $alojamiento->id)->first();
         if( $request->servicios["cabana"] ){
+            
+             if( $request->cabanas[0]["viajeros_colombia"] > $request->cabanas[0]["viajeros"] ){ 
+                return ["success"=>false, "Error"=> "El numero viajes fuera de cesar no puede ser mayor al numero de personas que hicieron Check in o ingresaron, cabañas." ];
+            }
+            
             if(!$cabana){
                 $cabana = new Cabana();
                 $cabana->alojamientos_id = $alojamiento->id;
             }
+            
             $cabana->total = $request->cabanas[0]["total"];
             $cabana->capacidad = $request->cabanas[0]["capacidad"];
             $cabana->promedio = $request->cabanas[0]["promedio"];
