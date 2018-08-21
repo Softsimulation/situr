@@ -56,6 +56,7 @@
     <input type="hidden" ng-model="Id" ng-init="Id={{$Id}}" />
     <input type="hidden" ng-model="Sitio" ng-init="Sitio={{$Sitio}}" />
     <input type="hidden" ng-model="Anio" ng-init="Anio={{$Anio}}" />
+    <input type="hidden" ng-model="encuestadores" ng-init="={{$Encuestadores}}" />
     <div class="alert alert-danger" ng-if="errores != null">
         <label><b>Errores:</b></label>
         <br />
@@ -64,6 +65,86 @@
         </div>
     </div>
     <form name="ActividadForm" novalidate>
+        
+        
+        <div class="panel panel-success">
+            <div class="panel-heading">
+
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>  Datos del entrevistado</b></h3>
+            </div>
+            <div class="panel-footer"><b>Seleccione la opción</b></div>
+            <div class="panel-body">
+                
+                 <div class="row">
+                        
+                        <div class="col-xs-12 col-sm-12 col-md-8">
+                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.nombre.$touched) && indentificacionForm.nombre.$error.required]">
+                                <label class="control-label" for="nombre">Nombre del contacto</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.nombre.length > 0">@{{establecimiento.nombre.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.nombre.$touched) && indentificacionForm.nombre.$error.required">(El campo es obligatorio)</span>
+                                <div class="input-group">
+                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="actividad.nombre" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.nombre.$touched) && indentificacionForm.nombre.$error.required "></span>
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4">
+                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required]">
+                                <label class="control-label" for="cargo">Cargo</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.cargo.length > 0">@{{establecimiento.cargo.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required">(El campo es obligatorio)</span>
+                                <div class="input-group">
+                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="actividad.cargo" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required "></span>
+                                </div>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+                
+                <div class="row">
+                <div class="col-xs-12 col-sm-8 col-md-8">
+                    <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.email.$touched) && (indentificacionForm.email.$error.required || indentificacionForm.email.$error.email)]">
+                        <label class="control-label" for="email">Email</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.email.length > 0">@{{establecimiento.email.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && indentificacionForm.email.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && indentificacionForm.email.$error.email">(Formato de email no permitido)</span>
+                        <div class="input-group">
+                            <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                            <input type="email" class="form-control" name="email" id="email" ng-model="actividad.email" maxlength="255" ng-required="true"  placeholder="Ej: alguien@dominio.com"/>
+                            <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && (indentificacionForm.email.$error.required || indentificacionForm.email.$error.email)"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-4">
+                        <div class="form-group">
+
+                            <label for="inputDepartamentoResidencia" class="col-xs-12 control-label">Encuestador</label>
+                            <div class="col-xs-12">
+                                <!--P4P10Select1. Seleccione un Encuestador-->
+                                <select class="form-control" id="inputDepartamentoResidencia" name="encuestador" ng-model="actividad.Encuestador" ng-required="true">
+                                    <option value="" disabled>Seleccione un encuestador</option>
+                                    <option ng-repeat="item in encuestadores" value="@{{item.id}}">@{{item.asp_net_user.username}}</option>
+                                </select>
+                                <!--P4P10Alert1. El campo Barrio de residencia es requerido-->
+                                <span ng-show="DatosForm.$submitted || DatosForm.barrio.$touched">
+                                    <span class="label label-danger" ng-show="DatosForm.encuestador.$error.required">*El campo es requerido</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <span ng-show="ActividadForm.$submitted || ActividadForm.actividadComercial.$touched">
+                    <span class="label label-danger" ng-show="ActividadForm.actividadComercial.$error.required">*El campo es requerido.</span>
+                </span>
+            </div>
+
+        </div>
+        
+        
         
         <div class="panel panel-success">
             <div class="panel-heading">

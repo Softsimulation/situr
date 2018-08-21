@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use App\Models\Empleo;
 use App\Models\Encuesta;
+use App\Models\Digitador;
 use App\Models\Vacante;
 use App\Models\Empleado_Vinculacion;
 use App\Models\Edad_Empleado;
@@ -167,8 +168,8 @@ class OfertaEmpleoController extends Controller
     }
     
     public function getActividadcomercial($mes,$anio,$id){
-        
-             return view('ofertaEmpleo.ActividadComercial',array("Id"=>$mes,"Anio"=>$anio,'Sitio'=>$id));
+              $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
+             return view('ofertaEmpleo.ActividadComercial',array("Id"=>$mes,"Anio"=>$anio,'Sitio'=>$id, "Encuestadores"=>$encuestadores));
     }
     
     public function postGuardaractividadcomercial(Request $request)
