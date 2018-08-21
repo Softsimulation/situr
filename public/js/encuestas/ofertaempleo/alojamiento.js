@@ -1,6 +1,7 @@
 var app = angular.module('appEncuestaAlojamiento', ["OfertaEmpleoServices"] );
 
 
+
 app.controller("OfertaEmpleoAlojamientoCtrl", function($scope, OfertaEmpleoServi){
     
     $scope.alojamiento = { habitaciones:{}, apartamentos:{}, casas:{}, cabanas:{}, campins:{} };
@@ -81,6 +82,37 @@ app.controller("OfertaEmpleoAlojamientoCtrl", function($scope, OfertaEmpleoServi
         });
         
     }
+    
+    
+    $scope.resetDatos = function(servicio, estadoServi){
+        
+        switch (servicio) {
+            case 1: /* habitaciones*/
+                $scope.alojamiento.habitaciones[0] = estadoServi ? $scope.alojamiento.habitaciones[0] : {};
+                break;
+            
+            case 2: /* Apartamentos*/
+                $scope.alojamiento.apartamentos[0] = estadoServi ? $scope.alojamiento.apartamentos[0] : {};
+                break;
+                
+            case 3: /* Casas*/
+                $scope.alojamiento.casas[0] = estadoServi ? $scope.alojamiento.casas[0] : {};
+                break;
+            
+            case 4: /* Cabañas*/
+                $scope.alojamiento.cabanas[0] = estadoServi ? $scope.alojamiento.cabanas[0] : {};
+                break;
+            
+            case 5: /* Campings*/
+                $scope.alojamiento.campings[0] = estadoServi ? $scope.alojamiento.campings[0] : {};
+                break;
+            
+            default: return ;
+                // code
+        }
+        
+    }
+    
     
 });
 

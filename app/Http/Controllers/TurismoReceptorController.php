@@ -300,7 +300,7 @@ class TurismoReceptorController extends Controller
             $visitante['codigo_grupo'] = $visitanteCargar->codigo_grupo;
             //$visitante['Grupo'] = $visitanteCargar->grupo_viaje_id;
             $visitante['Encuestador'] = $visitanteCargar->encuestador_creada;
-            $visitante['Encuestador_nombre'] = $visitanteCargar->digitadoreDigitada->aspNetUser->username;
+            $visitante['Encuestador_nombre'] = $visitanteCargar->digitadoreDigitada->user->username;
             $visitante['Llegada'] = $visitanteCargar->fecha_llegada;
             $visitante['Salida'] = $visitanteCargar->fecha_salida;
             $visitante['fechaAplicacion'] = $visitanteCargar->fecha_aplicacion;
