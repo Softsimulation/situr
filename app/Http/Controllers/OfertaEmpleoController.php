@@ -78,6 +78,16 @@ class OfertaEmpleoController extends Controller
         return view('ofertaEmpleo.Crearencuesta');
     }
     
+    public function getActivar($one){
+        return view('ofertaEmpleo.Activar',['id'=>$one]);
+    }
+    
+      public function getProveedor($id){
+      $establecimiento = Sitio_para_Encuesta::where("proveedor_rnt_id",$id)->first();
+      return ["success" => true, "establecimiento"=> $establecimiento];
+    }
+    
+    
     public function getListadoproveedores(){
         return view('ofertaEmpleo.ListadoProveedores');
     }
@@ -181,6 +191,10 @@ class OfertaEmpleoController extends Controller
             'Mes' => 'required|exists:meses,id',
             'NumeroDias' => 'numeric|min:1|max:31',
             'Comercial' => 'required|numeric|min:0|max:1',
+            'nombre' => 'required|string|min:1|max:255',
+            'cargo' => 'required|string|min:1|max:255',
+            'email'=>'required|email',
+            'Encuestador'=>'required|exists:digitadores,id'
             
         ],[
             'id.required' => 'Tuvo primero que haber creado una encuesta.',
@@ -270,6 +284,10 @@ class OfertaEmpleoController extends Controller
             $ruta = "ofertaempleo/encuesta/".$request->Sitio;
             $encuesta->meses_anio_id = $mesid->id;
             $encuesta->sitios_para_encuestas_id = $request->Sitio;
+            $encuesta->digitador_id = $request->Encuestador;
+            $encuesta->nombre_contacto = $request->nombre;
+            $encuesta->cargo_contacto = $request->cargo;
+            $encuesta->email = $request->email;
             $encuesta->save();
     	   Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
@@ -284,6 +302,10 @@ class OfertaEmpleoController extends Controller
             $encuesta->numero_dias = $request->NumeroDias;
             $encuesta->meses_anio_id = $mesid->id;
             $encuesta->sitios_para_encuestas_id = $request->Sitio;
+            $encuesta->digitador_id = $request->Encuestador;
+            $encuesta->nombre_contacto = $request->nombre;
+            $encuesta->cargo_contacto = $request->cargo;
+            $encuesta->email = $request->email;
             $encuesta->save();
            Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
