@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 use App\Models\EncuestaDinamica\Encuestas_dinamica;
 use App\Models\EncuestaDinamica\Encuestas_idioma;
@@ -28,9 +30,18 @@ use App\Models\EncuestaDinamica\Opciones_sub_preguntas_encuestado;
 use App\Models\EncuestaDinamica\Opciones_sub_preguntas_has_sub_pregunta;
 
 
+
 class EncuestaDinamicaCtrl extends Controller
 {
-    
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     /// listado administrativo de encuestas
     public function getListado(){ 
         return View("/EncuestaDinamica/listado"); 

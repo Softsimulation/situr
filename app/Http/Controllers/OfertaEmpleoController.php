@@ -71,6 +71,12 @@ class OfertaEmpleoController extends Controller
         $this->middleware('oferta', ['only' => ['getEncuesta','getActividadcomercial','getAgenciaviajes','getOfertaagenciaviajes','getCaracterizacionalimentos',
                                     'getCapacidadalimentos','getOfertatransporte','getCaracterizaciontransporte','getAlojamiento',
                                     'getCaracterizacionagenciasoperadoras','getOcupacionagenciasoperadoras','getCaracterizacionalquilervehiculo','getCaracterizacion','getCaracterizacion','getEmpleomensual','getNumeroempleados']]);
+    
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        } 
     }
     
     
@@ -291,7 +297,7 @@ class OfertaEmpleoController extends Controller
             $encuesta->save();
     	   Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
-               'user_id' => 1,
+               'user_id' => $this->user->id,
                'estado_encuesta_id' => 3,
                'fecha_cambio' => Carbon::now()
            ]);
@@ -309,7 +315,7 @@ class OfertaEmpleoController extends Controller
             $encuesta->save();
            Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
-               'user_id' => 1,
+               'user_id' => $this->user->id,
                'estado_encuesta_id' => 1,
                'fecha_cambio' => Carbon::now()
            ]);
@@ -939,7 +945,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     }
     Historial_Encuesta_Oferta::create([
            'encuesta_id' => $request->Encuesta,
-           'user_id' => 1,
+           'user_id' => $this->user->id,
            'estado_encuesta_id' => 2,
            'fecha_cambio' => Carbon::now()
        ]);
@@ -1047,7 +1053,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		
 	  Historial_Encuesta_Oferta::create([
            'encuesta_id' => $request->Encuesta,
-           'user_id' => 1,
+           'user_id' => $this->user->id,
            'estado_encuesta_id' => 3,
            'fecha_cambio' => Carbon::now()
        ]);
@@ -1184,7 +1190,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		
 		        Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
-               'user_id' => 1,
+               'user_id' => $this->user->id,
                'estado_encuesta_id' => 2,
                'fecha_cambio' => Carbon::now()
            ]);
@@ -1361,14 +1367,14 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         if($ventaPlanesTuristicos != 1 && intval($request->Planes) == 0){
             Historial_Encuesta_Oferta::create([
                'encuesta_id' => $request->id, 
-               'user_id' => 1,
+               'user_id' => $this->user->id,
                'estado_encuesta_id' => 7,
                'fecha_cambio' => Carbon::now()
            ]);
         }else{
             Historial_Encuesta_Oferta::create([
                'encuesta_id' => $request->id, 
-               'user_id' => 1,
+               'user_id' => $this->user->id,
                'estado_encuesta_id' => 2,
                'fecha_cambio' => Carbon::now()
            ]);
@@ -1517,7 +1523,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             }
             Historial_Encuesta_Oferta::create([
                'encuesta_id' => $request->id, 
-               'user_id' => 1,
+               'user_id' => $this->user->id,
                'estado_encuesta_id' => 2,
                'fecha_cambio' => Carbon::now()
            ]);
@@ -1647,7 +1653,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $historial->encuesta_id = $encuesta->id;
             $historial->estado_encuesta_id = 2;
             $historial->fecha_cambio = Carbon::now();
-            $historial->user_id = 1;
+            $historial->user_id = $this->user->id;
             
             $historial->save();
             
@@ -1801,7 +1807,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		
 		Historial_Encuesta_Oferta::create([
 	        'encuesta_id' => $encuesta->id,
-	        'user_id' => 1,
+	        'user_id' => $this->user->id,
 	        'estado_encuesta_id' => 2,
 	        'fecha_cambio' => Carbon::now()
 	    ]);
@@ -1961,7 +1967,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		
 		Historial_Encuesta_Oferta::create([
 	        'encuesta_id' => $encuesta->id,
-	        'user_id' => 1,
+	        'user_id' => $this->user->id,
 	        'estado_encuesta_id' => 2,
 	        'fecha_cambio' => Carbon::now()
 	    ]);
@@ -2219,7 +2225,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         
         Historial_Encuesta_Oferta::create([
            'encuesta_id' => $request->encuesta,
-           'user_id' => 1,
+           'user_id' => $this->user->id,
            'estado_encuesta_id' => 2,
            'fecha_cambio' => Carbon::now()
         ]);
@@ -2633,7 +2639,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $historial->encuesta_id = $request->id;
             $historial->estado_encuesta_id = 2;
             $historial->fecha_cambio = Carbon::now();
-            $historial->user_id = 1;
+            $historial->user_id = $this->user->id;
             $historial->save();
             
             $encuesta = Encuesta::find($request->id);
@@ -2801,7 +2807,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $historial->encuesta_id = $request->id;
         $historial->estado_encuesta_id = 2;
         $historial->fecha_cambio = Carbon::now();
-        $historial->user_id = 1;
+        $historial->user_id = $this->user->id;
         $historial->save();
         
         $encuesta = Encuesta::find($request->id);
@@ -2942,7 +2948,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $historial->encuesta_id = $request->id;
         $historial->estado_encuesta_id = 2;
         $historial->fecha_cambio = Carbon::now();
-        $historial->user_id = 1;
+        $historial->user_id = $this->user->id;
         $historial->save();
         
            $encuesta = Encuesta::find($request->id);

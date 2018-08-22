@@ -16,10 +16,20 @@ use App\Models\Multimedia_Actividad;
 use App\Models\Idioma;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdministradorActividadesController extends Controller
 {
-    //
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function getIndex(){
         return view('administradoractividades.Index');
     }
@@ -174,8 +184,8 @@ class AdministradorActividadesController extends Controller
         $actividad->valor_min = $request->valor_minimo;
         $actividad->valor_max = $request->valor_maximo;
         $actividad->estado = true;
-        $actividad->user_create = "Situr";
-        $actividad->user_update = "Situr";
+        $actividad->user_create = $this->user->username;
+        $actividad->user_update = $this->user->username;
         $actividad->created_at = Carbon::now();
         $actividad->updated_at = Carbon::now();
         $actividad->save();
@@ -224,8 +234,8 @@ class AdministradorActividadesController extends Controller
         $multimedia_actividad->tipo = false;
         $multimedia_actividad->portada = true;
         $multimedia_actividad->estado = true;
-        $multimedia_actividad->user_create = "Situr";
-        $multimedia_actividad->user_update = "Situr";
+        $multimedia_actividad->user_create = $this->user->username;
+        $multimedia_actividad->user_update = $this->user->username;
         $multimedia_actividad->created_at = Carbon::now();
         $multimedia_actividad->updated_at = Carbon::now();
         $multimedia_actividad->save();
@@ -249,8 +259,8 @@ class AdministradorActividadesController extends Controller
                 $multimedia_actividad->tipo = false;
                 $multimedia_actividad->portada = false;
                 $multimedia_actividad->estado = true;
-                $multimedia_actividad->user_create = "Situr";
-                $multimedia_actividad->user_update = "Situr";
+                $multimedia_actividad->user_create = $this->user->username;
+                $multimedia_actividad->user_update = $this->user->username;
                 $multimedia_actividad->created_at = Carbon::now();
                 $multimedia_actividad->updated_at = Carbon::now();
                 $multimedia_actividad->save();
