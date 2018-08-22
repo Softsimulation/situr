@@ -71,8 +71,6 @@
     </style>
 @endsection
 
-@section('TitleSection', 'Listado encuestas oferta y empleo')
-
 @section('app','ng-app="proveedoresoferta"')
 
 @section('controller','ng-controller="activar"')
@@ -80,8 +78,6 @@
 @section('content')
 
  <input type="hidden" ng-model="id" ng-init="id=@{{$id}}" />
-
- 
 
  <h1 class="title1">Activar proveedor</h1>
     <br />
@@ -116,15 +112,14 @@
                             </div>
 
                         </div>
+                        
                         <div class="col-xs-12 col-sm-4 col-md-4">
-                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.fundacion.$touched) && (indentificacionForm.fundacion.$error.required || establecimiento.fundacion >= hoy)]">
+                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.fundacion.$touched) && (indentificacionForm.fundacion.$error.required || establecimiento.fundacion > hoy)]">
                                 <label class="control-label" for="fundacion">Fecha de fundación</label> <span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.fundacion.$touched) && indentificacionForm.fundacion.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.fundacion.$touched) && establecimiento.fundacion >= hoy">(La fecha debe ser menor o igual al día de hoy)</span>
                                 <div class="input-group">
-                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="date" class="form-control" name="fundacion" id="fundacion" ng-model="establecimiento.fundacion" ng-required="true"/>
-                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.fundacion.$touched) && (indentificacionForm.fundacion.$error.required || establecimiento.fundacion >= hoy)"></span>
+                                    <input type="number" class="form-control" name="fundacion" min="1" id="ano_fundacion" ng-model="establecimiento.ano_fundacion" placeholder="Solo números"/>
+                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.extension.$touched) && (indentificacionForm.extension.$error.number || indentificacionForm.extension.$error.valid)"></span>
                                 </div>
-
                             </div>
 
                         </div>
@@ -137,7 +132,7 @@
                                 <label class="control-label" for="nombre">Nombre del contacto</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.nombre.length > 0">@{{establecimiento.nombre.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.nombre.$touched) && indentificacionForm.nombre.$error.required">(El campo es obligatorio)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="establecimiento.nombre" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="establecimiento.nombre_contacto" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.nombre.$touched) && indentificacionForm.nombre.$error.required "></span>
                                 </div>
 
@@ -149,7 +144,7 @@
                                 <label class="control-label" for="cargo">Cargo</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.cargo.length > 0">@{{establecimiento.cargo.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required">(El campo es obligatorio)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="establecimiento.cargo" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="establecimiento.cargo_contacto" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required "></span>
                                 </div>
 
@@ -164,7 +159,7 @@
                                 <label class="control-label" for="telefono">Teléfono fijo</label> <span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && indentificacionForm.telefono.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && indentificacionForm.telefono.$error.pattern">(Formato no válido)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="telefono" id="telefono" ng-model="establecimiento.telefono" pattern="([0-9])+|[+]([0-9])+" maxlength="255" ng-required="true" placeholder="Caracteres válidos: + 0-9. Ej: +57 4300000" />
+                                    <input type="text" class="form-control" name="telefono" id="telefono" ng-model="establecimiento.telefono_fijo" pattern="([0-9])+|[+]([0-9])+" maxlength="255" ng-required="true" placeholder="Caracteres válidos: + 0-9. Ej: +57 4300000" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && (indentificacionForm.telefono.$error.required || indentificacionForm.telefono.$error.pattern)"></span>
                                 </div>
 
@@ -203,10 +198,10 @@
                                 <label for="comercio" class="col-xs-12 col-md-8 control-label">¿Tiene usted registro en la cámara de comercio? </label>
                                 <div class="col-xs-12 col-md-4">
                                     <label class="radio-inline">
-                                        <input type="radio" name="comercio" ng-model="establecimiento.comercio" ng-required="true" value="1" /> Si
+                                        <input type="radio" name="comercio" ng-model="establecimiento.camara_comercio" ng-required="true" value="1" /> Si
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="comercio" ng-model="establecimiento.comercio" ng-required="true" value="0" /> No
+                                        <input type="radio" name="comercio" ng-model="establecimiento.camara_comercio" ng-required="true" value="0" /> No
                                     </label>
                                     <span ng-show="indentificacionForm.$submitted || indentificacionForm.comercio.$touched">
                                         <span class="label label-danger" ng-show="indentificacionForm.comercio.$error.required">* El campo es requerido</span>
@@ -214,15 +209,16 @@
                                 </span>
                             </div>
                         </div>
+                       
                         <div class="col-xs-12 col-sm-12 col-md-6">
                             <div class="form-group">
                                 <label for="registro" class="col-xs-12 col-md-8 control-label">¿Tiene usted registro nacional de turismo- RNT? </label>
                                 <div class="col-xs-12 col-md-4">
                                     <label class="radio-inline">
-                                        <input type="radio" name="registro" ng-model="establecimiento.registro" ng-required="true" value="1" /> Si
+                                        <input type="radio" name="registro" ng-model="establecimiento.registro_turismo" ng-required="true" value="1" /> Si
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="registro" ng-model="establecimiento.registro" ng-required="true" value="0" /> No
+                                        <input type="radio" name="registro" ng-model="establecimiento.registro_turismo" ng-required="true" value="0" /> No
                                     </label>
                                     <span ng-show="indentificacionForm.$submitted || indentificacionForm.registro.$touched">
                                         <span class="label label-danger" ng-show="indentificacionForm.registro.$error.required">* El campo es requerido</span>

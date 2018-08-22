@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use App\Models\Empleo;
 use App\Models\Encuesta;
+use App\Models\Digitador;
 use App\Models\Vacante;
 use App\Models\Empleado_Vinculacion;
 use App\Models\Edad_Empleado;
@@ -82,6 +83,16 @@ class OfertaEmpleoController extends Controller
     public function getCrearencuesta(){
         return view('ofertaEmpleo.Crearencuesta');
     }
+    
+    public function getActivar($one){
+        return view('ofertaEmpleo.Activar',['id'=>$one]);
+    }
+    
+      public function getProveedor($id){
+      $establecimiento = Sitio_para_Encuesta::where("proveedor_rnt_id",$id)->first();
+      return ["success" => true, "establecimiento"=> $establecimiento];
+    }
+    
     
     public function getListadoproveedores(){
         return view('ofertaEmpleo.ListadoProveedores');
@@ -173,8 +184,8 @@ class OfertaEmpleoController extends Controller
     }
     
     public function getActividadcomercial($mes,$anio,$id){
-        
-             return view('ofertaEmpleo.ActividadComercial',array("Id"=>$mes,"Anio"=>$anio,'Sitio'=>$id));
+              $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
+             return view('ofertaEmpleo.ActividadComercial',array("Id"=>$mes,"Anio"=>$anio,'Sitio'=>$id, "Encuestadores"=>$encuestadores));
     }
     
     public function postGuardaractividadcomercial(Request $request)
@@ -186,6 +197,10 @@ class OfertaEmpleoController extends Controller
             'Mes' => 'required|exists:meses,id',
             'NumeroDias' => 'numeric|min:1|max:31',
             'Comercial' => 'required|numeric|min:0|max:1',
+            'nombre' => 'required|string|min:1|max:255',
+            'cargo' => 'required|string|min:1|max:255',
+            'email'=>'required|email',
+            'Encuestador'=>'required|exists:digitadores,id'
             
         ],[
             'id.required' => 'Tuvo primero que haber creado una encuesta.',
@@ -256,7 +271,7 @@ class OfertaEmpleoController extends Controller
             $anio = Anio::where("anio",$request->Anio)->first();
             if($anio == null){
                 $anio = new Anio();
-                $anio = $request->Anio;
+                $anio->anio = $request->Anio;
                 $anio->save();
             }
             $mesid->mes_id = $request->Mes;
@@ -275,6 +290,10 @@ class OfertaEmpleoController extends Controller
             $ruta = "ofertaempleo/encuesta/".$request->Sitio;
             $encuesta->meses_anio_id = $mesid->id;
             $encuesta->sitios_para_encuestas_id = $request->Sitio;
+            $encuesta->digitador_id = $request->Encuestador;
+            $encuesta->nombre_contacto = $request->nombre;
+            $encuesta->cargo_contacto = $request->cargo;
+            $encuesta->email = $request->email;
             $encuesta->save();
     	   Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
@@ -289,6 +308,10 @@ class OfertaEmpleoController extends Controller
             $encuesta->numero_dias = $request->NumeroDias;
             $encuesta->meses_anio_id = $mesid->id;
             $encuesta->sitios_para_encuestas_id = $request->Sitio;
+            $encuesta->digitador_id = $request->Encuestador;
+            $encuesta->nombre_contacto = $request->nombre;
+            $encuesta->cargo_contacto = $request->cargo;
+            $encuesta->email = $request->email;
             $encuesta->save();
            Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
@@ -500,7 +523,8 @@ class OfertaEmpleoController extends Controller
     {
             $empleo = collect();
     
-        
+            $empleo["Hubo_capacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("hubo_capacitacion")->first();
+            $empleo["TemaCapacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("temas")->first();
             $empleo["capacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("realiza_proceso")->first();
             $empleo["tematicas"] = Tematica_Capacitacion::where("encuesta_id",$id)->get();
             $empleo["lineasadmin"] = Capacitacion_Empleo::join("tematicas_aplicadas_encuestas",'capacitaciones_empleo.encuesta_id','=','tematicas_aplicadas_encuestas.encuesta_id')->join("lineas_tematicas","id","=","linea_tematica_id")->where("capacitaciones_empleo.encuesta_id",$id)->where("tipo_nivel",true)->pluck("linea_tematica_id as id")->toArray();
@@ -933,6 +957,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     public function postGuardarempcaracterizacion(Request $request){
         $validator = \Validator::make($request->all(), [
   	         'Encuesta' => 'required|exists:encuestas,id',
+  	         'Hubo_capacitacion' => 'required|min:0|max:1',
   	         'capacitacion' => 'required|min:0|max:1',
   	         'autorizacion' => 'required|min:0|max:1',
   	         'esta_acuerdo' => 'required|min:0|max:1',
@@ -957,7 +982,15 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
     	    
     		     }
     	     }
-	
+	        
+ 		  if($request->Hubo_capacitacion == 1 ){
+    		     if($request->TemaCapacitacion == null ){
+    	                return ["success" => false, "errores" => [["Es requerido los temas."]] ];    
+    	    
+    		     }
+    	     }else{
+    	         $request->TemaCapacitacion = null;
+    	     }
 	         
               $capacitacion = Capacitacion_Empleo::where("encuesta_id", $request->Encuesta)->first();
 
@@ -966,13 +999,15 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                    $capacitacion = new Capacitacion_Empleo();
                     $capacitacion->encuesta_id = $request->Encuesta;
                     $capacitacion->realiza_proceso = $request->capacitacion;
-                
+                    $capacitacion->hubo_capacitacion = $request->Hubo_capacitacion;
+                    $capacitacion->temas = $request->TemaCapacitacion;
                     $capacitacion->save();
                 }
                 else
                 {
                     $capacitacion->realiza_proceso = $request->capacitacion;
-        
+                    $capacitacion->hubo_capacitacion = $request->Hubo_capacitacion;
+                    $capacitacion->temas = $request->TemaCapacitacion;
                     $capacitacion->save();
                 }
 
