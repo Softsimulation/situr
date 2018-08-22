@@ -101,3 +101,4 @@ Route::controller('/importarRnt','ImportacionRntController');
 Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
 
 Route::controller('/sostenibilidadhogares','SostenibilidadHogaresController');
+Route::controller('/login','LoginController');
