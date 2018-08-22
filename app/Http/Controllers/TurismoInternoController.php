@@ -83,7 +83,10 @@ use App\Models\ViajesTransporte;
 use App\Models\ViajeMedioTransporte;
 
 
-
+use App\Models\Porcentajes_servicios_paquete_viaje;
+use App\Models\Porcentaje_rubros_internos_viaje;
+use App\Models\Viaje_terrestre;
+use App\Models\Tipo_Proveedor_Paquete;
 
 use App\Models\Ocupacion;
 use App\Models\OcupacionPersona;
