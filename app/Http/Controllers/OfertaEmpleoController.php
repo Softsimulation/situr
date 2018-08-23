@@ -59,7 +59,11 @@ use App\Models\Anio;
 use App\Models\Mes_Anio;
 use App\Models\Sitio_Para_Encuesta;
 use App\Models\Medio_Actualizacion;
+<<<<<<< HEAD
+use App\Models\Proveedores_rnt;
+=======
 use App\Models\User;
+>>>>>>> 14f691dc4a7b045d250492d2a29f35ddf720305b
 
 
 class OfertaEmpleoController extends Controller
@@ -90,14 +94,85 @@ class OfertaEmpleoController extends Controller
     }
     
       public function getProveedor($id){
-      $establecimiento = Sitio_para_Encuesta::where("proveedor_rnt_id",$id)->first();
+      $establecimiento = Sitio_Para_Encuesta::where("proveedor_rnt_id",$id)->first();
       return ["success" => true, "establecimiento"=> $establecimiento];
     }
+    
+     public function postGuardaractivar(Request $request)
+    {
+    
+        
+        $validator = \Validator::make($request->all(),[
+        
+            'proveedor_rnt_id' => 'required|exists:proveedores_rnt,id',
+            'nombre_contacto' => 'required|string|min:1|max:255',
+            'cargo_contacto' => 'required|string|min:1|max:255',
+            'email'=>'required|email',
+            'telefono_fijo' => 'required|string|min:1|max:255',
+            'celular' => 'required|string|min:1|max:255',
+            'camara_comercio' => 'required|numeric|min:0|max:1',
+            'registro_turismo' => 'required|numeric|min:0|max:1',
+          
+            
+        ],[
+           
+            ]
+        );
+        if($validator->fails()){
+            return ["success"=>false,"errores"=>$validator->errors()];
+        }
+        
+    
+        $data = Sitio_Para_Encuesta::where("proveedor_rnt_id",$request->proveedor_rnt_id)->first();
+        
+        if($data == null){
+            $data = new Sitio_Para_Encuesta();
+            $data->proveedor_rnt_id = $request->proveedor_rnt_id ;
+            $data->nombre_contacto = $request->nombre_contacto ;
+            $data->cargo_contacto = $request->cargo_contacto ;
+            $data->email = $request->email ;
+            $data->celular = $request->celular ;
+            $data->telefono_fijo = $request->telefono_fijo ;
+            $data->camara_comercio = $request->camara_comercio ;
+            $data->registro_turismo = $request->registro_turismo ;
+            $data->ano_fundacion = $request->ano_fundacion ;
+            $data->extension = $request->extension;
+            $data->user_id = 1;
+            $data->es_verificado = true;
+            $data->save();
+        }else{
+            $data->nombre_contacto = $request->nombre_contacto ;
+            $data->cargo_contacto = $request->cargo_contacto ;
+            $data->email = $request->email ;
+            $data->celular = $request->celular ;
+            $data->telefono_fijo = $request->telefono_fijo ;
+            $data->camara_comercio = $request->camara_comercio ;
+            $data->registro_turismo = $request->registro_turismo ;
+            $data->ano_fundacion = $request->ano_fundacion ;
+            $data->extension = $request->extension ;
+            $data->save();
+        }
+       
+       
+       return ["success"=>true];
+            
+    }
+    
     
     
     public function getListadoproveedores(){
         return view('ofertaEmpleo.ListadoProveedores');
     }
+    
+   public function getListadoproveedoresrnt(){
+        return view('ofertaEmpleo.ListadoProveedoresRnt');
+    }
+    
+     public function getListadornt(){
+     $provedores = new Collection(DB::select("SELECT *from listado_proveedores_rnt"));
+      return ["success" => true, "proveedores"=> $provedores];
+    }
+    
     
     public function getListado(){
       $provedores = new Collection(DB::select("SELECT *from listado_sitios_para_encuestas"));
@@ -255,11 +330,9 @@ class OfertaEmpleoController extends Controller
         ->where("anios.anio", $request->Anio)
         ->first();
      
-        if($encuesta != null){
+       if($encuesta != null){
             return ["success" => false, "errores" => [["Ya existe una encuesta creada."]] ];
         }
-  
-  
         
        $mesid = Mes_Anio::join("anios","meses_de_anio.anio_id","=","anios.id")
         ->where("meses_de_anio.mes_id", $request->Mes)
@@ -296,6 +369,10 @@ class OfertaEmpleoController extends Controller
             $encuesta->cargo_contacto = $request->cargo;
             $encuesta->email = $request->email;
             $encuesta->save();
+            $retornadoProcedimiento = \DB::select("SELECT codigo_encuesta_oferta(?)", array($encuesta->id));
+            $encuesta->codigo_encuesta =  $retornadoProcedimiento[0]->codigo_encuesta_oferta;
+            $encuesta->save();
+       
     	   Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
                'user_id' => $this->user->id,
@@ -313,6 +390,9 @@ class OfertaEmpleoController extends Controller
             $encuesta->nombre_contacto = $request->nombre;
             $encuesta->cargo_contacto = $request->cargo;
             $encuesta->email = $request->email;
+            $encuesta->save();
+            $retornadoProcedimiento = \DB::select("SELECT codigo_encuesta_oferta(?)", array($encuesta->id));
+            $encuesta->codigo_encuesta =  $retornadoProcedimiento[0]->codigo_encuesta_oferta;
             $encuesta->save();
            Historial_Encuesta_Oferta::create([
                'encuesta_id' => $encuesta->id,
