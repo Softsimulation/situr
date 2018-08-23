@@ -59,6 +59,7 @@ use App\Models\Anio;
 use App\Models\Mes_Anio;
 use App\Models\Sitio_Para_Encuesta;
 use App\Models\Medio_Actualizacion;
+use App\Models\User;
 
 
 class OfertaEmpleoController extends Controller
@@ -74,8 +75,8 @@ class OfertaEmpleoController extends Controller
     
         $this->middleware('auth');
         $this->middleware('role:Admin');
-        if(Auth::user() != null){
-            $this->user = User::where('id',Auth::user()->id)->first(); 
+        if(\Auth::user() != null){
+            $this->user = User::where('id',\Auth::user()->id)->first(); 
         } 
     }
     
