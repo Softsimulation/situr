@@ -155,7 +155,7 @@
                             <th style="width: 150px;">Estado carga</th>
                             <th style="width: 70px;"></th>
                         </tr>
-                        <tr dir-paginate="item in nuevos|filter:prop.search|itemsPerPage:10 as results" pagination-id="paginacion_nuevos" >
+                        <tr dir-paginate="item in nuevos |filter:prop.search|itemsPerPage:10 as results" pagination-id="paginacion_nuevos" >
                             <td>@{{$index+1}}</td>
                             <td>@{{item.numero_rnt}}</td>
                             <td>@{{item.nombre_comercial}}</td>
