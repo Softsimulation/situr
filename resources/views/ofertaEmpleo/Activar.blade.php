@@ -1,12 +1,12 @@
 
 @extends('layout._AdminLayout')
 
-@section('title', 'Encuestas oferta y empleo')
+@section('title', 'Activar proveedor')
 
 @section('estilos')
       <style>
         .title-section {
-            background-color: #4caf50 !important;
+            background-color: #1974cc;!important;
         }
 
         .carga {
@@ -71,15 +71,17 @@
     </style>
 @endsection
 
+@section('TitleSection', 'Activar proveedor')
+
 @section('app','ng-app="proveedoresoferta"')
 
-@section('controller','ng-controller="activar"')
+@section('controller','ng-controller="activarController"')
 
 @section('content')
 
- <input type="hidden" ng-model="id" ng-init="id=@{{$id}}" />
+ <input type="hidden" ng-model="id" ng-init="id = {{$id}}" />
 
- <h1 class="title1">Activar proveedor</h1>
+
     <br />
    
     <div class="alert alert-danger" ng-if="errores != null">
@@ -234,7 +236,7 @@
             </div>
 
             <div class="row" style="text-align:center">
-                <input type="submit" class="btn btn-raised btn-success" ng-click="guardar()" />
+                <input type="submit" class="btn btn-raised btn-success" value="Guardar" ng-click="guardar()" />
             </div>
         </form>
 
@@ -249,11 +251,11 @@
 
 
 @section('javascript')
-<script src="@{{asset('/js/dir-pagination.js')}}"></script>
-<script src="@{{asset('/js/plugins/checklist-model.js')}}"></script>
-<script src="@{{asset('/js/plugins/angular-sanitize.js')}}" type="text/javascript"></script>
-<script src="@{{asset('/js/plugins/select.min.js')}}" type="text/javascript"></script>
-<script src="@{{asset('/js/encuestas/ofertaempleo/proveedoresapp.js')}}"></script>
-<script src="@{{asset('/js/encuestas/ofertaempleo/servicesproveedor.js')}}"></script>
+<script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/plugins/checklist-model.js')}}"></script>
+<script src="{{asset('/js/plugins/angular-sanitize.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/plugins/select.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('/js/encuestas/ofertaempleo/proveedoresapp.js')}}"></script>
+<script src="{{asset('/js/encuestas/ofertaempleo/servicesproveedor.js')}}"></script>
         
 @endsection

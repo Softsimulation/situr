@@ -290,6 +290,9 @@
 										  <li id="menu-academico" ><a href="{{asset('exportacion')}}"> <span>Exportación</span></a>
 											
 										 </li>
+										 	 <li id="menu-academico" ><a href="{{asset('ofertaempleo/listadoproveedoresrnt')}}"> <span> Listado proveedores rnt</span></span></a>
+										  
+										</li>
 								
 									<li id="menu-academico" ><a href="#"> <span>Administrar paises</span> </span></a>
 										  <ul id="menu-academico-sub" >

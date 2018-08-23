@@ -93,7 +93,7 @@
 
 @section('app','ng-app="proveedoresoferta"')
 
-@section('controller','ng-controller="listado"')
+@section('controller','ng-controller="listadoRnt"')
 
 @section('content')
 
@@ -128,8 +128,7 @@
                             <th>Nombre comercial</th>
                             <th>Categoría</th>
                             <th>Tipo</th>
-                            <th>Contacto</th>
-  
+                  
                             <th style="width: 70px;"></th>
                         </tr>
                         </thead>
@@ -137,15 +136,12 @@
                         <tr dir-paginate="item in proveedores|filter:prop.searchAntiguo|itemsPerPage:10 as results" pagination-id="paginacion_antiguos" >
                                 <td>@{{$index+1}}</td>
                                 <td>@{{item.rnt}}</td>
-                                <td>@{{item.razon_social}}</td>
+                                <td>@{{item.nombre}}</td>
                                 <td>@{{item.subcategoria}}</td>
                                 <td>@{{item.categoria}}</td>
-                                <td>@{{item.email}}</td>
-                      
+                    
                                 <td style="text-align: center;">
-                                <a href="/ofertaempleo/encuesta/@{{item.id}}" class="btn btn-raised btn-default btn-sm" title="Encuesta sin realizar" ><span class = "glyphicon glyphicon-th-list"></span></a>
-                                <a href="/ofertaempleo/encuestas/@{{item.id}}" class="btn btn-raised btn-default btn-sm" title="Encuesta realizadas" style="margin: 0;"><i class="material-icons">assignment</i></a>
-                                <a  href="/ofertaempleo/activar/@{{item.proveedor_rnt_id}}" class="btn btn-default btn-sm" title="Editar" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                  <a  href="/ofertaempleo/activar/@{{item.id}}" class="btn btn-default btn-sm" title="Editar" ><span class="glyphicon glyphicon-pencil"></span></a>
                                 </td>
                             </tr>
                          </tbody>
