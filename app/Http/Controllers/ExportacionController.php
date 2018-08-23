@@ -7,10 +7,20 @@ use App\Jobs\Exportarturismoreceptor;
 use App\Http\Requests;
 use App\Models\Exportacion;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ExportacionController extends Controller
 {
-  
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     
     public function getIndex(){
         
@@ -51,7 +61,7 @@ class ExportacionController extends Controller
         $exportacion->fecha_inicio=$fecha_inicial;
         $exportacion->fecha_fin=$fecha_final;
         $exportacion->estado=1;
-        $exportacion->usuario_realizado="Exportacion";
+        $exportacion->usuario_realizado=$this->user->username;
         $exportacion->hora_comienzo=\Carbon\Carbon::now()->format('h:i:s');
         $exportacion->save();
         
@@ -102,7 +112,7 @@ class ExportacionController extends Controller
         $exportacion->fecha_inicio=$fecha_inicial;
         $exportacion->fecha_fin=$fecha_final;
         $exportacion->estado=1;
-        $exportacion->usuario_realizado="Exportacion";
+        $exportacion->usuario_realizado=$this->user->username;
         $exportacion->hora_comienzo=\Carbon\Carbon::now()->format('h:i:s');
         $exportacion->save();
         

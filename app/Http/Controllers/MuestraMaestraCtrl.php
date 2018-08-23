@@ -14,11 +14,21 @@ use App\Models\Tipo_Proveedor;
 use App\Models\Categoria_Proveedor_Con_Idioma;
 
 use Excel;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 
 class MuestraMaestraCtrl extends Controller
 {
-    
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function getIndex(){
         return View("MuestraMaestra.index");
     }
