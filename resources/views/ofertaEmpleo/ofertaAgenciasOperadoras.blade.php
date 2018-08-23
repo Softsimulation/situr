@@ -107,10 +107,10 @@
                         <span class="label label-danger" ng-show="ocupacionForm.totalP.$error.min">* El campo número total de personas recibe solo números iguales o mayores que 0.</span>
                     </span>
                     <span ng-show="ocupacionForm.$submitted || ocupacionForm.porcentajeC.$touched">
-                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.required">* El campo porcentaje prestado a residentes Colombianos exluyendo magdalenenses es requerido.</span>
-                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.number">* El campo porcentaje prestado a residentes Colombianos exluyendo magdalenenses debe ser solo números.</span>
-                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.min">* El campo porcentaje prestado a residentes Colombianos exluyendo magdalenenses recibe solo números iguales o mayores que 0.</span>
-                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.max">* El campo porcentaje prestado a residentes Colombianos exluyendo magdalenenses recibe solo números iguales o mayores que 0 y menores o iguales que 100.</span>
+                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.required">* El campo porcentaje prestado a residentes Colombianos exluyendo atlanticenses es requerido.</span>
+                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.number">* El campo porcentaje prestado a residentes Colombianos exluyendo atlanticenses debe ser solo números.</span>
+                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.min">* El campo porcentaje prestado a residentes Colombianos exluyendo atlanticenses recibe solo números iguales o mayores que 0.</span>
+                        <span class="label label-danger" ng-show="ocupacionForm.porcentajeC.$error.max">* El campo porcentaje prestado a residentes Colombianos exluyendo atlanticenses recibe solo números iguales o mayores que 0 y menores o iguales que 100.</span>
                     </span>
                     <span ng-show="ocupacionForm.$submitted || ocupacionForm.porcentajeE.$touched">
                         <span class="label label-danger" ng-show="ocupacionForm.porcentajeE.$error.required">* El campo porcentaje prestado a residentes en el extranjero es requerido.</span>
