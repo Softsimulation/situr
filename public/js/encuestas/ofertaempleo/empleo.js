@@ -22,6 +22,7 @@ angular.module('empleo.Empleo', [])
     });
 
 
+    
 
     $scope.cargo = function(tipo){
         if($scope.empleo.Sexo){
@@ -260,6 +261,20 @@ angular.module('empleo.Empleo', [])
         return obj;
 
         }        
+    }
+
+    $scope.promedio = function(){
+        
+        if( $scope.remuneracion(1,1) == null){
+            return 0;
+        }
+        var valor =  ($scope.remuneracion(1,1).valor*$scope.cargo(1).hombres) + ($scope.remuneracion(1,0).valor*$scope.cargo(1).mujeres) + ($scope.remuneracion(2,1).valor*$scope.cargo(2).hombres) + ($scope.remuneracion(2,0).valor*$scope.cargo(2).mujeres) + ($scope.remuneracion(3,1).valor*$scope.cargo(3).hombres) + ($scope.remuneracion(3,0).valor*$scope.cargo(3).mujeres) ; 
+        
+        var valor2 =  ( $scope.cargo(1).mujeres + $scope.cargo(1).hombres + $scope.cargo(2).mujeres + $scope.cargo(2).hombres + $scope.cargo(3).mujeres + $scope.cargo(3).hombres)
+        if (valor2 != 0){ 
+        return valor / valor2
+        }
+        return 0
     }
 
     $scope.validacion = function(){

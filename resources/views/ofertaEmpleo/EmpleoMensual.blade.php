@@ -211,7 +211,7 @@
                                                 </span>
                                             </td>
                                             
-                                            <td style="text-align: right"><strong></strong></td>
+                                            <td style="text-align: right">@{{cargo(1).mujeres + cargo(1).hombres + cargo(2).mujeres + cargo(2).hombres + cargo(3).mujeres + cargo(3).hombres }}</td>
                                         </tr>
                                     <tr>
                                             <td colspan="3"  rowspan="5" >
@@ -516,7 +516,8 @@
                                         <td>@{{totalfila(empleo.Edad,2,0)}} </td>
                                         <td>@{{totalfila(empleo.Edad,3,1)}} </td>
                                         <td>@{{totalfila(empleo.Edad,3,0)}} </td>
-                                        <td> </td>
+                                        <td style="text-align: right">@{{totalfila(empleo.Edad,1,1) + totalfila(empleo.Edad,1,0) + totalfila(empleo.Edad,2,1) +totalfila(empleo.Edad,2,0) + totalfila(empleo.Edad,3,1) + totalfila(empleo.Edad,3,0) }} </td>
+        
                                     </tr>
                                     
                                     <tr>
@@ -875,7 +876,7 @@
                                         <td>@{{totalfila(empleo.Educacion,2,0)}} </td>
                                         <td>@{{totalfila(empleo.Educacion,3,1)}} </td>
                                         <td>@{{totalfila(empleo.Educacion,3,0)}} </td>
-                                        <td> </td>
+                                        <td style="text-align: right">@{{ totalfila(empleo.Educacion,1,1) + totalfila(empleo.Educacion,1,0) + totalfila(empleo.Educacion,2,1) +totalfila(empleo.Educacion,2,0) + totalfila(empleo.Educacion,3,1) + totalfila(empleo.Educacion,3,0) }} </td>
                                     </tr>
                                     
                                     
@@ -1350,7 +1351,8 @@
                                         <td>@{{totalfila(empleo.Vinculacion,2,0)}} </td>
                                         <td>@{{totalfila(empleo.Vinculacion,3,1)}} </td>
                                         <td>@{{totalfila(empleo.Vinculacion,3,0)}} </td>
-                                        <td> </td>
+                                        <td style="text-align: right">@{{totalfila(empleo.Vinculacion,1,1) + totalfila(empleo.Vinculacion,1,0) + totalfila(empleo.Vinculacion,2,1) +totalfila(empleo.Vinculacion,2,0) + totalfila(empleo.Vinculacion,3,1) + totalfila(empleo.Vinculacion,3,0) }} </td>
+        
                                     </tr>
                                     
                                     
@@ -1480,7 +1482,8 @@
                                         <td>@{{totalfila(empleo.Empleo,2,0)}} </td>
                                         <td>@{{totalfila(empleo.Empleo,3,1)}} </td>
                                         <td>@{{totalfila(empleo.Empleo,3,0)}} </td>
-                                        <td> </td>
+                                        <td style="text-align: right">@{{totalfila(empleo.Empleo,1,1) + totalfila(empleo.Empleo,1,0) + totalfila(empleo.Empleo,2,1) +totalfila(empleo.Empleo,2,0) + totalfila(empleo.Empleo,3,1) + totalfila(empleo.Empleo,3,0) }} </td>
+        
                                     </tr>
                                         <tr>
                                         
@@ -1539,7 +1542,7 @@
                                             </span>
                                         </td>
                                             
-                                            <td style="text-align: right"><strong></strong></td>
+                                            <td style="text-align: right">@{{promedio()}}</td>
                                         </tr>
                                     
                                     
@@ -1557,7 +1560,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Número de vacantes </b></h3>
                 </div>
-                <div class="panel-footer"><b>@Resource.EncuestaMsgCompleteInformacion</b></div>
+                <div class="panel-footer"><b>¿En el mes cuantas vacantes se generaron por cada nivel?</b></div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
@@ -1611,7 +1614,7 @@
          <div class="razonVacantes">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Número de vacantes </b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Razón de vacantes </b></h3>
                 </div>
                 <div class="panel-footer"><b>De las vacantes mencionadas anteriormente, cuantas fueron por la siguiente razón</b></div>
                 <div class="panel-body">

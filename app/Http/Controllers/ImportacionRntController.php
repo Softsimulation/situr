@@ -93,7 +93,7 @@ class ImportacionRntController extends Controller
 		
 		$estadosProveedor = Estado_proveedor::select(\DB::raw('upper(nombre) as nombre, id'))->get();
 		$subCategorias = Categoria_Proveedor_Con_Idioma::where('idiomas_id',1)->select(\DB::raw('upper(nombre) as nombre, categoria_proveedores_id as id'))->get();
-		$municipios = Municipio::where('departamento_id',1411)->select(\DB::raw('upper(nombre) as nombre, id'))->get();
+		$municipios = Municipio::where('departamento_id',1396)->select(\DB::raw('upper(nombre) as nombre, id'))->get();
 		
  		$nuevos_retornar = array();
 		foreach($nuevos as $registro){
@@ -106,6 +106,7 @@ class ImportacionRntController extends Controller
 		    })->first();
 		    
 		    $registro['es_correcto'] = $validar['success'] ? 1 : 0;
+		    $registro['estado_carga'] = $validar['success'] ? 'Correcto' : 'Incorrecto';
 		    $registro['campos'] = $validar['campos'];
 		    
 		    if($validar['success'] && !$similar){
@@ -196,8 +197,8 @@ class ImportacionRntController extends Controller
 			'telefono' => 'required|max:255',
 			'celular' => 'required|max:255',
 			'correo' => 'required|max:455',
-			'latitud' => 'required',
-			'longitud' => 'required',
+			//'latitud' => 'required',
+			//'longitud' => 'required',
 			'nit' => 'max:150',
 			'nombre_gerente' => 'max:250',
 			'sostenibilidad_rnt' => 'max:50',
@@ -336,8 +337,8 @@ class ImportacionRntController extends Controller
 			'telefono' => 'required|max:255',
 			'celular' => 'required|max:255',
 			'correo' => 'required|max:455',
-			'latitud' => 'required',
-			'longitud' => 'required',
+			//'latitud' => 'required',
+			//'longitud' => 'required',
 			'nit' => 'required|max:150',
 			'nombre_gerente' => 'required|max:250',
 			'sostenibilidad_rnt' => 'required|max:50',
@@ -449,8 +450,8 @@ class ImportacionRntController extends Controller
 			'telefono' => 'required|max:255',
 			'celular' => 'required|max:255',
 			'correo' => 'required|max:455',
-			'latitud' => 'required',
-			'longitud' => 'required',
+			//'latitud' => 'required',
+			//'longitud' => 'required',
 			'nit' => 'max:150',
 			'nombre_gerente' => 'max:250',
 			'sostenibilidad_rnt' => 'max:50',
@@ -702,17 +703,17 @@ class ImportacionRntController extends Controller
             $campos .= "Correo Electronico requerido";
         }
         
-        if($registro["latitud"] == null || $registro["latitud"] == ""){
-            $sw = 1;
-            if(strlen($campos)>0){$campos .= ", ";}
-            $campos .= "Latitud requerido";
-        }
+        // if($registro["latitud"] == null || $registro["latitud"] == ""){
+        //     $sw = 1;
+        //     if(strlen($campos)>0){$campos .= ", ";}
+        //     $campos .= "Latitud requerido";
+        // }
         
-        if($registro["longitud"] == null || $registro["longitud"] == ""){
-            $sw = 1;
-            if(strlen($campos)>0){$campos .= ", ";}
-            $campos .= "Longitud requerido";
-        }
+        // if($registro["longitud"] == null || $registro["longitud"] == ""){
+        //     $sw = 1;
+        //     if(strlen($campos)>0){$campos .= ", ";}
+        //     $campos .= "Longitud requerido";
+        // }
         
         $campos .= ".";
         if($sw == 1){

@@ -122,10 +122,57 @@
 
     <form role="form" name="empleoForm" novalidate>
 
-        <div class="capEmpleo">
+       <div class="capEmpleoCac">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Necesidades de capacitación: ¿Hubo cargos que requerían capacitación?</b></h3>
+                </div>
+                <div class="panel-footer"><b>Seleccione una opción</b></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="radio radio-primary">
+                                <label>
+                                    <input type="radio" id="SiCapacitacionh" value="1" name="opt1h" ng-model="empleo.Hubo_capacitacion" ng-required="true">
+                                    Si
+                                </label>
+                            </div>
+                            <div class="radio radio-primary">
+                                <label>
+                                    <input type="radio" id="NoCapacitacionh" value="0" name="opt1h" ng-model="empleo.Hubo_capacitacion" ng-required="true">
+                                    No
+                                </label>
+                            </div>
+                            <span ng-show="empleoForm.$submitted || empleoForm.opt1h.$touched">
+                                <span class="label label-danger" ng-show="empleoForm.opt1h.$error.required">* El campo es requerido.</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-success" ng-if="empleo.Hubo_capacitacion == 1">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> ¿En cuáles temas realizó la capacitación?</b></h3>
+                </div>
+                <div class="panel-footer"><b></b></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="text" name="temaCapacitacionh" ng-minlength="1" ng-maxlength="150" class="form-control" ng-model="empleo.TemaCapacitacion" placeholder="Ingrese los temas que realizó capacitación a sus empleados" ng-required="empl.Capacitacion==1"/>
+                        </div>
+                    </div>
+                    <span ng-show="empleoForm.$submitted || empleoForm.temaCapacitacionh.$touched">
+                        <span class="label label-danger" ng-show="empleoForm.temaCapacitacionh.$error.required">* El campo es requerido.</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+       <div class="capEmpleo">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> ¿Ha realizado procesos de capacitación en su empresa?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Seleccione una opción</b></div>
                 <div class="panel-body">
@@ -217,14 +264,12 @@
                         </div>
         </div>
         
- 
-       
-       
        <div>
             <div class="panel panel-success">
             <div class="panel-heading">
          
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>.Dando cumplimiento a la ley de Protección de datos Personales le solicito su autorización para que SITUR Magdalena pueda contactarlo nuevamente en caso de ser necesario ¿Está usted de acuerdo? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>.Dando cumplimiento a la ley de Protección de datos Personales le solicito su autorización para que SITUR
+ATLÁTNICO pueda contactarlo nuevamente en caso de ser necesario ¿Está usted de acuerdo? </b></h3>
             </div>
             <div class="panel-footer"><b>si o no </b></div>
             <div class="panel-body">
@@ -251,12 +296,13 @@
             </div>
         </div>
         </div>
-
+        
        <div>
             <div class="panel panel-success">
             <div class="panel-heading">
          
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>D8 Ya para terminar, le solicito su autorización para que SITUR Magdalena comparta sus respuestas con las entidades que contrataron el proyecto si o no </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>D8 Ya para terminar, le solicito su autorización para que SITUR
+ATLÁTNICO comparta sus respuestas con las entidades que contrataron el proyecto si o no </b></h3>
             </div>
             <div class="panel-footer"><b>si o no </b></div>
             <div class="panel-body">
@@ -284,7 +330,6 @@
         </div>
         </div>
         
-
        <div>
             <div class="panel panel-success">
             <div class="panel-heading">
@@ -310,8 +355,6 @@
             </div>
         </div>
         </div>
-
-
 
         <div class="row" style="text-align:center">
             <a href="/ofertaempleo/empleomensual/{{$id}}" class="btn btn-raised btn-default">Anterior</a>

@@ -51,11 +51,7 @@
         .carga {
            display: none;
            position: fixed;
-<<<<<<< HEAD
-           z-index: 1050;
-=======
            z-index: 1000;
->>>>>>> 8525d9604eeb64bb04c1a7cf317e486cf61fe0ad
            top: 0;
            left: 0;
            height: 100%;
@@ -268,7 +264,7 @@
 									<ul>
 									<li><a class="tooltips" href=""><span>Profile</span><i class="lnr lnr-user"></i></a></li>
 										<li><a class="tooltips" href="#"><span>Settings</span><i class="lnr lnr-cog"></i></a></li>
-										<li><a class="tooltips" href="#"><span>Log out</span><i class="lnr lnr-power-switch"></i></a></li>
+										<li><a class="tooltips" href="/login/cerrarsesion"><span>Log out</span><i class="lnr lnr-power-switch"></i></a></li>
 										</ul>
 									</div>
 							   <!--//down-->
@@ -290,6 +286,9 @@
 										  <li id="menu-academico" ><a href="{{asset('exportacion')}}"> <span>Exportación</span></a>
 											
 										 </li>
+										 	 <li id="menu-academico" ><a href="{{asset('ofertaempleo/listadoproveedoresrnt')}}"> <span> Listado proveedores rnt</span></span></a>
+										  
+										</li>
 								
 									<li id="menu-academico" ><a href="#"> <span>Administrar paises</span> </span></a>
 										  <ul id="menu-academico-sub" >
@@ -321,9 +320,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{asset('/Content/bootstrap_material/dist/js/material.min.js')}}"></script>
     <script src="{{asset('/Content/bootstrap_material/dist/js/ripples.min.js')}}"></script>
-    <script>
-        $.material.init();
-    </script>
+    
 
 
     <script src="{{asset('/js/sweetalert.min.js')}}"></script>
@@ -331,7 +328,7 @@
         $(window).load(function () { $("#preloader").delay(1e3).fadeOut("slow") });
     </script>
 
-    <script>  $.material.init(); </script>
+    
 
     <script>
             $(window).on('scroll', function () {

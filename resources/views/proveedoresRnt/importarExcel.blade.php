@@ -155,7 +155,7 @@
                             <th style="width: 150px;">Estado carga</th>
                             <th style="width: 70px;"></th>
                         </tr>
-                        <tr dir-paginate="item in nuevos|filter:prop.search|itemsPerPage:10 as results" pagination-id="paginacion_nuevos" >
+                        <tr dir-paginate="item in nuevos |filter:prop.search|itemsPerPage:10 as results" pagination-id="paginacion_nuevos" >
                             <td>@{{$index+1}}</td>
                             <td>@{{item.numero_rnt}}</td>
                             <td>@{{item.nombre_comercial}}</td>
@@ -182,7 +182,7 @@
         </div>
         
         <div class="row" ng-if="antiguos.length > 0">
-            <h1 class="title1">Registros antiguos</h1>
+            <h1 class="title1">Registros antiguos pendientes de revisión</h1>
             <br>
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-lg-3 col-md-3">
@@ -322,12 +322,12 @@
     								</tr>
     								<tr ng-class="{'danger': (registro.latitud != registro.latitud2) }">
     									<td>Latitud</td>
-    									<td><input type="number" class="form-control" ng-model="registro.latitud" readonly ></td>
+    									<td><input type="number" class="form-control" ng-model="registro.latitud"  ></td>
     									<td>@{{registro.latitud2}}</td>
     								</tr>
     								<tr ng-class="{'danger': (registro.longitud != registro.longitud2) }">
     									<td>Longitud</td>
-    									<td><input type="number" class="form-control" ng-model="registro.longitud" readonly ></td>
+    									<td><input type="number" class="form-control" ng-model="registro.longitud"  ></td>
     									<td>@{{registro.longitud2}}</td>
     								</tr>
     								<tr ng-class="{'danger': (registro.digito_verificacion != registro.digito_verificacion2) }">
@@ -504,12 +504,12 @@
     								</tr>
     								<tr>
     									<td>Latitud</td>
-    									<td><input type="number" class="form-control" ng-model="registro.latitud" readonly ></td>
+    									<td><input type="number" class="form-control" ng-model="registro.latitud"  ></td>
     									<td ng-if="registro.es_similar == 1">@{{registro.latitud2}}</td>
     								</tr>
     								<tr>
     									<td>Longitud</td>
-    									<td><input type="number" class="form-control" ng-model="registro.longitud" readonly ></td>
+    									<td><input type="number" class="form-control" ng-model="registro.longitud"  ></td>
     									<td ng-if="registro.es_similar == 1">@{{registro.longitud2}}</td>
     								</tr>
     								<tr ng-class="{'info': (registro.digito_verificacion == registro.digito_verificacion2 && registro.es_similar == 1) }">
