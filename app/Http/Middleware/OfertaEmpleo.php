@@ -185,6 +185,40 @@ class OfertaEmpleo
             
         }
      
+     if(strlen(strstr($request->path(),'ofertaempleo/empleomensual'))>0){
+            $encuesta = Encuesta::find($request->one);
+            if($data[0]->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleo/'.$request->one);
+            } else{
+                \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
+                return redirect('/ofertaempleo/encuesta/'.$request->one);
+            }
+            
+     }
+     
+     if(strlen(strstr($request->path(),'ofertaempleo/empleadoscaracterizacion'))>0){
+            $encuesta = Encuesta::find($request->one);
+            if($data[0]->mes_id%3 != 0){
+                return redirect('/ofertaempleo/empleadoscaracterizacion/'.$request->one);
+            } else{
+                
+                return redirect('/ofertaempleo/encuesta/'.$request->one);
+            }
+            
+     }
+     
+     if(strlen(strstr($request->path(),'ofertaempleoempleo/'))>0){
+            $encuesta = Encuesta::find($request->one);
+            if($data[0]->mes_id%3 == 0){
+                return redirect('/ofertaempleo/empleomensual/'.$request->one);
+            } else{
+                \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
+                return redirect('/ofertaempleo/encuesta/'.$request->one);
+            }
+            
+     }
+     
+     
     if(strlen(strstr($request->path(),'ofertaempleo/capacidadalimentos'))>0){
             $encuesta = Encuesta::find($request->one);
             if($data[0]->mes_id%3 != 0){
@@ -200,7 +234,18 @@ class OfertaEmpleo
             
         }
         
-    if(strlen(strstr($request->path(),'ofertaempleo/alojamiento'))>0){
+    if(strlen(strstr($request->path(),'ofertaempleo/alojamientomensual'))>0){
+            $encuesta = Encuesta::find($request->one);
+            if($encuesta->sitiosParaEncuesta->proveedor->categoria->tipoProveedore->id == 1){
+                         return $next($request);
+            }else{
+                \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
+                return redirect('/ofertaempleo/encuesta/'.$request->one);
+            }
+            
+        }
+        
+    if(strlen(strstr($request->path(),'ofertaempleo/alojamientotrimestral'))>0){
             $encuesta = Encuesta::find($request->one);
             if($encuesta->sitiosParaEncuesta->proveedor->categoria->tipoProveedore->id == 1){
                          return $next($request);

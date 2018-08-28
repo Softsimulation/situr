@@ -8,7 +8,7 @@ angular.module('oferta.Actividad', [])
     $scope.Anio = null;
     $scope.$watch('Id', function () {
         if ($scope.Id == null) {
-            swal("Error", "Error en la carga, por favor recarga la pagina", "error")
+    
         }
     });
 
