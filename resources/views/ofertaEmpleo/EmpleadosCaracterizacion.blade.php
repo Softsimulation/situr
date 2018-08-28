@@ -269,7 +269,7 @@
             <div class="panel-heading">
          
                 <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>.Dando cumplimiento a la ley de Protección de datos Personales le solicito su autorización para que SITUR
-ATLÁTNICO pueda contactarlo nuevamente en caso de ser necesario ¿Está usted de acuerdo? </b></h3>
+Atlántico pueda contactarlo nuevamente en caso de ser necesario ¿Está usted de acuerdo? </b></h3>
             </div>
             <div class="panel-footer"><b>si o no </b></div>
             <div class="panel-body">
@@ -301,8 +301,8 @@ ATLÁTNICO pueda contactarlo nuevamente en caso de ser necesario ¿Está usted d
             <div class="panel panel-success">
             <div class="panel-heading">
          
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>D8 Ya para terminar, le solicito su autorización para que SITUR
-ATLÁTNICO comparta sus respuestas con las entidades que contrataron el proyecto si o no </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>Ya para terminar, le solicito su autorización para que SITUR
+Atlántico comparta sus respuestas con las entidades que contrataron el proyecto si o no </b></h3>
             </div>
             <div class="panel-footer"><b>si o no </b></div>
             <div class="panel-body">

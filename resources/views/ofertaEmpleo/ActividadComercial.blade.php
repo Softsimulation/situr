@@ -1,7 +1,7 @@
 
 @extends('layout._ofertaEmpleoLayaout')
 
-@section('title', 'Actividad comercial :: SITUR Magdalena')
+@section('title', 'Actividad comercial :: SITUR Atlántico')
 
 @section('estilos')
     <style>
@@ -64,6 +64,7 @@
             -@{{error[0]}}
         </div>
     </div>
+    
     <form name="ActividadForm" novalidate>
         
         
@@ -82,7 +83,7 @@
                                 <label class="control-label" for="nombre">Nombre del contacto</label> <span style="font-size: .7em;color: darkgrey;" ng-if="actividad.nombre.length > 0">@{{actividad.nombre.length}} de 255 caracteres</span><span class="text-error" ng-show="(ActividadForm.$submitted || ActividadForm.nombre.$touched) && ActividadForm.nombre.$error.required">(El campo es obligatorio)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="actividad.nombre" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="actividad.nombre" ng-init="actividad.nombre = '{{$dato->nombre_contacto}}' " maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(ActividadForm.$submitted || ActividadForm.nombre.$touched) && ActividadForm.nombre.$error.required "></span>
                                 </div>
 
@@ -94,7 +95,7 @@
                                 <label class="control-label" for="cargo">Cargo</label> <span style="font-size: .7em;color: darkgrey;" ng-if="actividad.cargo.length > 0">@{{actividad.cargo.length}} de 255 caracteres</span><span class="text-error" ng-show="(ActividadForm.$submitted || ActividadForm.cargo.$touched) && ActividadForm.cargo.$error.required">(El campo es obligatorio)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="actividad.cargo" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="actividad.cargo" ng-init="actividad.cargo = '{{$dato->cargo_contacto}}'" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(ActividadForm.$submitted || ActividadForm.cargo.$touched) && ActividadForm.cargo.$error.required "></span>
                                 </div>
 
@@ -109,7 +110,7 @@
                         <label class="control-label" for="email">Email</label> <span style="font-size: .7em;color: darkgrey;" ng-if="actividad.email.length > 0">@{{actividad.email.length}} de 255 caracteres</span><span class="text-error" ng-show="(ActividadForm.$submitted || ActividadForm.email.$touched) && ActividadForm.email.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(ActividadForm.$submitted || ActividadForm.email.$touched) && ActividadForm.email.$error.email">(Formato de email no permitido)</span>
                         <div class="input-group">
                             <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                            <input type="email" class="form-control" name="email" id="email" ng-model="actividad.email" maxlength="255" ng-required="true"  placeholder="Ej: alguien@dominio.com"/>
+                            <input type="email" class="form-control" name="email" id="email" ng-model="actividad.email" ng-init="actividad.email = '{{$dato->email}}' "  maxlength="255" ng-required="true"  placeholder="Ej: alguien@dominio.com"/>
                             <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(ActividadForm.$submitted || ActividadForm.email.$touched) && (ActividadForm.email.$error.required || ActividadForm.email.$error.email)"></span>
                         </div>
 

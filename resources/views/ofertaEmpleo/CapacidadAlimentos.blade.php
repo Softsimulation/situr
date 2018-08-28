@@ -1,7 +1,7 @@
 
 @extends('layout._ofertaEmpleoLayaout')
 
-@section('title', 'Capacidad de alimentos :: SITUR Magdalena')
+@section('title', 'Capacidad de alimentos :: SITUR Atlántico')
 
 @section('estilos')
     <style>
