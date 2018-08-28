@@ -1,7 +1,7 @@
 
 @extends('layout._ofertaEmpleoLayaout')
 
-@section('title', 'Actividad comercial :: SITUR Magdalena')
+@section('title', 'Actividad comercial :: SITUR Atlántico')
 
 @section('estilos')
     <style>
