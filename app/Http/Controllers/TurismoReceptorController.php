@@ -669,12 +669,15 @@ class TurismoReceptorController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 2){
 		    $sw =1;
-		    Municipio_Visitado_Magdalena::where('visitante_id', $visitante->id)->delete();
-		    Actividad_Realizada_Por_Visitante::where('visitante_id', $visitante->id)->delete();
-		    $visitante->opcionesActividadesRealizadas()->detach();
 		}else{
 		    $visitante->ultima_sesion = 2;
 		}
+		
+		//-----------------------------------------------------------------------------------
+		Municipio_Visitado_Magdalena::where('visitante_id', $visitante->id)->delete();
+	    Actividad_Realizada_Por_Visitante::where('visitante_id', $visitante->id)->delete();
+	    $visitante->opcionesActividadesRealizadas()->detach();
+	    //------------------------------------------------------------------------------------
 		
 		
 		foreach($request->Estancias as $estancia){
@@ -799,12 +802,15 @@ class TurismoReceptorController extends Controller
 		
 		$sw = 0;
 		if($visitante->ultima_sesion >= 3){
-		    $sw =1;
-		   $visitante->otroTransporteLlegada()->delete();
-		   $visitante->otroTransporteMover()->delete();
+	        $sw =1;
 		}else{
 		    $visitante->ultima_sesion = 3;
 		}
+		
+		//------------------------------------------------------
+		$visitante->otroTransporteLlegada()->delete();
+        $visitante->otroTransporteMover()->delete();
+		//------------------------------------------------------
 		
 		$visitante->transporte_llegada = $request->Llegar;
 		$visitante->transporte_interno = $request->Mover;
@@ -917,17 +923,22 @@ class TurismoReceptorController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 4){
 		    $sw =1;
-		    $acompaniantes = $visitante->tiposAcompañantesVisitantes()->pluck('id')->toArray();
-		    if(in_array(9,$acompaniantes)){
-		        $visitante->otrosTurista()->delete();
-		    }
-		    if(in_array(12,$acompaniantes)){
-		        $visitante->otrosAcompañantesViaje()->delete();
-		    }
-		    $visitante->tiposAcompañantesVisitantes()->detach();
 		}else{
 		    $visitante->ultima_sesion = 4;
 		}
+		
+		//-----------------------------------------------------------------------------
+		
+		$acompaniantes = $visitante->tiposAcompañantesVisitantes()->pluck('id')->toArray();
+	    if(in_array(9,$acompaniantes)){
+	        $visitante->otrosTurista()->delete();
+	    }
+	    if(in_array(12,$acompaniantes)){
+	        $visitante->otrosAcompañantesViaje()->delete();
+	    }
+	    $visitante->tiposAcompañantesVisitantes()->detach();
+		
+		//-----------------------------------------------------------------------------
 		
 		if(in_array(9,$request->Personas)){
 	        $visitante->otrosTurista()->save(new Otro_Turista(['numero_otros'=>$request->Numero_otros]));
@@ -1439,20 +1450,21 @@ class TurismoReceptorController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 6){
 		    $sw =1;
-		    $visitante->elementosRepresentativos()->detach();
-	        $visitante->calificacions()->delete();
-	        $visitante->valoracionGeneral()->delete();
-	        if($visitante->otrosElementosRepresentativo!=null){$visitante->otrosElementosRepresentativo()->delete();}
 		}else{
 		    $visitante->ultima_sesion = 6;
 		}
 		
+		$visitante->elementosRepresentativos()->detach();
+        $visitante->calificacions()->delete();
+        $visitante->valoracionGeneral()->delete();
+        if($visitante->otrosElementosRepresentativo!=null){$visitante->otrosElementosRepresentativo()->delete();}
+		
 		foreach($request->Evaluacion as $evaluacion){
-		        $visitante->calificacions()->save(new Calificacion([
-	                'item_evaluar_id' => $evaluacion['Id'],
-	                'calificacion' => $evaluacion['Valor']
-	            ]));
-		    }
+	        $visitante->calificacions()->save(new Calificacion([
+                'item_evaluar_id' => $evaluacion['Id'],
+                'calificacion' => $evaluacion['Valor']
+            ]));
+	    }
 		
 		$sostenibilidad = Sostenibilidad_Visitante::find($request->Id);
 	    if($sostenibilidad == null){
@@ -1642,26 +1654,30 @@ class TurismoReceptorController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 7){
 		    $sw =1;
-		    $fuentesAntes = $visitante->fuentesInformacionAntesViajes()->pluck('id')->toArray();
-		    $fuentesDurante = $visitante->fuentesInformacionDuranteViajes()->pluck('id')->toArray();
-		    
-		    if(in_array(14,$fuentesAntes)){
-		        $visitante->otrasFuenteInformacionAntesViaje()->delete();
-		    }
-		    if(in_array(14,$fuentesDurante)){
-		        $visitante->otrasFuenteInformacionDuranteViaje()->delete();
-		    }
-		    
-		    if($visitante->visitanteCompartirRede != null){
-		       $visitante->visitanteCompartirRede()->delete(); 
-		    }
-		    
-		    $visitante->fuentesInformacionAntesViajes()->detach();
-		    $visitante->fuentesInformacionDuranteViajes()->detach();
-		    $visitante->redesSociales()->detach();
 		}else{
 		    $visitante->ultima_sesion = 7;
 		}
+		
+		//----------------------------------------------------------------------------------------------
+		$fuentesAntes = $visitante->fuentesInformacionAntesViajes()->pluck('id')->toArray();
+	    $fuentesDurante = $visitante->fuentesInformacionDuranteViajes()->pluck('id')->toArray();
+	    
+	    if(in_array(14,$fuentesAntes)){
+	        $visitante->otrasFuenteInformacionAntesViaje()->delete();
+	    }
+	    if(in_array(14,$fuentesDurante)){
+	        $visitante->otrasFuenteInformacionDuranteViaje()->delete();
+	    }
+	    
+	    if($visitante->visitanteCompartirRede != null){
+	       $visitante->visitanteCompartirRede()->delete(); 
+	    }
+	    
+	    $visitante->fuentesInformacionAntesViajes()->detach();
+	    $visitante->fuentesInformacionDuranteViajes()->detach();
+	    $visitante->redesSociales()->detach();
+	    
+	    //----------------------------------------------------------------------------------------------
 		
 		$visitante->fuentesInformacionAntesViajes()->attach($request->FuentesAntes);
 		$visitante->fuentesInformacionDuranteViajes()->attach($request->FuentesDurante);

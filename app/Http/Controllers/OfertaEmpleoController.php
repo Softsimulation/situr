@@ -59,11 +59,8 @@ use App\Models\Anio;
 use App\Models\Mes_Anio;
 use App\Models\Sitio_Para_Encuesta;
 use App\Models\Medio_Actualizacion;
-<<<<<<< HEAD
 use App\Models\Proveedores_rnt;
-=======
 use App\Models\User;
->>>>>>> 14f691dc4a7b045d250492d2a29f35ddf720305b
 
 
 class OfertaEmpleoController extends Controller
