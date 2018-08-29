@@ -128,7 +128,7 @@
                             <th>Nombre comercial</th>
                             <th>Categoría</th>
                             <th>Tipo</th>
-                  
+                            <th>Encuesta</th>
                             <th style="width: 70px;"></th>
                         </tr>
                         </thead>
@@ -139,7 +139,8 @@
                                 <td>@{{item.nombre}}</td>
                                 <td>@{{item.subcategoria}}</td>
                                 <td>@{{item.categoria}}</td>
-                    
+                                <td ng-if="item.sitio_para_encuesta_id != null">Activo</td>
+                                <td ng-if="item.sitio_para_encuesta_id == null">Desactivado</td>
                                 <td style="text-align: center;">
                                   <a  href="/ofertaempleo/activar/@{{item.id}}" class="btn btn-default btn-sm" title="Editar" ><span class="glyphicon glyphicon-pencil"></span></a>
                                 </td>

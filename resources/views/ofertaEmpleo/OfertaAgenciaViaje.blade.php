@@ -1,6 +1,6 @@
 @extends('layout._ofertaEmpleoLayaout')
 
-@section('title', 'Oferta de agencia de viaje :: SITUR Magdalena')
+@section('title', 'Oferta de agencia de viaje :: SITUR Atlántico')
 
 @section('estilos')
     <style>

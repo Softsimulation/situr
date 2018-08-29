@@ -47,10 +47,16 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
             $("body").attr("class", "cbp-spmenu-push");
             if(data.establecimiento != null){
                 $scope.establecimiento = data.establecimiento;
-                $scope.establecimiento.extension = +$scope.establecimiento.extension
+                if($scope.establecimiento.extension != null){
+                $scope.establecimiento.extension = +$scope.establecimiento.extension;
+                }
+                $scope.municipios = data.municipios;
+                $scope.categorias = data.categorias;
             }else{
                 $scope.establecimiento = {};
                 $scope.establecimiento.proveedor_rnt_id = $scope.id;
+                $scope.municipios = data.municipios;
+                $scope.categorias = data.categorias;
             }
         }).catch(function () {
             $("body").attr("class", "cbp-spmenu-push");
@@ -72,12 +78,22 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
                         title: "Realizado",
                         text: "Se ha completado satisfactoriamente la sección.",
                         type: "success",
-                        timer: 1000,
-                        showConfirmButton: false
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        cancelButtonClass: "btn-info",
+                        confirmButtonText: "Encuesta",
+                        cancelButtonText: "Listado de proveedores rnt",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                      if (isConfirm) {
+                         window.location.href = "/ofertaempleo/encuesta/"+data.id;
+                      } else {
+                        window.location.href = "/ofertaempleo/listadoproveedoresrnt";
+                      }
                     });
-                    setTimeout(function () {
-                        window.location.href = "/ofertaempleo/listadoproveedores";
-                    }, 1000);
+        
                 } else {
                    
                     $scope.errores = data.errores;
