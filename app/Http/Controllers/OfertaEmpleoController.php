@@ -219,7 +219,7 @@ class OfertaEmpleoController extends Controller
                          $ruta = "/ofertaempleo/caracterizacionagenciasoperadoras";
                     }
                      if($tipo->proveedor->categoria->id == 21){
-                         $ruta = "/ofertaempleo/caracterizacionalquilervehiculo";
+                         $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 22){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
@@ -435,7 +435,7 @@ class OfertaEmpleoController extends Controller
                          $ruta = "/ofertaempleo/caracterizacionagenciasoperadoras";
                     }
                      if($tipo->proveedor->categoria->id == 21){
-                         $ruta = "/ofertaempleo/caracterizacionalquilervehiculo";
+                         $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 22){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
@@ -556,7 +556,7 @@ class OfertaEmpleoController extends Controller
                          $ruta = "/ofertaempleo/caracterizacionagenciasoperadoras";
                     }
                      if($tipo->proveedor->categoria->id == 21){
-                         $ruta = "/ofertaempleo/caracterizacionalquilervehiculo";
+                         $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 22){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
