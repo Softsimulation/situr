@@ -70,8 +70,6 @@ class OfertaEmpleo
                 
                          return $next($request);
             }else{
-                
-
                 \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
                  return redirect('/ofertaempleo/encuestas/'.$encuesta->sitios_para_encuestas_id);
             }
@@ -96,17 +94,11 @@ class OfertaEmpleo
     }
         
     if(strlen(strstr($request->path(),'ofertaempleo/caracterizacionalquilervehiculo'))>0){
-            $encuesta = Encuesta::find($request->one);
-            if($data[0]->mes_id%3 != 0){
-                    return redirect('/ofertaempleo/empleo/'.$request->one);
-            }
-            if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 21){
-                         return $next($request);
-            }else{
+            
                 \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
                  return redirect('/ofertaempleo/encuestas/'.$encuesta->sitios_para_encuestas_id);
-            }
             
+        
         }
      
     if(strlen(strstr($request->path(),'ofertaempleo/caracterizacionagenciasoperadoras'))>0){
@@ -142,7 +134,7 @@ class OfertaEmpleo
             if($data[0]->mes_id%3 != 0){
                 return redirect('/ofertaempleo/empleo/'.$request->one);
             } 
-            if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 22){
+            if($encuesta->sitiosParaEncuesta->proveedor->categoria->id == 22 || $encuesta->sitiosParaEncuesta->proveedor->categoria->id == 21){
                          return $next($request);
             }else{
                 \Session::flash('mensaje','No puede acceder a dicha ruta no concuerdan el tipo de proveedor');
