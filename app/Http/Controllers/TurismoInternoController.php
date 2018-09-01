@@ -955,6 +955,7 @@ class TurismoInternoController extends Controller
         $id=$one;
         return view('turismointerno.Transporte',compact('id'));
     }
+    
     public function getCargartransporte($one){
         
         $transportes=Tipo_Transporte_Interno::where('estado',true)->get(['id','nombre']);
@@ -1053,7 +1054,7 @@ class TurismoInternoController extends Controller
     }
     
     
-   public function getViajesrealizados($one){
+    public function getViajesrealizados($one){
          $id = $one;
          $hogar=Hogar::find($id)->id;
         return view('turismointerno.ViajesRealizados',compact('id','hogar'));
@@ -1691,7 +1692,7 @@ class TurismoInternoController extends Controller
         
     }
     
-     public function postSiguienteviaje (Request $request){
+    public function postSiguienteviaje (Request $request){
      
       $validator = \Validator::make($request->all(), [
       'id' => 'required|exists:hogares,id',

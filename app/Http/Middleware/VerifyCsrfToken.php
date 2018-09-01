@@ -18,6 +18,7 @@ class VerifyCsrfToken extends BaseVerifier
         '/turismointerno/barrios',
         '/turismointerno/hogar',
         '/turismointerno/datoshogar',
-        '/*'
+        '/*',
+        '/turismointernoapi/guardarhogar'
     ];
 }
