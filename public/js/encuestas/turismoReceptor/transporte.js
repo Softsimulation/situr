@@ -149,6 +149,7 @@ angular.module('receptor.transporte', ["checklist-model"])
     $scope.guardar = function () {
 
         if (!$scope.grupoForm.$valid || $scope.grupo.Personas.length == 0) {
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return;
         }
 
@@ -328,10 +329,12 @@ angular.module('receptor.transporte', ["checklist-model"])
     $scope.guardar = function () {
 
         if (!$scope.grupoForm.$valid) {
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return;
         }
 
         if ($scope.grupo.Personas.length == 0) {
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return;
         }
 
