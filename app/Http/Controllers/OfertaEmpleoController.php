@@ -110,14 +110,14 @@ class OfertaEmpleoController extends Controller
         
             'proveedor_rnt_id' => 'required|exists:proveedores_rnt,id',
             'nombre_contacto' => 'required|string|min:1|max:255',
-            'cargo_contacto' => 'required|string|min:1|max:255',
-            'email'=>'required|email',
+            'cargo_contacto' => 'string|min:1|max:255',
+            'email'=>'email',
             'categoria_proveedor_id' => 'required|exists:categoria_proveedores,id',
             'municipio_id' => 'required|exists:municipios,id',
             'razon_social' => 'required|string|min:1|max:255',
             'direccion' => 'required|string|min:1|max:255',
-            'telefono_fijo' => 'required|string|min:1|max:255',
-            'celular' => 'required|string|min:1|max:255',
+            'telefono_fijo' => 'string|min:1|max:255',
+            'celular' => 'string|min:1|max:255',
             'camara_comercio' => 'required|numeric|min:0|max:1',
             'registro_turismo' => 'required|numeric|min:0|max:1',
           
@@ -1643,7 +1643,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             //return $request->personas;
             if($request->ventaPlanes == true){
                 foreach ($request->personas as $fila)
-                {
+                {   if(intval($fila["numerototal"]) != 0){
                     if(intval($fila["internacional"]) + intval($fila["nacional"]) != 100){
                         $errores["Porcentajes"][0] = "Todo los porcentajes en la seccion personas que viajaron segun destinos deben sumar 100.";
                     }
@@ -1651,11 +1651,14 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                     if(Opcion_Persona_Destino::where('id',intval($fila["opciones_personas_destino_id"]))->first() == null){
                         $errores["Opciones"][0] = "Una de las opciones cargadas no esta disponible.";
                     }
+                  }
                 }
             }
             if($request->ofrecePlanesConDestino == true){
+                if($request->numero != 0){
                 if($request->magdalena + $request->nacional + $request->internacional != 100){
                     $errores["PorcentajeMagdalena"][0] = "Los porcentajes en los viajes en el Atlántico deben sumar 100.";
+                    }
                 }
             }
             
@@ -1794,8 +1797,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             'id' => 'required|exists:encuestas,id',
             'sirvePlatos' => 'required|exists:actividades_servicios,id',
             'especialidad' => 'required|exists:especialidades,id',
-            'mesas' => 'required|numeric|min:1',
-            'asientos' => 'required|numeric|min:1',
+            'mesas' => 'required|numeric|min:0',
+            'asientos' => 'required|numeric|min:0',
             
         ],[
             'id.required' => 'Tuvo primero que haber creado una encuesta.',

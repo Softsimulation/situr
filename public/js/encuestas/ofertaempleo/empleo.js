@@ -320,7 +320,7 @@ angular.module('empleo.Empleo', [])
                         showConfirmButton: false
                     });
                     setTimeout(function () {
-                          window.location.href = "/ofertaempleo/empleadoscaracterizacion/" + $scope.id;;
+                         window.location.href = "/ofertaempleo/encuestas/" + data.idsitio;
                     }, 1000);
     
     
@@ -569,7 +569,7 @@ $scope.$watch('id', function () {
                         showConfirmButton: false
                     });
                     setTimeout(function () {
-                          window.location.href = "/ofertaempleo/encuestas/" + data.sitio;;
+                          window.location.href = "/ofertaempleo/encuestas/" + data.sitio;
                     }, 1000);
     
     
