@@ -240,10 +240,10 @@ class TurismoInternoController extends Controller
         if($persona==null){
             return ['success'=>false, "error"=>"La persona seleccionada no existe"];
         }
-        /*
+        
         if($persona->viajes->count()>0){
             return ["success"=>false,"error"=>"La persona tiene viajes registrados no puede ser eliminado"];
-        }*/
+        }
         if($persona->motivoNoViajes->count()>0){
             
             $aux=No_Viajero::where('persona_id',$request->id)->delete();

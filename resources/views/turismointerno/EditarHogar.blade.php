@@ -452,7 +452,6 @@
                         
 
                         <div class="row">
-                            
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <label for="inputNombreEncuestado" class="col-xs-12 control-label">¿Vive continuamente en el Hogar?</label>
@@ -494,7 +493,7 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <label for="inputNombreEncuestado" class="col-xs-12 control-label">Finalizó un viaje que habia emprendido en ...</label>
+                                    <label for="inputNombreEncuestado" class="col-xs-12 control-label">Finalizó un viaje que habia emprendido en la temporada</label>
                                     <div class="col-xs-12">
 
                                         <select class="form-control" ng-model="integrante.Viaje" id="inputPaisResidencia" name="viaje" ng-required="true">
