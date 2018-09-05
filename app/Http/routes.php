@@ -11,14 +11,42 @@
 |
 */
 
-
+Route::controller('/indicadores','IndicadoresCtrl');
 
 Route::get('/', function () {
-    
-    $date = new Carbon\Carbon('2018-04-02 00:00:00', 'Europe/London');  
-    return  $date->format('h:i:s');
-    
-    
+
+    return view('home.index');
+  
+});
+Route::get('/quienesSomos', function () {
+
+    return view('publico.situr.quienesSomos');
+  
+});
+Route::get('/historia', function () {
+
+    return view('publico.situr.historia');
+  
+});
+Route::get('/vision', function () {
+
+    return view('publico.situr.vision');
+  
+});
+Route::get('/equipo', function () {
+
+    return view('publico.situr.equipo');
+  
+});
+Route::get('/queHacemos', function () {
+
+    return view('publico.situr.queHacemos');
+  
+});
+Route::get('/entidadesAsociadas', function () {
+
+    return view('publico.situr.entidadesAsociadas');
+  
 });
 
 Route::controller('/temporada','TemporadaController');
@@ -26,9 +54,32 @@ Route::controller('/turismointerno','TurismoInternoController');
 
 Route::controller('/turismoreceptor','TurismoReceptorController');
 
+Route::controller('/ofertaempleo','OfertaEmpleoController');
+Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
+
+
+//Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
+
+Route::controller('/administrarmunicipios', 'AdministrarMunicipiosController');
+
+Route::controller('/administrardepartamentos', 'AdministrarDepartamentosController');
+
+Route::controller('/administrarpaises', 'AdministrarPaisesController');
 Route::controller('/grupoviaje','GrupoViajeController');
 Route::controller('/exportacion','ExportacionController');
 
+
+Route::controller('/administradorproveedores', 'AdministradorProveedoresController');
+
+Route::controller('/administradoreventos', 'AdministradorEventosController');
+
+Route::controller('/administradorrutas', 'AdministradorRutasController');
+
+Route::controller('/administradoratracciones', 'AdministradorAtraccionController');
+
+Route::controller('/administradoractividades', 'AdministradorActividadesController');
+
+Route::controller('/administradordestinos', 'AdministradorDestinosController');
 
 Route::group(['middleware' => 'cors'], function(){
  
@@ -38,4 +89,16 @@ Route::group(['middleware' => 'cors'], function(){
   
 });
 
+Route::controller('/usuario','UsuarioController');
 
+
+Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
+Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
+Route::controller('/encuesta','EncuestaDinamicaCtrl');
+
+Route::controller('/importarRnt','ImportacionRntController');
+
+Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
+
+Route::controller('/sostenibilidadhogares','SostenibilidadHogaresController');
+Route::controller('/login','LoginController');

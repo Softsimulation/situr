@@ -95,6 +95,7 @@
 
 @section('NumSeccion', '0%')
 
+
 @section('controller','ng-controller="crear_grupo"')
 
 @section('content')

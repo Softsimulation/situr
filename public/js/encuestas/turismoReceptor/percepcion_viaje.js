@@ -29,9 +29,12 @@ angular.module('receptor.percepcion_viaje', [])
                     $scope.elementos = data.elementos;
                     $scope.veces = data.veces;
                     $scope.actividades = data.actividades;
-    
-                    if (data.respuestaElementos.length ==0 && data.valoracion == null) {
-                        $scope.estadoEncuesta = 0;
+                    
+                    
+                    if (data.respuestaElementos != undefined && data.valoracion == null) {
+                        if(data.respuestaElementos.length == 0){
+                            $scope.estadoEncuesta = 0;    
+                        }
                     } else {
                         $scope.calificacion.Alojamiento = data.alojamiento;
                         
@@ -42,11 +45,15 @@ angular.module('receptor.percepcion_viaje', [])
                         }
                         $scope.calificacion.Restaurante = data.restaurante;
                         $scope.calificacion.Elementos = data.respuestaElementos;
-                        $scope.calificacion.Recomendaciones = data.valoracion.Recomendacion;
-                        $scope.calificacion.Calificacion = data.valoracion.Calificacion;
-                        $scope.calificacion.Volveria = data.valoracion.Volveria;
-                        $scope.calificacion.Recomienda = data.valoracion.Recomienda;
-                        $scope.calificacion.VecesVisitadas = data.valoracion.Veces;
+                        
+                        if(data.valoracion != undefined){
+                            $scope.calificacion.Recomendaciones = data.valoracion.Recomendacion;
+                            $scope.calificacion.Calificacion = data.valoracion.Calificacion;
+                            $scope.calificacion.Volveria = data.valoracion.Volveria;
+                            $scope.calificacion.Recomienda = data.valoracion.Recomienda;
+                            $scope.calificacion.VecesVisitadas = data.valoracion.Veces;
+                        }
+                        
                         $scope.calificacion.OtroElementos = data.otroElemento;
                         $scope.calificacion.Flora = data.flora;
                         $scope.calificacion.Sostenibilidad = data.sost;
@@ -135,6 +142,7 @@ angular.module('receptor.percepcion_viaje', [])
     }
 
     $scope.checkedRadio = function (id, obj, selected) {
+
         if ($scope.estadoEncuesta == 1) {
             if (obj == selected) {
                 document.getElementById(id).checked = true;
@@ -146,7 +154,7 @@ angular.module('receptor.percepcion_viaje', [])
     $scope.guardar = function () {
 
         if (!$scope.PercepcionForm.$valid) {
-            swal("Error", "Formulario incompleto corrige los errores", "error");
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return;
         }
 
@@ -214,6 +222,7 @@ angular.module('receptor.percepcion_viaje', [])
     }
 
 }])
+
 .controller('percepcion-crear_visitante', ['$scope','$http',function ($scope, $http) {
 
     $scope.bandera = false;

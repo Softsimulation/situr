@@ -1,0 +1,136 @@
+.nav-bar{
+    background: rgba(0,0,0,0.85);
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(0,0,0,0.85)), color-stop(100%, rgba(0,0,0,0)));
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
+}
+.nav-bar, .nav-bar>.brand a{
+    -webkit-flex-flow: nowrap;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+.nav-bar>.brand{
+    padding-right: 1%;
+    text-align:left;
+}
+
+.nav-bar>.brand{
+    width: auto;
+    text-align:center;
+}
+.nav-bar > .brand a{
+    padding: 1rem 6px;
+    z-index: 55;
+    background-color: transparent;
+    width: auto;
+}
+
+.nav-bar > .brand a img {
+    
+}
+.nav-bar > .brand a h1 {
+    font-size: 1rem;
+}
+.nav-bar>nav{
+    width: auto;
+}
+#nav-main>ul{
+    position:relative;
+}
+.nav-bar nav > ul li ul li {
+    position: relative;
+}
+.nav-bar nav>ul>li{
+    display: inline-block;
+    margin-left: -4px;
+}
+.nav-bar nav>ul>li:not(:last-child){
+    border:0;
+    border-right: 1px solid rgba(255,255,255,.05);  
+}
+.nav-bar nav>ul>li>a{
+    padding: 1rem .5rem;
+    font-size: 0.875rem;
+}
+.nav-bar nav>ul li ul a.menu:before {
+    content: "\003e";
+    float: right;
+    margin-left: .5rem;
+    color:lightgrey;
+}
+.nav-bar nav>ul li ul a {
+    text-align:left;
+}
+.nav-bar nav>ul>li.in>ul, .nav-bar nav>ul>li.in>.submenu{
+    position: absolute;
+    top: 100%;
+    /*left: 0;*/
+    /*width: 100%;*/
+    z-index: 50;
+}
+
+.nav-bar nav>ul>li.in ul.right{
+    right: 50px;
+}
+.nav-bar nav > ul > li.in > ul > li.second-in > ul {
+    position: absolute;
+    z-index: 40;
+    top: 0;
+    left: 100%;
+    min-width: 200px;
+    max-width: 250px;
+}
+.nav-bar nav > ul > li.in > ul > li.second-in > ul{
+    box-shadow: 0px 8px 15px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0px 8px 15px rgba(0,0,0,.3);
+    -moz-box-shadow: 0px 8px 15px rgba(0,0,0,.3);
+}
+.nav-bar nav>ul>li.in ul{
+    
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,.4);
+    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,.4);
+    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,.4);
+}
+#navbar-mobile{
+    display: none;
+}
+.toolbar .estamento-lineal.visible-lg, .toolbar .estamento-lineal.visible-md {
+    display:inline-block!important;    
+}
+#nav-main{
+    display:block;
+}
+
+/*Otros elementos*/
+.tile .tile-img .text-overlap p, .tile .tile-img .text-overlap h3{
+    font-size: 0.8125rem;
+}
+.tiles .tile.tile-lg .tile-img{
+    height: 200px;
+}
+.estadisticas {
+    top: calc(110px + 6%);
+}
+.carousel-inner > .item{
+    height: 550px;
+}
+.carousel-inner > .item > img{
+    width:100%;
+}
+
+/*Estadisticas*/
+.estadisticas {
+    position: absolute;
+    top: calc(110px + 2%);
+    left: 0;
+    width: auto;
+    z-index: 20;
+}
+.estadisticas ul {
+    max-width: 110px;
+}

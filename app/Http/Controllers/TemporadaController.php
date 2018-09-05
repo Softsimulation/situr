@@ -8,9 +8,21 @@ use App\Http\Requests;
 use App\Models\Temporada;
 use App\Models\Hogar;
 use App\Models\Persona;
+use App\Models\Viaje;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class TemporadaController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function getIndex(){
         
         return view('temporada.Index');
@@ -26,6 +38,8 @@ class TemporadaController extends Controller
     
     public function getCargardatos($one){
         
+        
+        
         $temporada=Temporada::where('id',$one)
         ->first(["id",
                   "nombre as Nombre",
@@ -36,21 +50,13 @@ class TemporadaController extends Controller
                   
         $temporada->Hogares=Hogar::whereHas('edificacione',function($q)use($temporada){
             $q->where('temporada_id',$temporada->id);
-        })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.aspNetUser')->get();
+        })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.user')->get();
         
-      /*  $hogares=Persona::whereHas('viajes',function($q){
-                
-                $q->where('es_principal',true);
-                
-        })->whereHas('hogare.edificacione',function($q)use($temporada){
-            
-                $q->where('temporada_id',$temporada->id);
-            
-        })->with('viajes')->with('hogare.digitadore.aspNetUser')->with('hogare.edificacione')->get(); */
+         $encuestas=Viaje::where('es_principal',true)->whereHas('persona.hogare.edificacione',function($q)use($temporada){
+            $q->where('temporada_id',$temporada->id);
+        })->with('persona.hogare.digitadore.user')->with('persona.hogare.edificacione.barrio.municipio')->orderby('id')->get();
         
-        
-        
-        return ['temporada'=>$temporada];
+        return ['temporada'=>$temporada,'encuestas'=>$encuestas];
         
     }
     
@@ -113,7 +119,9 @@ class TemporadaController extends Controller
                                     })->get();
         }else{
             
-            $aux=Temporada::where('id','!=',$request->id)->where(function ($query) use ($request) {
+            $aux=Temporada::where('id','!=',$request->id)->where(function($query1) use ($request){
+                
+                                    $query1->where(function ($query) use ($request) {
                 
                                         $query->where('fecha_ini', '>=', $request->Fecha_ini);
                                         $query->Where('fecha_ini', '<=', $request->Fecha_fin);
@@ -128,12 +136,14 @@ class TemporadaController extends Controller
                                         $query->where('fecha_ini', '<', $request->Fecha_ini);
                                         $query->Where('fecha_fin', '>', $request->Fecha_fin);
                                         
-                                    })->get();
+                                    });
+                
+            })->get();
             
             
         }
                                 
-        if($aux->count()>1){
+        if($aux->count()>0){
             
             return ["success"=>false,"errores"=>["temporada"=>["Ya existen una temporada creada para estas fechas"]]];
             
@@ -150,8 +160,8 @@ class TemporadaController extends Controller
         $temporada->name = $request->Name;
         $temporada->fecha_ini = $request->Fecha_ini;
         $temporada->fecha_fin = $request->Fecha_fin;
-        $temporada->user_create = "Situr";
-        $temporada->user_update = "Situr";
+        $temporada->user_create = $this->user->username;
+        $temporada->user_update = $this->user->username;
         $temporada->save();
         
         return ['success' => true, 'temporada' => $temporada ];

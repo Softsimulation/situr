@@ -48,6 +48,7 @@ angular.module('receptor.enteran', [])
     })
 
     $scope.validar = function (sw, id) {
+        console.log(sw, id)
         if (sw == 0) {
             if (id == 13) {
                 var i = $scope.enteran.FuentesDurante.indexOf(13);
@@ -108,10 +109,12 @@ angular.module('receptor.enteran', [])
     $scope.guardar = function () {
 
         if (!$scope.inForm.$valid) {
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return;
         }
 
         if ($scope.enteran.FuentesAntes.length == 0 || $scope.enteran.FuentesDurante.length == 0 || $scope.enteran.Redes.length == 0 || $scope.enteran.Correo == null) {
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return;
         }
 

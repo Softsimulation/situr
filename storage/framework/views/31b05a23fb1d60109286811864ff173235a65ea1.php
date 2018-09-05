@@ -56,7 +56,7 @@
         <div class="panel panel-success">
             <div class="panel-heading">
                 <!-- P1. Duración de la estancia-->
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Duración de la estancia</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> B2 Registre los municipios que visitó en el Atlántico</b></h3>
             </div>
             <div class="panel-footer"><b>Complete la siguiente tabla</b></div>
             <div class="panel-body">
@@ -251,4 +251,4 @@
 <?php $__env->stopSection(); ?>
 
 
-<?php echo $__env->make('layout._encuestaLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('layout._encuestaLayout',['saltoSeccion' => $id], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

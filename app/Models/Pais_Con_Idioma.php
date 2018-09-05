@@ -14,6 +14,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Pais_Con_Idioma extends Model
 {
+    
+    /**
+     * The timestamps.
+     * 
+     * @var bool
+     */   
+    public $timestamps = false;
+    
     /**
      * The table associated with the model.
      * 

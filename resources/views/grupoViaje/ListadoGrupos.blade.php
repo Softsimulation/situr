@@ -97,6 +97,7 @@
 
 @section('NumSeccion', '0%')
 
+
 @section('controller','ng-controller="index_grupo"')
 
 @section('content')

@@ -77,10 +77,7 @@ angular.module('interno.hogares', [])
 
     }
 
-    
-
     $scope.SavePersona = function () {
-
         if ($scope.IntegranteForm.$valid) {
             if ($scope.aux == -1) {
                 $scope.integrante.jefe_hogar = 'false';
@@ -115,7 +112,6 @@ angular.module('interno.hogares', [])
         }
 
         if ($scope.DatosForm.$valid) {
-            
             $("body").attr("class", "charging");
             $http.post('/turismointerno/guardarhogar', $scope.encuesta)
                 .success(function (data) {

@@ -1,0 +1,74 @@
+
+#turismoReceptor a{
+    border-left: 2px solid #4f8d3a;
+}
+#turismoReceptor a:hover{
+    background-color: #4f8d3a;
+}
+#turismoInternoEmisor a{
+    border-left: 2px solid #bd0811;
+}
+#turismoInternoEmisor a:hover{
+    background-color: #bd0811;
+}
+#turismoEmpleo a{
+    border-left: 2px solid #c9611f;
+}
+#turismoEmpleo a:hover{
+    background-color: #c9611f;
+}
+#turismoOferta a{
+    border-left: 2px solid #5b3f0c;
+}
+#turismoOferta a:hover{
+    background-color: #5b3f0c;
+}
+
+#turismoSostenibilidad a{
+    border-left: 2px solid #255a98;
+}
+#turismoSostenibilidad a:hover{
+    background-color: #255a98;
+}
+section#indicadores .indicador {
+    width: 20%;
+}
+section#indicadores .indicador:hover {
+    background-color: rgba(255,255,255,.9);
+}
+section#indicadores .indicador:nth-child(3){
+    background: rgba(67, 160, 71, 1);
+    color: white;
+}
+section#indicadores .indicador:nth-child(2){
+    background: rgba(189, 8, 17, 1);
+    color: white;
+}
+section#indicadores .indicador:nth-child(1){
+    background: rgba(230, 81, 0, 1);
+    color: white;
+}
+
+section#indicadores {
+    width: 100%;
+    text-align: center;
+    z-index: 20;
+    justify-content: center;
+    
+}
+section#indicadores .indicador h2{
+    font-family: 'Futura', sans-serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    margin: .5rem 0;
+}
+#bg-video{
+    position:relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+#bg-video video{
+    width: 100%;
+}

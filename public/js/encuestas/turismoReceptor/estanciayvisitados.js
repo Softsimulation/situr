@@ -9,6 +9,7 @@ angular.module('receptor.estanciayvisitados', [])
 
     
     $scope.$watch('id', function () {
+        $("body").attr("class", "cbp-spmenu-push charging");
         receptorServi.getDatosEstancia($scope.id).then(function (data) {
             $scope.Datos = data.Enlaces;
             //$scope.transformarObjeto($scope.Datos);
@@ -19,7 +20,9 @@ angular.module('receptor.estanciayvisitados', [])
                 }
             }
             $scope.encuesta.Id = $scope.id;
+            $("body").attr("class", "cbp-spmenu-push");
         }).catch(function () {
+            $("body").attr("class", "cbp-spmenu-push");
             swal("Error", "No se realizo la solicitud, reinicie la página");
         })
     })
@@ -92,7 +95,7 @@ angular.module('receptor.estanciayvisitados', [])
 
         }
       
-    }
+    };
 
     $scope.cambionoches = function (es) {
     
@@ -188,9 +191,10 @@ angular.module('receptor.estanciayvisitados', [])
         return false;
     }
 
-
     $scope.Validar = function () {
-        
+        if($scope.encuesta.ActividadesRelizadas.length == 0){
+            return true;
+        }
         for(var i = 0; i < $scope.encuesta.ActividadesRelizadas.length; i++){
             if($scope.encuesta.ActividadesRelizadas[i].opciones.length > 0 && ($scope.encuesta.ActividadesRelizadas[i].Respuestas.length == 0||$scope.encuesta.ActividadesRelizadas[i].Respuestas==undefined) ){
                 return true;
@@ -204,7 +208,7 @@ angular.module('receptor.estanciayvisitados', [])
         
         
         if (!$scope.EstanciaForm.$valid || $scope.Validar()) {
-            swal("Error", "corrija los errores", "error");
+            swal("Error", "Formulario incompleto corrige los errores.", "error");
             return
         }
 
