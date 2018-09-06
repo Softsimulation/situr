@@ -1913,11 +1913,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         if($provision["capacidadAlimento"] != null || sizeof($provision["capacidadAlimento"]) > 0){
             $capacidad["platosMaximo"] = $provision["capacidadAlimento"]->max_platos;
             $capacidad["platoServido"] = $provision["capacidadAlimento"]->platos_servidos;
-            $capacidad["precioPlato"] = intval($provision["capacidadAlimento"]->valor_plato);
+            $capacidad["precioPlato"] = $provision["capacidadAlimento"]->valor_plato == null ? null : intval($provision["capacidadAlimento"]->valor_plato);
             $capacidad["platosPromedio"] = $provision["capacidadAlimento"]->promedio_unidades;
             $capacidad["unidadServida"] = $provision["capacidadAlimento"]->unidades_vendidas;
             
-            $capacidad["precioUnidad"] = intval($provision["capacidadAlimento"]->valor_unidad);
+            $capacidad["precioUnidad"] = $provision["capacidadAlimento"]->valor_unidad == null ? null : intval($provision["capacidadAlimento"]->valor_unidad);
             $capacidad["porcentajeOtrasRegiones"] = $provision->numero_extranjeros;
             /*$capacidad["bebidasMaximo"] = $provision["capacidadAlimento"]->bebidas_promedio;
             $capacidad["bebidasServidas"] = $provision["capacidadAlimento"]->bebidas_servidas;
