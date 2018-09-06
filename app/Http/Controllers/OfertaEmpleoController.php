@@ -91,6 +91,12 @@ class OfertaEmpleoController extends Controller
         return view('ofertaEmpleo.Crearencuesta');
     }
     
+    
+    public function getTipo(){
+        $data = Categoria_Proveedor_Con_Idioma::where("idiomas_id",1)->get();
+        return $data;
+    }
+    
     public function getActivar($one){
         return view('ofertaEmpleo.Activar',['id'=>$one]);
     }
@@ -212,7 +218,7 @@ class OfertaEmpleoController extends Controller
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
-                    if($tipo->proveedor->categoria->id == 15){
+                    if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
                          $ruta = "/ofertaempleo/agenciaviajes";
                     }
                      if($tipo->proveedor->categoria->id == 14){
@@ -221,13 +227,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -428,7 +434,7 @@ class OfertaEmpleoController extends Controller
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
-                    if($tipo->proveedor->categoria->id == 15){
+                     if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
                          $ruta = "/ofertaempleo/agenciaviajes";
                     }
                      if($tipo->proveedor->categoria->id == 14){
@@ -437,13 +443,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -549,7 +555,7 @@ class OfertaEmpleoController extends Controller
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
-                    if($tipo->proveedor->categoria->id == 15){
+                  if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
                          $ruta = "/ofertaempleo/agenciaviajes";
                     }
                      if($tipo->proveedor->categoria->id == 14){
@@ -558,13 +564,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -1913,11 +1919,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         if($provision["capacidadAlimento"] != null || sizeof($provision["capacidadAlimento"]) > 0){
             $capacidad["platosMaximo"] = $provision["capacidadAlimento"]->max_platos;
             $capacidad["platoServido"] = $provision["capacidadAlimento"]->platos_servidos;
-            $capacidad["precioPlato"] = intval($provision["capacidadAlimento"]->valor_plato);
+            $capacidad["precioPlato"] = $provision["capacidadAlimento"]->valor_plato == null ? null : intval($provision["capacidadAlimento"]->valor_plato);
             $capacidad["platosPromedio"] = $provision["capacidadAlimento"]->promedio_unidades;
             $capacidad["unidadServida"] = $provision["capacidadAlimento"]->unidades_vendidas;
             
-            $capacidad["precioUnidad"] = intval($provision["capacidadAlimento"]->valor_unidad);
+            $capacidad["precioUnidad"] = $provision["capacidadAlimento"]->valor_unidad == null ? null : intval($provision["capacidadAlimento"]->valor_unidad);
             $capacidad["porcentajeOtrasRegiones"] = $provision->numero_extranjeros;
             /*$capacidad["bebidasMaximo"] = $provision["capacidadAlimento"]->bebidas_promedio;
             $capacidad["bebidasServidas"] = $provision["capacidadAlimento"]->bebidas_servidas;

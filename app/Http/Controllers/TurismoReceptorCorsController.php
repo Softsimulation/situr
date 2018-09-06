@@ -113,6 +113,8 @@ class TurismoReceptorCorsController extends Controller
         $departamentos = Departamento::where('pais_id',47)->select('id','nombre')->orderBy('nombre')->get();
         
         $lugares_aplicacion = Lugar_Aplicacion_Encuesta::all();
+        $all_departamentos = Departamento::all();
+        $all_municipios = Municipio::all();
         
         $result = [ 
             //'grupos' => $grupos, 
@@ -122,7 +124,9 @@ class TurismoReceptorCorsController extends Controller
             'motivos' => $motivos,
             'medicos' => $medicos,
             'departamentos' => $departamentos,
-            'lugares_aplicacion' => $lugares_aplicacion
+            'lugares_aplicacion' => $lugares_aplicacion,
+            'all_departamentos' => $all_departamentos,
+            'all_municipios' => $all_municipios
         ];
         
         return $result;
@@ -467,7 +471,7 @@ class TurismoReceptorCorsController extends Controller
         return $municipios;
     }
     
-   
+
     public function getCargardatosseccionestancia($id = null){
         $municipios = Municipio::where('departamento_id', 1396)->select('id','nombre')->get();
         
@@ -693,8 +697,6 @@ class TurismoReceptorCorsController extends Controller
         return $encuestas;
     }
     
-    
-    
     public function getCargardatostransporte($id = null){
         
         $visitante = Visitante::find($id);
@@ -801,11 +803,11 @@ class TurismoReceptorCorsController extends Controller
         return ["success" => true, 'sw' => $sw];
     }
     
-    
     public function getCargardatosseccionviaje($id = null){
         $visitante = Visitante::find($id);
+        
         if($visitante == null){
-            return ["success" => false];
+            return ["success" => false, 'errores'=>$error];
         }
         
         $viaje_grupos = Tipo_Acompaniante_Visitante::with(["tiposAcompanianteConIdiomas" => function($q){
@@ -901,7 +903,6 @@ class TurismoReceptorCorsController extends Controller
 		return ["success" => true, 'sw' => $sw];
     }
 
-    
     public function getInfogasto($id){
         
         
@@ -1238,8 +1239,7 @@ class TurismoReceptorCorsController extends Controller
         $visitante->save();
         return ["success"=>true];
     }
-    
-    
+   
     public function getCargardatospercepcion($id){
         $visitante = Visitante::find($id);
         if($visitante == null){
@@ -1445,7 +1445,6 @@ class TurismoReceptorCorsController extends Controller
 		return ["success" => true, 'sw' => $sw];
     }
     
-    
     public function getCargardatosseccioninformacion($id){
         $visitante = Visitante::find($id);
         if($visitante == null){
@@ -1623,5 +1622,11 @@ class TurismoReceptorCorsController extends Controller
 		
         $visitante->save();
         return ["success" => true, 'sw' => $sw, 'codigo' => $visitante->codigo_grupo];
+    }
+    
+    
+    public function postTest(Request $request){
+        
+        return ['success'=>true, $request->all()];
     }
 }
