@@ -125,7 +125,7 @@
                         <span class="label label-danger" ng-show="ocupacionForm.porcentajeM.$error.max">* El campo porcentaje prestado a residentes en el Atlántico recibe solo números iguales o mayores que 0 y menores o iguales que 100.</span>
                     </span>
                     <span ng-show="ocupacionForm.$submitted">
-                        <span class="label label-danger" ng-show="(agencia.porcentajeC + agencia.porcentajeE + agencia.porcentajeM) != 100">* La suma de los valores porcentuales debe ser igual que 100.</span>
+                        <span class="label label-danger" ng-show="(agencia.porcentajeC + agencia.porcentajeE + agencia.porcentajeM) != 100 && (agencia.totalP != 0)">* La suma de los valores porcentuales debe ser igual que 100.</span>
                     </span>
                 </div>
             </div>
