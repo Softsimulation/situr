@@ -72,18 +72,19 @@ class TurismoReceptorCorsController extends Controller
 
     public function __construct()
     {
-        
+        /*
         $this->middleware('auth');
         $this->middleware('role:Admin');
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
+        */
     }
     public function getInformaciondatoscrear(){
         
         //$grupos = Grupo_Viaje::orderBy('id')->get()->pluck('id');
         
-        $encuestadores = Digitador::with([ 'aspNetUser'=>function($q){$q->select('id','username');} ])->get();
+        $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
         
         $lugar_nacimiento = Opcion_Lugar::with(["opcionesLugaresConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
@@ -227,7 +228,7 @@ class TurismoReceptorCorsController extends Controller
 		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
 		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
 		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = $this->user->digitador->id;
+		$visitante->digitada = 1;
 		$visitante->edad = $request->Edad;
 		$visitante->email = isset($request->Email) ? $request->Email : null;
 		$visitante->encuestador_creada = $request->Encuestador;
@@ -267,7 +268,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $condicion == 1  ? 3 : 1,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => 'La encuesta ha sido creada',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
         
         
@@ -290,7 +291,7 @@ class TurismoReceptorCorsController extends Controller
             $visitante['codigo_grupo'] = $visitanteCargar->codigo_grupo;
             //$visitante['Grupo'] = $visitanteCargar->grupo_viaje_id;
             $visitante['Encuestador'] = $visitanteCargar->encuestador_creada;
-            $visitante['Encuestador_nombre'] = $visitanteCargar->digitadoreDigitada->aspNetUser->username;
+            $visitante['Encuestador_nombre'] = $visitanteCargar->digitadoreDigitada->user->username;
             $visitante['Llegada'] = $visitanteCargar->fecha_llegada;
             $visitante['Salida'] = $visitanteCargar->fecha_salida;
             $visitante['fechaAplicacion'] = $visitanteCargar->fecha_aplicacion;
@@ -312,6 +313,7 @@ class TurismoReceptorCorsController extends Controller
             $visitante['Salud'] = count($visitanteCargar->tiposAtencionSaluds) > 0 ? $visitanteCargar->tiposAtencionSaluds->first()->id : null;
             $visitante['Horas'] = $visitanteCargar->visitantesTransito != null ? $visitanteCargar->visitantesTransito->horas_transito : null ;
             $visitante['Otro'] = $visitanteCargar->otrosMotivo != null ? $visitanteCargar->otrosMotivo->otro_motivo : null ;
+            $visitante['ultima_seccion']=$visitanteCargar->ultima_sesion;
             
             $departamentosr = Departamento::where('pais_id', $visitanteCargar->municipioResidencia->departamento->pais_id)->orderBy('nombre')->get(["id","nombre"]);
             $municipiosr = Municipio::where('departamento_id',$visitanteCargar->municipioResidencia->departamento_id)->orderBy('nombre')->get(["id","nombre"]);
@@ -413,7 +415,7 @@ class TurismoReceptorCorsController extends Controller
 		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
 		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
 		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = $this->user->digitador->id;
+		$visitante->digitada = 1;
 		$visitante->edad = $request->Edad;
 		$visitante->email = isset($request->Email) ? $request->Email : null;
 		$visitante->encuestador_creada = $request->Encuestador;
@@ -453,7 +455,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $condicion == 1 ? 3 : $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => 'Se ha modificado la sección de información general.',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
     	
     	$visitante->save();
@@ -682,7 +684,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se ha creado en la sección estancia y visitados' : 'Se ha editado la sección estancia y visitados',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
 		
 		$visitante->save();
@@ -784,8 +786,8 @@ class TurismoReceptorCorsController extends Controller
 		        $sostenibilidad = new Sostenibilidad_Visitante;
 		        $sostenibilidad->visitante_id = $request->Id;
 		        $sostenibilidad->estado = true;
-		        $sostenibilidad->user_update = $this->user->username;
-		        $sostenibilidad->user_create = $this->user->username;
+		        $sostenibilidad->user_update = 1;
+		        $sostenibilidad->user_create = 1;
 		    }
 		    $sostenibilidad->facil_llegar = $request->Calificacion;
 		    $sostenibilidad->save();
@@ -795,7 +797,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de transporte' : 'Se editó la sección de transporte',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
 		
 		$visitante->save();
@@ -895,7 +897,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de viaje en grupo' : 'Se editó la sección de viaje en grupo',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
 		
 		$visitante->save();
@@ -1233,7 +1235,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion == 7?2:1,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $visitante->ultima_sesion ==5?"Se ha creado la sección de gastos":"Se ha editado la sección de gastos",
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
         $visitante->save();
         return ["success"=>true];
@@ -1390,8 +1392,8 @@ class TurismoReceptorCorsController extends Controller
 		        $sostenibilidad = new Sostenibilidad_Visitante;
 		        $sostenibilidad->visitante_id = $request->Id;
 		        $sostenibilidad->estado = true;
-		        $sostenibilidad->user_update = $this->user->username;
-		        $sostenibilidad->user_create = $this->user->username;
+		        $sostenibilidad->user_update = 1;
+		        $sostenibilidad->user_create = 1;
 		    }else{
 		        $sostenibilidad->actividadesSostenibilidad()->detach();
 		    }
@@ -1437,7 +1439,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de fuente de percepción del visitante' : 'Se editó la sección de fuente de percepción del visitante',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
 		
 		$visitante->save();
@@ -1616,7 +1618,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' =>3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de fuente de información del visitante' : 'Se editó la sección de fuente de información del visitante',
-            'usuario_id' => $this->user->id
+            'usuario_id' => 1
         ]));
 		
         $visitante->save();
