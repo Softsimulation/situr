@@ -73,11 +73,12 @@ class TurismoReceptorCorsController extends Controller
     public function __construct()
     {
         
-        $this->middleware('auth');
-        $this->middleware('role:Admin');
-        if(Auth::user() != null){
-            $this->user = User::where('id',Auth::user()->id)->first(); 
-        }
+        // $this->middleware('auth');
+        // $this->middleware('role:Admin');
+        // if(Auth::user() != null){
+        //     $this->user = User::where('id',Auth::user()->id)->first(); 
+        // }
+        $this->user = User::first();
     }
     public function getInformaciondatoscrear(){
         
