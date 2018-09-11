@@ -1427,6 +1427,16 @@ class TurismoReceptorCorsController extends Controller
 	        $sostenibilidad->actividadesSostenibilidad()->detach();
 	    }
 	    
+	    if(isset($request->Flora)){
+	        $sostenibilidad->es_informado = $request->Flora != 0? true:false;
+	    }
+	    
+	    if(isset($request->Sostenibilidad)){
+	        $sostenibilidad->trato_turista = $request->Sostenibilidad;
+	    }
+	
+	    $sostenibilidad->save();
+	    
 	    if(isset($request->Elementos)){
 	        foreach($request->Elementos as $el){
 	            
@@ -1441,15 +1451,7 @@ class TurismoReceptorCorsController extends Controller
 	        
 	    }
 	    
-	    if(isset($request->Flora)){
-	        $sostenibilidad->es_informado = $request->Flora != 0? true:false;
-	    }
 	    
-	    if(isset($request->Sostenibilidad)){
-	        $sostenibilidad->trato_turista = $request->Sostenibilidad;
-	    }
-	
-	    $sostenibilidad->save();
 		
 	    /*$visitante->elementosRepresentativos()->attach($request->Elementos);
 	    if(in_array(11,$request->Elementos)){
