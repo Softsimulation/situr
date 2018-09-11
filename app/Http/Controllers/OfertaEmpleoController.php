@@ -227,13 +227,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -299,7 +299,7 @@ class OfertaEmpleoController extends Controller
             'Comercial' => 'required|numeric|min:0|max:1',
             'nombre' => 'required|string|min:1|max:255',
             'cargo' => 'required|string|min:1|max:255',
-            'email'=>'required|email',
+            'email'=>'email',
             'Encuestador'=>'required|exists:digitadores,id'
             
         ],[
@@ -443,13 +443,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -564,13 +564,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -2108,7 +2108,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		}
 		
 		$suma = $request->porcentajeC + $request->porcentajeE + $request->porcentajeM;
-		if($suma != 100){
+		if($suma != 100 && $request->totalP != 0){
 		    return ["success"=>false,"errores"=>[['La suma de los valores porcentuales debe ser igual que 100.']]];
 		}
 		
