@@ -47,7 +47,15 @@ class OfertaEmpleo
         }
         
         
+    
     $encuesta = Encuesta::find($request->one);
+    
+    
+    if($encuesta == null){
+         \Session::flash('mensaje','No existe la encuesta');
+                return redirect('/ofertaempleo/listadoproveedores');
+    }
+    
     if($encuesta->actividad_comercial == 0){
         return redirect('/ofertaempleo/encuestas/'.$encuesta->sitios_para_encuestas_id);
         
@@ -55,10 +63,7 @@ class OfertaEmpleo
     
     $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where id =".$request->one));
         
-    if($encuesta == null){
-         \Session::flash('mensaje','No existe la encuesta');
-                return redirect('/ofertaempleo/listadoproveedores');
-    }
+    
     
     if(strlen(strstr($request->path(),'ofertaempleo/agenciaviajes'))>0){
             
