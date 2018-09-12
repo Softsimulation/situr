@@ -42,4 +42,10 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Digitador');
         //return $this->belongsToMany('App\Models\Role');
     }
+    
+    public static function resolveUser()
+    {   
+        $user = JWTAuth::parseToken()->authenticate();
+        return $user;
+    }
 }
