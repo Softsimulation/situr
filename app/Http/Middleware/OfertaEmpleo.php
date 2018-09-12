@@ -56,6 +56,7 @@ class OfertaEmpleo
                 return redirect('/ofertaempleo/listadoproveedores');
     }
     
+    
     if($encuesta->actividad_comercial == 0){
         return redirect('/ofertaempleo/encuestas/'.$encuesta->sitios_para_encuestas_id);
         
