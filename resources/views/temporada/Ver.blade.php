@@ -143,7 +143,7 @@
                                     <td>@{{item.edificacione.barrio.nombre}}</td>
                                     <td>@{{item.edificacione.direccion}}</td>
                                     <td>@{{item.edificacione.estrato.nombre}}</td>
-                                    <td>@{{item.digitadore.asp_net_user.username}}</td>
+                                    <td>@{{item.digitadore.user.username}}</td>
                                     <td>@{{item.edificacione.nombre_entrevistado}}</td>
                                     <td>@{{item.fecha_realizacion }}</td>
                                     <td>
@@ -216,15 +216,15 @@
                             <tbody>
                                 <tr dir-paginate="item in temporada.encuestas|filter:prop.search|itemsPerPage:10 as results" pagination-id="personaP" style="border-bottom: .5px solid lightgray">
                                     <td>@{{item.codigo_encuesta}}</td>
-                                    <td>@{{item.hogare.fecha_realizacion }}</td>
+                                    <td>@{{item.persona.hogare.fecha_realizacion }}</td>
                                     <td>@{{item.fecha_inicio }}</td>
                                     <td>@{{item.fecha_final }}</td>
-                                    <td>@{{item.hogare.digitadore.asp_net_user.username}}</td>
-                                    <td>@{{item.hogare.edificacione.barrio.municipio.nombre}}</td>
-                                    <td>@{{item.hogare.edificacione.barrio.nombre}}</td>
+                                    <td>@{{item.persona.hogare.digitadore.user.username}}</td>
+                                    <td>@{{item.persona.hogare.edificacione.barrio.municipio.nombre}}</td>
+                                    <td>@{{item.persona.hogare.edificacione.barrio.nombre}}</td>
                                     <td>@{{item.ultima_sesion}}</td>
                                     <td>
-                                        <a href="/turismointerno/viajesrealizados/@{{item.hogare.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="/turismointerno/viajesrealizados/@{{item.persona.id}}"><span class="glyphicon glyphicon-pencil"></span></a>
                                     </td>
                                 </tr>
 

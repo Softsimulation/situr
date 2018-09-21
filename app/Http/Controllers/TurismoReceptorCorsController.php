@@ -64,16 +64,25 @@ use App\Models\Opcion_Actividad_Realizada;
 use App\Models\Visitante_Transporte_Dentro;
 use App\Models\Visitante_Transporte_Llegada;
 use App\Models\Lugar_Aplicacion_Encuesta;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class TurismoReceptorCorsController extends Controller
 {
 
+    public function __construct()
+    {
+        
+       $this->user = User::resolveUser(); 
+    }
+    
+    
     
     public function getInformaciondatoscrear(){
         
         //$grupos = Grupo_Viaje::orderBy('id')->get()->pluck('id');
         
-        $encuestadores = Digitador::with([ 'aspNetUser'=>function($q){$q->select('id','username');} ])->get();
+        $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
         
         $lugar_nacimiento = Opcion_Lugar::with(["opcionesLugaresConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
@@ -148,7 +157,7 @@ class TurismoReceptorCorsController extends Controller
        		'Encuestador.exists' => 'El encuenstador seleccionado no se encuentra registrado en el sistema.',
        		'Llegada.required' => 'El campo fecha de llegada es requerido.',
        		'Llegada.date' => 'El formato del campo fecha de llegada es inválido.',
-       		'Llegada.before_or_equal' => 'La fecha de llegada debe ser menor al día de hoy.',
+       		'Llegada.before' => 'La fecha de llegada debe ser menor al día de hoy.',
        		'Salida.required' => 'El campo fecha de salida es requerido.',
        		'Salida.date' => 'El formato del campo fecha de salida es inválido.',
        		'Salida.after' => 'La fecha de salida debe ser mayor o igual a la de llegada.',
@@ -199,63 +208,73 @@ class TurismoReceptorCorsController extends Controller
 // 		    return ["success"=>false,"errores"=> [ ["El grupo seleccionado ya tiene el número de encuestas completas."] ] ];
 // 		}
 		
-		$year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
-		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
+		\DB::beginTransaction();
 		
-		$digitador = Digitador::find($request->Encuestador);
-		
-		$visitante = new Visitante();
-		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
-		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
-		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = 1;
-		$visitante->edad = $request->Edad;
-		$visitante->email = isset($request->Email) ? $request->Email : null;
-		$visitante->encuestador_creada = $request->Encuestador;
-		$visitante->fecha_llegada = $request->Llegada;
-		$visitante->fecha_salida = $request->Salida;
-		//$visitante->grupo_viaje_id = $request->Grupo;
-		$visitante->motivo_viaje = $request->Motivo;
-		$visitante->municipio_residencia = $request->Municipio;
-		$visitante->nombre = $request->Nombre;
-		$visitante->opciones_lugares_id = $request->Nacimiento;
-		$visitante->pais_nacimiento = $request->Nacimiento != 3 ? 47 : $request->Pais_Nacimiento;
-		$visitante->sexo = $request->Sexo;
-		$visitante->ultima_sesion = 1;
-		$visitante->codigo_encuesta = $numeroEncuesta;
-		$visitante->codigo_grupo = $year.'_'.$month.'_'.$digitador->codigo.'_'.$numeroEncuesta;
-		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-		$visitante->lugar_aplicacion_id = $request->aplicacion;
-		$visitante->save();
-		
-		switch ($visitante->motivo_viaje)
-        {
-
-            case 3:
-                $visitante->visitantesTransito()->save( new Visitante_Transito(['horas_transito' => $request->Horas]) );
-                break;
-            case 5:
-                $visitante->tiposAtencionSaluds()->attach($request->Salud);
-                break;
-            case 18:
-                $visitante->otrosMotivo()->save( new Otro_Motivo([ 'otro_motivo' => $request->Otro ]) );
-                break;
-        }
-        
-        $condicion = ($visitante->motivo_viaje == 3 && $request->Horas <5) || ($visitante->motivo_viaje == 17) ? 1 : 0;
-        
-        $visitante->historialEncuestas()->save(new Historial_Encuesta([
-            'estado_id' => $condicion == 1  ? 3 : 1,
-            'fecha_cambio' => date('Y-m-d H:i:s'), 
-            'mensaje' => 'La encuesta ha sido creada',
-            'usuario_id' => 1
-        ]));
-        
-        
-		return ["success" => true, 'id' => $visitante->id, 'terminada' => $condicion];
+		try{
+		    
+		    $year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+    		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+    		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
+    		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
+    		
+    		$digitador = Digitador::find($request->Encuestador);
+    		
+    		$visitante = new Visitante();
+    		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
+    		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
+    		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
+    		$visitante->digitada = $this->user->digitador->id;
+    		$visitante->edad = $request->Edad;
+    		$visitante->email = isset($request->Email) ? $request->Email : null;
+    		$visitante->encuestador_creada = $request->Encuestador;
+    		$visitante->fecha_llegada = $request->Llegada;
+    		$visitante->fecha_salida = $request->Salida;
+    		//$visitante->grupo_viaje_id = $request->Grupo;
+    		$visitante->motivo_viaje = $request->Motivo;
+    		$visitante->municipio_residencia = $request->Municipio;
+    		$visitante->nombre = $request->Nombre;
+    		$visitante->opciones_lugares_id = $request->Nacimiento;
+    		$visitante->pais_nacimiento = $request->Nacimiento != 3 ? 47 : $request->Pais_Nacimiento;
+    		$visitante->sexo = $request->Sexo;
+    		$visitante->ultima_sesion = 1;
+    		$visitante->codigo_encuesta = $numeroEncuesta;
+    		$visitante->codigo_grupo = $year.'_'.$month.'_'.$digitador->codigo.'_'.$numeroEncuesta;
+    		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+    		$visitante->lugar_aplicacion_id = $request->aplicacion;
+    		$visitante->save();
+    		
+    		switch ($visitante->motivo_viaje)
+            {
+    
+                case 3:
+                    $visitante->visitantesTransito()->save( new Visitante_Transito(['horas_transito' => $request->Horas]) );
+                    break;
+                case 5:
+                    $visitante->tiposAtencionSaluds()->attach($request->Salud);
+                    break;
+                case 18:
+                    $visitante->otrosMotivo()->save( new Otro_Motivo([ 'otro_motivo' => $request->Otro ]) );
+                    break;
+            }
+            
+            $condicion = ($visitante->motivo_viaje == 3 && $request->Horas <5) || ($visitante->motivo_viaje == 17) ? 1 : 0;
+            
+            $visitante->historialEncuestas()->save(new Historial_Encuesta([
+                'estado_id' => $condicion == 1  ? 3 : 1,
+                'fecha_cambio' => date('Y-m-d H:i:s'), 
+                'mensaje' => 'La encuesta ha sido creada',
+                'usuario_id' => $this->user->id
+            ]));
+		    
+		    
+		    \DB::commit();
+		    return ["success" => true, 'id' => $visitante->id, 'terminada' => $condicion];
+		}catch(\Exception $e){
+		    \DB::rollback();
+		    return ["success" => false];
+		}
     }
+    
     
     
     public function getCargareditardatos($id){
@@ -273,7 +292,7 @@ class TurismoReceptorCorsController extends Controller
             $visitante['codigo_grupo'] = $visitanteCargar->codigo_grupo;
             //$visitante['Grupo'] = $visitanteCargar->grupo_viaje_id;
             $visitante['Encuestador'] = $visitanteCargar->encuestador_creada;
-            $visitante['Encuestador_nombre'] = $visitanteCargar->digitadoreDigitada->aspNetUser->username;
+            $visitante['Encuestador_nombre'] = $visitanteCargar->digitadoreDigitada->user->username;
             $visitante['Llegada'] = $visitanteCargar->fecha_llegada;
             $visitante['Salida'] = $visitanteCargar->fecha_salida;
             $visitante['fechaAplicacion'] = $visitanteCargar->fecha_aplicacion;
@@ -396,7 +415,7 @@ class TurismoReceptorCorsController extends Controller
 		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
 		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
 		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = 1;
+		$visitante->digitada = $this->user->digitador->id;
 		$visitante->edad = $request->Edad;
 		$visitante->email = isset($request->Email) ? $request->Email : null;
 		$visitante->encuestador_creada = $request->Encuestador;
@@ -436,7 +455,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $condicion == 1 ? 3 : $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => 'Se ha modificado la sección de información general.',
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
     	
     	$visitante->save();
@@ -453,7 +472,8 @@ class TurismoReceptorCorsController extends Controller
         return $municipios;
     }
     
-   
+    
+    
     public function getCargardatosseccionestancia($id = null){
         $municipios = Municipio::where('departamento_id', 1396)->select('id','nombre')->get();
         
@@ -626,12 +646,15 @@ class TurismoReceptorCorsController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 2){
 		    $sw =1;
-		    Municipio_Visitado_Magdalena::where('visitante_id', $visitante->id)->delete();
-		    Actividad_Realizada_Por_Visitante::where('visitante_id', $visitante->id)->delete();
-		    $visitante->opcionesActividadesRealizadas()->detach();
 		}else{
 		    $visitante->ultima_sesion = 2;
 		}
+		
+		//-----------------------------------------------------------------------------------
+		Municipio_Visitado_Magdalena::where('visitante_id', $visitante->id)->delete();
+	    Actividad_Realizada_Por_Visitante::where('visitante_id', $visitante->id)->delete();
+	    $visitante->opcionesActividadesRealizadas()->detach();
+	    //------------------------------------------------------------------------------------
 		
 		
 		foreach($request->Estancias as $estancia){
@@ -665,7 +688,7 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se ha creado en la sección estancia y visitados' : 'Se ha editado la sección estancia y visitados',
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
 		
 		$visitante->save();
@@ -745,12 +768,15 @@ class TurismoReceptorCorsController extends Controller
 		
 		$sw = 0;
 		if($visitante->ultima_sesion >= 3){
-		    $sw =1;
-		   $visitante->otroTransporteLlegada()->delete();
-		   $visitante->otroTransporteMover()->delete();
+	        $sw =1;
 		}else{
 		    $visitante->ultima_sesion = 3;
 		}
+		
+		//------------------------------------------------------
+		$visitante->otroTransporteLlegada()->delete();
+        $visitante->otroTransporteMover()->delete();
+		//------------------------------------------------------
 		
 		$visitante->transporte_llegada = $request->Llegar;
 		$visitante->transporte_interno = $request->Mover;
@@ -769,8 +795,8 @@ class TurismoReceptorCorsController extends Controller
 		        $sostenibilidad = new Sostenibilidad_Visitante;
 		        $sostenibilidad->visitante_id = $request->Id;
 		        $sostenibilidad->estado = true;
-		        $sostenibilidad->user_update = "Jhon";
-		        $sostenibilidad->user_create = "Jhon";
+		        $sostenibilidad->user_update = $this->user->username;
+		        $sostenibilidad->user_create = $this->user->username;
 		    }
 		    $sostenibilidad->facil_llegar = $request->Calificacion;
 		    $sostenibilidad->save();
@@ -780,12 +806,13 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de transporte' : 'Se editó la sección de transporte',
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
 		
 		$visitante->save();
         return ["success" => true, 'sw' => $sw];
     }
+    
     
     
     public function getCargardatosseccionviaje($id = null){
@@ -855,17 +882,22 @@ class TurismoReceptorCorsController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 4){
 		    $sw =1;
-		    $acompaniantes = $visitante->tiposAcompañantesVisitantes()->pluck('id')->toArray();
-		    if(in_array(9,$acompaniantes)){
-		        $visitante->otrosTurista()->delete();
-		    }
-		    if(in_array(12,$acompaniantes)){
-		        $visitante->otrosAcompañantesViaje()->delete();
-		    }
-		    $visitante->tiposAcompañantesVisitantes()->detach();
 		}else{
 		    $visitante->ultima_sesion = 4;
 		}
+		
+		//-----------------------------------------------------------------------------
+		
+		$acompaniantes = $visitante->tiposAcompañantesVisitantes()->pluck('id')->toArray();
+	    if(in_array(9,$acompaniantes)){
+	        $visitante->otrosTurista()->delete();
+	    }
+	    if(in_array(12,$acompaniantes)){
+	        $visitante->otrosAcompañantesViaje()->delete();
+	    }
+	    $visitante->tiposAcompañantesVisitantes()->detach();
+		
+		//-----------------------------------------------------------------------------
 		
 		if(in_array(9,$request->Personas)){
 	        $visitante->otrosTurista()->save(new Otro_Turista(['numero_otros'=>$request->Numero_otros]));
@@ -880,13 +912,14 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de viaje en grupo' : 'Se editó la sección de viaje en grupo',
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
 		
 		$visitante->save();
 		return ["success" => true, 'sw' => $sw];
     }
-
+    
+    
     
     public function getInfogasto($id){
         
@@ -965,7 +998,7 @@ class TurismoReceptorCorsController extends Controller
         
         $encuesta["Otro"] = null;
         if(in_array(11,$encuesta["Financiadores"])){
-           $encuesta["Otro"]= Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first()->pivot->otro;
+           $encuesta["Otro"]= Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first() != null ? Visitante::find($id)->financiadoresViajes()->wherePivot('otro','!=',null)->first()->pivot->otro : null;
         }
         
          
@@ -1219,11 +1252,12 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion == 7?2:1,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $visitante->ultima_sesion ==5?"Se ha creado la sección de gastos":"Se ha editado la sección de gastos",
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
         $visitante->save();
         return ["success"=>true];
     }
+    
     
     
     public function getCargardatospercepcion($id){
@@ -1267,6 +1301,7 @@ class TurismoReceptorCorsController extends Controller
         //$infraestructura = count(Calificacion::where("visitante_id",$visitante->id)->whereIn('item_evaluar_id',[21,23])->get()) >0 ?1:0;
         
         $sostenibilidad = Sostenibilidad_Visitante::find($id);
+        $respuestaElementos = array();
         if($sostenibilidad != null){
             $respuestaElementos = $sostenibilidad->actividadesSostenibilidad()->pluck('id')->toArray();
             $flora = $sostenibilidad->es_informado?1:0;
@@ -1275,8 +1310,10 @@ class TurismoReceptorCorsController extends Controller
         
         
         $otroElemento = null;
-        if(in_array(12,$respuestaElementos)){
-           $otroElemento= $sostenibilidad->actividadesSostenibilidad()->wherePivot('nombre','<>',null)->first()->pivot->nombre;
+        if(isset($respuestaElementos)){
+            if(in_array(12,$respuestaElementos)){
+               $otroElemento= $sostenibilidad->actividadesSostenibilidad()->wherePivot('nombre','<>',null)->first()->pivot->nombre;
+            }
         }
         
         $valo = Valoracion_General::where('visitante_id',$visitante->id)->select(["recomendaciones as Recomendacion","calificacion as Calificacion", "volveria as Volveria","recomendaria as Recomienda","veces_visitadas as Veces"])->first();
@@ -1285,7 +1322,7 @@ class TurismoReceptorCorsController extends Controller
         
         $actividades = Actividades_Sostenibilidad_Idiomas::whereHas('idioma',function($q){
             $q->where('culture','es');
-        })->select('actividades_sostenibilidad_id as id','nombre')->get();;
+        })->select('actividades_sostenibilidad_id as id','nombre')->get();
         
         $retorno = [
             'success' => true,
@@ -1302,8 +1339,8 @@ class TurismoReceptorCorsController extends Controller
             'valoracion' => $valo,
             'otroElemento' => $otroElemento,
             'actividades'=>$actividades,
-            'flora'=>$flora,
-            'sost'=>$sost,
+            'flora'=> isset($flora) ? $flora : null,
+            'sost'=> isset($sost) ? $sost : null,
         ];
         
         return $retorno;
@@ -1325,7 +1362,7 @@ class TurismoReceptorCorsController extends Controller
 			'Recomienda' => 'required|exists:volveria_visitar,id',
 			'VecesVisitadas' => 'required',
 			'OtroElementos' => 'max:100',
-			'Evaluacion' => 'required',
+			'Evaluacion' => 'array',
     	],[
        		'Id.required' => 'Debe seleccionar el visitante a realizar la encuesta.',
        		'Id.exists' => 'El visitante seleccionado no se encuentra seleccionado en el sistema.',
@@ -1357,55 +1394,58 @@ class TurismoReceptorCorsController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 6){
 		    $sw =1;
-		    $visitante->elementosRepresentativos()->detach();
-	        $visitante->calificacions()->delete();
-	        $visitante->valoracionGeneral()->delete();
-	        if($visitante->otrosElementosRepresentativo!=null){$visitante->otrosElementosRepresentativo()->delete();}
 		}else{
 		    $visitante->ultima_sesion = 6;
 		}
 		
+		$visitante->elementosRepresentativos()->detach();
+        $visitante->calificacions()->delete();
+        $visitante->valoracionGeneral()->delete();
+        if($visitante->otrosElementosRepresentativo!=null){$visitante->otrosElementosRepresentativo()->delete();}
+		
 		foreach($request->Evaluacion as $evaluacion){
-		        $visitante->calificacions()->save(new Calificacion([
-	                'item_evaluar_id' => $evaluacion['Id'],
-	                'calificacion' => $evaluacion['Valor']
-	            ]));
-		    }
+	        $visitante->calificacions()->save(new Calificacion([
+                'item_evaluar_id' => $evaluacion['Id'],
+                'calificacion' => $evaluacion['Valor']
+            ]));
+	    }
 		
 		$sostenibilidad = Sostenibilidad_Visitante::find($request->Id);
-		    if($sostenibilidad == null){
-		        $sostenibilidad = new Sostenibilidad_Visitante;
-		        $sostenibilidad->visitante_id = $request->Id;
-		        $sostenibilidad->estado = true;
-		        $sostenibilidad->user_update = "Jhon";
-		        $sostenibilidad->user_create = "Jhon";
-		    }else{
-		        $sostenibilidad->actividadesSostenibilidad()->detach();
-		    }
-		    
-		    if(isset($request->Elementos)){
-		        foreach($request->Elementos as $el){
-		            
-		            if($el == 12){
-		                
-		                $sostenibilidad->actividadesSostenibilidad()->attach($el,['nombre'=>$request->OtroElementos]);
-		            }else{
-		                 $sostenibilidad->actividadesSostenibilidad()->attach($el);
-		            }
-		            
-		        }
-		        
-		    }
-		    
-		    if(isset($request->Flora)){
-		        $sostenibilidad->es_informado = $request->Flora != 0? true:false;
-		    }
-		    
-		    if(isset($request->Sostenibilidad)){
-		        $sostenibilidad->trato_turista = $request->Sostenibilidad;
-		    }
-		
-		    $sostenibilidad->save();
+	    if($sostenibilidad == null){
+	        $sostenibilidad = new Sostenibilidad_Visitante;
+	        $sostenibilidad->visitante_id = $request->Id;
+	        $sostenibilidad->estado = true;
+	        $sostenibilidad->user_update = $this->user->username;
+	        $sostenibilidad->user_create = $this->user->username;
+	    }else{
+	        $sostenibilidad->actividadesSostenibilidad()->detach();
+	    }
+	    
+	    if(isset($request->Flora)){
+	        $sostenibilidad->es_informado = $request->Flora != 0? true:false;
+	    }
+	    
+	    if(isset($request->Sostenibilidad)){
+	        $sostenibilidad->trato_turista = $request->Sostenibilidad;
+	    }
+	
+	    $sostenibilidad->save();
+	    
+	    if(isset($request->Elementos)){
+	        foreach($request->Elementos as $el){
+	            
+	            if($el == 12){
+	                
+	                $sostenibilidad->actividadesSostenibilidad()->attach($el,['nombre'=>$request->OtroElementos]);
+	            }else{
+	                 $sostenibilidad->actividadesSostenibilidad()->attach($el);
+	            }
+	            
+	        }
+	        
+	    }
+	    
+	    
 		
 	    /*$visitante->elementosRepresentativos()->attach($request->Elementos);
 	    if(in_array(11,$request->Elementos)){
@@ -1424,12 +1464,13 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' => $visitante->ultima_sesion != 7 ? 2 : 3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de fuente de percepción del visitante' : 'Se editó la sección de fuente de percepción del visitante',
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
 		
 		$visitante->save();
 		return ["success" => true, 'sw' => $sw];
     }
+    
     
     
     public function getCargardatosseccioninformacion($id){
@@ -1442,13 +1483,13 @@ class TurismoReceptorCorsController extends Controller
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('fuentes_informacion_antes_viaje_id','nombre');
-        }])->get();
+        }])->orderBy('peso')->get();
         
         $fuentesDurante = Fuente_Informacion_Durante_Viaje::with(["fuentesInformacionDuranteViajeConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('fuente_informacion_durante_viaje_id','nombre');
-        }])->get();
+        }])->orderBy('peso')->get();
         
         $redes = Redes_Sociales::where('estado',1)->get(['id as Id','nombre as Nombre']);
         
@@ -1552,26 +1593,30 @@ class TurismoReceptorCorsController extends Controller
 		$sw = 0;
 		if($visitante->ultima_sesion >= 7){
 		    $sw =1;
-		    $fuentesAntes = $visitante->fuentesInformacionAntesViajes()->pluck('id')->toArray();
-		    $fuentesDurante = $visitante->fuentesInformacionDuranteViajes()->pluck('id')->toArray();
-		    
-		    if(in_array(14,$fuentesAntes)){
-		        $visitante->otrasFuenteInformacionAntesViaje()->delete();
-		    }
-		    if(in_array(14,$fuentesDurante)){
-		        $visitante->otrasFuenteInformacionDuranteViaje()->delete();
-		    }
-		    
-		    if($visitante->visitanteCompartirRede != null){
-		       $visitante->visitanteCompartirRede()->delete(); 
-		    }
-		    
-		    $visitante->fuentesInformacionAntesViajes()->detach();
-		    $visitante->fuentesInformacionDuranteViajes()->detach();
-		    $visitante->redesSociales()->detach();
 		}else{
 		    $visitante->ultima_sesion = 7;
 		}
+		
+		//----------------------------------------------------------------------------------------------
+		$fuentesAntes = $visitante->fuentesInformacionAntesViajes()->pluck('id')->toArray();
+	    $fuentesDurante = $visitante->fuentesInformacionDuranteViajes()->pluck('id')->toArray();
+	    
+	    if(in_array(14,$fuentesAntes)){
+	        $visitante->otrasFuenteInformacionAntesViaje()->delete();
+	    }
+	    if(in_array(14,$fuentesDurante)){
+	        $visitante->otrasFuenteInformacionDuranteViaje()->delete();
+	    }
+	    
+	    if($visitante->visitanteCompartirRede != null){
+	       $visitante->visitanteCompartirRede()->delete(); 
+	    }
+	    
+	    $visitante->fuentesInformacionAntesViajes()->detach();
+	    $visitante->fuentesInformacionDuranteViajes()->detach();
+	    $visitante->redesSociales()->detach();
+	    
+	    //----------------------------------------------------------------------------------------------
 		
 		$visitante->fuentesInformacionAntesViajes()->attach($request->FuentesAntes);
 		$visitante->fuentesInformacionDuranteViajes()->attach($request->FuentesDurante);
@@ -1604,10 +1649,15 @@ class TurismoReceptorCorsController extends Controller
             'estado_id' =>3,
             'fecha_cambio' => date('Y-m-d H:i:s'), 
             'mensaje' => $sw == 0 ? 'Se completó la sección de fuente de información del visitante' : 'Se editó la sección de fuente de información del visitante',
-            'usuario_id' => 1
+            'usuario_id' => $this->user->id
         ]));
 		
         $visitante->save();
         return ["success" => true, 'sw' => $sw, 'codigo' => $visitante->codigo_grupo];
+    }
+    
+    public function postTest(Request $request){
+        
+        return ['success'=>true, $request->all()];
     }
 }

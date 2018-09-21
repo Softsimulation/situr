@@ -15,22 +15,12 @@ app.factory("OfertaEmpleoServi", ["$http", "$q", function ($http, $q) {
             })
             return promise;
         },
-        guardarCaracterizacionAlojamiento: function (data) {
+        
+        GuardaralojamientoTrimestral: function (data) {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.post('/ofertaempleo/guardarcaracterizacionalojamientos', data ).success(function (data) {
-                defered.resolve(data);
-            }).error(function (err) {
-                defered.reject(err);
-            })
-            return promise;
-        },
-        guardarOfertaAlojamiento: function (data) {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
-            $http.post('/ofertaempleo/guardarofertaalojamientos', data ).success(function (data) {
+            $http.post('/ofertaempleo/guardaralojamientotrimestral', data ).success(function (data) {
                 defered.resolve(data);
             }).error(function (err) {
                 defered.reject(err);
@@ -38,6 +28,17 @@ app.factory("OfertaEmpleoServi", ["$http", "$q", function ($http, $q) {
             return promise;
         },
         
-        
+        GuardaralojamientoMensual: function (data) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.post('/ofertaempleo/guardaralojamientomensual', data ).success(function (data) {
+                defered.resolve(data);
+            }).error(function (err) {
+                defered.reject(err);
+            })
+            return promise;
+        },
+       
     }
 }]);

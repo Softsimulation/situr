@@ -112,9 +112,9 @@ class Viaje extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-      public function hogare()
+      public function persona()
     {
-        return $this->belongsTo('App\Models\Hogar', 'hogar_id');
+        return $this->belongsTo('App\Models\Persona', 'persona_id');
     }
 
     /**

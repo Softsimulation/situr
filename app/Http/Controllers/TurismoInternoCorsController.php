@@ -11,6 +11,7 @@ use App\Models\Motivo_No_Viaje;
 use App\Models\Estrato;
 use App\Models\Barrio;
 use App\Models\Digitador;
+
 use App\Models\Edificacion;
 use App\Models\Hogar;
 use App\Models\Persona;
@@ -20,6 +21,7 @@ use App\Models\Tipo_Transporte_Interno;
 use App\Models\Viaje;
 use App\Models\Empresa_Terrestre_Interno;
 use App\Models\Historial_Encuesta_Interno;
+
 use App\Models\Rubro_Interno;
 use App\Models\Financiador_Viaje;
 use App\Models\Viaje_Financiadore;
@@ -31,9 +33,11 @@ use App\Models\Divisa;
 use App\Models\Servicio_Excursion_Incluido_Interno;
 use App\Models\Lugar_Agencia_Viaje;
 use App\Models\Pago_Peso_Colombiano;
+
 use App\Models\Opcion_Actividad_Realizada;
 use App\Models\Sub_Opcion_Actividad_Realizada_Interno;
 use App\Models\Opcion_Actividad_Realizada_Interno;
+
 use App\Models\Pais_Con_Idioma;
 use App\Models\Departamento;
 use App\Models\Tipo_Alojamiento_Con_Idioma;
@@ -51,11 +55,15 @@ use App\Models\Atraccion_Visitada_Interno;
 use App\Models\Lugar_Visitado_Interno;
 use App\Models\Actividad_Realizada_Interno;
 use App\Models\Actividad_Realizada_Viajero;
+
+
 use App\Models\Ciudad_Visitada;
 use App\Models\Acompaniante_Viaje_Hogar;
 use App\Models\Acompaniante_Sin_Gasto;
 use App\Models\Otros_Turistas_Interno;
+
 use App\Models\Ubicacion_Agencia_Viaje;
+
 use App\Models\Fuente_Informacion_Antes_Viaje;
 use App\Models\Fuente_Informacion_Durante_Viaje;
 use App\Models\Redes_Sociales;
@@ -79,9 +87,22 @@ use App\Models\Tipo_Proveedor_Paquete;
 use App\Models\Ocupacion;
 use App\Models\OcupacionPersona;
 use App\Models\OtraRed;
+use App\Models\Temporada;
+
+
+
 
 class TurismoInternoCorsController extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+        $this->middleware('role:Admin');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function getDatoshogar(){
         
         $municipios=Municipio::where('departamento_id',1396)->get();
@@ -97,14 +118,14 @@ class TurismoInternoCorsController extends Controller
     }
     
     public function postBarrios(Request $request){
-        
+     
         $barrios=Barrio::where('municipio_id',$request->id)->get();
         return ['barrios'=>$barrios];
         
     }
     
     public function postGuardarhogar(Request $request){
-        
+        //dd($request->all());
         $validator=\Validator::make($request->all(),[
                 
                 'Fecha_aplicacion'=>'required|date|before:tomorrow',
@@ -130,8 +151,8 @@ class TurismoInternoCorsController extends Controller
         $edificacion->nombre_entrevistado=$request->Nombre_Entrevistado;
         $edificacion->telefono_entrevistado=$request->Celular_Entrevistado;
         $edificacion->email_entrevistado=$request->Email_Entrevistado;
-        $edificacion->user_create="Pater";
-        $edificacion->user_update="Pater";
+        $edificacion->user_create=$this->user->username;
+        $edificacion->user_update=$this->user->username;
         $edificacion->save();
         
         $hogar=new Hogar();
@@ -201,9 +222,6 @@ class TurismoInternoCorsController extends Controller
         if($persona==null){
             return ['success'=>false, "error"=>"La persona seleccionada no existe"];
         }
-        if($persona->viajes->count()>0){
-            return ["success"=>false,"error"=>"La persona tiene viajes registrados no puede ser eliminado"];
-        }
         if($persona->motivoNoViajes->count()>0){
             
             $aux=No_Viajero::where('persona_id',$request->id)->delete();
@@ -246,7 +264,7 @@ class TurismoInternoCorsController extends Controller
         $edificacion->nombre_entrevistado=$request->Nombre_Entrevistado;
         $edificacion->telefono_entrevistado=$request->Celular_Entrevistado;
         $edificacion->email_entrevistado=$request->Email_Entrevistado;
-        $edificacion->user_update="Pater";
+        $edificacion->user_update=$this->user->username;
         $edificacion->save();
         
       
@@ -470,7 +488,7 @@ class TurismoInternoCorsController extends Controller
 		$historial=new Historial_Encuesta_Interno();
         $historial->viajes_id=$viaje->id;
         $historial->estado_id=($viaje->ultima_sesion != 7)?2:3;
-        $historial->digitador_id=1;
+        $historial->digitador_id=$this->user->digitador->id;
         $historial->fecha_cambio=\Carbon\Carbon::now();
         $historial->mensaje=($sw==0)?"Se completó la sección de actividades realizadas":"Se editó la sección de actividades realizadas";
         $historial->save();
@@ -718,7 +736,7 @@ class TurismoInternoCorsController extends Controller
         $historial=new Historial_Encuesta_Interno();
         $historial->viajes_id=$viaje->id;
         $historial->estado_id=($viaje->ultima_sesion!=7)?2:3;
-        $historial->digitador_id=1;
+        $historial->digitador_id=$this->user->digitador->id;
         $historial->fecha_cambio=\Carbon\Carbon::now();
         $historial->mensaje=($sw==0)?"Se completó la sección de fuentes de información del viajero":"Se editó la sección de fuentes de información del viajero";
         $historial->save();
@@ -895,7 +913,7 @@ class TurismoInternoCorsController extends Controller
         $viaje->financiadoresViajes()->attach($request->financiadores);
        
         $historial = new Historial_Encuesta_Interno([ 
-                                                      'digitador_id'=> 1, 
+                                                      'digitador_id'=> $this->user->digitador->id, 
                                                       'estado_id'=> ( $viaje->ultima_sesion!=5 ? 2 : 3 ), 
                                                       'viajes_id'=> $viaje->id, 
                                                       'fecha_cambio'=> date("Y-m-d H:i:s"), 
@@ -995,7 +1013,7 @@ class TurismoInternoCorsController extends Controller
           $historial=new Historial_Encuesta_Interno();
           $historial->viajes_id=$viajero->id;
           $historial->estado_id=($viajero->ultima_sesion != 7)?2:3;
-          $historial->digitador_id=1;
+          $historial->digitador_id=$this->user->digitador->id;
           $historial->fecha_cambio=\Carbon\Carbon::now();
           $historial->mensaje=($sw==0)?"Se completó la sección de transporte":"Se editó la sección de transporte";
           $historial->save();
@@ -1629,7 +1647,7 @@ class TurismoInternoCorsController extends Controller
         
     }
     
-     public function postSiguienteviaje (Request $request){
+    public function postSiguienteviaje (Request $request){
      
       $validator = \Validator::make($request->all(), [
       'id' => 'required|exists:hogares,id',
@@ -1656,6 +1674,49 @@ class TurismoInternoCorsController extends Controller
         
         return ["success" => true];
         
+    }
+    
+    public function getGettemporadas(){
+        
+        $temporadas=Temporada::orderby('created_at','desc')
+                    ->get([
+                            'id',
+                            'nombre as Nombre',
+                            'name as Name',
+                            'fecha_ini as Fecha_ini',
+                            'fecha_fin as Fecha_fin',
+                            'estado as Estado']);
+                            
+        return ['temporadas'=>$temporadas];
+        
+    }
+    
+    public function getCargardatos($one){
+        
+        $temporada=Temporada::where('id',$one)
+        ->first(["id",
+                  "nombre as Nombre",
+                  "name as Name",
+                  "fecha_ini as Fecha_ini",
+                  "fecha_fin as Fecha_fin"
+                  ]);
+                  
+        $temporada->Hogares=Hogar::whereHas('edificacione',function($q)use($temporada){
+            $q->where('temporada_id',$temporada->id);
+        })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.aspNetUser')->get();
+        
+    
+        
+        
+        
+        return ['temporada'=>$temporada];
+        
+    }
+    
+    public function getAllMunicipiosYDptos(){
+        $municipios=Municipio::all();
+        $departamentos=Departamento::all();
+        return ['municipios'=> $municipios, 'departamentos' => $departamentos];
     }
     
 }

@@ -1,4 +1,4 @@
-@extends('layout._encuestaLayout')
+@extends('layout._encuestaLayout',['saltoSeccion' => $id])
 
 @section('title', 'Encuesta turismo receptor')
 
@@ -111,6 +111,7 @@
                 </span>
             </div>
         </div>
+        
         <div class="panel panel-success">
             <div class="panel-heading">
                 <!-- Experiencia de viaje-->
