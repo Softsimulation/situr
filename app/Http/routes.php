@@ -48,6 +48,11 @@ Route::get('/entidadesAsociadas', function () {
     return view('publico.situr.entidadesAsociadas');
   
 });
+Route::get('/listados', function () {
+
+    return view('publico.listados.index');
+  
+});
 
 Route::controller('/temporada','TemporadaController');
 Route::controller('/turismointerno','TurismoInternoController');
