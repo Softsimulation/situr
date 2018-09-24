@@ -81,6 +81,19 @@ Route::controller('/administradoractividades', 'AdministradorActividadesControll
 
 Route::controller('/administradordestinos', 'AdministradorDestinosController');
 
+// Public Jáder
+Route::controller('/atracciones', 'AtraccionesController');
+
+Route::controller('/actividades', 'ActividadesController');
+
+Route::controller('/destinos', 'DestinosController');
+
+Route::controller('/rutas', 'RutasTuristicasController');
+
+Route::controller('/eventos', 'EventosController');
+
+Route::controller('/proveedor', 'ProveedoresController');
+
 Route::group(['middleware' => 'cors'], function(){
  
    Route::controller('/turismointernoapi','TurismoInternoCorsController');
