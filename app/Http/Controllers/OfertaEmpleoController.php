@@ -91,6 +91,12 @@ class OfertaEmpleoController extends Controller
         return view('ofertaEmpleo.Crearencuesta');
     }
     
+    
+    public function getTipo(){
+        $data = Categoria_Proveedor_Con_Idioma::where("idiomas_id",1)->get();
+        return $data;
+    }
+    
     public function getActivar($one){
         return view('ofertaEmpleo.Activar',['id'=>$one]);
     }
@@ -110,14 +116,14 @@ class OfertaEmpleoController extends Controller
         
             'proveedor_rnt_id' => 'required|exists:proveedores_rnt,id',
             'nombre_contacto' => 'required|string|min:1|max:255',
-            'cargo_contacto' => 'required|string|min:1|max:255',
-            'email'=>'required|email',
+            'cargo_contacto' => 'string|min:1|max:255',
+            'email'=>'email',
             'categoria_proveedor_id' => 'required|exists:categoria_proveedores,id',
             'municipio_id' => 'required|exists:municipios,id',
             'razon_social' => 'required|string|min:1|max:255',
             'direccion' => 'required|string|min:1|max:255',
-            'telefono_fijo' => 'required|string|min:1|max:255',
-            'celular' => 'required|string|min:1|max:255',
+            'telefono_fijo' => 'string|min:1|max:255',
+            'celular' => 'string|min:1|max:255',
             'camara_comercio' => 'required|numeric|min:0|max:1',
             'registro_turismo' => 'required|numeric|min:0|max:1',
           
@@ -212,7 +218,7 @@ class OfertaEmpleoController extends Controller
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
-                    if($tipo->proveedor->categoria->id == 15){
+                    if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
                          $ruta = "/ofertaempleo/agenciaviajes";
                     }
                      if($tipo->proveedor->categoria->id == 14){
@@ -221,13 +227,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -293,7 +299,7 @@ class OfertaEmpleoController extends Controller
             'Comercial' => 'required|numeric|min:0|max:1',
             'nombre' => 'required|string|min:1|max:255',
             'cargo' => 'required|string|min:1|max:255',
-            'email'=>'required|email',
+            'email'=>'email',
             'Encuestador'=>'required|exists:digitadores,id'
             
         ],[
@@ -428,7 +434,7 @@ class OfertaEmpleoController extends Controller
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
-                    if($tipo->proveedor->categoria->id == 15){
+                     if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
                          $ruta = "/ofertaempleo/agenciaviajes";
                     }
                      if($tipo->proveedor->categoria->id == 14){
@@ -437,13 +443,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -549,7 +555,7 @@ class OfertaEmpleoController extends Controller
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
-                    if($tipo->proveedor->categoria->id == 15){
+                  if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
                          $ruta = "/ofertaempleo/agenciaviajes";
                     }
                      if($tipo->proveedor->categoria->id == 14){
@@ -558,13 +564,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -1549,46 +1555,24 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 
             }
         }
-        $redireccion = false;
         $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where id =".$request->id));
-        if($ventaPlanesTuristicos != 1 && intval($request->Planes) == 0){
-            if($data[0]->estado_id < 3){
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => 7,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }else{
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => $data[0]->estado_id,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }
-            
+        if($data[0]->estado_id < 3){
+            Historial_Encuesta_Oferta::create([
+               'encuesta_id' => $request->id, 
+               'user_id' => $this->user->id,
+               'estado_encuesta_id' => 2,
+               'fecha_cambio' => Carbon::now()
+           ]);
         }else{
-            if($data[0]->estado_id < 3){
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => 2,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }else{
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => $data[0]->estado_id,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }
-            
-           $redireccion = true;
+            Historial_Encuesta_Oferta::create([
+               'encuesta_id' => $request->id, 
+               'user_id' => $this->user->id,
+               'estado_encuesta_id' => $data[0]->estado_id,
+               'fecha_cambio' => Carbon::now()
+           ]);
         }
         
-        return ["success"=>true, "redireccion"=>$redireccion, "sitio"=>$agencia->sitios_para_encuestas_id];
+        return ["success"=>true];
     }
     public function getDatosofertaagencia(){
         //var destinos = (from destino in conexion.opciones_personas_destinos select new { id = destino.id, nombre = destino.nombre }).ToList();
@@ -1641,9 +1625,9 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             ); 
             $errores = [];
             //return $request->personas;
-            if($request->ventaPlanes == true){
+            if($request->personas != null){
                 foreach ($request->personas as $fila)
-                {
+                {   if(intval($fila["numerototal"]) != 0){
                     if(intval($fila["internacional"]) + intval($fila["nacional"]) != 100){
                         $errores["Porcentajes"][0] = "Todo los porcentajes en la seccion personas que viajaron segun destinos deben sumar 100.";
                     }
@@ -1651,11 +1635,16 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                     if(Opcion_Persona_Destino::where('id',intval($fila["opciones_personas_destino_id"]))->first() == null){
                         $errores["Opciones"][0] = "Una de las opciones cargadas no esta disponible.";
                     }
+                  }
                 }
+            }else{
+                $errores = [["Formulario con respecto a las personas que viajaron según destino se encuentra incompleto."]];
             }
             if($request->ofrecePlanesConDestino == true){
+                if($request->numero != 0){
                 if($request->magdalena + $request->nacional + $request->internacional != 100){
                     $errores["PorcentajeMagdalena"][0] = "Los porcentajes en los viajes en el Atlántico deben sumar 100.";
+                    }
                 }
             }
             
@@ -1668,7 +1657,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             {
                 //$agencia->personasDestinoConViajesTurismos()->detach();
                 $personas = Persona_Destino_Con_Viaje_Turismo::where('viajes_turismos_id',$agencia->id)->delete();
-                if($request->ventaPlanes == true){
+                if($request->personas != null){
                     foreach ($request->personas as $fila)
                     {
                         //return $fila;
@@ -1686,17 +1675,24 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 }
                 if($request->ofrecePlanesConDestino == true){
                     $planSantaMarta = Plan_Santamarta::where('viajes_turismos_id',$agencia->id)->first();
+                    if($planSantaMarta == null){
+                        $planSantaMarta = new Plan_Santamarta();
+                        $planSantaMarta->viajes_turismos_id = $agencia->id;
+                    }
                     $planSantaMarta->numero = $request->numero;
                     $planSantaMarta->residentes = $request->magdalena;
                     $planSantaMarta->noresidentes = $request->nacional;
                     $planSantaMarta->extrajeros = $request->internacional;
                     $planSantaMarta->save();
+                }else{
+                    $planSantaMarta = Plan_Santamarta::where('viajes_turismos_id',$agencia->id)->delete();
+                    
                 }
                 
             }
             else
             {
-                if($request->ventaPlanes == true){
+                if($request->personas != null){
                     foreach ($request->personas as $fila)
                     {
                         //return $fila;
@@ -1794,8 +1790,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             'id' => 'required|exists:encuestas,id',
             'sirvePlatos' => 'required|exists:actividades_servicios,id',
             'especialidad' => 'required|exists:especialidades,id',
-            'mesas' => 'required|numeric|min:1',
-            'asientos' => 'required|numeric|min:1',
+            'mesas' => 'required|numeric|min:0',
+            'asientos' => 'required|numeric|min:0',
             
         ],[
             'id.required' => 'Tuvo primero que haber creado una encuesta.',
@@ -1910,11 +1906,11 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         if($provision["capacidadAlimento"] != null || sizeof($provision["capacidadAlimento"]) > 0){
             $capacidad["platosMaximo"] = $provision["capacidadAlimento"]->max_platos;
             $capacidad["platoServido"] = $provision["capacidadAlimento"]->platos_servidos;
-            $capacidad["precioPlato"] = intval($provision["capacidadAlimento"]->valor_plato);
+            $capacidad["precioPlato"] = $provision["capacidadAlimento"]->valor_plato == null ? null : intval($provision["capacidadAlimento"]->valor_plato);
             $capacidad["platosPromedio"] = $provision["capacidadAlimento"]->promedio_unidades;
             $capacidad["unidadServida"] = $provision["capacidadAlimento"]->unidades_vendidas;
             
-            $capacidad["precioUnidad"] = intval($provision["capacidadAlimento"]->valor_unidad);
+            $capacidad["precioUnidad"] = $provision["capacidadAlimento"]->valor_unidad == null ? null : intval($provision["capacidadAlimento"]->valor_unidad);
             $capacidad["porcentajeOtrasRegiones"] = $provision->numero_extranjeros;
             /*$capacidad["bebidasMaximo"] = $provision["capacidadAlimento"]->bebidas_promedio;
             $capacidad["bebidasServidas"] = $provision["capacidadAlimento"]->bebidas_servidas;
@@ -2099,7 +2095,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		}
 		
 		$suma = $request->porcentajeC + $request->porcentajeE + $request->porcentajeM;
-		if($suma != 100){
+		if($suma != 100 && $request->totalP != 0){
 		    return ["success"=>false,"errores"=>[['La suma de los valores porcentuales debe ser igual que 100.']]];
 		}
 		

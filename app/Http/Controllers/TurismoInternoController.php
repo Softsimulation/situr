@@ -240,10 +240,10 @@ class TurismoInternoController extends Controller
         if($persona==null){
             return ['success'=>false, "error"=>"La persona seleccionada no existe"];
         }
-        /*
+        
         if($persona->viajes->count()>0){
             return ["success"=>false,"error"=>"La persona tiene viajes registrados no puede ser eliminado"];
-        }*/
+        }
         if($persona->motivoNoViajes->count()>0){
             
             $aux=No_Viajero::where('persona_id',$request->id)->delete();
@@ -968,6 +968,7 @@ class TurismoInternoController extends Controller
         $id=$one;
         return view('turismointerno.Transporte',compact('id'));
     }
+    
     public function getCargartransporte($one){
         
         $transportes=Tipo_Transporte_Interno::where('estado',true)->get(['id','nombre']);
@@ -1066,7 +1067,7 @@ class TurismoInternoController extends Controller
     }
     
     
-   public function getViajesrealizados($one){
+    public function getViajesrealizados($one){
          $id = $one;
          $hogar=Persona::find($id)->hogar_id;
         return view('turismointerno.ViajesRealizados',compact('id','hogar'));

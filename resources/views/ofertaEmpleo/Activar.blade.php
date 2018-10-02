@@ -105,10 +105,10 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-8">
                             <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.nombrer.$touched) && indentificacionForm.nombrer.$error.required]">
-                                <label class="control-label" for="nombre">Nombre</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.razon_social.length > 0">@{{establecimiento.razon_social.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.nombrer.$touched) && indentificacionForm.nombrer.$error.required">(El campo es obligatorio)</span>
+                                <label class="control-label" for="nombrer">Nombre</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.razon_social.length > 0">@{{establecimiento.razon_social.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.nombrer.$touched) && indentificacionForm.nombrer.$error.required">(El campo es obligatorio)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="establecimiento.razon_social" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <input type="text" class="form-control" name="nombrer" id="nombrer" ng-model="establecimiento.razon_social" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.nombrer.$touched) && indentificacionForm.nombrer.$error.required "></span>
                                 </div>
 
@@ -129,16 +129,16 @@
                             </div>
                             
                         </div>
-</div>
+                    </div>
                     <div class="row">
                         
 
                         <div class="col-xs-12 col-sm-12 col-md-8">
                             <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.direccion.$touched) && indentificacionForm.direccion.$error.required]">
-                                <label class="control-label" for="nombre">Dirección</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.direccion.length > 0">@{{establecimiento.direccion.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.direccion.$touched) && indentificacionForm.direccion.$error.required">(El campo es obligatorio)</span>
+                                <label class="control-label" for="direccion">Dirección</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.direccion.length > 0">@{{establecimiento.direccion.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.direccion.$touched) && indentificacionForm.direccion.$error.required">(El campo es obligatorio)</span>
                                 <div class="input-group">
                                     <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="nombre" id="nombre" ng-model="establecimiento.direccion" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
+                                    <input type="text" class="form-control" name="direccion" id="direccion" ng-model="establecimiento.direccion" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
                                     <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.direccion.$touched) && indentificacionForm.direccion.$error.required "></span>
                                 </div>
 
@@ -163,12 +163,12 @@
                     <div class="row">
 
                         <div class="col-xs-12 col-sm-8 col-md-8">
-                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.email.$touched) && (indentificacionForm.email.$error.required || indentificacionForm.email.$error.email)]">
-                                <label class="control-label" for="email">Email</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.email.length > 0">@{{establecimiento.email.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && indentificacionForm.email.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && indentificacionForm.email.$error.email">(Formato de email no permitido)</span>
+                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.email.$touched) && ( indentificacionForm.email.$error.email)]">
+                                <label class="control-label" for="email">Email</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.email.length > 0">@{{establecimiento.email.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && indentificacionForm.email.$error.email">(Formato de email no permitido)</span>
                                 <div class="input-group">
-                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="email" class="form-control" name="email" id="email" ng-model="establecimiento.email" maxlength="255" ng-required="true"  placeholder="Ej: alguien@dominio.com"/>
-                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && (indentificacionForm.email.$error.required || indentificacionForm.email.$error.email)"></span>
+                                    
+                                    <input type="email" class="form-control" name="email" id="email" ng-model="establecimiento.email" maxlength="255"   placeholder="Ej: alguien@dominio.com"/>
+                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.email.$touched) && ( indentificacionForm.email.$error.email)"></span>
                                 </div>
 
                             </div>
@@ -202,12 +202,11 @@
                             
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required]">
-                                <label class="control-label" for="cargo">Cargo</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.cargo.length > 0">@{{establecimiento.cargo.length}} de 255 caracteres</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required">(El campo es obligatorio)</span>
+                            <div class="form-group">
+                                <label class="control-label" for="cargo">Cargo</label> <span style="font-size: .7em;color: darkgrey;" ng-if="establecimiento.cargo.length > 0">@{{establecimiento.cargo.length}} de 255 caracteres</span>
                                 <div class="input-group">
-                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="establecimiento.cargo_contacto" maxlength="255" ng-required="true" placeholder="Máx. 255 caracteres" />
-                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.cargo.$touched) && indentificacionForm.cargo.$error.required "></span>
+                                    
+                                    <input type="text" class="form-control" name="cargo" id="cargo" ng-model="establecimiento.cargo_contacto" maxlength="255" placeholder="Máx. 255 caracteres" />
                                 </div>
 
                             </div>
@@ -217,12 +216,12 @@
                     <div class="row">
 
                         <div class="col-xs-12 col-sm-8 col-md-4">
-                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && (indentificacionForm.telefono.$error.required || indentificacionForm.telefono.$error.pattern)]">
-                                <label class="control-label" for="telefono">Teléfono fijo</label> <span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && indentificacionForm.telefono.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && indentificacionForm.telefono.$error.pattern">(Formato no válido)</span>
+                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && ( indentificacionForm.telefono.$error.pattern)]">
+                                <label class="control-label" for="telefono">Teléfono fijo</label> <span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && indentificacionForm.telefono.$error.pattern">(Formato no válido)</span>
                                 <div class="input-group">
-                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="telefono" id="telefono" ng-model="establecimiento.telefono_fijo" pattern="([0-9])+|[+]([0-9])+" maxlength="255" ng-required="true" placeholder="Caracteres válidos: + 0-9. Ej: +57 4300000" />
-                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && (indentificacionForm.telefono.$error.required || indentificacionForm.telefono.$error.pattern)"></span>
+                                    
+                                    <input type="text" class="form-control" name="telefono" id="telefono" ng-model="establecimiento.telefono_fijo" pattern="([0-9])+|[+]([0-9])+" maxlength="255"  placeholder="Caracteres válidos: + 0-9. Ej: +57 4300000" />
+                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.telefono.$touched) && ( indentificacionForm.telefono.$error.pattern)"></span>
                                 </div>
 
                             </div>
@@ -240,12 +239,12 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-12 col-md-5">
-                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && (indentificacionForm.celular.$error.required || indentificacionForm.celular.$error.pattern)]">
-                                <label class="control-label" for="celular">Celular</label> <span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && indentificacionForm.celular.$error.required">(El campo es obligatorio)</span><span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && indentificacionForm.celular.$error.pattern">(Formato no válido)</span>
+                            <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && ( indentificacionForm.celular.$error.pattern)]">
+                                <label class="control-label" for="celular">Celular</label> <span class="text-error" ng-show="(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && indentificacionForm.celular.$error.pattern">(Formato no válido)</span>
                                 <div class="input-group">
-                                    <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                    <input type="text" class="form-control" name="celular" id="celular" ng-model="establecimiento.celular" pattern="([0-9])+|[+]([0-9])+" maxlength="255" ng-required="true" placeholder="Caracteres válidos: + 0-9. Ej: +57 4300000" />
-                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && (indentificacionForm.celular.$error.required || indentificacionForm.celular.$error.pattern)"></span>
+                                    
+                                    <input type="text" class="form-control" name="celular" id="celular" ng-model="establecimiento.celular" pattern="([0-9])+|[+]([0-9])+"  placeholder="Caracteres válidos: + 0-9. Ej: +57 4300000" />
+                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(indentificacionForm.$submitted || indentificacionForm.celular.$touched) && ( indentificacionForm.celular.$error.pattern)"></span>
                                 </div>
 
                             </div>

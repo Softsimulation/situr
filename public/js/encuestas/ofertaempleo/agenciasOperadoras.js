@@ -19,7 +19,7 @@ angular.module('oferta.agenciasOperadoras', ["checklist-model","ofertaService"])
     })
 
     $scope.guardar = function () {
-        if (!$scope.ocupacionForm.$valid || ($scope.agencia.porcentajeC + $scope.agencia.porcentajeE + $scope.agencia.porcentajeM) != 100) {
+        if (!$scope.ocupacionForm.$valid || (($scope.agencia.porcentajeC + $scope.agencia.porcentajeE + $scope.agencia.porcentajeM) != 100) && $scope.agencia.totalP != 0 ) {
             return
         }
 
