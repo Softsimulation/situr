@@ -81,6 +81,7 @@ Route::controller('/administradoractividades', 'AdministradorActividadesControll
 
 Route::controller('/administradordestinos', 'AdministradorDestinosController');
 
+
 // Public Jáder
 Route::controller('/atracciones', 'AtraccionesController');
 
@@ -95,10 +96,13 @@ Route::controller('/eventos', 'EventosController');
 Route::controller('/proveedor', 'ProveedoresController');
 
 Route::group(['middleware' => 'cors'], function(){
- 
-   Route::controller('/turismointernoapi','TurismoInternoCorsController');
-   
-   Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
+    Route::controller('/authapi', 'ApiAuthController');
+    Route::group(['middleware'=> 'jwt.auth'], function () {
+        
+        Route::controller('/turismointernoapi','TurismoInternoCorsController');
+        Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
+    
+    });
   
 });
 
