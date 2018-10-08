@@ -1310,6 +1310,7 @@ class TurismoReceptorCorsController extends Controller
         
         
         $otroElemento = null;
+        $respuestaElementos = array();
         if(isset($respuestaElementos)){
             if(in_array(12,$respuestaElementos)){
                $otroElemento= $sostenibilidad->actividadesSostenibilidad()->wherePivot('nombre','<>',null)->first()->pivot->nombre;

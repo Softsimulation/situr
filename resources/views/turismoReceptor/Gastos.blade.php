@@ -477,7 +477,7 @@
                                             <td style="width:15%;">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="asumido@{{$index}}"  ng-model="rub.gastos_visitantes[0].gastos_asumidos_otros" value="true"> Si
+                                                        <input type="checkbox" name="asumido@{{$index}}"  ng-model="rub.gastos_visitantes[0].gastos_asumidos_otros" value="true" ng-blur="cambiarAlquiler(rub)"> Si
                                                     </label>
                                                 </div>
                                             </td>
