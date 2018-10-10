@@ -103,8 +103,12 @@ Route::group(['middleware' => 'cors'], function(){
         Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
     
     });
-  
+    
+    Route::controller('/ofertayempleoapi','AppOfertaEmpleoController');
 });
+
+
+
 
 Route::controller('/usuario','UsuarioController');
 
