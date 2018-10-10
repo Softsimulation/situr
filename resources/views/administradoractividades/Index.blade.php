@@ -3,9 +3,6 @@
 
 @section('title', 'Listado de actividades')
 
-
-@section('TitleSection', 'Listado de actividades')
-
 @section('app', 'ng-app="actividadesApp"')
 
 @section('controller','ng-controller="actividadesIndexController"')

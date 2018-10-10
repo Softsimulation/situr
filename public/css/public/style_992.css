@@ -113,6 +113,9 @@
 .tiles .tile.tile-lg .tile-img{
     height: 200px;
 }
+.tiles .tile{
+    width: calc(33.3% - 1rem);
+}
 .estadisticas {
     top: calc(110px + 6%);
 }
