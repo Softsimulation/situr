@@ -72,8 +72,8 @@ class TurismoReceptorCorsController extends Controller
 
     public function __construct()
     {
-        
-       $this->user = User::resolveUser(); 
+      
+            $this->user = User::resolveUser(); 
     }
     
     
@@ -111,6 +111,8 @@ class TurismoReceptorCorsController extends Controller
         $departamentos = Departamento::where('pais_id',47)->select('id','nombre')->orderBy('nombre')->get();
         
         $lugares_aplicacion = Lugar_Aplicacion_Encuesta::all();
+        $all_departamentos = Departamento::all();
+        $all_municipios = Municipio::all();
         
         $result = [ 
             //'grupos' => $grupos, 
@@ -120,7 +122,9 @@ class TurismoReceptorCorsController extends Controller
             'motivos' => $motivos,
             'medicos' => $medicos,
             'departamentos' => $departamentos,
-            'lugares_aplicacion' => $lugares_aplicacion
+            'lugares_aplicacion' => $lugares_aplicacion,
+            'all_departamentos' => $all_departamentos,
+            'all_municipios' => $all_municipios
         ];
         
         return $result;
@@ -314,6 +318,7 @@ class TurismoReceptorCorsController extends Controller
             $visitante['Salud'] = count($visitanteCargar->tiposAtencionSaluds) > 0 ? $visitanteCargar->tiposAtencionSaluds->first()->id : null;
             $visitante['Horas'] = $visitanteCargar->visitantesTransito != null ? $visitanteCargar->visitantesTransito->horas_transito : null ;
             $visitante['Otro'] = $visitanteCargar->otrosMotivo != null ? $visitanteCargar->otrosMotivo->otro_motivo : null ;
+            $visitante['ultima_seccion']=$visitanteCargar->ultima_sesion;
             
             $departamentosr = Departamento::where('pais_id', $visitanteCargar->municipioResidencia->departamento->pais_id)->orderBy('nombre')->get(["id","nombre"]);
             $municipiosr = Municipio::where('departamento_id',$visitanteCargar->municipioResidencia->departamento_id)->orderBy('nombre')->get(["id","nombre"]);
