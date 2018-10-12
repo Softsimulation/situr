@@ -339,11 +339,11 @@ border-bottom: 1px solid #eee;
 .nav-bar nav>ul>li>a:after:visited, .nav-bar nav>ul>li>a:after:focus{
     text-decoration: none;
 }
-.nav-bar nav>ul>li>a[aria-expanded="false"]:after{
+.nav-bar nav>ul>li>a[aria-haspopup="true"][aria-expanded="false"]:after{
     content:"\25bc";
     
 }
-.nav-bar nav>ul>li>a[aria-expanded='true']:after{
+.nav-bar nav>ul>li>a[aria-haspopup="true"][aria-expanded='true']:after{
     content:"\25b2";
 }
  
@@ -395,26 +395,27 @@ header #bannerSitur, banner .nav-main{
 
 
 /*Otros elementos*/
-.tiles{
-    flex-wrap:nowrap;
-    margin: 1rem 4%;
-}
+
 .tiles.wrap{
     flex-wrap: wrap;
 }
-.tiles .tile, .tiles>a{
-    width: calc(33.3% - 1rem);
-    display: inline-block;
-    margin: .5rem;
+.tiles:before, .tiles:after{
+    display: table;
+    content: " ";
 }
-
-.tiles>a .tile{
+.tiles:after{
+    clear: both;
+}
+.tiles .tile{
+    display: inline-block;
+    float: left;
     width: 100%;
-    height: 100%;
-    margin: 0;
+    margin: 0 .5rem;
+    margin-bottom: 1rem;
+    background-color: white;
 }
 .tiles .tile .tile-img{
-    height: 165px;
+    height: 160px;
 }
 .tiles .tile.tile-lg .tile-img{
     height: 180px;
@@ -500,9 +501,12 @@ header #bannerSitur, banner .nav-main{
 }
 .tile .tile-caption h3 {
     font-size: 1.125rem;
-    color: #00294B;
     margin: .5rem 0;
     line-height: 1.375rem;
+}
+.tile .tile-caption h3 a{
+    font-weight: 700;
+    color: #1c4185;
 }
 
 .tile .tile-caption .date, .tile .date {
@@ -654,7 +658,7 @@ footer ul{
     font-weight: 700;
     font-style: normal;
     src: url('../../res/fonts/FuturaStdBold.eot');
-    src: local('FuturaBold'),
+    src: local('FuturaBoldg'),
          url('../../res/fonts/FuturaStdBold.eot') format('embedded-opentype'),
          url('../../res/fonts/FuturaStdBold.woff') format('woff'),
          url('../../res/fonts/FuturaStdBold.ttf') format('truetype');
