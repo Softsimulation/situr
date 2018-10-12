@@ -55,5 +55,7 @@ class Kernel extends HttpKernel
         'interno' => \App\Http\Middleware\TurismoInterno::class,
         'receptor' => \App\Http\Middleware\TurismoReceptor::class,
         'oferta' => \App\Http\Middleware\OfertaEmpleo::class,
+        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.refresh' => \Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 }

@@ -143,14 +143,18 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
                         <div class="form-group">
                             <label for="inputNombreEncuestado" class="col-xs-12 control-label">Telefono Fijo</label>
                             <div class="col-xs-12">
-                                <input type="text" class="form-control" id="inputNombreEncuestado"  name="telefono" ng-model="encuesta.Telefono" placeholder="Telefono fijo" />
+                                <input type="text" class="form-control" id="inputNombreEncuestado" name="telefono" ng-model="encuesta.Telefono" ng-required="true" placeholder="Telefono fijo" />
+                                <span ng-show="DatosForm.$submitted || DatosForm.telefono.$touched">
+                                    <!--P4P1Input1. El campo fecha de aplicación es requerido-->
+                                    <span class="label label-danger" ng-show="DatosForm.telefono.$error.required">*El campo es requerido</span>
+                                </span>
                             </div>
                         </div>
-                    </div>                    
+                    </div>                   
 
                 </div>
                 
@@ -164,7 +168,7 @@
                                 <!--P4P10Select1. Seleccione un Encuestador-->
                                 <select class="form-control" id="inputDepartamentoResidencia" name="encuestador" ng-model="encuesta.Encuestador" ng-required="true">
                                     <option value="" disabled>Seleccione un encuestador</option>
-                                    <option ng-repeat="item in encuestadores" value="{{item.id}}">{{item.asp_net_user.username}}</option>
+                                    <option ng-repeat="item in encuestadores" value="{{item.id}}">{{item.user.username}}</option>
                                 </select>
                                 <!--P4P10Alert1. El campo Barrio de residencia es requerido-->
                                 <span ng-show="DatosForm.$submitted || DatosForm.barrio.$touched">
@@ -466,7 +470,7 @@
 
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <label for="inputNombreEncuestado" class="col-xs-12 control-label">Finalizó un viaje que habia emprendido en ...</label>
+                                    <label for="inputNombreEncuestado" class="col-xs-12 control-label">Finalizó un viaje que habia emprendido en la temporada</label>
                                     <div class="col-xs-12">
 
                                         <select class="form-control" ng-model="integrante.Viaje" id="inputPaisResidencia" name="viaje" ng-required="true">

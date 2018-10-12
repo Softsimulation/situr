@@ -1,7 +1,7 @@
 @extends('layout._publicLayout')
 
 @section('Title','')
-@section ('estilos')
+@section ('content')
 <!--<div id="bg-video">-->
             <!--    <video autoplay muted loop aria-hidden="true">-->
             <!--      <source src="res/juegos_centroamericanos_2018_web.mp4" type="video/mp4">-->
