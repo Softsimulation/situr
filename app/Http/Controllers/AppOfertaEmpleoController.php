@@ -71,6 +71,9 @@ use App\Models\User;
 class AppOfertaEmpleoController extends Controller
 {
     
+    public function getMesencuesta($id){
+        return new Collection( DB::select("SELECT *from listado_encuesta_oferta where id =".$id));
+    }
     
     
     public function getTipo(){
@@ -172,36 +175,10 @@ class AppOfertaEmpleoController extends Controller
     
     public function getEncuestasrealizadas($id){
  
-          $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where sitio_para_encuesta =".$id));
-        
-          $ruta = null;
-          $tipo = Sitio_Para_Encuesta::where("id",$id)->first();
-         
-          if($tipo->proveedor->categoria->tipoProveedore->id == 1){
-              $ruta = "/ofertaempleo/alojamientomensual";
-              }else{
-                  
-                    if($tipo->proveedor->categoria->id == 15 || $tipo->proveedor->categoria->id == 13){
-                         $ruta = "/ofertaempleo/agenciaviajes";
-                    }
-                     if($tipo->proveedor->categoria->id == 14){
-                         $ruta = "/ofertaempleo/caracterizacionagenciasoperadoras";
-                    }
-                     if($tipo->proveedor->categoria->id == 21){
-                         $ruta = "/ofertaempleo/caracterizaciontransporte";
-                    }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
-                         $ruta = "/ofertaempleo/caracterizaciontransporte";
-                    }
-                     if($tipo->proveedor->categoria->id == 12){
-                         $ruta = "/ofertaempleo/caracterizacionalimentos";
-                    }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
-                         $ruta = "/ofertaempleo/caracterizacionalimentos";
-                    }
-              }
-         
-        return ["success"=>true, "encuestas"=>$data, 'ruta'=>$ruta];
+        $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where sitio_para_encuesta =".$id));
+        $tipo = Sitio_Para_Encuesta::where("id",$id)->first();
+          
+        return ["success"=>true, "encuestas"=>$data, 'tipo'=>$tipo->proveedor->categoria->tipoProveedore->id, "categoria"=>$tipo->proveedor->categoria->id ];
 
     }
     
