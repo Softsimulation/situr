@@ -1412,21 +1412,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $agenciaRetornar["Otro"] = "";
         }
         
-        /*
-        CaracterizacionAgenciasViewModel enviar = new CaracterizacionAgenciasViewModel();
-            var agencia = (from encuesta in conexion.encuestas
-                           join viajes in conexion.viajes_turismos on encuesta.id equals viajes.encuestas_id
-                           join otro in conexion.viajes_turismos_otro on viajes.id equals otro.viajes_turismo_id into joined
-                           from otro in joined.DefaultIfEmpty()
-                           where encuesta.id == id
-                           select new CaracterizacionAgenciasViewModel
-                           {
-                               Id = encuesta.id,
-                               TipoServicios = viajes.servicios_agencias.Select(x => x.id).ToList(),
-                               Planes = viajes.ofreceplanes,
-                               Otro = otro.otro
-                           }).ToList();
-        return $servicios;*/
         return $agenciaRetornar;
     }
     /*

@@ -430,7 +430,6 @@ class TurismoReceptorController extends Controller
 		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
 		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
 		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = $this->user->digitador->id;
 		$visitante->edad = $request->Edad;
 		$visitante->email = isset($request->Email) ? $request->Email : null;
 		$visitante->encuestador_creada = $request->Encuestador;
