@@ -151,8 +151,8 @@ class TurismoInternoCorsController extends Controller
         $edificacion->nombre_entrevistado=$request->Nombre_Entrevistado;
         $edificacion->telefono_entrevistado=$request->Celular_Entrevistado;
         $edificacion->email_entrevistado=$request->Email_Entrevistado;
-        $edificacion->user_create=$this->user->username;
-        $edificacion->user_update=$this->user->username;
+        $edificacion->user_create=1;
+        $edificacion->user_update=1;
         $edificacion->save();
         
         $hogar=new Hogar();
@@ -264,7 +264,7 @@ class TurismoInternoCorsController extends Controller
         $edificacion->nombre_entrevistado=$request->Nombre_Entrevistado;
         $edificacion->telefono_entrevistado=$request->Celular_Entrevistado;
         $edificacion->email_entrevistado=$request->Email_Entrevistado;
-        $edificacion->user_update=$this->user->username;
+        $edificacion->user_update=1;
         $edificacion->save();
         
       
