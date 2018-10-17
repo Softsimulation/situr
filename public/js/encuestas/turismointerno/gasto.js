@@ -210,7 +210,7 @@ angular.module('interno.gastos', [] )
             for(var i=0; i<$scope.encuesta.rubros.length; i++){
                 $scope.encuesta.rubros[i].viajes_gastos_internos[0] = {};
             }
-            $scope.encuesta.gastosServicosPaquetes = [];
+            //$scope.encuesta.gastosServicosPaquetes = [];
             $scope.encuesta.porcentajeGastoRubros = [];
             $scope.verNombreEmpresa = false;
             $scope.empresaTransporte = null;
