@@ -135,3 +135,7 @@ Route::controller('/bolsaEmpleo','BolsaEmpleoController');
 Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
 
 Route::controller('/postulado','PostuladoController');
+
+Route::controller('/noticias','NoticiaController');
+Route::controller('/promocionNoticia','PublicoNoticiaController');
+
