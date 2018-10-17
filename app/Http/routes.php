@@ -128,3 +128,10 @@ Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
 
 Route::controller('/sostenibilidadhogares','SostenibilidadHogaresController');
 Route::controller('/login','LoginController');
+
+
+Route::controller('/bolsaEmpleo','BolsaEmpleoController');
+
+Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
+
+Route::controller('/postulado','PostuladoController');
