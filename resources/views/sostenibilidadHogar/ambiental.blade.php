@@ -130,7 +130,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             
-                            <div class="checkbox" ng-repeat="ite in actividades">
+                            <div class="checkbox" ng-repeat="ite in actividades | orderBy: 'id'">
                                 <label>
                                     <input type="checkbox" ng-disabled="bandera==false && ite.id==6" checklist-model="ambiental.actividades" name ="actividad" checklist-value="ite.id" > @{{ite.nombre}}
                                 </label>
