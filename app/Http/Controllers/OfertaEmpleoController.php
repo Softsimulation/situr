@@ -1438,21 +1438,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             $agenciaRetornar["Otro"] = "";
         }
         
-        /*
-        CaracterizacionAgenciasViewModel enviar = new CaracterizacionAgenciasViewModel();
-            var agencia = (from encuesta in conexion.encuestas
-                           join viajes in conexion.viajes_turismos on encuesta.id equals viajes.encuestas_id
-                           join otro in conexion.viajes_turismos_otro on viajes.id equals otro.viajes_turismo_id into joined
-                           from otro in joined.DefaultIfEmpty()
-                           where encuesta.id == id
-                           select new CaracterizacionAgenciasViewModel
-                           {
-                               Id = encuesta.id,
-                               TipoServicios = viajes.servicios_agencias.Select(x => x.id).ToList(),
-                               Planes = viajes.ofreceplanes,
-                               Otro = otro.otro
-                           }).ToList();
-        return $servicios;*/
         return $agenciaRetornar;
     }
     /*
@@ -1581,46 +1566,24 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 
             }
         }
-        $redireccion = false;
         $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where id =".$request->id));
-        if($ventaPlanesTuristicos != 1 && intval($request->Planes) == 0){
-            if($data[0]->estado_id < 3){
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => 7,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }else{
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => $data[0]->estado_id,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }
-            
+        if($data[0]->estado_id < 3){
+            Historial_Encuesta_Oferta::create([
+               'encuesta_id' => $request->id, 
+               'user_id' => $this->user->id,
+               'estado_encuesta_id' => 2,
+               'fecha_cambio' => Carbon::now()
+           ]);
         }else{
-            if($data[0]->estado_id < 3){
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => 2,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }else{
-                Historial_Encuesta_Oferta::create([
-                   'encuesta_id' => $request->id, 
-                   'user_id' => $this->user->id,
-                   'estado_encuesta_id' => $data[0]->estado_id,
-                   'fecha_cambio' => Carbon::now()
-               ]);
-            }
-            
-           $redireccion = true;
+            Historial_Encuesta_Oferta::create([
+               'encuesta_id' => $request->id, 
+               'user_id' => $this->user->id,
+               'estado_encuesta_id' => $data[0]->estado_id,
+               'fecha_cambio' => Carbon::now()
+           ]);
         }
         
-        return ["success"=>true, "redireccion"=>$redireccion, "sitio"=>$agencia->sitios_para_encuestas_id];
+        return ["success"=>true];
     }
     public function getDatosofertaagencia(){
         //var destinos = (from destino in conexion.opciones_personas_destinos select new { id = destino.id, nombre = destino.nombre }).ToList();
@@ -1673,7 +1636,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             ); 
             $errores = [];
             //return $request->personas;
-            if($request->ventaPlanes == true){
+            if($request->personas != null){
                 foreach ($request->personas as $fila)
                 {   if(intval($fila["numerototal"]) != 0){
                     if(intval($fila["internacional"]) + intval($fila["nacional"]) != 100){
@@ -1685,6 +1648,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                     }
                   }
                 }
+            }else{
+                $errores = [["Formulario con respecto a las personas que viajaron según destino se encuentra incompleto."]];
             }
             if($request->ofrecePlanesConDestino == true){
                 if($request->numero != 0){
@@ -1703,7 +1668,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
             {
                 //$agencia->personasDestinoConViajesTurismos()->detach();
                 $personas = Persona_Destino_Con_Viaje_Turismo::where('viajes_turismos_id',$agencia->id)->delete();
-                if($request->ventaPlanes == true){
+                if($request->personas != null){
                     foreach ($request->personas as $fila)
                     {
                         //return $fila;
@@ -1721,17 +1686,24 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
                 }
                 if($request->ofrecePlanesConDestino == true){
                     $planSantaMarta = Plan_Santamarta::where('viajes_turismos_id',$agencia->id)->first();
+                    if($planSantaMarta == null){
+                        $planSantaMarta = new Plan_Santamarta();
+                        $planSantaMarta->viajes_turismos_id = $agencia->id;
+                    }
                     $planSantaMarta->numero = $request->numero;
                     $planSantaMarta->residentes = $request->magdalena;
                     $planSantaMarta->noresidentes = $request->nacional;
                     $planSantaMarta->extrajeros = $request->internacional;
                     $planSantaMarta->save();
+                }else{
+                    $planSantaMarta = Plan_Santamarta::where('viajes_turismos_id',$agencia->id)->delete();
+                    
                 }
                 
             }
             else
             {
-                if($request->ventaPlanes == true){
+                if($request->personas != null){
                     foreach ($request->personas as $fila)
                     {
                         //return $fila;

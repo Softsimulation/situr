@@ -48,6 +48,11 @@ Route::get('/entidadesAsociadas', function () {
     return view('publico.situr.entidadesAsociadas');
   
 });
+Route::get('/listados', function () {
+
+    return view('publico.listados.index');
+  
+});
 
 Route::controller('/temporada','TemporadaController');
 Route::controller('/turismointerno','TurismoInternoController');
@@ -81,13 +86,34 @@ Route::controller('/administradoractividades', 'AdministradorActividadesControll
 
 Route::controller('/administradordestinos', 'AdministradorDestinosController');
 
+
+// Public Jáder
+Route::controller('/atracciones', 'AtraccionesController');
+
+Route::controller('/actividades', 'ActividadesController');
+
+Route::controller('/destinos', 'DestinosController');
+
+Route::controller('/rutas', 'RutasTuristicasController');
+
+Route::controller('/eventos', 'EventosController');
+
+Route::controller('/proveedor', 'ProveedoresController');
+
 Route::group(['middleware' => 'cors'], function(){
- 
-   Route::controller('/turismointernoapi','TurismoInternoCorsController');
-   
-   Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
-  
+    Route::controller('/authapi', 'ApiAuthController');
+    Route::group(['middleware'=> 'jwt.auth'], function () {
+        
+        Route::controller('/turismointernoapi','TurismoInternoCorsController');
+        Route::controller('/turismoreceptoroapi','TurismoReceptorCorsController');
+    
+    });
+    
+    Route::controller('/ofertayempleoapi','AppOfertaEmpleoController');
 });
+
+
+
 
 Route::controller('/usuario','UsuarioController');
 
@@ -102,6 +128,7 @@ Route::controller('/sostenibilidadpst', 'SostenibilidadPstController');
 
 Route::controller('/sostenibilidadhogares','SostenibilidadHogaresController');
 Route::controller('/login','LoginController');
+
 
 Route::group(['prefix' => 'publicaciones','middleware'=>'auth'], function () {
     
@@ -122,3 +149,12 @@ Route::group(['prefix' => 'publicaciones','middleware'=>'auth'], function () {
     
 });
 
+
+Route::controller('/bolsaEmpleo','BolsaEmpleoController');
+
+Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
+
+Route::controller('/postulado','PostuladoController');
+
+Route::controller('/noticias','NoticiaController');
+Route::controller('/promocionNoticia','PublicoNoticiaController');
