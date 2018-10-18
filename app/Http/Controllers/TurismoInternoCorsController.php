@@ -518,6 +518,7 @@ class TurismoInternoCorsController extends Controller
         $fuentes_antes=[];
         $fuentes_durante=[];
         $compar_redes=[];
+        $OtroRedes=[];
         $OtroFuenteAntes="";
         $OtroFuenteDurante="";
         $facebook="";
@@ -1718,11 +1719,11 @@ class TurismoInternoCorsController extends Controller
             $q->where('temporada_id',$temporada->id);
         })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.user')->get();
         
-    
+         $encuestas=Viaje::where('es_principal',true)->whereHas('persona.hogare.edificacione',function($q)use($temporada){
+            $q->where('temporada_id',$temporada->id);
+        })->with('persona.hogare.digitadore.user')->with('persona.hogare.edificacione.barrio.municipio')->orderby('id')->get();
         
-        
-        
-        return ['temporada'=>$temporada];
+        return ['temporada'=>$temporada,'encuestas'=>$encuestas];
         
     }
     
