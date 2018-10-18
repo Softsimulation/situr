@@ -227,13 +227,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -288,6 +288,40 @@ class OfertaEmpleoController extends Controller
              return view('ofertaEmpleo.ActividadComercial',array("Id"=>$mes,"Anio"=>$anio,'Sitio'=>$id, "Encuestadores"=>$encuestadores,"dato"=>$sitio));
     }
     
+    
+    public function dias($dias, $mesdia){
+         $mesid = Mes_Anio::find($mesdia);
+          if ($mesid->mes_id == 4 || $mesid->mes_id == 6 || $mesid->mes_id == 9 ||$request-> Mes == 11)
+        {
+            if ($request->NumeroDias > 30)
+            {
+                 return ["success" => false, "errores" => [["El número de días no puede exceder a 30 días."]] ];
+               
+            }
+        }
+
+        if ($mesid->mes_id == 1 ||$mesid->mes_id == 3 || $mesid->mes_id == 5 || $mesid->mes_id == 7 || $mesid->mes_id == 8 || $mesid->mes_id == 10 || $mesid->mes_id == 12)
+        {
+            if ($request->NumeroDias > 31)
+            {
+                 return ["success" => false, "errores" => [["El número de días no puede exceder a 31 días."]] ];
+
+            }
+        }
+        if ($mesid->mes_id == 2)
+        {
+            if ($request->NumeroDias > 29)
+            {
+                 return ["success" => false, "errores" => [["El número de días no puede exceder a 29 días."]] ];
+
+            }
+        }
+          
+        
+         return ["success" => true];
+    }
+    
+    
     public function postGuardaractividadcomercial(Request $request)
     {
         $validator = \Validator::make($request->all(),[
@@ -299,7 +333,7 @@ class OfertaEmpleoController extends Controller
             'Comercial' => 'required|numeric|min:0|max:1',
             'nombre' => 'required|string|min:1|max:255',
             'cargo' => 'required|string|min:1|max:255',
-            'email'=>'email',
+            'email'=>'required|email',
             'Encuestador'=>'required|exists:digitadores,id'
             
         ],[
@@ -443,13 +477,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -564,13 +598,13 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 21){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
-                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 23){
+                     if($tipo->proveedor->categoria->id == 22 || $tipo->proveedor->categoria->id == 28){
                          $ruta = "/ofertaempleo/caracterizaciontransporte";
                     }
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -578,21 +612,18 @@ class OfertaEmpleoController extends Controller
         return view('ofertaEmpleo.EmpleoMensual',array('id'=>$id,'ruta'=>$ruta));
     }
     
-        public function getEmpleo($one){
+    public function getEmpleo($one){
         $id = $one;
         
         return view('ofertaEmpleo.Empleo',array('id'=>$id));
     }
-    
-    
     
     public function getNumeroempleados($one){
         $id = $one;
         return view('ofertaEmpleo.NumeroEmpleados',compact('id'));
     }
     
-    public function getCargardatosdmplmensual($id = null)  
-    {
+    public function getCargardatosdmplmensual($id = null)  {
         $empleo = collect();
   
         $empleo = collect();
@@ -622,23 +653,21 @@ class OfertaEmpleoController extends Controller
 
             return $retorno;
 
-
-        
-         $retorno = [
-                'empleo' => $empleo,
-                'url' => ""
-            ];
-            
-            return $retorno;
     }
     
-    
-     public function getCargardatosempleo($id = null)  
-    {
+    public function getCargardatosempleo($id = null)  {
         $empleo = collect();
   
         $empleo = collect();
         $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$id)->get();
+        $vac = Vacante::where("encuestas_id",$id)->first(); 
+        if($vac != null){
+            $empleo["VacanteOperativo"] = $vac->operativo;
+            $empleo["VacanteAdministrativo"] = $vac->administrativo;
+            $empleo["VacanteGerencial"]  = $vac->gerencial;
+        }
+        $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$id)->first();
+
 
         $tipo_cargo = Tipo_Cargo::select("id as Id","nombre as Nombre")->get();
             
@@ -697,6 +726,7 @@ class OfertaEmpleoController extends Controller
 
     $encuesta = Encuesta::find($request->Encuesta);
 
+
     Historial_Encuesta_Oferta::create([
            'encuesta_id' => $request->Encuesta,
            'user_id' => $this->user->id,
@@ -708,9 +738,7 @@ class OfertaEmpleoController extends Controller
         return ["success" => true, "sitio" => $encuesta->sitios_para_encuestas_id];
     }
   
-    
-    public function getCargardatosemplcaract($id = null)
-    {
+    public function getCargardatosemplcaract($id = null){
             $empleo = collect();
     
             $empleo["Hubo_capacitacion"] = Capacitacion_Empleo::where("encuesta_id",$id)->pluck("hubo_capacitacion")->first();
@@ -1144,8 +1172,6 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         return ["success" => true];
     }
     
- 
-  
     public function postGuardarempcaracterizacion(Request $request){
         $validator = \Validator::make($request->all(), [
   	         'Encuesta' => 'required|exists:encuestas,id',
@@ -1489,7 +1515,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         //return $request->all();
         $validator = \Validator::make($request->all(),[
         
-            'id' => 'required|exists:encuestas,id',
+            'id' => 'required|exists:eguardarcuestas,id',
             'Planes' => 'boolean|required',
             'TipoServicios' => 'required',
             
@@ -2108,7 +2134,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
 		}
 		
 		$suma = $request->porcentajeC + $request->porcentajeE + $request->porcentajeM;
-		if($suma != 100 && $request->totalP != 0){
+		if($suma != 100){
 		    return ["success"=>false,"errores"=>[['La suma de los valores porcentuales debe ser igual que 100.']]];
 		}
 		
