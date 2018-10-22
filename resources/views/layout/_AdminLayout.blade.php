@@ -160,15 +160,15 @@
                             <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedores')}}">Oferta y empleo</a>
                         
                         </li>
-                        <!--<li>-->
-                        <!--    <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>-->
-                        <!--    <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">-->
-                        <!--        <li role="none">-->
-                        <!--            <a role="menuitem" href="{{asset('sostenibilidadhogares')}}">Hogares</a>-->
-                        <!--            <a role="menuitem" href="{{asset('sostenibilidadpst')}}">PST</a>-->
-                        <!--        </li>-->
-                        <!--    </ul>-->
-                        <!--</li>-->
+                        <li>
+                            <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>
+                            <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">
+                                <li role="none">
+                                    <a role="menuitem" href="{{asset('sostenibilidadhogares')}}">Hogares</a>
+                                    <a role="menuitem" href="{{asset('sostenibilidadpst')}}">PST</a>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Proveedores RNT</a>
                             <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">
