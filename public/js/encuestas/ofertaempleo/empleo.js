@@ -558,7 +558,7 @@ $scope.$watch('id', function () {
             
             $("body").attr("class", "cbp-spmenu-push charging")
             
-               ofertaServi.guardarEmpleomensual($scope.empleo).then(function (data) {
+               ofertaServi.guardarEmpleo($scope.empleo).then(function (data) {
                 $("body").attr("class", "cbp-spmenu-push");
                 if (data.success == true) {
                     swal({
