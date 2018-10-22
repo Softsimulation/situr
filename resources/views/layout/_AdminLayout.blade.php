@@ -164,8 +164,8 @@
                             <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>
                             <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">
                                 <li role="none">
-                                    <a role="menuitem" href="{{asset('sostenibilidadhogares')}}">Hogares</a>
-                                    <a role="menuitem" href="{{asset('sostenibilidadpst')}}">PST</a>
+                                    <a role="menuitem" href="{{asset('sostenibilidadhogares/encuestas')}}">Hogares</a>
+                                    <a role="menuitem" href="{{asset('sostenibilidadpst/encuestas')}}">PST</a>
                                 </li>
                             </ul>
                         </li>
