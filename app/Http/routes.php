@@ -94,6 +94,8 @@ Route::controller('/actividades', 'ActividadesController');
 
 Route::controller('/destinos', 'DestinosController');
 
+Route::controller('/quehacer', 'QueHacerController');
+
 Route::controller('/rutas', 'RutasTuristicasController');
 
 Route::controller('/eventos', 'EventosController');
