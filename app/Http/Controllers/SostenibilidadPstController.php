@@ -528,7 +528,7 @@ class SostenibilidadPstController extends Controller
     		$objeto['tipo_agua'] = $encuesta->componenteAmbientalPst->agua_reciclabe == 1 ? $encuesta->aguaReciclada->tipo_agua : null;
     		$objeto['uso_agua'] = $encuesta->componenteAmbientalPst->agua_reciclabe == 1 ? $encuesta->aguaReciclada->uso_agua : null;
     		$objeto['accionesEnergia'] = $encuesta->accionesReducirEnergiaPsts->where('tipo_accion',true)->pluck('id')->toArray();
-    		$objeto['otroEnergia'] = in_array(17,$objeto['accionesEnergia']) ? $encuesta->accionesReducirEnergiaPsts->where('tipo_accion',true)->where('id',17)->first()->pivot->otro : null;
+    		$objeto['otroEnergia'] = in_array(18,$objeto['accionesEnergia']) ? $encuesta->accionesReducirEnergiaPsts->where('tipo_accion',true)->where('id',18)->first()->pivot->otro : null;
     		$objeto['energias_renovables'] = !isset($encuesta->componenteAmbientalPst->energias_renovables) ? -1 : $encuesta->componenteAmbientalPst->energias_renovables;
     		$objeto['tiene_manual'] = $objeto['energias_renovables']==1 ? ( !isset($encuesta->componenteAmbientalPst->tiene_manual) ? -1 : $encuesta->componenteAmbientalPst->tiene_manual) : null;
     		$objeto['tiposEnergia'] = $objeto['energias_renovables']==1 ? $encuesta->energiasRenovablesPst->pluck('id')->toArray() : array();
@@ -612,7 +612,7 @@ class SostenibilidadPstController extends Controller
 		if(in_array(7,$request->accionesAgua) && !isset($request->otroAgua) ){
 			return ["success" => false, "errores" => [["El campo otro en la pregunta 19 es requerido."]] ];
 		}
-		if(in_array(17,$request->accionesEnergia) && !isset($request->otroEnergia) ){
+		if(in_array(18,$request->accionesEnergia) && !isset($request->otroEnergia) ){
 			return ["success" => false, "errores" => [["El campo otro en la pregunta 21 es requerido."]] ];
 		}
 		if(in_array(4,$request->tiposEnergia) && $request->energias_renovables == 1 && !isset($request->otroRenovable) ){
@@ -714,7 +714,7 @@ class SostenibilidadPstController extends Controller
 		}
 		
 		foreach($request->accionesEnergia as $item){
-			if($item != 17){
+			if($item != 18){
 				$encuesta->accionesReducirEnergiaPsts()->attach($item);	
 			}else{
 				$encuesta->accionesReducirEnergiaPsts()->attach($item,['otro' => $request->otroEnergia]);
