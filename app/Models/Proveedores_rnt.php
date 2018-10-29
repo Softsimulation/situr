@@ -50,4 +50,8 @@ class Proveedores_rnt extends Model
         return $this->attributes['tipo_categoria'] = null;
     }
     
+    public function proveedor(){
+        return $this->hasMany( "App\Models\Proveedor", 'proveedor_rnt_id'); 
+    }
+    
 }
