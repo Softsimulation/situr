@@ -54,7 +54,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.11 ¿Cuáles  áreas  protegidas promociona en @{{proveedor.razon_social}}?</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.11 ¿Cuáles  áreas  protegidas promociona en el departamento del Atlántico?</b></h3>
             </div>
             <div class="panel-footer"><b>Respuesta abierta</b></div>
             <div class="panel-body">
@@ -73,7 +73,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.12 ¿Qué  nivel  de  conocimiento  tienen  los  empleados  sobre  las  especies  de  flora  y  fauna  características  de @{{proveedor.razon_social}}? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.12 ¿Qué  nivel  de  conocimiento  tienen  los  empleados  sobre  las  especies  de  flora  y  fauna  características del departamento del Atlántico? </b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única</b></div>
             <div class="panel-body">
@@ -103,7 +103,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P. 12.1 ¿Sabe si @{{proveedor.razon_social}} tiene una guía que caracterice la flora, fauna y especies en vía de extinción para la conservación de los mismos? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P. 12.1 ¿Sabe si el departamento del Atlántico tiene una guía que caracterice la flora, fauna y especies en vía de extinción para la conservación de los mismos? </b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única</b></div>
             <div class="panel-body">
@@ -131,17 +131,17 @@
         
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.13 ¿La empresa adelanta o ha participado en alguna de las siguientes actividades para conservar el medio ambiente en @{{proveedor.razon_social}}? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.13 ¿La empresa adelanta o ha participado en alguna de las siguientes actividades para conservar el medio ambiente en el departamento del Atlántico? </b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta de selección múltiple</b></div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="checkbox" ng-repeat="it in actividadesAmbiente">
+                        <div class="checkbox" ng-repeat="it in actividadesAmbiente| orderBy: 'peso'">
                             <label>
                                 <input type="checkbox" name="actividadesAmbiente" checklist-model="encuesta.actividadesAmbiente"  checklist-value="it.id" > @{{it.nombre}}
                             </label>
-                            <span ng-if="it.id==7">:<input type="text" name="otroActividad" style="display: inline-block;" class="form-control" id="otroActividad" placeholder="Escriba su otra opción" ng-model="encuesta.otroActividad" ng-change="validarOtro(1)" ng-required="encuesta.actividadesAmbiente.indexOf(7) !== -1"/></span>
+                            <span ng-if="it.id==13">:<input type="text" name="otroActividad" style="display: inline-block;" class="form-control" id="otroActividad" placeholder="Escriba su otra opción" ng-model="encuesta.otroActividad" ng-change="validarOtro(1)" ng-required="encuesta.actividadesAmbiente.indexOf(13) !== -1"/></span>
                         </div>
                     </div>
                 </div>
@@ -177,7 +177,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.15 De los siguientes riesgos o problemáticas ambientales en función del turismo sostenible, ¿Cuáles  cree  que  representan  un riesgo alto, medio o bajo en @{{proveedor.razon_social}}?</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.15 De los siguientes riesgos o problemáticas ambientales en función del turismo sostenible, ¿Cuáles  cree  que  representan  un riesgo alto, medio o bajo en el departamento del Atlántico?</b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única para la calificación</b></div>
             <div class="panel-body">
@@ -447,7 +447,7 @@
                             <label>
                                 <input type="checkbox" name="accionesEnergia" checklist-model="encuesta.accionesEnergia"  checklist-value="it.id" > @{{it.nombre}}
                             </label>
-                            <span ng-if="it.id==17">:<input type="text" name="otroEnergia" style="display: inline-block;" class="form-control" id="otroEnergia" placeholder="Escriba su otra opción" ng-model="encuesta.otroEnergia" ng-change="validarOtro(5)" ng-required="encuesta.accionesEnergia.indexOf(17) !== -1"/></span>
+                            <span ng-if="it.id==18">:<input type="text" name="otroEnergia" style="display: inline-block;" class="form-control" id="otroEnergia" placeholder="Escriba su otra opción" ng-model="encuesta.otroEnergia" ng-change="validarOtro(5)" ng-required="encuesta.accionesEnergia.indexOf(18) !== -1"/></span>
                         </div>
                     </div>
                 </div>

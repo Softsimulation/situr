@@ -77,7 +77,11 @@ return [
             'root' => public_path().'/multimedia/eventos',
             'visibility' => 'public',
         ],
-
+        'Publicaciones' => [
+               'driver' => 'local',
+               'root' => public_path().'/Publicaciones',
+               'visibility' => 'public',
+           ],
         'multimedia-ruta' => [
             'driver' => 'local',
             'root' => public_path().'/multimedia/rutas',

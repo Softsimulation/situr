@@ -169,6 +169,7 @@ class AdministradorDestinosController extends Controller
             'portadaIMG' => 'required|max:2097152',
             'id' => 'required|exists:destino|numeric',
             'image' => 'array|max:5',
+            'image.*' => 'max:2097152',
             'video' => 'url'
         ],[
             'portadaIMG.required' => 'Se necesita una imagen de portada.',
@@ -180,6 +181,7 @@ class AdministradorDestinosController extends Controller
             
             'image.array' => 'Error al enviar los datos. Recargue la página.',
             'image.max' => 'Máximo se pueden subir 5 imágenes para el destino.',
+            'image.*.max' => 'Una de las imágenes adicionales seleccionadas supera el peso máximo de 2MB.',
             
             'video.url' => 'El video debe tener la estructura de un enlace.'
         ]);
@@ -234,20 +236,22 @@ class AdministradorDestinosController extends Controller
         
         if ($request->image != null){
             foreach($request->image as $key => $file){
-                $nombre = "imagen-".$key.".".pathinfo($file->getClientOriginalName())['extension'];
-                $multimedia_sitio = new Multimedia_Destino();
-                $multimedia_sitio->destino_id = $request->id;
-                $multimedia_sitio->ruta = "/multimedia/destinos/destino-".$request->id."/".$nombre;
-                $multimedia_sitio->tipo = false;
-                $multimedia_sitio->portada = false;
-                $multimedia_sitio->estado = true;
-                $multimedia_sitio->user_create = "Situr";
-                $multimedia_sitio->user_update = "Situr";
-                $multimedia_sitio->created_at = Carbon::now();
-                $multimedia_sitio->updated_at = Carbon::now();
-                $multimedia_sitio->save();
-                
-                Storage::disk('multimedia-destino')->put('destino-'.$request->id.'/'.$nombre, File::get($file));
+                if (!is_string($file)){
+                    $nombre = "imagen-".$key.".".pathinfo($file->getClientOriginalName())['extension'];
+                    $multimedia_sitio = new Multimedia_Destino();
+                    $multimedia_sitio->destino_id = $request->id;
+                    $multimedia_sitio->ruta = "/multimedia/destinos/destino-".$request->id."/".$nombre;
+                    $multimedia_sitio->tipo = false;
+                    $multimedia_sitio->portada = false;
+                    $multimedia_sitio->estado = true;
+                    $multimedia_sitio->user_create = "Situr";
+                    $multimedia_sitio->user_update = "Situr";
+                    $multimedia_sitio->created_at = Carbon::now();
+                    $multimedia_sitio->updated_at = Carbon::now();
+                    $multimedia_sitio->save();
+                    
+                    Storage::disk('multimedia-destino')->put('destino-'.$request->id.'/'.$nombre, File::get($file));
+                }
             }
         }
         
