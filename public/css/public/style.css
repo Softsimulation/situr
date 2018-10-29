@@ -3,6 +3,10 @@ html, body{
     font-family: Futura, sans-serif;
     background-color:white;
 }
+h1, h2, h3, h4, h5{
+	font-family: 'Futura', sans-serif;
+	font-weight: 700;
+}
 /*Centrar imagénes*/
 .carousel-inner > .item > img, .carousel-inner > .item > a > img, .tile .tile-img img {
     position: absolute;
@@ -339,11 +343,11 @@ border-bottom: 1px solid #eee;
 .nav-bar nav>ul>li>a:after:visited, .nav-bar nav>ul>li>a:after:focus{
     text-decoration: none;
 }
-.nav-bar nav>ul>li>a[aria-expanded="false"]:after{
+.nav-bar nav>ul>li>a[aria-haspopup="true"][aria-expanded="false"]:after{
     content:"\25bc";
     
 }
-.nav-bar nav>ul>li>a[aria-expanded='true']:after{
+.nav-bar nav>ul>li>a[aria-haspopup="true"][aria-expanded='true']:after{
     content:"\25b2";
 }
  
@@ -395,26 +399,31 @@ header #bannerSitur, banner .nav-main{
 
 
 /*Otros elementos*/
-.tiles{
-    flex-wrap:nowrap;
-    margin: 1rem 4%;
-}
+
 .tiles.wrap{
     flex-wrap: wrap;
 }
-.tiles .tile, .tiles>a{
-    width: calc(33.3% - 1rem);
-    display: inline-block;
-    margin: .5rem;
+.tiles:before, .tiles:after{
+    display: table;
+    content: " ";
 }
-
-.tiles>a .tile{
+.tiles:after{
+    clear: both;
+}
+.tiles .tile{
+    display: inline-block;
+    float: left;
     width: 100%;
-    height: 100%;
-    margin: 0;
+    margin: 0 .5rem;
+    margin-bottom: 1rem;
+    background-color: white;
 }
 .tiles .tile .tile-img{
-    height: 165px;
+    height: 160px;
+    background-image: url(/res/no-image.jpg);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center center;
 }
 .tiles .tile.tile-lg .tile-img{
     height: 180px;
@@ -449,23 +458,23 @@ header #bannerSitur, banner .nav-main{
     padding: .5rem;
     z-index: 2;
     background: rgba(248,80,50,0.05);
-    background: -moz-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.8) 100%);
-    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,0.05)), color-stop(100%, rgba(0,0,0,0.8)));
-    background: -webkit-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.8) 100%);
-    background: -o-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.8) 100%);
-    background: -ms-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.8) 100%);
-    background: linear-gradient(to bottom, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.8) 100%);
+    background: -moz-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.65) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,0.05)), color-stop(100%, rgba(0,0,0,0.65)));
+    background: -webkit-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.65) 100%);
+    background: -o-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.65) 100%);
+    background: -ms-linear-gradient(top, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.65) 100%);
+    background: linear-gradient(to bottom, rgba(248,80,50,0.05) 0%, rgba(0,0,0,0.65) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#000000', GradientType=0 );
     overflow: auto;
 }
 .tile .tile-img .text-overlap:hover{
     background: rgba(0,0,0,0.07);
-    background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
     background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(248,80,50,0.1)), color-stop(100%, rgba(0,0,0,0.85)));
-    background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
-    background: -o-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
-    background: -ms-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 100%);
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+    background: -o-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+    background: -ms-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', endColorstr='#000000', GradientType=0 );
 }
 .tile .tile-img .text-overlap p, .tile .tile-img .text-overlap h3{
@@ -500,9 +509,12 @@ header #bannerSitur, banner .nav-main{
 }
 .tile .tile-caption h3 {
     font-size: 1.125rem;
-    color: #00294B;
     margin: .5rem 0;
     line-height: 1.375rem;
+}
+.tile .tile-caption h3 a{
+    font-weight: 700;
+    color: #1c4185;
 }
 
 .tile .tile-caption .date, .tile .date {
@@ -626,8 +638,22 @@ footer ul{
     height: 100%;
     background-color: rgba(0,0,0,.25);
 }
+.carousel-caption h2{
+    
+    text-transform: uppercase;
+    text-shadow: 0px 1px 2px rgba(0,0,0,.65);
+}
+.carousel-caption h2 small{
+    color: white;
+    display:block;
+    text-transform: initial;
+    line-height: 1.5;
+}
 .img-responsive {
     display: inline-block;
+}
+.justify-content-center {
+    justify-content: center;
 }
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
@@ -654,7 +680,7 @@ footer ul{
     font-weight: 700;
     font-style: normal;
     src: url('../../res/fonts/FuturaStdBold.eot');
-    src: local('FuturaBold'),
+    src: local('FuturaBoldg'),
          url('../../res/fonts/FuturaStdBold.eot') format('embedded-opentype'),
          url('../../res/fonts/FuturaStdBold.woff') format('woff'),
          url('../../res/fonts/FuturaStdBold.ttf') format('truetype');

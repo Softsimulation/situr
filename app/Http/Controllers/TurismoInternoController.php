@@ -240,10 +240,10 @@ class TurismoInternoController extends Controller
         if($persona==null){
             return ['success'=>false, "error"=>"La persona seleccionada no existe"];
         }
-        /*
+        
         if($persona->viajes->count()>0){
             return ["success"=>false,"error"=>"La persona tiene viajes registrados no puede ser eliminado"];
-        }*/
+        }
         if($persona->motivoNoViajes->count()>0){
             
             $aux=No_Viajero::where('persona_id',$request->id)->delete();
@@ -806,7 +806,7 @@ class TurismoInternoController extends Controller
         ];
         
         
-        $dor["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
+        $encuesta["viajePaquete"] =    $encuesta["viajeExcursion"] != null > 0 ? 1 : 0;
         $encuesta["noRealiceGastos"] = $encuesta["noRealiceGastos"] == null  ? 0 : $encuesta["noRealiceGastos"];
         
         $divCop =  Divisa::where("id",39)->with([ "divisasConIdiomas"=>function($q) use($idioma){ $q->where("idiomas_id",$idioma); }])->get()->toArray();
@@ -824,7 +824,7 @@ class TurismoInternoController extends Controller
         
     }
    
-    public function postGuardargastos(Request $request){  
+    public function postGuardargastos(Request $request){ 
        
         $validator = \Validator::make($request->all(),[
                         'id'=>'required|exists:viajes,id',
@@ -912,7 +912,18 @@ class TurismoInternoController extends Controller
                 $serv->save();
             }
             
+            foreach($request->gastosServicosPaquetes as $gastoSerViaje){
+                $aux = new Porcentajes_servicios_paquete_viaje();
+                $aux->viaje_id = $idViaje;
+                $aux->servicio_paquete_id = $gastoSerViaje["servicio_paquete_id"];
+                $aux->dentro = $gastoSerViaje["dentro"];
+                $aux->fuera = $gastoSerViaje["fuera"];
+                $aux->save();
+            }
+            
         }
+        
+        
         
         if(!$request->noRealiceGastos){
         
@@ -929,15 +940,6 @@ class TurismoInternoController extends Controller
                 
             } 
             
-            foreach($request->gastosServicosPaquetes as $gastoSerViaje){
-                $aux = new Porcentajes_servicios_paquete_viaje();
-                $aux->viaje_id = $idViaje;
-                $aux->servicio_paquete_id = $gastoSerViaje["servicio_paquete_id"];
-                $aux->dentro = $gastoSerViaje["dentro"];
-                $aux->fuera = $gastoSerViaje["fuera"];
-                $aux->save();
-            }
-        
             foreach($request->porcentajeGastoRubros as $gastoRubro){
                 $aux = new Porcentaje_rubros_internos_viaje();
                 $aux->viaje_id = $idViaje;
@@ -968,6 +970,7 @@ class TurismoInternoController extends Controller
         $id=$one;
         return view('turismointerno.Transporte',compact('id'));
     }
+    
     public function getCargartransporte($one){
         
         $transportes=Tipo_Transporte_Interno::where('estado',true)->get(['id','nombre']);
@@ -1066,7 +1069,7 @@ class TurismoInternoController extends Controller
     }
     
     
-   public function getViajesrealizados($one){
+    public function getViajesrealizados($one){
          $id = $one;
          $hogar=Persona::find($id)->hogar_id;
         return view('turismointerno.ViajesRealizados',compact('id','hogar'));

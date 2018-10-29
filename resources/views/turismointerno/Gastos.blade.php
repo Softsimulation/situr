@@ -307,7 +307,7 @@
                                                 <div class="form-group">
                                                     <!-- P5P1. ¿Cuánto pagó usted por el paquete turístico o excursión?-->
                                                     <label for="costoA@{{$index}}" class="col-md-12 control-label" style="color:dimgray;"></label>
-                                                    <input type="number" placeholder="%%" class="form-control" min="0" max="100" name="costoA@{{$index}}" ng-model="servicio.dentro" ng-required="true" style="display:inline-block;width:90%;">
+                                                    <input type="number" placeholder="%%" class="form-control" min="0" max="100" name="costoA@{{$index}}" ng-model="servicio.dentro" ng-change="changeRubros(rub)" ng-required="true" style="display:inline-block;width:90%;">
                                                     <span ng-show="GastoForm.$submitted || GastoForm.costoA@{{$index}}.$touched">
                                                         <span class="label label-danger" ng-show="GastoForm.costoA@{{$index}}.$error.required">* El campo es requerido.</span>
                                                         <span class="label label-danger" ng-show="GastoForm.costoA@{{$index}}.$error.min">* El valor mínimo es 0</span>

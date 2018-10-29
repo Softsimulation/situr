@@ -14,21 +14,29 @@ use App\Models\Actividad_Con_Idioma;
 use App\Models\Actividad;
 use App\Models\Multimedia_Actividad;
 use App\Models\Idioma;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class AdministradorActividadesController extends Controller
 {
     public function __construct()
     {
-        
+       
         $this->middleware('auth');
-        $this->middleware('role:Admin');
+        
+        //$this->middleware('role:Admin');
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
-        }
+        }/*
+        $this->middleware('permissions:list-actividad',['only' => ['getIndex','getDatos'] ]);
+        $this->middleware('permissions:create-actividad',['only' => ['getCrear','getDatoscrear','getIdioma','getDatoscrearnoticias','postGuardarnoticia',
+        'postGuardarmultimedianoticia','postGuardartextoalternativo','postEliminarmultimedia'] ]);
+        $this->middleware('permissions:read-actividad',['only' => ['getVernoticia','getDatosver','getListadonoticias','getNoticias'] ]);
+        $this->middleware('permissions:edit-actividad',['only' => ['getListadonoticias','getNoticias','getNuevoidioma','postGuardarnoticia','postGuardarmultimedianoticia',
+        'postGuardartextoalternativo','postEliminarmultimedia','getVistaeditar','getDatoseditar','postModificarnoticia' ] ]);
+        $this->middleware('permissions:estado-actividad',['only' => ['getListadonoticias','getNoticias','postCambiarestado'] ]);*/
     }
     public function getIndex(){
         return view('administradoractividades.Index');
@@ -184,8 +192,8 @@ class AdministradorActividadesController extends Controller
         $actividad->valor_min = $request->valor_minimo;
         $actividad->valor_max = $request->valor_maximo;
         $actividad->estado = true;
-        $actividad->user_create = $this->user->username;
-        $actividad->user_update = $this->user->username;
+        $actividad->user_create = "Situr";
+        $actividad->user_update = "Situr";
         $actividad->created_at = Carbon::now();
         $actividad->updated_at = Carbon::now();
         $actividad->save();
@@ -234,8 +242,8 @@ class AdministradorActividadesController extends Controller
         $multimedia_actividad->tipo = false;
         $multimedia_actividad->portada = true;
         $multimedia_actividad->estado = true;
-        $multimedia_actividad->user_create = $this->user->username;
-        $multimedia_actividad->user_update = $this->user->username;
+        $multimedia_actividad->user_create = "Situr";
+        $multimedia_actividad->user_update = "Situr";
         $multimedia_actividad->created_at = Carbon::now();
         $multimedia_actividad->updated_at = Carbon::now();
         $multimedia_actividad->save();
@@ -252,20 +260,22 @@ class AdministradorActividadesController extends Controller
         //return ['success' => $request->image];
         if ($request->image != null){
             foreach($request->image as $key => $file){
-                $nombre = "imagen-".$key.".".pathinfo($file->getClientOriginalName())['extension'];
-                $multimedia_actividad = new Multimedia_Actividad();
-                $multimedia_actividad->actividades_id = $actividad->id;
-                $multimedia_actividad->ruta = "/multimedia/actividades/actividad-".$request->id."/".$nombre;
-                $multimedia_actividad->tipo = false;
-                $multimedia_actividad->portada = false;
-                $multimedia_actividad->estado = true;
-                $multimedia_actividad->user_create = $this->user->username;
-                $multimedia_actividad->user_update = $this->user->username;
-                $multimedia_actividad->created_at = Carbon::now();
-                $multimedia_actividad->updated_at = Carbon::now();
-                $multimedia_actividad->save();
-                
-                Storage::disk('multimedia-actividad')->put('actividad-'.$request->id.'/'.$nombre, File::get($file));
+                if (!is_string($file)){
+                    $nombre = "imagen-".$key.".".pathinfo($file->getClientOriginalName())['extension'];
+                    $multimedia_actividad = new Multimedia_Actividad();
+                    $multimedia_actividad->actividades_id = $actividad->id;
+                    $multimedia_actividad->ruta = "/multimedia/actividades/actividad-".$request->id."/".$nombre;
+                    $multimedia_actividad->tipo = false;
+                    $multimedia_actividad->portada = false;
+                    $multimedia_actividad->estado = true;
+                    $multimedia_actividad->user_create = "Situr";
+                    $multimedia_actividad->user_update = "Situr";
+                    $multimedia_actividad->created_at = Carbon::now();
+                    $multimedia_actividad->updated_at = Carbon::now();
+                    $multimedia_actividad->save();
+                    
+                    Storage::disk('multimedia-actividad')->put('actividad-'.$request->id.'/'.$nombre, File::get($file));
+                }
             }
         }
         

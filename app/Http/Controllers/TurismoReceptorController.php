@@ -430,7 +430,6 @@ class TurismoReceptorController extends Controller
 		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
 		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
 		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-		$visitante->digitada = $this->user->digitador->id;
 		$visitante->edad = $request->Edad;
 		$visitante->email = isset($request->Email) ? $request->Email : null;
 		$visitante->encuestador_creada = $request->Encuestador;
@@ -1477,6 +1476,16 @@ class TurismoReceptorController extends Controller
 	        $sostenibilidad->actividadesSostenibilidad()->detach();
 	    }
 	    
+	    if(isset($request->Flora)){
+	        $sostenibilidad->es_informado = $request->Flora != 0? true:false;
+	    }
+	    
+	    if(isset($request->Sostenibilidad)){
+	        $sostenibilidad->trato_turista = $request->Sostenibilidad;
+	    }
+	    $sostenibilidad->save();
+	    
+	    
 	    if(isset($request->Elementos)){
 	        foreach($request->Elementos as $el){
 	            
@@ -1490,16 +1499,6 @@ class TurismoReceptorController extends Controller
 	        }
 	        
 	    }
-	    
-	    if(isset($request->Flora)){
-	        $sostenibilidad->es_informado = $request->Flora != 0? true:false;
-	    }
-	    
-	    if(isset($request->Sostenibilidad)){
-	        $sostenibilidad->trato_turista = $request->Sostenibilidad;
-	    }
-	
-	    $sostenibilidad->save();
 		
 	    /*$visitante->elementosRepresentativos()->attach($request->Elementos);
 	    if(in_array(11,$request->Elementos)){

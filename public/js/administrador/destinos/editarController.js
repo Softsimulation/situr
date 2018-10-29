@@ -144,6 +144,7 @@ angular.module('destinos.editar', [])
                 fd.append("image[]", $scope.imagenes[i]);
             }
         }
+        console.log($scope.imagenes.length);
         $("body").attr("class", "cbp-spmenu-push charging");
         fd.append('id', $scope.id);
         fd.append('video', $("#video").val());
