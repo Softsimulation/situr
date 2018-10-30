@@ -9,7 +9,7 @@ class Series_estadistica_rotulo extends Model
     
     public $timestamps = false;
     
-    protected $fillable = ['series_estadistica_id', 'anio_id', 'rotulo_estadistica_id', 'valor'];
+    protected $fillable = ['serie_estadisitica_id', 'anio_id', 'rotulo_estadistica_id', 'valor'];
     
     protected $casts = [
         'valor' => 'float',

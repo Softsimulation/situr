@@ -6,6 +6,11 @@
     <link href="{{asset('/css/public/main.css')}}" rel="stylesheet">
     <link href="{{asset('/Content/styleMap.css')}}" rel="stylesheet">
     <style>
+        header {
+            position: relative;
+            background: black;
+            margin-bottom: 1rem;
+        }
         .red {
             background-color: coral!important;
             color: white;

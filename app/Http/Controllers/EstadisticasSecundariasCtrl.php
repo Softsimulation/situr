@@ -75,7 +75,7 @@ class EstadisticasSecundariasCtrl extends Controller
                     }
                     else
                     if( count( $request->rotulos ) > 0 ){
-                        Series_estadistica_rotulo::updateOrCreate( [ "series_estadistica_id"=> $serie['id'] ,"rotulo_estadistica_id"=> $dato['rotulo'] , "anio_id"=> $dato['anio'] ], 
+                        Series_estadistica_rotulo::updateOrCreate( [ "serie_estadisitica_id"=> $serie['id'] ,"rotulo_estadistica_id"=> $dato['rotulo'] , "anio_id"=> $dato['anio'] ], 
                                                                    [ "valor"=> $dato['valor'] ] );
                     }
                 }
