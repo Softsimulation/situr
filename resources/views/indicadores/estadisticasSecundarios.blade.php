@@ -254,7 +254,6 @@
             
             var pdf = new jsPDF('l', 'pt', 'letter');
             pdf.text(20, 20, $("#tituloIndicadorGrafica").html() );
-
             var margins = { top: 50, bottom: 20, left: 20, width: 522 };
     
             pdf.fromHTML( $('#customers')[0], margins.left, margins.top,
