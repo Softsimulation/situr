@@ -6,7 +6,23 @@
 @section('app','ng-app="appEncuestaDinamica"')
 @section('controller','ng-controller="ConfigurarEncuestaCtrl"')
 
+@section('titulo','Encuestas ADHOC')
+@section('subtitulo','Configuración de encuesta')
+
 @section('content')
+<div class="well text-center">
+    <p>Encuesta a configurar:</p>
+    <h3 style="margin: 0">@{{encuesta.idiomas[0].nombre}}</h3>
+</div>
+<div class="flex-list">
+    @if($puedeEditar==true)
+        <button type="button" role="button" class="btn btn-lg btn-success" ng-click="agregarSeccion()">
+          Agregar sección
+        </button>
+        <a class="btn btn-lg btn-link" href="/encuesta/listado" >Volver al listado</a>
+    @endif
+          
+</div>
 
     <div class="row" >
 
@@ -14,9 +30,7 @@
         
         <div class="col-md-12">
             
-            <a class="btn btn-link btn-primary" href="/encuesta/listado" >Volver al listado</a>
             
-            <h2>@{{encuesta.idiomas[0].nombre}}</h2>
             
             
             <div ng-if="encuesta.secciones.length==0" class="alert alert-info" >
@@ -27,53 +41,44 @@
                 <li  ng-repeat="item in encuesta.secciones" ng-class="{'active' : (tabOpen.activo==$index) }"   > 
                      <a data-toggle="tab" href="#tab@{{$index}}" ng-click="tabOpen.activo=$index" >Sección @{{$index+1}}</a>
                 </li>
-                @if($puedeEditar==true)
-                    <li>
-                        <button type="button" class="btn-agregar" ng-click="agregarSeccion()" title="Agregar nueva sección" >+ Agregar sección</button>
-                    </li>
-                @endif
+                
             </ul>
             
             <div class="tab-content">
               <div id="tab@{{$index}}" class="tab-pane" ng-repeat="seccion in encuesta.secciones" ng-class="{'active' : (tabOpen.activo==$index) }" >
-                   
-                    <br><br>
-                    
-                    @if($puedeEditar)
-                        <button type="button" class="btn btn-primary" ng-click="OpenModalAgregarPregunta(seccion)" >
-                           + Agregar pregunta
-                        </button>
-                        <button type="button" ng-if="seccion.preguntas.length>1" class="btn btn-success" ng-click="openModalOrdenPreguntas(seccion)" style="float:right;" >
-                            Cambiar orden de preguntas
-                        </button>
-                           
-                        <br><br>
-                    @endif
+                    <div class="flex-list">
+                        @if($puedeEditar)
+                            <button type="button" role="button" class="btn btn-success" ng-click="OpenModalAgregarPregunta(seccion)">
+                              Agregar pregunta
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-if="seccion.preguntas.length>1" href="/encuesta/listado" ng-click="openModalOrdenPreguntas(seccion)">Cambiar orden de preguntas</button>
+                        @endif
+                              
+                    </div>   
                     
                     <table class="table table-striped">
                         <thead>
                           <tr>
-                            <th style="width: 30px;" ></th>
                             <th>Pregunta</th>
-                            <th style="width: 280px;" >Tipo campo</th>
-                            <th style="width:  70px;" >Estado</th>
-                            <th style="width: 110px;"></th>
+                            <th>Tipo campo</th>
+                            <th style="width:  70px;">Estado</th>
+                            <th style="width: 152px;">Opciones</th>
                           </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="pregunta in seccion.preguntas" >
-                              <td>@{{$index+1}}</td>
+                            <tr ng-repeat="pregunta in seccion.preguntas">
                               <td>@{{ (pregunta.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}</td>
                               <td>@{{pregunta.tipo_campo.tipo}}</td>
                               <td>@{{pregunta.es_visible ? 'Activa' : 'Inactiva'}}</td>
                               <td>
                                     @if($puedeEditar)
-                                        <a class="btn btn-xs btn-primary" ng-click="verDetallePregunta(pregunta)" >ver</a>
-                                        <div class="dropdown" style="float: right;" >
+                                        <button type="button" class="btn btn-xs btn-default" ng-click="verDetallePregunta(pregunta)"><span class="glyphicon glyphicon-eye-open"></span><span class="sr-only">Ver detalle</span></button>
+                                        <div class="dropdown" style="display:inline-block" >
                                               <button type="button" class="btn btn-xs btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 Más opciones
                                                  <span class="caret"></span>
                                               </button>
-                                              <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
                                                    <li>
                                                         <a href ng-click="activarDesactivarPregunta(pregunta)" >
                                                              @{{ !pregunta.es_visible ? 'Activar' : 'Desactivar'}}
@@ -84,15 +89,19 @@
                                                      <a href ng-click="eliminarPregunta(pregunta,$index)" >
                                                          Eliminar
                                                      </a>
+                                                     <li>
+                                                     <a href ng-click="duplicarPregunta(pregunta)" >
+                                                         Duplicar
+                                                     </a>
                                                     </li>
                                                     <li class="divider"></li>
                                                     <li ng-repeat="item in pregunta.idiomas" >
-                                                      <a href ng-click="OpenModalEditarIdiomaPregunta(pregunta,item)" >  @{{item.idioma.nombre}} </a>
+                                                      <a href ng-click="OpenModalEditarIdiomaPregunta(pregunta,item)" >Información en @{{item.idioma.nombre}} </a>
                                                     </li>
-                                                    <li><a href ng-click="OpenModalAgregarIdiomaPregunta(pregunta)" >+ Agregar</a></li>
+                                                    <li><a href ng-click="OpenModalAgregarIdiomaPregunta(pregunta)" >Agregar información en otro idioma</a></li>
                                                     <li class="divider"></li>
                                                     <li ng-if="pregunta.tipo_campos_id==3 || pregunta.tipo_campos_id==5 || pregunta.tipo_campos_id==6 || pregunta.tipo_campos_id==7">
-                                                        <a href ng-click="openModalAgregarOpcion(pregunta)" >+ Agregar opción</a>
+                                                        <a href ng-click="openModalAgregarOpcion(pregunta)" >Agregar opción</a>
                                                     </li>
                                                     
                                               </ul> 
@@ -121,8 +130,8 @@
 
                     <div style="text-align:center" >
                         
-                        <a class="btn btn-default" href="" ng-click="tabOpen.activo=$index-1" ng-show="$index!=0" >Anterior</a>
-                        <a class="btn btn-success" href="" ng-click="tabOpen.activo=$index+1" ng-show="$index!=encuesta.secciones.length-1" >Siguiente</a>
+                        <button class="btn btn-default" type="button" ng-click="tabOpen.activo=$index-1" ng-show="$index!=0" >Anterior</button>
+                        <button class="btn btn-success" type="button" ng-click="tabOpen.activo=$index+1" ng-show="$index!=encuesta.secciones.length-1" >Siguiente</button>
                         
                     </div>
 
@@ -141,10 +150,10 @@
             
                 <!-- Modal content-->
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Ordenar preguntas (Sección @{{tabOpen.activo+1}})</h4>
-                  </div>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Ordenar preguntas (Sección @{{tabOpen.activo+1}})</h4>
+                    </div>
                   <div class="modal-body">
                       
                       
@@ -162,8 +171,9 @@
                       
                   </div>
                   <div class="modal-footer center">
-                    <button type="submit" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    
                     <button type="submit" ng-click="guardarOrdenPreguntas()" class="btn btn-success">Guardar</button>
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                   </div>
                 </div>
             
@@ -172,91 +182,87 @@
             
             <!-- Modal agregar pregunta-->
             <div class="modal fade" id="modalAgregarPregunta" tabindex="-1" >
-                <div class="modal-dialog" ng-class="{'modal-lg':(pregunta.tipoCampo==8 || pregunta.tipoCampo==9)}" role="document">
+                <div class="modal-dialog" ng-class="{'modal-lg':(pregunta.tipoCampo==8 || pregunta.tipoCampo==9 || pregunta.tipoCampo==10 || pregunta.tipoCampo==11)}" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Agregar pregunta</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Agregar pregunta</h4>
                         </div>
                         <form name="formPregunta" novalidate>
                             <div class="modal-body">
             
                                 <div class="row">
                                   
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.pregunta.$touched) && formPregunta.pregunta.$error.required}">
-                                            <label class="control-label" for="pregunta">Pregunta</label>
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.pregunta.$touched) && formPregunta.pregunta.$error.required}">
+                                            <label class="control-label" for="pregunta"><span class="asterisk">*</span> Pregunta</label>
                                             <input type="text" class="form-control" id="pregunta" name="pregunta" placeholder="¿ Pregunta ?" ng-model="pregunta.pregunta" required />
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
-                                        <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.tipoCampo.$touched) && formPregunta.tipoCampo.$error.required}">
-                                            <label class="control-label" for="tipoCampo">Tipo de campo</label>
+                                    <div class="col-xs-12 ol-md-6">
+                                        <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.tipoCampo.$touched) && formPregunta.tipoCampo.$error.required}">
+                                            <label class="control-label" for="tipoCampo"><span class="asterisk">*</span> Tipo de campo</label>
                                             <select class="form-control" id="tipoCampo" name="tipoCampo" ng-model="pregunta.tipoCampo" ng-options="item.id as item.tipo for item in tiposCamos" required>
-                                                <option value="" disabled selected>Tipo de campo</option>
+                                                <option value="" disabled selected>Seleccione el tipo de campo</option>
                                             </select>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
-                                        <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.tipoCampo.$touched) && formPregunta.tipoCampo.$error.required}">
-                                            <label class="control-label" for="esRequerido">El campo es requerido?</label><br>
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.tipoCampo.$touched) && formPregunta.tipoCampo.$error.required}">
+                                            <label class="control-label" for="esRequerido"><span class="asterisk">*</span> El campo es requerido?</label><br>
                                             <div class="radio-inline">
-                                              <label><input type="radio" name="esRequerido" ng-model="pregunta.esRequerido" ng-value="1" >Si</label>
+                                              <label><input type="radio" name="esRequerido" ng-model="pregunta.esRequerido" ng-value="1" required>Si</label>
                                             </div>
                                             <div class="radio-inline">
-                                              <label><input type="radio" name="esRequerido" ng-model="pregunta.esRequerido" ng-value="0" >No</label>
+                                              <label><input type="radio" name="esRequerido" ng-model="pregunta.esRequerido" ng-value="0" required>No</label>
                                             </div>
                                         </div>
                                     </div>
                                   
                                 </div>
                                 
-                                <div class="row" ng-if="pregunta.tipoCampo==1"  >
-                                    <div class="col-md-6">
-                                        <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.caracteres.$touched) && formPregunta.caracteres.$error.required}">
-                                            <label class="control-label" for="caracteres">Número maximo de caracteres</label>
+                                <div class="row" ng-if="pregunta.tipoCampo==1 || pregunta.tipoCampo==11"  >
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.caracteres.$touched) && formPregunta.caracteres.$error.required}">
+                                            <label class="control-label" for="caracteres"><span class="asterisk">*</span> Número máximo de caracteres</label>
                                             <input type="number" class="form-control" id="caracteres" name="caracteres" placeholder="Número caracteres" ng-model="pregunta.caracteres" required />
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="row" ng-if="pregunta.tipoCampo==2"  >
-                                    <div class="col-md-6">
-                                        <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.minNumero.$touched) && formPregunta.minNumero.$error.required}">
-                                            <label class="control-label" for="minNumero">Mínimo valor</label>
+                                <div class="row" ng-if="pregunta.tipoCampo==2 || pregunta.tipoCampo==10"  >
+                                    <div class="col-xs-12 col-md-6">
+                                        <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.minNumero.$touched) && formPregunta.minNumero.$error.required}">
+                                            <label class="control-label" for="minNumero"><span class="asterisk">*</span> Mínimo valor</label>
                                             <input type="number" class="form-control" id="minNumero" name="minNumero" placeholder="Número mínimo" ng-model="pregunta.minNumero" required />
                                         </div>
                                     </div>
-                                     <div class="col-md-6">
-                                        <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.maxNumero.$touched) && formPregunta.maxNumero.$error.required}">
-                                            <label class="control-label" for="maxNumero">Máximo valor</label>
+                                     <div class="col-xs-12 col-md-6">
+                                        <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.maxNumero.$touched) && formPregunta.maxNumero.$error.required}">
+                                            <label class="control-label" for="maxNumero"><span class="asterisk">*</span> Máximo valor</label>
                                             <input type="number" class="form-control" id="maxNumero" name="maxNumero" placeholder="Número máxino" ng-model="pregunta.maxNumero" required />
                                         </div>
                                     </div>
                                 </div>
                                 
                                 
-                                <div class="row" ng-if="pregunta.tipoCampo==3 || pregunta.tipoCampo==5 || pregunta.tipoCampo==6 || pregunta.tipoCampo==7 || pregunta.tipoCampo==8 || pregunta.tipoCampo==9" >
+                                <div class="row" ng-if="pregunta.tipoCampo==3 || pregunta.tipoCampo==5 || pregunta.tipoCampo==6 || pregunta.tipoCampo==7 || pregunta.tipoCampo==8 || pregunta.tipoCampo==9 || pregunta.tipoCampo==10 || pregunta.tipoCampo==11" >
                                     
-                                    <div class="col-md-6" ng-if="pregunta.tipoCampo==8 || pregunta.tipoCampo==9" >
-                                       
-                                         <br>
+                                    <div class="col-xs-12 col-md-6" ng-if="pregunta.tipoCampo==8 || pregunta.tipoCampo==9 || pregunta.tipoCampo==10 || pregunta.tipoCampo==11" >
                                        
                                          <div class="row" >
                                           
-                                             <div class="col-md-12">
+                                             <div class="col-xs-12 col-md-12">
                                                
-                                                <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.maxNumero.$touched) && formPregunta.maxNumero.$error.required}">
-                                                    <label class="control-label" >Agregar subpregunta</label>
+                                                <div class="form-group" ng-class="{'has-error' : (formPregunta.$submitted || formPregunta.maxNumero.$touched) && formPregunta.maxNumero.$error.required}">
+                                                    <label class="control-label">Agregar subpregunta</label>
                                                     <div class="input-group">
                                                       <input type="text" class="form-control" placeholder="Nueva opción" ng-model="subpregunta" >
                                                       <div class="input-group-btn">
                                                         <button class="btn btn-success" type="button" ng-click="pregunta.subPreguntas.push(subpregunta); subpregunta=null;" ng-disabled="!subpregunta" >
-                                                             Agregar
+                                                             <span class="glyphicon glyphicon-plus"></span><span class="sr-only">Agregar</span>
                                                         </button>
                                                       </div>
                                                     </div>
@@ -265,7 +271,7 @@
                                              </div>
                                          </div>
                                          
-                                       
+                                          <br>
                                           <ul class="list-group">
                                             
                                             <li href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
@@ -284,20 +290,23 @@
                                        
                                     </div>
                                     
-                                    <div class="col-md-12" ng-class="{'col-md-6':(pregunta.tipoCampo==8 || pregunta.tipoCampo==9)}" >
-                                       
-                                         <br>
+                                    <div class="col-xs-12 col-md-12" ng-class="{'col-xs-12 col-md-6':(pregunta.tipoCampo==8 || pregunta.tipoCampo==9 || pregunta.tipoCampo==10 || pregunta.tipoCampo==11)}" >
                                        
                                          <div class="row" >
                                           
-                                             <div class="col-md-12">
+                                             <div class="col-xs-12 col-md-12">
                                                
                                                 <div class="form-group" ng-class="{'error' : (formPregunta.$submitted || formPregunta.maxNumero.$touched) && formPregunta.maxNumero.$error.required}">
-                                                    <label class="control-label" >Agregar opcion</label>
+                                                    <label class="control-label" >Agregar opción</label>
                                                     <div class="input-group">
-                                                      <input type="text" class="form-control" placeholder="Nueva opción" ng-model="opcion" >
+                                                      <input type="text" class="form-control" placeholder="Nueva opción" ng-model="opcion.text" >
+                                                      
+                                                      <div class="input-group-addon checkbox" ng-show="pregunta.tipoCampo==3 || pregunta.tipoCampo==7" >
+                                                          <label><input type="checkbox" name="otro" ng-model="opcion.otro"  >Otro</label>
+                                                      </div>
+                                                      
                                                       <div class="input-group-btn">
-                                                        <button class="btn btn-success" type="button" ng-click="pregunta.opciones.push(opcion); opcion=null;" ng-disabled="!opcion" >
+                                                        <button class="btn btn-success" type="button" ng-click="pregunta.opciones.push(opcion); opcion={};" ng-disabled="!opcion.text" >
                                                              Agregar
                                                         </button>
                                                       </div>
@@ -307,22 +316,23 @@
                                              </div>
                                          </div>
                                          
+                                         <br>
                                        
-                                          <ul class="list-group">
+                                        <ul class="list-group">
                                             
                                             <li href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
                                               Opciones
                                             </li>
                                             
                                             <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="item in pregunta.opciones track by $index" style="cursor:default" >
-                                                @{{item}}  <span class="badge badge-primary badge-pill" ng-click="pregunta.opciones.splice($index,1);" >X</span>
+                                                @{{item.text}} <span ng-show="item.otro" >(Es otro)</span>  <span class="badge badge-primary badge-pill" ng-click="pregunta.opciones.splice($index,1);" >X</span>
                                             </li>
                                             
                                             <li class="list-group-item d-flex justify-content-between align-items-center" ng-if="pregunta.opciones.length==0" >
                                                 0 opciones agregadas
                                             </li>
                                             
-                                          </ul>
+                                        </ul>
                                        
                                     </div>
                                 </div>
@@ -330,9 +340,10 @@
             
             
                             </div>
-                            <div class="modal-footer center" >
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <div class="modal-footer" >
+                                
                                 <button type="submit" ng-click="guardarPregunta()" class="btn btn-success">Guardar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -341,77 +352,75 @@
         
              <!-- Modal detalle pregunta-->
             <div class="modal fade" id="modalDetallePregunta" tabindex="-1" >
-                <div class="modal-dialog" ng-class="{'modal-lg':(detallePregunta.tipo_campos_id==8 || detallePregunta.tipo_campos_id==9)}" role="document">
+                <div class="modal-dialog" ng-class="{'modal-lg':(detallePregunta.tipo_campos_id==8 || detallePregunta.tipo_campos_id==9 ||detallePregunta.tipo_campos_id==10 || detallePregunta.tipo_campos_id==11)}" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Detalle pregunta</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Detalle de pregunta</h4>
                         </div>
                         
                             <div class="modal-body">
             
                                 <div class="row">
                                   
-                                    <div class="col-md-12">
+                                    <div class="col-xs-12 col-md-12">
                                         <div class="form-group" >
                                             <label class="control-label">Pregunta</label>
-                                            <p>@{{ (detallePregunta.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}</p>
+                                            <p class="form-control-static">@{{ (detallePregunta.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}</p>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-xs-12 col-md-6">
                                         <div class="form-group">
                                             <label>Tipo de campo</label>
-                                            <p>@{{ detallePregunta.tipo_campo.tipo }}</p>
+                                            <p class="form-control-static">@{{ detallePregunta.tipo_campo.tipo }}</p>
                                         </div>
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-xs-12 col-md-6">
                                         <div class="form-group" >
                                             <label class="control-label">El campo es requerido?</label><br>
-                                            <p>@{{ detallePregunta.pregunta.esRequerido ? 'Si' : 'No' }}</p>
+                                            <p class="form-control-static">@{{ detallePregunta.pregunta.esRequerido ? 'Si' : 'No' }}</p>
                                         </div>
                                     </div>
                                   
                                 </div>
                                 
-                                <div class="row" ng-if="detallePregunta.tipo_campos_id==1"  >
+                                <div class="row" ng-if="detallePregunta.tipo_campos_id==1 || detallePregunta.tipo_campos_id==11"  >
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Número máximo de caracteres</label>
-                                            <p>@{{ detallePregunta.max_length }}</p>
+                                            <p class="form-control-static">@{{ detallePregunta.max_length }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div class="row" ng-if="pregunta.tipo_campos_id==2"  >
-                                    <div class="col-md-6">
+                                <div class="row" ng-if="detallePregunta.tipo_campos_id==2 || detallePregunta.tipo_campos_id==10"  >
+                                    <div class="col-xs-12 col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Mínimo valor</label>
-                                            <p>@{{ detallePregunta.valor_min }}</p>
+                                            <p class="form-control-static">@{{ detallePregunta.valor_min }}</p>
                                         </div>
                                     </div>
-                                     <div class="col-md-6">
+                                     <div class="col-xs-12 col-md-6">
                                         <div class="form-group">
                                             <label class="control-label">Máximo valor</label>
-                                            <p>@{{ detallePregunta.valor_max }}</p>
+                                            <p class="form-control-static">@{{ detallePregunta.valor_max }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="row" ng-if="detallePregunta.tipo_campos_id==3 || detallePregunta.tipo_campos_id==5 || detallePregunta.tipo_campos_id==6 || detallePregunta.tipo_campos_id==7"  >
-                                    <div class="col-md-12">
+                                    <div class="col-xs-12 col-md-12">
                                        
                                           <ul class="list-group">
                                             
-                                            <li href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
-                                              Opciones <span class="badge badge-primary badge-pill" ng-click="openModalAgregarOpcion(detallePregunta)" ><b>+ Agregar</b></span>
+                                            <li class="list-group-item list-group-item-action flex-column align-items-start active">
+                                              Opciones <button type="button" class="btn btn-xs btn-default" ng-click="openModalAgregarOpcion(detallePregunta);"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
                                             </li>
                                             
                                             <li class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="item in detallePregunta.opciones track by $index" style="cursor:default" >
-                                               @{{ (item.idiomas|filter:{ 'idiomas_id':1 })[0].nombre }} <span class="badge badge-primary badge-pill" ng-click="eliminarOpionPregunta($index,item.id);" >X</span>
+                                               @{{ (item.idiomas|filter:{ 'idiomas_id':1 })[0].nombre }} <span ng-if="item.es_otro" >(Otro)</span> <button type="button" class="btn btn-xs btn-default" ng-click="eliminarOpionPregunta($index,item.id);"><span class="glyphicon glyphicon-trash"></span><span class="sr-only">Eliminar</span></button>
                                             </li>
                                             
                                             <li class="list-group-item d-flex justify-content-between align-items-center" ng-if="detallePregunta.opciones.length==0" >
@@ -424,12 +433,12 @@
                                 </div>
                                 
                                 
-                                <div class="row" ng-if="detallePregunta.tipo_campos_id==8 || detallePregunta.tipo_campos_id==9"  >
-                                    <div class="col-md-6">
+                                <div class="row" ng-if="detallePregunta.tipo_campos_id==8 || detallePregunta.tipo_campos_id==9 || detallePregunta.tipo_campos_id==10 || detallePregunta.tipo_campos_id==11"  >
+                                    <div class="col-xs-12 col-md-6">
                                        
                                           <ul class="list-group">
                                             
-                                            <li href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                                            <li class="list-group-item list-group-item-action flex-column align-items-start active">
                                               Subpreguntas <!--<span class="badge badge-primary badge-pill" ng-click="openModalAgregarOpcion(detallePregunta)" ><b>+ Agregar</b></span>-->
                                             </li>
                                             
@@ -445,11 +454,11 @@
                                        
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-xs-12 col-md-6">
                                        
                                           <ul class="list-group">
                                             
-                                            <li href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                                            <li class="list-group-item list-group-item-action flex-column align-items-start active">
                                               Opciones <!--<span class="badge badge-primary badge-pill" ng-click="openModalAgregarOpcion(detallePregunta)" ><b>+ Agregar</b></span>-->
                                             </li>
                                             
@@ -465,13 +474,10 @@
                                        
                                     </div>
                                 </div>
-                                
-                                
-            
             
                             </div>
-                            <div class="modal-footer center" >
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            <div class="modal-footer" >
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                             </div>
                     </div>
                 </div>
@@ -479,31 +485,29 @@
         
             <!-- Modal agregar idioma pregunta-->
             <div class="modal fade" id="modalAgregarIdiomaPregunta" tabindex="-1" >
-                <div class="modal-dialog" ng-class="{'modal-lg': (detallePregunta.tipo_campos_id==8 || detallePregunta.tipo_campos_id==9)}" role="document">
+                <div class="modal-dialog" ng-class="{'modal-lg': (detallePregunta.tipo_campos_id==8 || detallePregunta.tipo_campos_id==9 || detallePregunta.tipo_campos_id==10 || detallePregunta.tipo_campos_id==11)}" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Idioma pregunta</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Información de pregunta en otro idioma</h4>
                         </div>
                         <form name="formPreguntaIdioma" novalidate>
                             <div class="modal-body">
             
                                 <div class="row">
                                     
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{'error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.idioma.$touched) && formPreguntaIdioma.idioma.$error.required}">
-                                            <label class="control-label" for="idioma">Idioma</label>
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="form-group" ng-class="{'has-error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.idioma.$touched) && formPreguntaIdioma.idioma.$error.required}">
+                                            <label class="control-label" for="idioma"><span class="asterisk">*</span> Idioma</label>
                                             <select class="form-control" id="idioma" name="idioma" ng-model="idomaPregunta.idioma" ng-options="item.id as item.nombre for item in idiomas" ng-disabled="es_editar" required>
-                                                <option value="" disabled selected >Idioma</option>
+                                                <option value="" disabled selected>Seleccione un idioma</option>
                                             </select>
                                         </div>
                                     </div>
                                   
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{'error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.preguntaI.$touched) && formPreguntaIdioma.preguntaI.$error.required}">
-                                            <label class="control-label" for="preguntaI">Pregunta</label>
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="form-group" ng-class="{'has-error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.preguntaI.$touched) && formPreguntaIdioma.preguntaI.$error.required}">
+                                            <label class="control-label" for="preguntaI"><span class="asterisk">*</span> Pregunta</label>
                                             <input type="text" class="form-control" id="preguntaI" name="preguntaI" ng-model="idomaPregunta.pregunta" placeholder="@{{ (detallePregunta.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}" required />
                                         </div>
                                     </div>
@@ -511,7 +515,7 @@
                                 </div>
                                 
                                 <div class="row" ng-if="idomaPregunta.tipoCampo==3 || idomaPregunta.tipoCampo==5 || idomaPregunta.tipoCampo==6 || idomaPregunta.tipoCampo==7"  >
-                                    <div class="col-md-12">
+                                    <div class="col-xs-12 col-md-12">
                                        
                                         <table class="table table-striped">
                                           <thead>
@@ -524,7 +528,7 @@
                                             <tr ng-repeat="item in idomaPregunta.opciones" >
                                                   <td>@{{$index+1}}</td>
                                                   <td>
-                <input type="text" class="form-control" name="opcion@{{$index}}" ng-model="item.texto" placeholder="@{{ (detallePregunta.opciones[$index].idiomas|filter:{ 'idiomas_id':1 })[0].nombre }}" required />
+                <input type="text" class="form-control input-sm" name="opcion@{{$index}}" ng-model="item.texto" placeholder="@{{ (detallePregunta.opciones[$index].idiomas|filter:{ 'idiomas_id':1 })[0].nombre }}" required />
                                                   </td>
                                             </tr>
                                             </tr>
@@ -534,8 +538,8 @@
                                     </div>
                                 </div>
                                 
-                                <div class="row" ng-if="idomaPregunta.tipoCampo==8 || idomaPregunta.tipoCampo==9"  >
-                                    <div class="col-md-6">
+                                <div class="row" ng-if="idomaPregunta.tipoCampo==8 || idomaPregunta.tipoCampo==9 || idomaPregunta.tipoCampo==10 || idomaPregunta.tipoCampo==11"  >
+                                    <div class="col-xs-12 col-md-6">
                                        
                                         <table class="table table-striped">
                                           <thead>
@@ -548,7 +552,7 @@
                                             <tr ng-repeat="item in idomaPregunta.subPreguntas" >
                                                   <td>@{{$index+1}}</td>
                                                   <td>
-                <input type="text" class="form-control" name="opcion1@{{$index}}" ng-model="item.texto" placeholder="@{{ (detallePregunta.sub_preguntas[$index].idiomas|filter:{ 'idiomas_id':1 })[0].nombre }}" required />
+                <input type="text" class="form-control input-sm" name="opcion1@{{$index}}" ng-model="item.texto" placeholder="@{{ (detallePregunta.sub_preguntas[$index].idiomas|filter:{ 'idiomas_id':1 })[0].nombre }}" required />
                                                   </td>
                                             </tr>
                                             </tr>
@@ -557,7 +561,7 @@
                                        
                                     </div>
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-xs-12 col-md-6">
                                        
                                         <table class="table table-striped">
                                           <thead>
@@ -570,7 +574,7 @@
                                             <tr ng-repeat="item in idomaPregunta.opcionesSubPreguntas" >
                                                   <td>@{{$index+1}}</td>
                                                   <td>
-                <input type="text" class="form-control" name="opcion2@{{$index}}" ng-model="item.texto" placeholder="@{{ (detallePregunta.opciones_sub_preguntas[$index].idiomas|filter:{ 'idiomas_id':1 })[0].nombre }}" required />
+                <input type="text" class="form-control input-sm" name="opcion2@{{$index}}" ng-model="item.texto" placeholder="@{{ (detallePregunta.opciones_sub_preguntas[$index].idiomas|filter:{ 'idiomas_id':1 })[0].nombre }}" required />
                                                   </td>
                                             </tr>
                                             </tr>
@@ -584,9 +588,10 @@
             
             
                             </div>
-                            <div class="modal-footer center" >
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <div class="modal-footer">
+                                
                                 <button type="submit" ng-click="guardarIdiomaPregunta()" class="btn btn-success">Guardar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -598,25 +603,23 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Agregar opción pregunta</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Agregar opción de pregunta</h4>
                         </div>
                         <form name="formOpcionIdioma" novalidate>
                             <div class="modal-body">
             
                                 <div class="row">
-                                     <div class="col-md-12">
+                                     <div class="col-xs-12 col-md-12">
                                         <div class="form-group" >
                                             <label class="control-label">Pregunta</label>
-                                            <p>@{{ (detallePregunta.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}</p>
+                                            <p class="form-control-static">@{{ (detallePregunta.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}</p>
                                         </div>
                                     </div>
                                 </div>   
                                 
-                                <div class="row"   >
-                                    <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12">
                                        
                                         <table class="table table-striped">
                                           <thead>
@@ -629,7 +632,7 @@
                                             <tr ng-repeat="item in datOpcion.idiomas" >
                                                   <td>@{{item.nombre}}</td>
                                                   <td>
-                                                        <input type="text" class="form-control" name="opcionI@{{$index}}" placeholder="Opcion en @{{item.nombre}}" ng-model="item.opcion"  required />
+                                                        <input type="text" class="form-control input-sm" name="opcionI@{{$index}}" placeholder="Opcion en @{{item.nombre}}" ng-model="item.opcion"  required />
                                                   </td>
                                             </tr>
                                             </tr>
@@ -643,42 +646,83 @@
             
                             </div>
                             <div class="modal-footer center" >
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                
                                 <button type="submit" ng-click="guardarOpcionPregunta()" class="btn btn-success">Guardar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+            
+             <!-- Modal cambiar el orden de las preguntas de una sección -->
+            <div id="ModalDuplicarPregunta" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Duplicar pregunta</h4>
+                    </div>
+                  <div class="modal-body">
+                        
+                        <div class="row">
+                                  
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group" >
+                                    <label class="control-label">Pregunta</label>
+                                    <p>@{{ (preguntDuplicar.idiomas|filter:{ 'idiomas_id':1 })[0].pregunta }}</p>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12">
+                                <div class="form-group" >
+                                    <label class="control-label">Sección</label>
+                                    <select class="form-control" ng-model="preguntDuplicar.seccion">
+                                      <option value="" selectd disabled>Selecione una opción</option>
+                                      <option ng-repeat="item in encuesta.secciones" value="@{{item.id}}" >@{{$index+1}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                      
+                  </div>
+                  <div class="modal-footer">
+                    
+                    <button type="submit" ng-click="guardarDuplicadoPregunta()" class="btn btn-success">Guardar</button>
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                  </div>
+                </div>
+            
+              </div>
+            </div>
         
         @else    
             <!-- Modal detalle idioma pregunta-->
             <div class="modal fade" id="modalAgregarIdiomaPregunta" tabindex="-1" >
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" ng-class="{'modal-lg': (idomaPregunta.tipoCampo==8 || idomaPregunta.tipoCampo==9 || idomaPregunta.tipoCampo==10 || idomaPregunta.tipoCampo==11)}" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Idioma pregunta</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Información de pregunta en otro idioma</h4>
                         </div>
                         <form name="formPreguntaIdioma" novalidate>
                             <div class="modal-body">
             
                                 <div class="row">
                                     
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{'error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.idioma.$touched) && formPreguntaIdioma.idioma.$error.required}">
-                                            <label class="control-label" for="idioma">Idioma</label>
-                                            <select class="form-control" id="idioma" name="idioma" ng-model="idomaPregunta.idioma" ng-options="item.id as item.nombre for item in idiomas" disabled>
-                                                <option value="" disabled selected >Idioma</option>
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="form-group" ng-class="{'has-error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.idioma.$touched) && formPreguntaIdioma.idioma.$error.required}">
+                                            <label class="control-label" for="idioma"><span class="asterisk">*</span> Idioma</label>
+                                            <select class="form-control" id="idioma" name="idioma" ng-model="idomaPregunta.idioma" ng-options="item.id as item.nombre for item in idiomas" disabled required>
+                                                <option value="" disabled selected >Seleccione un idioma</option>
                                             </select>
                                         </div>
                                     </div>
                                   
-                                    <div class="col-md-12">
-                                        <div class="form-group" ng-class="{'error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.preguntaI.$touched) && formPreguntaIdioma.preguntaI.$error.required}">
-                                            <label class="control-label" for="preguntaI">Pregunta</label>
+                                    <div class="col-xs-12 col-md-12">
+                                        <div class="form-group" ng-class="{'has-error' : (formPreguntaIdioma.$submitted || formPreguntaIdioma.preguntaI.$touched) && formPreguntaIdioma.preguntaI.$error.required}">
+                                            <label class="control-label" for="preguntaI"><span class="asterisk">*</span> Pregunta</label>
                                             <input type="text" class="form-control" id="preguntaI" name="preguntaI" ng-model="idomaPregunta.pregunta" disabled required />
                                         </div>
                                     </div>
@@ -686,7 +730,7 @@
                                 </div>
                                 
                                 <div class="row" ng-if="idomaPregunta.tipoCampo==3 || idomaPregunta.tipoCampo==5 || idomaPregunta.tipoCampo==6 || idomaPregunta.tipoCampo==7"  >
-                                    <div class="col-md-12">
+                                    <div class="col-xs-12 col-md-12">
                                        
                                         <table class="table table-striped">
                                           <thead>
@@ -707,9 +751,54 @@
                                     </div>
                                 </div>
                                 
+                                <div class="row" ng-if="idomaPregunta.tipoCampo==8 || idomaPregunta.tipoCampo==9 || idomaPregunta.tipoCampo==10 || idomaPregunta.tipoCampo==11"  >
+                                    <div class="col-xs-12 col-md-6">
+                                       
+                                        <table class="table table-striped">
+                                          <thead>
+                                            <tr>
+                                              <th></th>
+                                              <th>Opción de respuesta</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr ng-repeat="item in idomaPregunta.subPreguntas" >
+                                                  <td>@{{$index+1}}</td>
+                                                  <td>@{{item.texto}}</td>
+                                            </tr>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                       
+                                    </div>
+                                    
+                                    <div class="col-xs-12 col-md-6">
+                                       
+                                        <table class="table table-striped">
+                                          <thead>
+                                            <tr>
+                                              <th></th>
+                                              <th>Opción</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr ng-repeat="item in idomaPregunta.opcionesSubPreguntas" >
+                                                  <td>@{{$index+1}}</td>
+                                                  <td>@{{item.texto}}</td>
+                                            </tr>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                       
+                                    </div>
+                                    
+                                </div>
+                                
+                                
+                                
                             </div>
-                            <div class="modal-footer center" >
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            <div class="modal-footer" >
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                             </div>
                         </form>
                     </div>
@@ -740,6 +829,10 @@
        li{
           list-style: none !important;
        }
+       .table .dropdown-menu{
+           left: auto;
+           right: 0;
+       }
     </style>
 
 @endsection
@@ -747,6 +840,11 @@
 
 
 @section('javascript')
+    <script src="{{asset('/js/dir-pagination.js')}}"></script>
+    <script src="{{asset('/js/plugins/angular-sanitize.js')}}"></script>
+    <script src="{{asset('/js/plugins/select.min.js')}}"></script>
+    <script src="{{asset('/js/plugins/checklist-model.js')}}"></script>
+    <script src="{{asset('/js/plugins/ADM-dateTimePicker.min.js')}}"></script>
     <script src="{{asset('/js/plugins/Chart.min.js')}}"></script>
     <script src="{{asset('/js/plugins/angular-chart.min.js')}}"></script>
     <script src="{{asset('/js/plugins/angular-dragdrop.min.js')}}"></script>

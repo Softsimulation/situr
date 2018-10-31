@@ -88,7 +88,7 @@ use App\Models\Ocupacion;
 use App\Models\OcupacionPersona;
 use App\Models\OtraRed;
 use App\Models\Temporada;
-
+use App\Models\User;
 
 
 
@@ -97,11 +97,7 @@ class TurismoInternoCorsController extends Controller
     public function __construct()
     {
         
-        $this->middleware('auth');
-        $this->middleware('role:Admin');
-        if(Auth::user() != null){
-            $this->user = User::where('id',Auth::user()->id)->first(); 
-        }
+        $this->user = User::resolveUser(); 
     }
     public function getDatoshogar(){
         
@@ -109,7 +105,7 @@ class TurismoInternoCorsController extends Controller
         $niveles=Nivel_Educacion::get();
         $motivos=Motivo_No_Viaje::get();
         $estratos=Estrato::get();
-        $encuestadores = Digitador::with([ 'aspNetUser'=>function($q){$q->select('id','username');} ])->get();
+        $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
         $estados=EstadosCiviles::get();
         $ocupaciones=Ocupacion::get();
         
@@ -221,6 +217,9 @@ class TurismoInternoCorsController extends Controller
         $persona=Persona::find($request->id);
         if($persona==null){
             return ['success'=>false, "error"=>"La persona seleccionada no existe"];
+        }
+        if($persona->viajes->count()>0){
+            return ["success"=>false,"error"=>"La persona tiene viajes registrados no puede ser eliminado"];
         }
         if($persona->motivoNoViajes->count()>0){
             
@@ -519,6 +518,7 @@ class TurismoInternoCorsController extends Controller
         $fuentes_antes=[];
         $fuentes_durante=[];
         $compar_redes=[];
+        $OtroRedes=[];
         $OtroFuenteAntes="";
         $OtroFuenteDurante="";
         $facebook="";
@@ -1023,7 +1023,9 @@ class TurismoInternoCorsController extends Controller
     }
     
     public function getViajes($id = null){
-        $hogar = Hogar::where("id",$id)->first();
+        
+        $persona = Persona::where("id",$id)->first();
+        $hogar = Hogar::where("id",$persona->hogar_id)->first();
         
         $idmunicipios=[4184,4203,5208,5394,5453];
         
@@ -1045,8 +1047,8 @@ class TurismoInternoCorsController extends Controller
         $motivos =  Motivo_Viaje_Con_Idioma::where("idiomas_id",1)->select("nombre","motivo_viaje_id as id")->get();
         $frecuencias = Frecuencia_Viaje::where("estado","=",true)->select("frecuencia","id")->get();
         $acomponiantes = Acompaniante_Viaje::where("estado","=",true)->select("nombre","id")->get();
-        $viajes = Viaje::where("hogar_id","=",$id)->get();
-        $principal = Viaje::where("hogar_id","=",$id)->where("es_principal","=",true)->pluck('id');               
+        $viajes = Viaje::where("persona_id","=",$id)->get();
+        $principal = Viaje::where("persona_id","=",$id)->where("es_principal","=",true)->pluck('id');               
        
         $enlaces = collect();
 
@@ -1060,7 +1062,7 @@ class TurismoInternoCorsController extends Controller
 
        
         
-        return ["Enlaces" => $enlaces,"Viajes"=>$viajes,"Principal"=>$principal];
+        return ["Enlaces" => $enlaces,"Viajes"=>$viajes,"Principal"=>$principal, "hogar" => $hogar];
     }
     
     public function getViaje($id = null){
@@ -1069,6 +1071,7 @@ class TurismoInternoCorsController extends Controller
      
         $estancias = Ciudad_Visitada::join("municipios","municipios.id","=","municipio_id")->join("departamentos","departamentos.id","=","municipios.departamento_id")->where('viajes_id', $id)->get(['municipio_id AS Municipio','tipo_alojamientos_id AS Alojamiento','numero_noches AS Noches',"departamento_id AS Departamento","departamentos.pais_id AS Pais"]);
         $principal = 0;
+        
         if(count($estancias)>0){
             $principal = Ciudad_Visitada::where('viajes_id', $id)->where('destino_principal',1)->first() != null ? Ciudad_Visitada::where('viajes_id', $id)->where('destino_principal',1)->first()->municipio_id : null;
           }
@@ -1107,16 +1110,16 @@ class TurismoInternoCorsController extends Controller
         
         $idmunicipios=[4184,4203,5208,5394,5453];
         $vj = Viaje::where("id","=",$id)->first();
-        $viaje = Viaje::where("id","=",$id)->select("frecuencia_id as Frecuencia","motivo_viaje_id as Motivo","fecha_inicio as Inicio","fecha_final as Fin","tamaño_grupo as Numero")->first();
+        $viaje = Viaje::where("id","=",$id)->select("frecuencia_id as Frecuencia","motivo_viaje_id as Motivo","fecha_inicio as Inicio","fecha_final as Fin","tamaño_grupo as Numero", "persona_id as persona")->first();
         $paises = Pais_Con_Idioma::where("idioma_id",1)->select("nombre","pais_id as id")->get();
-      
         $depertamentos = Departamento::select("nombre","id","pais_id as idP")->get();
-         if(in_array($vj->hogare->edificacione->barrio->municipio_id,$idmunicipios)){
+        
+         if(in_array($vj->persona->hogare->edificacione->barrio->municipio_id,$idmunicipios)){
             
              $municipios = Municipio::WhereNotIn("id",$idmunicipios)->select("nombre","id","departamento_id as idD")->get();
             
         }else{
-             $municipios = Municipio::where("id","!=",$vj->hogare->edificacione->barrio->municipio_id)->select("nombre","id","departamento_id as idD")->get();
+             $municipios = Municipio::where("id","!=",$vj->persona->hogare->edificacione->barrio->municipio_id)->select("nombre","id","departamento_id as idD")->get();
         }
         $alojamientos =  Tipo_Alojamiento_Con_Idioma::where("idiomas_id",1)->select("nombre","tipos_alojamientos_id as id")->get();
         $motivos =  Motivo_Viaje_Con_Idioma::where("idiomas_id",1)->select("nombre","motivo_viaje_id as id")->get();
@@ -1133,11 +1136,6 @@ class TurismoInternoCorsController extends Controller
         $enlaces['Motivos'] = $motivos;
         $enlaces['Frecuencias'] = $frecuencias;
         $enlaces['Acompaniantes'] = $acomponiantes;
-
-       
-     
-     
-     
      
         $estancias = Ciudad_Visitada::join("municipios","municipios.id","=","municipio_id")->join("departamentos","departamentos.id","=","municipios.departamento_id")->where('viajes_id', $id)->get(['municipio_id AS Municipio','tipo_alojamientos_id AS Alojamiento','numero_noches AS Noches',"departamento_id AS Departamento","departamentos.pais_id AS Pais"]);
         $principal = 0;
@@ -1175,9 +1173,10 @@ class TurismoInternoCorsController extends Controller
         return ["encuesta"=>$encuesta,"Enlaces" => $enlaces];
     }
     
-    public function postCreateviaje(Request $request){
+    
+   public function postCreateviaje(Request $request){
             $validator = \Validator::make($request->all(), [
-      'Id' => 'required|exists:hogares,id',
+      'Id' => 'required|exists:personas,id',
 	  'Inicio' => 'required|date|before:tomorrow',
 	  'Fin' => 'required|date|after:Inicio',
       'Idv' => 'exists:viajes,id',
@@ -1212,7 +1211,8 @@ class TurismoInternoCorsController extends Controller
     
     $diferencia = (  strtotime($request->Fin) - strtotime($request->Inicio) ) / 86400;
 
-    $hogar = Hogar::where("id","=",$request->Id)->first();
+    $persona = Persona::where("id","=",$request->Id)->first();
+    $hogar = Hogar::where("id","=",$persona->hogar_id)->first();
     
     
     if(collect($request->Estancias)->where("Municipio",$hogar->edificacione->barrio->municipio_id)->first()){
@@ -1247,7 +1247,7 @@ class TurismoInternoCorsController extends Controller
         $viaje->frecuencia_id = $request->Frecuencia;
         $viaje->fecha_inicio = $request->Inicio;
         $viaje->fecha_final = $request->Fin;
-        $viaje->hogar_id = $hogar->id;
+        $viaje->persona_id = $persona->id;
         $viaje->tamaño_grupo = $request->Numero;
 
         $viaje->save();
@@ -1379,7 +1379,7 @@ class TurismoInternoCorsController extends Controller
           $historial=new Historial_Encuesta_Interno();
           $historial->viajes_id=$viaje->id;
           $historial->estado_id=($viaje->ultima_sesion != 7)?2:3;
-          $historial->digitador_id= $viaje->hogare->digitadores_id;
+          $historial->digitador_id= $hogar->digitadores_id;
           $historial->fecha_cambio=\Carbon\Carbon::now();
           $historial->mensaje=$mensaje;
           $historial->save();
@@ -1432,7 +1432,7 @@ class TurismoInternoCorsController extends Controller
     $numeroDias = $diferencia;
     $noches = 0;
     $viaje = Viaje::where("id","=",$request->Id)->first();
-    $hogar= $viaje->hogare;
+    $hogar= Persona::find($viaje->persona_id)->hogare;
 
 
         if($request->Frecuencia ==  1 || $request->Frecuencia == 2){
@@ -1620,7 +1620,7 @@ class TurismoInternoCorsController extends Controller
           $historial=new Historial_Encuesta_Interno();
           $historial->viajes_id=$viaje->id;
           $historial->estado_id=($viaje->ultima_sesion != 7)?2:3;
-          $historial->digitador_id= $viaje->hogare->digitadores_id;
+          $historial->digitador_id= $viaje->persona->hogare->digitadores_id;
           $historial->fecha_cambio=\Carbon\Carbon::now();
           $historial->mensaje=$mensaje;
           $historial->save();
@@ -1650,7 +1650,7 @@ class TurismoInternoCorsController extends Controller
     public function postSiguienteviaje (Request $request){
      
       $validator = \Validator::make($request->all(), [
-      'id' => 'required|exists:hogares,id',
+      'id' => 'required|exists:personas,id',
       'principal' => 'required|exists:viajes,id',
       ],[
           'id.required' => 'Debe seleccionarla persona a realizar la $request->',
@@ -1662,8 +1662,18 @@ class TurismoInternoCorsController extends Controller
       if($validator->fails()){
         return ["success"=>false,"errores"=>$validator->errors()];
     }
-        Viaje::where("hogar_id",$request->id)->update(['es_principal' => false]);
-        Viaje::where("hogar_id",$request->id)->where("id",$request->principal)->update(['es_principal' => true]);
+        
+        $travel=Viaje::where('persona_id',$request->id)->where('es_principal',true);
+        
+        if($travel->count()>0){
+            $principal=$travel->first()->codigo_encuesta;
+        }else{
+            $data = \DB::select("SELECT *from codigo_encuesta_viajes(?)", array($request->principal));
+            $principal= $data[0]->codigo_encuesta_viajes;
+        }
+    
+        Viaje::where("persona_id",$request->id)->update(['es_principal' => false]);
+        Viaje::where("persona_id",$request->id)->where("id",$request->principal)->update(['es_principal' => true,'codigo_encuesta'=>$principal]);
         $sw = 0;
         
        $data = Viaje::where("id",$request->principal)->first();
@@ -1703,13 +1713,13 @@ class TurismoInternoCorsController extends Controller
                   
         $temporada->Hogares=Hogar::whereHas('edificacione',function($q)use($temporada){
             $q->where('temporada_id',$temporada->id);
-        })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.aspNetUser')->get();
+        })->with('edificacione.barrio')->with('edificacione.estrato')->with('digitadore.user')->get();
         
-    
+         $encuestas=Viaje::where('es_principal',true)->whereHas('persona.hogare.edificacione',function($q)use($temporada){
+            $q->where('temporada_id',$temporada->id);
+        })->with('persona.hogare.digitadore.user')->with('persona.hogare.edificacione.barrio.municipio')->orderby('id')->get();
         
-        
-        
-        return ['temporada'=>$temporada];
+        return ['temporada'=>$temporada,'encuestas'=>$encuestas];
         
     }
     

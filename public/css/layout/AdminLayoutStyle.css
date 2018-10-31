@@ -564,6 +564,7 @@ align-items-center{
 }
 .form-group label{
     margin-bottom: 0;
+    font-weight: 500;
 }
 .form-control+.text-input-alt {
     background: #ddd;
@@ -584,6 +585,14 @@ align-items-center{
 .ionicons-padding{
     font-size: 1.125rem;
     margin: 5px 0;
+}
+.ui-select-bootstrap>.ui-select-match>.btn, .ui-select-bootstrap .ui-select-match-text span {
+    font-weight: 400!important;
+    color:#555!important;
+}
+.text-muted {
+    color: #999;
+    font-weight: 500;
 }
         /* width */
 #left-side-menu::-webkit-scrollbar {

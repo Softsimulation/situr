@@ -9,7 +9,7 @@
     <meta name="author" content="SITUR Atlantico, Softsimulation S.A.S">
     <title>@yield('Title')</title>
     <link rel="icon" type="image/ico" href="{{asset('Content/icons/favicon-96x96.png')}}" />
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Roboto:100,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Roboto:100,500,400,700" rel="stylesheet">
     <link href="{{asset('/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!--<link href="{{asset('/css/bootstrap-material-design.css')}}" rel="stylesheet" type="text/css" />-->
@@ -169,6 +169,27 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
+                        
+                        </li>
+                        <li>
+                            <a role="menuitem" href="{{asset('EstadisticasSecundarias/configuracion')}}">Estadísticas Secundarias</a>
+                        
+                        </li>
+                        <li>
+                            <a role="menuitem" href="{{asset('MuestraMaestra/periodos')}}">Muestra Maestra</a>
+                        
+                        </li>
+                        <!--<li>-->
+                        <!--    <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>-->
+                        <!--    <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">-->
+                        <!--        <li role="none">-->
+                        <!--            <a role="menuitem" href="{{asset('sostenibilidadhogares')}}">Hogares</a>-->
+                        <!--            <a role="menuitem" href="{{asset('sostenibilidadpst')}}">PST</a>-->
+                        <!--        </li>-->
+                        <!--    </ul>-->
+                        <!--</li>-->
                         <li>
                             <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Proveedores RNT</a>
                             <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">

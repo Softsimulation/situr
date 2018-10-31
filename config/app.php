@@ -168,7 +168,9 @@ return [
         Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         //Api token 
-        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider'
+        'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
+        
+        Chumper\Zipper\ZipperServiceProvider::class
 
     ],
 
@@ -225,7 +227,8 @@ return [
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
-        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'
+        'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
+        'Zipper' => Chumper\Zipper\Zipper::class
 
 
     ],
