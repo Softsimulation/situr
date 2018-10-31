@@ -67,10 +67,10 @@ angular.module('sostenibilidadPst.ambiental', [])
                 }
             }
         } else if (sw == 5) {
-            var i = $scope.encuesta.accionesEnergia.indexOf(17);
+            var i = $scope.encuesta.accionesEnergia.indexOf(18);
             if ($scope.encuesta.otroEnergia != null && $scope.encuesta.otroEnergia != '') {
                 if (i == -1) {
-                    $scope.encuesta.accionesEnergia.push(17);
+                    $scope.encuesta.accionesEnergia.push(18);
                 }
             }
         } else if (sw == 6) {

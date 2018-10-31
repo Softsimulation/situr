@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('/Mapa', 'MapaCtrl@getIndex');
+Route::get('/Mapa/getData', 'MapaCtrl@getData');
+
+Route::controller('/EstadisticasSecundarias','EstadisticasSecundariasCtrl');
+Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
+
 Route::controller('/indicadores','IndicadoresCtrl');
 
 Route::get('/', function () {
@@ -94,6 +100,8 @@ Route::controller('/actividades', 'ActividadesController');
 
 Route::controller('/destinos', 'DestinosController');
 
+Route::controller('/quehacer', 'QueHacerController');
+
 Route::controller('/rutas', 'RutasTuristicasController');
 
 Route::controller('/eventos', 'EventosController');
@@ -120,6 +128,7 @@ Route::controller('/usuario','UsuarioController');
 
 Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
 Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
+Route::get('/llenarEncuestaAdHoc/{idEncuesta}', 'EncuestaDinamicaCtrl@anonimos' );
 Route::controller('/encuesta','EncuestaDinamicaCtrl');
 
 Route::controller('/importarRnt','ImportacionRntController');

@@ -158,7 +158,6 @@ section .title-section{
 /*}*/
 section h4{
     font-size: 1.875rem;
-    color: orange;
     margin-bottom: 1rem;
 }
 /*section .title-section:first-child{*/
@@ -253,6 +252,11 @@ section p{
     }
     .tiles .tile:not(.inline-tile){
         width: calc(25% - 1rem);
+        margin: 0 .5rem;
+        margin-bottom: .5rem;
+    }
+    .tiles.tile-list .tile:not(.inline-tile){
+        width: calc(33.3% - 1rem);
     }
 }
 @media only screen and (min-width: 1400px) {
@@ -263,5 +267,8 @@ section p{
 @media only screen and (min-width: 1600px) {
     .carousel-inner>.item {
         height: 650px;
+    }
+    .tiles.tile-list .tile:not(.inline-tile){
+        width: calc(25% - 1rem);
     }
 }

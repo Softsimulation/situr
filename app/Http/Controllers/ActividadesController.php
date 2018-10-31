@@ -35,6 +35,7 @@ class ActividadesController extends Controller
             }])->select('categoria_turismo.id');
         }])->where('id', $id)->select('id', 'valor_min', 'valor_max', 'calificacion_legusto', 'calificacion_llegar', 'calificacion_recomendar', 'calificacion_volveria')->first();
         
+       
         //return ['actividad' => $actividad];
         return view('actividades.Ver', ['actividad' => $actividad]);
     }

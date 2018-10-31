@@ -1062,7 +1062,7 @@ class TurismoInternoCorsController extends Controller
 
        
         
-        return ["Enlaces" => $enlaces,"Viajes"=>$viajes,"Principal"=>$principal];
+        return ["Enlaces" => $enlaces,"Viajes"=>$viajes,"Principal"=>$principal, "hogar" => $hogar];
     }
     
     public function getViaje($id = null){
@@ -1071,6 +1071,7 @@ class TurismoInternoCorsController extends Controller
      
         $estancias = Ciudad_Visitada::join("municipios","municipios.id","=","municipio_id")->join("departamentos","departamentos.id","=","municipios.departamento_id")->where('viajes_id', $id)->get(['municipio_id AS Municipio','tipo_alojamientos_id AS Alojamiento','numero_noches AS Noches',"departamento_id AS Departamento","departamentos.pais_id AS Pais"]);
         $principal = 0;
+        
         if(count($estancias)>0){
             $principal = Ciudad_Visitada::where('viajes_id', $id)->where('destino_principal',1)->first() != null ? Ciudad_Visitada::where('viajes_id', $id)->where('destino_principal',1)->first()->municipio_id : null;
           }
@@ -1109,10 +1110,10 @@ class TurismoInternoCorsController extends Controller
         
         $idmunicipios=[4184,4203,5208,5394,5453];
         $vj = Viaje::where("id","=",$id)->first();
-        $viaje = Viaje::where("id","=",$id)->select("frecuencia_id as Frecuencia","motivo_viaje_id as Motivo","fecha_inicio as Inicio","fecha_final as Fin","tamaño_grupo as Numero")->first();
+        $viaje = Viaje::where("id","=",$id)->select("frecuencia_id as Frecuencia","motivo_viaje_id as Motivo","fecha_inicio as Inicio","fecha_final as Fin","tamaño_grupo as Numero", "persona_id as persona")->first();
         $paises = Pais_Con_Idioma::where("idioma_id",1)->select("nombre","pais_id as id")->get();
-   
         $depertamentos = Departamento::select("nombre","id","pais_id as idP")->get();
+        
          if(in_array($vj->persona->hogare->edificacione->barrio->municipio_id,$idmunicipios)){
             
              $municipios = Municipio::WhereNotIn("id",$idmunicipios)->select("nombre","id","departamento_id as idD")->get();
@@ -1135,11 +1136,6 @@ class TurismoInternoCorsController extends Controller
         $enlaces['Motivos'] = $motivos;
         $enlaces['Frecuencias'] = $frecuencias;
         $enlaces['Acompaniantes'] = $acomponiantes;
-
-       
-     
-     
-     
      
         $estancias = Ciudad_Visitada::join("municipios","municipios.id","=","municipio_id")->join("departamentos","departamentos.id","=","municipios.departamento_id")->where('viajes_id', $id)->get(['municipio_id AS Municipio','tipo_alojamientos_id AS Alojamiento','numero_noches AS Noches',"departamento_id AS Departamento","departamentos.pais_id AS Pais"]);
         $principal = 0;
