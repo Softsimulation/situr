@@ -160,6 +160,18 @@
                             <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedores')}}">Oferta y empleo</a>
                         
                         </li>
+                        <li>
+                            <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
+                        
+                        </li>
+                        <li>
+                            <a role="menuitem" href="{{asset('EstadisticasSecundarias/configuracion')}}">Estadísticas Secundarias</a>
+                        
+                        </li>
+                        <li>
+                            <a role="menuitem" href="{{asset('MuestraMaestra/periodos')}}">Muestra Maestra</a>
+                        
+                        </li>
                         <!--<li>-->
                         <!--    <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>-->
                         <!--    <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">-->
