@@ -31,7 +31,7 @@ class EstadisticasSecundariasCtrl extends Controller
     }
     
     
-    public function getConfiguracion(){
+    public function getConfiguracion(){ 
         return View("EstadisticasSecundarias.configuracion");
     }
     

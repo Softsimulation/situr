@@ -169,6 +169,7 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
                             <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
                         
                         </li>
