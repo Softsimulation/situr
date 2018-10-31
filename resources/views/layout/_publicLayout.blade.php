@@ -92,7 +92,7 @@
                             <option value="es" selected>ES</option>
                             <option value="en">EN</option>
                         </select>
-                        <a href="#" title="Iniciar sesión"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">Iniciar sesión</span></a>
+                        <a href="/login/login" title="Iniciar sesión"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">Iniciar sesión</span></a>
                         
                     </div>
                     <ul role="menubar">
@@ -153,6 +153,9 @@
                                 <li role="none">
                                     <a role="menuitem" href="#">Restaurantes</a>
                                 </li>
+                                <li role="none">
+                                    <a role="menuitem" href="/Mapa">Mapa del departamento</a>
+                                </li>
                             </ul>
                         </li>
                         <li>
@@ -173,6 +176,9 @@
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="#">Sostenibilidad</a>
+                                </li>
+                                <li role="none">
+                                    <a role="menuitem" href="/indicadores/secundarios">Indicadores Secundarios</a>
                                 </li>
                             </ul> 
                             
