@@ -161,7 +161,6 @@
                         
                         </li>
                         <li>
-<<<<<<< HEAD
                             <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>
                             <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">
                                 <li role="none">
@@ -170,7 +169,6 @@
                                 </li>
                             </ul>
                         </li>
-=======
                             <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
                         
                         </li>
@@ -191,7 +189,6 @@
                         <!--        </li>-->
                         <!--    </ul>-->
                         <!--</li>-->
->>>>>>> 69901ae70a713fb39059095c386a159de2f18953
                         <li>
                             <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Proveedores RNT</a>
                             <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">
