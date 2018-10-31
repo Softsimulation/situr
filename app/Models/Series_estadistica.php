@@ -11,7 +11,7 @@ class Series_estadistica extends Model
     
     public function valores_rotulo()
     {
-        return $this->hasMany('App\Models\Series_estadistica_rotulo', 'series_estadistica_id');
+        return $this->hasMany('App\Models\Series_estadistica_rotulo', 'serie_estadisitica_id');
     }
     
     public function valores_tiempo()
