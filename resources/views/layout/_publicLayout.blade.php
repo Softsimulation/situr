@@ -92,7 +92,7 @@
                             <option value="es" selected>ES</option>
                             <option value="en">EN</option>
                         </select>
-                        <a href="#" title="Iniciar sesión"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">Iniciar sesión</span></a>
+                        <a href="/login/login" title="Iniciar sesión"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">Iniciar sesión</span></a>
                         
                     </div>
                     <ul role="menubar">
@@ -133,13 +133,16 @@
                                     <a role="menuitem" href="#">Carnaval</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Eventos</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=4">Eventos</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Actividades y atracciones</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=1">Actividades</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Rutas turísticas</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=2">Atracciones</a>
+                                </li>
+                                <li role="none">
+                                    <a role="menuitem" href="/quehacer/?tipo=5">Rutas turísticas</a>
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="#">Guías</a>
@@ -149,6 +152,9 @@
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="#">Restaurantes</a>
+                                </li>
+                                <li role="none">
+                                    <a role="menuitem" href="/Mapa">Mapa del departamento</a>
                                 </li>
                             </ul>
                         </li>
@@ -170,6 +176,9 @@
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="#">Sostenibilidad</a>
+                                </li>
+                                <li role="none">
+                                    <a role="menuitem" href="/indicadores/secundarios">Indicadores Secundarios</a>
                                 </li>
                             </ul> 
                             

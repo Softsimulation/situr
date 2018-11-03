@@ -1,6 +1,6 @@
 (function(){
 
-    angular.module("appEncuestaDinamica", [ 'ngSanitize', 'ui.select', 'checklist-model', "ADM-dateTimePicker", "dndLists", "chart.js", "serviciosAdmin" ] )
+    angular.module("appEncuestaDinamica", [ 'ngSanitize', 'angularUtils.directives.dirPagination', 'ui.select', 'checklist-model', "ADM-dateTimePicker", "dndLists", "chart.js", "serviciosAdmin" ] )
     
     .config(["ADMdtpProvider", "ChartJsProvider", function(ADMdtpProvider,ChartJsProvider) {
          ADMdtpProvider.setOptions({ calType: "gregorian", format: "YYYY/MM/DD", default: "today" });
@@ -9,7 +9,9 @@
     
     .controller("ConfigurarEncuestaCtrl", ["$scope","ServiEncuesta", function($scope,ServiEncuesta){
         
-        $scope.tabOpen = { activo:0 } ;
+        $scope.tabOpen = { activo:0 };
+        $scope.opcion = {};
+        
         
         $scope.$watch("id", function() {
             if($scope.id){
@@ -243,7 +245,7 @@
                     }      
                 }    
             }
-            else if( pregunta.tipo_campos_id==8 || pregunta.tipo_campos_id==9 ){
+            else if( pregunta.tipo_campos_id==8 || pregunta.tipo_campos_id==9 || pregunta.tipo_campos_id==10 || pregunta.tipo_campos_id==11 ){
                 for(var i=0; i<pregunta.sub_preguntas.length ; i++ ){
                     for(var j=0; j<pregunta.sub_preguntas[i].idiomas.length ; j++ ){
                         if(pregunta.sub_preguntas[i].idiomas[j].idiomas_id==preguntaIdioma.idiomas_id){
@@ -287,7 +289,7 @@
         $scope.getSubPreguntas = function(p){
             
             var x = [];
-            if( p.tipo_campos_id==8 || p.tipo_campos_id==9 ){
+            if( p.tipo_campos_id==8 || p.tipo_campos_id==9 || p.tipo_campos_id==10 || p.tipo_campos_id==11 ){
                 for(var i=0; i<p.sub_preguntas.length ;i++ ){
                     x.push({ idSubPregunta : p.sub_preguntas[i].id });
                 }    
@@ -299,7 +301,7 @@
         $scope.getOpcionesSubPreguntas = function(p){
             
             var x = [];
-            if( p.tipo_campos_id==8 || p.tipo_campos_id==9 ){
+            if( p.tipo_campos_id==8 || p.tipo_campos_id==9 || p.tipo_campos_id==10 || p.tipo_campos_id==11 ){
                 for(var i=0; i<p.opciones_sub_preguntas.length ;i++ ){
                     x.push({ idOpcionSubPregunta : p.opciones_sub_preguntas[i].id });
                 }    
@@ -417,6 +419,60 @@
             });
         }
         
+        
+        $scope.agregarOpcion = function(){
+            
+            if( ($scope.pregunta.tipoCampo==3 || $scope.pregunta.tipoCampo==7) && $scope.opcion.otro ){
+                for(var i=0; i<$scope.pregunta.opciones.length; i++){
+                    if($scope.pregunta.opciones[i].otro){ sweetAlert("Oops...", "Ya existe una opción con otro, dentro de las opciones.", "error");  }
+                }
+            }
+            
+            $scope.pregunta.opciones( angular.copy($scope.opcion) );
+            $scope.opcion = {};
+        }
+        
+        
+        
+        $scope.duplicarPregunta = function(pregunta){
+            $scope.preguntDuplicar = angular.copy(pregunta);
+            $("#ModalDuplicarPregunta").modal("show");
+        }
+        
+        $scope.guardarDuplicadoPregunta = function () {
+
+            if (!$scope.preguntDuplicar.seccion) {
+                swal("Error", "Verifique los errores en el formulario", "error");
+                return;
+            }
+            
+            $("body").attr("class", "cbp-spmenu-push charging");
+            
+            var data = {
+                idEncuesta: $scope.encuesta.id,
+                idPregunta: $scope.preguntDuplicar.id,
+                idSeccion: $scope.preguntDuplicar.seccion
+            };
+            
+            ServiEncuesta.duplicarPregunta(data).then(function (data) {
+                       
+                        if (data.success) {
+                            $scope.encuesta = data.data;
+                            swal("¡Pregunta agregada!", "La pregunta se agregado exitosamente", "success");
+                            $("#modalAgregarPregunta").modal("hide");
+                        }
+                        else {
+                            $scope.errores = data.errores;
+                            sweetAlert("Oops...", "Ha ocurrido un error.", "error");
+                        }
+                        $("body").attr("class", "cbp-spmenu-push"); 
+                    }).catch(function () {
+                        swal("Error", "Error en la carga, por favor recarga la página", "error");
+                        $("body").attr("class", "cbp-spmenu-push"); 
+                    });
+            
+        }
+        
     }])
      
     .controller("ListarEncuestasCtrl", ["$scope","ServiEncuesta", function($scope,ServiEncuesta){
@@ -425,8 +481,18 @@
         ServiEncuesta.getListadoEncuestas()
             .then(function(data){  
                 $scope.encuestas = data.encuestas;
+                for(var i=0;i<$scope.encuestas.length;i++){
+                    for(var j=0;j<$scope.encuestas[i].idiomas.length;j++){
+                        $scope.encuestas[i].nombreEsp = null;
+                        if($scope.encuestas[i].idiomas[j].idiomas_id == 1){
+                            $scope.encuestas[i].nombreEsp = $scope.encuestas[i].idiomas[j].nombre;
+                        }
+                    }
+                }
                 $scope.idiomas = data.idiomas;
                 $scope.estados = data.estados;
+                $scope.tipos = data.tipos;
+                $scope.host = data.host;
             });
         
         
@@ -453,8 +519,8 @@
             ServiEncuesta.agregarEncuesta($scope.encuesta).then(function (data) {
                        
                         if (data.success) {
-                            $scope.encuestas.push(data.data);
-                            swal("Encuesta agregada", "LA encuesta se ha creado exitosamente", "success");
+                            $scope.encuestas.unshift(data.data);
+                            swal("Encuesta agregada", "La encuesta se ha creado exitosamente", "success");
                             $("#modalAgregarEncuesta").modal("hide");
                         }
                         else {
@@ -622,7 +688,79 @@
                     });
             
         }
-                          
+        
+        
+        $scope.duplicarEncuesta = function (encuesta) {
+           
+           $scope.duplicarencuesta = {
+               id : encuesta.id,
+               tipo : encuesta.tipos_encuestas_dinamica_id
+           };
+           $("#modalDuplicarEncuesta").modal("show"); 
+          
+        }
+        $scope.guardarDuplicarEncuesta = function(){
+           
+           if (!$scope.formDE.$valid) {
+                swal("Error", "Verifique los errores en el formulario", "error");  return;
+            } 
+           
+            $("body").attr("class", "cbp-spmenu-push charging");
+            
+            ServiEncuesta.duplicarEncuesta( $scope.duplicarencuesta )
+            .then(function (data) {
+                if (data.success) {
+                    $scope.encuestas.unshift(data.data);
+                    swal("¡Duplicada!", "La encuesta se ha duplicado exitosamente", "success");
+                }
+                else {
+                    sweetAlert("Oops...", "Ha ocurrido un error.", "error");
+                }
+                
+                $("body").attr("class", "cbp-spmenu-push");
+                $("#modalDuplicarEncuesta").modal("hide"); 
+                
+            }).catch(function () {
+                swal("Error", "Error en la carga, por favor recarga la página", "error");
+                $("body").attr("class", "cbp-spmenu-push");
+            });
+        }
+        
+        $scope.openModalCopiar = function(item){
+            
+            if(item.tipos_encuestas_dinamica_id==1){
+                $scope.link = $scope.host +  "/llenarEncuestaAdHoc/" +item.id;
+            }
+            else if(item.tipos_encuestas_dinamica_id==2){
+                $scope.link = $scope.host +  "/encuestaAdHoc/" +item.id+ "/registro" ;
+            }
+            else{ return; }
+            
+            $("#modalCopyLink").modal("show");
+        }
+        
+        $scope.copiarLink = function(){
+            var copyText = document.getElementById("link");
+            copyText.select();
+            document.execCommand("copy");
+        }  
+        
+        $scope.exportarData = function(id){
+            
+            $("body").attr("class", "cbp-spmenu-push charging");
+            
+            ServiEncuesta.getExcel( id )
+                .then(function(response){ 
+                    var link = document.createElement("a");
+                    link.href = window.URL.createObjectURL(response);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    $("body").attr("class", "cbp-spmenu-push");
+                    zona.es_generada = true;
+                });
+            
+        }
         
     }])
     
@@ -632,6 +770,7 @@
         ServiEncuesta.getListadoEncuestasRealidadas( $("#id").val() )
             .then(function(data){  
                 $scope.encuesta = data.encuesta;
+                $scope.host = data.host;
             });
         
         $scope.openModalAddEncuesta = function( ){
@@ -672,6 +811,14 @@
             });
             
         }
+        
+        $scope.copiarLink = function(codigo){
+            var $tempInput =  $("<textarea>");
+            $("body").append($tempInput);
+            $tempInput.val( $scope.host + "/encuestaAdHoc/" + codigo  ).select();
+            document.execCommand("copy");
+            $tempInput.remove();
+        }        
         
     }])
     
