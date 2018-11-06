@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
@@ -10,8 +11,8 @@ use App\Models\Idioma;
 
 class QueHacerController extends Controller
 {
-    public function getIndex(){
-        return view('quehacer.Index', $this->queHacerData(1));
+    public function getIndex(Request $request){
+        return view('quehacer.Index', $this->queHacerData(1, $request));
     }
     
     
@@ -27,10 +28,11 @@ class QueHacerController extends Controller
      * La fecha inicial y final solo aplica para el tipo 4 (Eventos)
      * para el resto de tipos las fechas tienen por default 'NOW()'
      * */
-    private function queHacerData ($idIdioma){
+    private function queHacerData ($idIdioma, $request){
         if (Idioma::find($idIdioma) == null){
             return ['success' => false, 'msg' => 'El idioma especificado no se encuentra registrado en la base de datos.'];
         }
+        
         
         $query = DB::select("(SELECT actividades.id AS id,  
                  actividades.calificacion_legusto AS calificacion_legusto, 
@@ -92,6 +94,7 @@ class QueHacerController extends Controller
                  rutas.portada AS portada 
              FROM rutas INNER JOIN rutas_con_idiomas ON rutas.id = rutas_con_idiomas.ruta_id AND rutas_con_idiomas.idioma_id = ?  
              WHERE rutas.estado = true", [$idIdioma]);*/
+             
                              
         return ['query' => $query];
     }

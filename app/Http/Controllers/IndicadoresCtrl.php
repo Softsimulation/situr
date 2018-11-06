@@ -9,21 +9,16 @@ use App\Http\Requests;
 
 use DB;
 
+
 use App\Models\Indicadores_medicion;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Models\Estadisitica_Secundaria;
+use App\Models\Valor_serie_tiempo;
+use App\Models\Series_estadistica;
+use App\Models\Rotulos_estadistica;
+use App\Models\Series_estadistica_rotulo;
 
 class IndicadoresCtrl extends Controller
 {
-    public function __construct()
-    {
-        
-        $this->middleware('auth');
-        $this->middleware('role:Admin');
-        if(Auth::user() != null){
-            $this->user = User::where('id',Auth::user()->id)->first(); 
-        }
-    }
     
     //////////////////////////////////////////////////////
     
@@ -43,12 +38,102 @@ class IndicadoresCtrl extends Controller
         return View("indicadores.index", ["indicadores"=> $this->getDataIndicadoresMedicion(4) ] );
     }
     
-    
     private function getDataIndicadoresMedicion($indicador){ 
         $idioma = 1;
         return  Indicadores_medicion::where("tipo_medicion_indicador_id",$indicador)
                                     ->with([ "idiomas"=>function($q) use($idioma){ $q->where("idioma_id", $idioma); } ])
                                     ->orderBy('peso', 'asc')->get();
+    }
+    
+    
+    public function getSecundarios(){
+        $data = Estadisitica_Secundaria::where([ ["estado",true], ["es_visible",true] ])->get();
+        return View("indicadores.estadisticasSecundarios", [ "indicadores"=> $data ] );
+    }
+    
+    public function getDatasencundarios($id){
+    
+        $idioma = 1;
+        
+        $estadistica = null;
+        if($idioma == 1){
+            $estadistica = Estadisitica_Secundaria::where("id",$id)->with("graficas")->select("id","nombre" ,"label_x" ,"label_y" )->first();
+        }
+        else{
+            $estadistica = Estadisitica_Secundaria::where("id",$id)->with("graficas")-select("id","name as nombre" ,"label_x_en as label_x" ,"label_y_en as label_y" )->first();
+        }
+        
+        
+        if($estadistica){
+            $years = null;
+            if( count( $estadistica->rotulos ) > 0 ){
+                $years = Rotulos_estadistica::join("series_estadistica_rotulos","rotulos_estadisticas.id","=","rotulo_estadistica_id")
+                                            ->join("anios","anios.id","=","anio_id")
+                                            ->where("estadisticas_secundaria_id",$estadistica->id)
+                                            ->distinct()->get([ "anios.id","anios.anio" ]);
+            }
+            else{
+                $years = Series_estadistica::join("valor_series_tiempo","series_estadisticas.id","=","series_estadistica_id")
+                                           ->join("anios","anios.id","=","anio_id")
+                                           ->where("estadisticas_secundaria_id",$estadistica->id)
+                                           ->distinct()->get([ "anios.id","anios.anio" ]);
+            }
+            
+            return [ "periodos"=> $years, "indicador"=>$estadistica ,"data"=> count($years)>0 ? $this->getFiltrardatasecundaria($id,$years[0]->id) : []  ];
+        }
+        
+    }
+    
+    public function getFiltrardatasecundaria($id,$year){
+        
+        
+        $estadistica = Estadisitica_Secundaria::find($id);
+        
+        if($estadistica){
+            
+            $idioma = 1;
+            $datos = [];
+            $labels = [];
+            
+            if( count( $estadistica->rotulos ) > 0 ){
+                
+                foreach($estadistica->series as $serie){
+                    $dt = [];
+                    foreach($estadistica->rotulos as $rotulo){                         
+                        $dato = Series_estadistica_rotulo::where([ ["series_estadistica_id",$serie->id] , ["rotulo_estadistica_id",$rotulo->id], ["anio_id",$year]  ])->pluck("valor")->first();
+                        array_push( $dt, $dato );
+                    }
+                    array_push($datos,$dt); 
+                }
+                
+                $labels = $idioma==1 ? $estadistica->rotulos->lists('nombre')->toArray() : $estadistica->rotulos->lists('name')->toArray();
+            }
+            else{
+                
+                foreach($estadistica->series as $serie){
+                    
+                    $meses = Valor_serie_tiempo::join("mes_indicador","mes_indicador.id","=","mes_indicador_id")
+                                               ->where([ ["series_estadistica_id",$serie->id], ["anio_id",$year] ])->distinct()->get(["mes_indicador.*"]);
+                
+                    $dt = [];
+                    foreach($meses as $mes){                         
+                        $dato = Valor_serie_tiempo::where([ ["series_estadistica_id",$serie->id], ["mes_indicador_id",$mes->id], ["anio_id",$year]  ])->pluck("valor")->first();
+                        array_push($dt,$dato); 
+                    }
+                    
+                    array_push($datos,$dt); 
+                    $labels = $strMes = $idioma==1? $meses->lists('nombre')->toArray() : $meses->lists('name')->toArray();
+                }
+                
+            }
+            
+            return [
+                "labels"=> $labels,
+                "data"=>   $datos,
+                "series"=> $idioma==1 ? $estadistica->series->lists('nombre')->toArray()  : $estadistica->series->lists('name')->toArray(),
+            ];
+        }
+        
     }
     
     /////////////////////////////////////////////////////

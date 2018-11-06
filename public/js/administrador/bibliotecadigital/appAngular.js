@@ -176,15 +176,12 @@ $("body").attr("class", "charging");
                             .then(function(data){
                                  $("body").attr("class", "cbp-spmenu-push")
                                 $scope.publicaciones = data.Publicaciones;
-                                for(var i=0;i<$scope.publicaciones.length;i++){
-                                    $scope.publicaciones[i].estado = $scope.publicaciones[i].estado_publicacion.nombre;
-                                    $scope.publicaciones[i].tipoPublicacion = $scope.publicaciones[i].tipopublicacion.idiomas[0].nombre;
-                                }
+                             
                                 $scope.estados = data.estados;
                             });   
                             
         
-       $scope.cambiarEstado = function (obj) {
+      $scope.cambiarEstado = function (obj) {
         swal({
             title: "cambiar estado publicación ",
             text: "¿Está seguro que desea cambiar el estado de la publicación ?",
@@ -214,7 +211,7 @@ $("body").attr("class", "charging");
 
     }
     
-    $scope.cambiarEstadoPublicacion = function (item) {
+     $scope.cambiarEstadoPublicacion = function (item) {
         $scope.estado = angular.copy(item);
         $scope.indexitem = $scope.publicaciones.indexOf(item);
         $scope.cambiarForm.$setPristine();
@@ -255,8 +252,7 @@ $("body").attr("class", "charging");
       
           }
     
-    
-       $scope.eliminar = function (obj) {
+     $scope.eliminar = function (obj) {
         swal({
             title: "Eliminar publicación ",
             text: "¿Está seguro que desea eliminar la publicación ?",

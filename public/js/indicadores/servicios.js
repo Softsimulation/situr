@@ -24,6 +24,9 @@
             
         getDataIndicador: function(id){ return http.get("/indicadores/dataindicador/"+id);  },
         filtrarDataIndicador: function(data){ return http.post("/indicadores/filtrardataindicador", data);  },
+        
+        getDataSecundarios: function(id){ return http.get("/indicadores/datasencundarios/"+id);  },
+        filtrarDataSecundarias: function(data){ return http.get("/indicadores/filtrardatasecundaria/"+ data.indicador+ "/"+ data.year );  },
       
       };
       

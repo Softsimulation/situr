@@ -70,7 +70,7 @@ angular.module('interno.Actividades', [])
     }
     
     
-      $scope.existeOpcion = function(obj){
+    $scope.existeOpcion = function(obj){
         
        for (var i = 0; i < $scope.encuesta.OpcionesActividades.length; i++) {
             if($scope.encuesta.OpcionesActividades[i].id == obj){
@@ -92,7 +92,7 @@ angular.module('interno.Actividades', [])
         return false;
     }
     
-     $scope.Opcion = function(obj){
+    $scope.Opcion = function(obj){
         
        for (var i = 0; i < $scope.encuesta.OpcionesActividades.length; i++) {
             if($scope.encuesta.OpcionesActividades[i].id == obj){
@@ -131,7 +131,7 @@ angular.module('interno.Actividades', [])
     
     
     
-       $scope.Validar = function(){
+    $scope.Validar = function(){
         if($scope.encuesta.ActividadesRelizadas.length == 0){
             return true
         }

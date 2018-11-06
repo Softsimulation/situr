@@ -20,6 +20,13 @@ use Carbon\Carbon;
 
 class PublicacionController extends Controller
 { 
+    public function __construct()
+	{
+	    $this->middleware('auth');
+	    $this->middleware('role:Admin');
+	    $this->user = Auth::user();
+        
+	}
     
     public function publicaciones() {
         return view('publicaciones.publicaciones');
@@ -114,7 +121,7 @@ class PublicacionController extends Controller
 
 	   $publicacion->estado = !$publicacion->estado ;
 	   $publicacion->save();
-	   return [ "success"=>true];
+	   return [ "success"=>true, $publicacion->estado];
 	}
 
 	public function EstadoPublicacion(Request $request){
@@ -227,6 +234,8 @@ class PublicacionController extends Controller
 	   $publicacion->tipos_publicaciones_obras_id = $request->tipos_publicaciones_obras_id;
 	   $publicacion->estado = true;
 	   $publicacion->estados_id = 3;
+       $publicacion->user_create = $this->user->username;
+       $publicacion->user_update = $this->user->username;
 	   $publicacion->save();
 	   
    
@@ -240,6 +249,8 @@ class PublicacionController extends Controller
                $persona->apellidos = $personar->apellidos;
                $persona->email = $personar->email;
                $persona->paises_id = $personar->paises_id;
+               $persona->user_create = $this->user->username;
+               $persona->user_update = $this->user->username;
                $persona->save();
 	       }
 	      $publicacion->personas()->attach($persona->id);
@@ -253,6 +264,8 @@ class PublicacionController extends Controller
 	           $palabraClave = new Palabra();
 	           $palabraClave->nombre =$palabra->text;
                $palabraClave->estado = true;
+               $palabraClave->user_create = $this->user->username;
+               $palabraClave->user_update = $this->user->username;
                $palabraClave->save();
 	       }
 	       

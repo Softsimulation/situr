@@ -84,7 +84,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.2 ¿Cree que los turistas que llegan a @{{proveedor.razon_social}} respetan y conservan las tradiciones, monumentos, grupos étnicos y población residente en general?</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.2 ¿Cree que los turistas que llegan al departamento del Atlántico respetan y conservan las tradiciones, monumentos, grupos étnicos y población residente en general?</b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única</b></div>
             <div class="panel-body">
@@ -112,7 +112,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.3 Con una calificación de alto, medio o bajo, ¿Cómo califica el nivel de conocimiento del personal de su empresa de los servicios, productos y atractivos culturales que ofrece @{{proveedor.razon_social}}? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.3 Con una calificación de alto, medio o bajo, ¿Cómo califica el nivel de conocimiento del personal de su empresa de los servicios, productos y atractivos culturales que ofrece el departamento del Atlántico? </b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única</b></div>
             <div class="panel-body">
@@ -142,7 +142,7 @@
         
         <div class="panel panel-success" ng-if="encuesta.criterios_calificacion_id != 4 && encuesta.criterios_calificacion_id != undefined">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P. 3.1 ¿Ofrecen información oportuna a los visitantes sobre los servicios, productos y atractivos culturales que hay en @{{proveedor.razon_social}}? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P. 3.1 ¿Ofrecen información oportuna a los visitantes sobre los servicios, productos y atractivos culturales que hay en el departamento del Atlántico? </b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única</b></div>
             <div class="panel-body">
@@ -170,7 +170,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.4 ¿Su empresa adelanta o participa en alguna de las siguientes acciones para conservar y rescatar la cultura de donde opera?</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.4 ¿Su empresa adelanta o participa en alguna de las siguientes acciones para conservar y rescatar la cultura del departamento del Atlántico de donde opera?</b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta de selección múltiple</b></div>
             <div class="panel-body">
@@ -495,7 +495,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p3">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.9 De los siguientes riesgos o problemáticas socioculturales en función del turismo sostenible, ¿Cuáles considera que representan un riesgo alto, medio o bajo en @{{proveedor.razon_social}}?</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.9 De los siguientes riesgos o problemáticas socioculturales en función del turismo sostenible, ¿Cuáles considera que representan un riesgo alto, medio o bajo en el departamento del Atlántico?</b></h3>
             </div>
             <div class="panel-footer"><b>Pregunta con selección única para la calificación</b></div>
             <div class="panel-body">
@@ -531,7 +531,7 @@
         
         <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.10 ¿Cuál debería ser la contribución de turismo a  la conservación  de patrimonio  sociocultural de @{{proveedor.razon_social}}?</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> P.10 ¿Cuál debería ser la contribución de turismo a  la conservación  de patrimonio  sociocultural del departamento del Atlántico?</b></h3>
             </div>
             <div class="panel-footer"><b>Respuesta abierta</b></div>
             <div class="panel-body">
