@@ -205,7 +205,8 @@ class AdministradorProveedoresController extends Controller
         }
         
         $errores = [];
-        $proveedor_rnt_con_idioma = Proveedores_rnt_idioma::where('idioma_id', 1)->where('proveedor_rnt_id', $request->proveedor_rnt_id)->first();
+        $proveedor_rnt_con_idioma = Proveedor::where('proveedor_rnt_id', $request->proveedor_rnt_id)->first();
+        //return ['proveedores' => Proveedores_rnt_idioma::all()];
         if ($proveedor_rnt_con_idioma != null){
             $errores["exists"][0] = "Este proveedor ya se encuentra registrado en el sistema.";
         }
@@ -235,11 +236,17 @@ class AdministradorProveedoresController extends Controller
         $proveedor_con_idioma->horario = $request->horario;
         $proveedor_con_idioma->save();
         
-        $proveedor_rnt_con_idioma = new Proveedores_rnt_idioma();
-        $proveedor_rnt_con_idioma->proveedor_rnt_id = $request->proveedor_rnt_id;
-        $proveedor_rnt_con_idioma->idioma_id = 1;
-        $proveedor_rnt_con_idioma->nombre = $request->nombre;
-        $proveedor_rnt_con_idioma->descripcion = $request->descripcion;
+        $proveedor_rnt_con_idioma = Proveedores_rnt_idioma::where('idioma_id', 1)->where('proveedor_rnt_id', $request->proveedor_rnt_id)->first();
+        if ($proveedor_rnt_con_idioma != null){
+            $proveedor_rnt_con_idioma->nombre = $request->nombre;
+            $proveedor_rnt_con_idioma->descripcion = $request->descripcion;
+        }else {
+            $proveedor_rnt_con_idioma = new Proveedores_rnt_idioma();
+            $proveedor_rnt_con_idioma->proveedor_rnt_id = $request->proveedor_rnt_id;
+            $proveedor_rnt_con_idioma->idioma_id = 1;
+            $proveedor_rnt_con_idioma->nombre = $request->nombre;
+            $proveedor_rnt_con_idioma->descripcion = $request->descripcion;
+        }
         $proveedor_rnt_con_idioma->save();
         
         return ['success' => true, 'id' => $proveedor->id];
