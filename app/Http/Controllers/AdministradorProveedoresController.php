@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use Storage;
 use File;
+use DB;
 
 use App\Models\Sector;
 use App\Models\Perfil_Usuario;
@@ -148,7 +149,9 @@ class AdministradorProveedoresController extends Controller
             }])->select('actividades_id', 'idiomas', 'nombre', 'descripcion');
         }])->where('estado', true)->select('id')->get();
         
-        $proveedores_rnt = Proveedores_rnt::select('id', 'razon_social')->orderBy('id')->get();
+        $proveedores_rnt = Proveedores_rnt::select('id', 'razon_social')->orderBy('id')->doesntHave('proveedor')->get();
+        //$proveedores_rnt = DB::select("SELECT proveedores_rnt.id AS id, proveedores_rnt.razon_social AS razon_social FROM
+        //proveedores_rnt INNER JOIN proveedores ON proveedores.proveedor_rnt_id = proveedores_rnt.id");
             
         return ['success' => true,
             'perfiles_turista' => $perfiles_turista, 
