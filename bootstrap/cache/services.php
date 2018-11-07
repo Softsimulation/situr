@@ -36,6 +36,8 @@
     32 => 'Zizaco\\Entrust\\EntrustServiceProvider',
     33 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
     34 => 'Chumper\\Zipper\\ZipperServiceProvider',
+
+
   ),
   'eager' => 
   array (
