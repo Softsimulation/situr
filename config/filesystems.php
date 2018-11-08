@@ -62,7 +62,11 @@ return [
             'root' => storage_path('app/public'),
             'visibility' => 'public',
         ],
-        
+        'multimedia-informes' => [
+            'driver' => 'local',
+            'root' => public_path().'/multimedia/informes',
+            'visibility' => 'public',
+        ],
         'multimedia-atraccion' => [
             'driver' => 'local',
             'root' => public_path().'/multimedia/atracciones',
@@ -86,7 +90,11 @@ return [
             'root' => public_path().'/multimedia/eventos',
             'visibility' => 'public',
         ],
-
+        'Publicaciones' => [
+               'driver' => 'local',
+               'root' => public_path().'/Publicaciones',
+               'visibility' => 'public',
+           ],
         'multimedia-ruta' => [
             'driver' => 'local',
             'root' => public_path().'/multimedia/rutas',
@@ -98,6 +106,12 @@ return [
             'root' => public_path().'/multimedia/proveedores',
             'visibility' => 'public',
         ],
+        
+        'HojasDeVida' => [
+           'driver' => 'local',
+           'root' => public_path().'/HojasDeVida',
+           'visibility' => 'public',
+       ],
 
         's3' => [
             'driver' => 's3',

@@ -56,8 +56,11 @@ class TurismoInterno
             if($sw==1){
                return $next($request);
             }else{
+                
+                $persona=Persona::find($request->one);
+                
                 \Session::flash('mensaje','El hogar no tiene ningun miembro viajero');
-                return redirect('/turismointerno/editarhogar/'.$request->one);
+                return redirect('/turismointerno/editarhogar/'.$persona->hogar_id);
             }
             
         }

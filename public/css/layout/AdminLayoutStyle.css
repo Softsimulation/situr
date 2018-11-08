@@ -564,6 +564,7 @@ align-items-center{
 }
 .form-group label{
     margin-bottom: 0;
+    font-weight: 500;
 }
 .form-control+.text-input-alt {
     background: #ddd;
@@ -585,6 +586,7 @@ align-items-center{
     font-size: 1.125rem;
     margin: 5px 0;
 }
+<<<<<<< HEAD
 
 .input-upload {
     width: 100%;
@@ -631,6 +633,16 @@ align-items-center{
     -webkit-transform: translateY(-50%) translateX(-50%);
 }
 
+=======
+.ui-select-bootstrap>.ui-select-match>.btn, .ui-select-bootstrap .ui-select-match-text span {
+    font-weight: 400!important;
+    color:#555!important;
+}
+.text-muted {
+    color: #999;
+    font-weight: 500;
+}
+>>>>>>> 1f8de8b147c7f3483a72d93e4f375e60abb1244e
         /* width */
 #left-side-menu::-webkit-scrollbar {
     width: 10px;

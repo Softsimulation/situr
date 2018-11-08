@@ -124,8 +124,8 @@
                             </div>
                             <div class="col-xs-12">
                                 <br/>
-                                <label for="video_promocional">Video promocional</label>
-                                <input type="text" name="video_promocional" id="video_promocional" ng-model="video_promocional" class="form-control" placeholder="URL del video de YouTube" />
+                                <label for="video">Video promocional</label>
+                                <input type="text" name="video" id="video" ng-model="video" class="form-control" placeholder="URL del video de YouTube" />
                             </div>
                             <div class="col-xs-12 text-center">
                                 <hr/>
@@ -153,6 +153,6 @@
 <script src="{{asset('/js/administrador/destinos/services.js')}}"></script>
 <script src="{{asset('/js/administrador/destinos/app.js')}}"></script>
 <script src="{{asset('/js/plugins/directiva-tigre.js')}}"></script>
-<script src="https://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places"></script>
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyC55uUNZFEafP0702kEyGLlSmGE29R9s5k&libraries=placeses,visualization,drawing,geometry,places"></script>
 <script src="{{asset('/js/plugins/gmaps.js')}}"></script>
 @endsection

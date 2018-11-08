@@ -39,8 +39,8 @@ angular.module('atracciones.crear', [])
     
     var map = new GMaps({
         el: '#direccion_map',
-        lat: 11.2315042,
-        lng: -74.193007,
+        lat: 10.9685400,
+        lng: -74.7813200,
         zoom: 12,
         click: function (e){
             lat = e.latLng.lat();
