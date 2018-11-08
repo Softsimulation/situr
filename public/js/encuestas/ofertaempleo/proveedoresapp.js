@@ -126,3 +126,49 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
 
    
 }])
+
+.controller('listadoecuestatotal', ['$scope', 'proveedorServi',function ($scope, proveedorServi) {
+   
+        
+
+        $("body").attr("class", "cbp-spmenu-push charging");
+        
+        proveedorServi.getEncuestasTotal($scope.id).then(function (data) {
+            $("body").attr("class", "cbp-spmenu-push");
+            $scope.encuestas = data.encuestas;
+            $scope.ruta = data.ruta;
+        }).catch(function () {
+            $("body").attr("class", "cbp-spmenu-push");
+            swal("Error", "No se realizo la solicitud, reinicie la página");
+        })
+    
+        
+      $scope.ofertaEmpleo = function(obj){
+             
+              if(obj.tipo_id == 1){
+            
+              }else{
+                  
+                    if(obj.categoria_id == 15 || obj.categoria_id == 13){
+                         window.location.href = "/ofertaempleo/agenciaviajes/"+obj.id;
+                    }
+                     if(obj.categoria_id == 14){
+                         window.location.href = "/ofertaempleo/caracterizacionagenciasoperadoras/"+obj.id;
+                    }
+                     if(obj.categoria_id == 21){
+                         window.location.href = "/ofertaempleo/caracterizaciontransporte/"+obj.id;
+                    }
+                     if(obj.categoria_id == 22 || obj.categoria_id == 28){
+                         window.location.href = "/ofertaempleo/caracterizaciontransporte/"+obj.id;
+                    }
+                     if(obj.categoria_id == 12){
+                         window.location.href = "/ofertaempleo/caracterizacionalimentos/";+obj.id
+                    }
+                   if(obj.categoria_id == 11 || obj.categoria_id == 16 || obj.categoria_id == 27 ){
+                         window.location.href = "/ofertaempleo/caracterizacionalimentos/"+obj.id;
+                    }
+              }
+          
+      }
+   
+}])
