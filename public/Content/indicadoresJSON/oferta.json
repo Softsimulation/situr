@@ -11,7 +11,7 @@
          "periodos":[
               {
                  "nombre": "2016",
-                 "descripcion" : "Según el registro nacional de Turismo RNT, estas son las cantidades de prestadores de servicios turísticos del departamento del Magdalena, desglosado por categoría de actividad económica.",
+                 "descripcion" : "Según el registro nacional de Turismo RNT, estas son las cantidades de prestadores de servicios turísticos del departamento del Atlántico, desglosado por categoría de actividad económica.",
                  "datos": {
 						     "cols":[ {"label":"Series","type":"string"},
 								      {"label":"Número de establecimientos alojamiento","type":"number"} 
