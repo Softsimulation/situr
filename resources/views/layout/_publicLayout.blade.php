@@ -196,10 +196,10 @@
                                     <a role="menuitem" href="/promocionInforme/listado">Informes</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="promocionNoticia/listado">Noticias</a>
+                                    <a role="menuitem" href="/promocionNoticia/listado">Noticias</a>
                                 </li>
                                  <li role="none">
-                                    <a role="menuitem" href="promocionNoticia/listado">Biblioteca Digital</a>
+                                    <a role="menuitem" href="/promocionPublicacion/listado">Biblioteca Digital</a>
                                 </li>
                                   <li role="none">
                                     <a role="menuitem" href="/promocionBolsaEmpleo/vacantes">Bolsa de empleo</a>
