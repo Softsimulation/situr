@@ -33,8 +33,19 @@ class PublicoPublicacionController extends Controller
                "publicaciones"=> Publicacion::
                 where( $where )->orderBy('id')->paginate(10),
                    
-               "tipos"=> TipoPublicacion::join("idiomas_has_tipos_publicaciones_obras","idiomas_has_tipos_publicaciones_obras.tipos_publicaciones_obras_id","=","tipos_publicaciones_obras.id")->where("idiomas_has_tipos_publicaciones_obras.idiomas_id","=",1)->select("idiomas_has_tipos_publicaciones_obras.nombre as nombre ","tipos_publicaciones_obras.id as id")->get()    
+               "tipos"=> TipoPublicacion::join("idiomas_has_tipos_publicaciones_obras","idiomas_has_tipos_publicaciones_obras.tipos_publicaciones_obras_id","=","tipos_publicaciones_obras.id")->where("idiomas_has_tipos_publicaciones_obras.idiomas_id","=",1)->
+               select("idiomas_has_tipos_publicaciones_obras.nombre as nombre ","tipos_publicaciones_obras.id as id")->get()    
                 ));
        
     }
+    
+ function getVer($idInforme){
+     //publicaciones_idioma::where("publicaciones_id",">",1)->delete();
+     //Publicacione::where("estado",true)->delete();
+     return view('informes.VerInformePublico', array(
+            "publicacion"=> Publicacion::with(["personas","temas","palabras"])->where("id","=",$id)->first()
+                
+         ));
+    
+ }
 }
