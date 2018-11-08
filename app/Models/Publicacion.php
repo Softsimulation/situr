@@ -27,7 +27,7 @@ class Publicacion extends Model
 {
     
     protected $table = 'publicaciones_obras';
-    public $timestamps = false;
+    public $timestamps = true;
     
     
     public function temas(){
