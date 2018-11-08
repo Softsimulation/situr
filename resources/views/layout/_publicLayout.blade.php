@@ -112,21 +112,21 @@
                                 <li role="none">
                                     <a role="menuitem" href="/quienesSomos">¿Quiénes somos?</a>
                                 </li>
-                                <li role="none">
-                                    <a role="menuitem" href="/historia">Historia</a>
-                                </li>
-                                <li role="none">
-                                    <a role="menuitem" href="/vision">Visión</a>
-                                </li>
+                                <!--<li role="none">-->
+                                <!--    <a role="menuitem" href="/historia">Historia</a>-->
+                                <!--</li>-->
+                                <!--<li role="none">-->
+                                <!--    <a role="menuitem" href="/vision">Visión</a>-->
+                                <!--</li>-->
                                 <li role="none">
                                     <a role="menuitem" href="/equipo">Equipo SITUR</a>
                                 </li>
-                                <li role="none">
-                                    <a role="menuitem" href="/queHacemos">¿Qué hacemos?</a>
-                                </li>
-                                <li role="none">
-                                    <a role="menuitem" href="/entidadesAsociadas">Entidades asociadas</a>
-                                </li>
+                                <!--<li role="none">-->
+                                <!--    <a role="menuitem" href="/queHacemos">¿Qué hacemos?</a>-->
+                                <!--</li>-->
+                                <!--<li role="none">-->
+                                <!--    <a role="menuitem" href="/entidadesAsociadas">Entidades asociadas</a>-->
+                                <!--</li>-->
                             </ul>  
                             
                             
@@ -135,7 +135,7 @@
                             <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuViveAtlantico">Vive el Atlántico</a>
                             <ul role="menu" id="menuViveAtlantico">
                                 <li role="none">
-                                    <a role="menuitem" href="#">Carnaval</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=3">Destinos</a>
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="/quehacer/?tipo=4">Eventos</a>
@@ -193,10 +193,10 @@
                             <ul role="menu" id="menuPublicaciones">
                                         
                                 <li role="none">
-                                    <a role="menuitem" href="#">Informes</a>
+                                    <a role="menuitem" href="/promocionInforme/listado">Informes</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Noticias</a>
+                                    <a role="menuitem" href="/promocionNoticia/listado">Noticias</a>
                                 </li>
                             </ul>    
                             

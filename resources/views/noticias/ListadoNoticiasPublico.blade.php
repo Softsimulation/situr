@@ -6,6 +6,14 @@
 
 @section('estilos')
 <style>
+    header{
+        position: static;
+        background-color: black;
+        margin-bottom: 1rem;
+    }
+    .nav-bar > .brand a img{
+        height: auto;
+    }
     .row{
         width: calc(100% + 30px);
     }
@@ -73,7 +81,7 @@
     </div>
     @endif
     <br>
-    @if ($noticias != null || count($noticias) > 0)
+    @if ($noticias != null && count($noticias) > 0)
     <div class="tiles">
         @foreach ($noticias as $noticia)
         <div class="tile @if(strlen($noticia->titulo) >= 200 || strlen($noticia->resumen) > 230) two-places @endif">
@@ -97,9 +105,9 @@
                 </div>
             </div>
         </div>
-           
-        @endforeach
-    </div>
+   </div>    
+    @endforeach
+    
     
     <div class="text-center">
         {!!$noticias->appends(Input::except('page'))->links()!!}
