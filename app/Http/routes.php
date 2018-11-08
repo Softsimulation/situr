@@ -131,3 +131,5 @@ Route::controller('/login','LoginController');
 
 Route::controller('/noticias','NoticiaController');
 Route::controller('/promocionNoticia','PublicoNoticiaController');
+Route::controller('/sliders','SliderController');
+Route::controller('/suscriptores','SuscriptoreController');
