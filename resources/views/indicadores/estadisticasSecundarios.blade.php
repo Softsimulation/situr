@@ -47,6 +47,10 @@
         padding:0!important;
         padding-top:20px !important;
     }
+    .icono{
+        height: 22px;
+        margin-right: 5px;
+    }
 </style>
 
 @endsection
@@ -83,14 +87,14 @@
                             <label class="input-group-addon">Gráfica </label>
                             <div class="btn-group" style="width: 100%;">
                                 <button type="button" class="btn btn-default btn-select" style="height:34px;" >
-                                   <i class="material-icons">@{{graficaSelect.icono}}</i> @{{graficaSelect.nombre || " "}}
+                                   <img src="@{{graficaSelect.icono}}" class="icono" ></img> @{{graficaSelect.nombre || " "}}
                                 </button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <span class="caret "></span>
                                 </button>
                                 <ul class="dropdown-menu menuTipoGrafica" role="menu">
                                     <li ng-repeat="item in indicador.graficas" ng-click="changeTipoGrafica(item)"  >
-                                        <a> <i class="material-icons">@{{item.icono}}</i> @{{item.nombre}}</a>
+                                        <a> <img src="@{{item.icono}}" class="icono" ></img> @{{item.nombre}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -138,12 +142,12 @@
             <div class="panel-heading">
                 <i class="material-icons">table_chart</i> <span id="tituloIndicadorGrafica" > @{{tituloIndicadorGrafica}} </span>
                 <a href id="descargarTABLA" >
-                     <i class="material-icons">picture_as_pdf</i> 
+                     <img src="/Content/graficas/excel.png" class="icono" ></img>
                 </a>
             </div>
-            <div class="panel-body" id="customers" style="overflow-x: auto;width: 100%;margin-right: 0;">
+            <div class="panel-body" id="customers" style="overflow-x: auto;width: 100%;margin-right: 0;" >
                 
-                <table class="table table-striped" ng-if="!series"   >
+                <table class="table table-striped" ng-if="!series" >
                     <thead>
                       <tr>
                         <th>@{{indicador.idiomas[0].eje_x}} </th>
@@ -252,6 +256,23 @@
         
         $("#descargarTABLA").on("click", function(){ 
             
+            var htmls = "";
+            var uri = 'data:application/vnd.ms-excel;base64,';
+            var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+            var base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) };
+            var format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }); };
+
+            htmls = $("#customers").html()
+
+            var ctx = { worksheet : 'Worksheet', table : htmls };
+
+            var link = document.createElement("a");
+            link.download = "datos.xls";
+            link.href = uri + base64(format(template, ctx));
+            link.click();
+
+            
+            /*
             var pdf = new jsPDF('l', 'pt', 'letter');
             pdf.text(20, 20, $("#tituloIndicadorGrafica").html() );
 
@@ -267,7 +288,7 @@
                 },
                 margins
             );
-            
+            */
         });
         
         $("#descargarGraficaTabla").on("click", function(){ 

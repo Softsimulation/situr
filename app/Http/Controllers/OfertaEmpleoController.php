@@ -207,6 +207,23 @@ class OfertaEmpleoController extends Controller
         return view('ofertaEmpleo.ListadoEncuestas',['id'=>$one]);
     }
     
+    
+   public function getEncuestasoferta(){
+        
+        return view('ofertaEmpleo.ListadoEncuestastotal');
+    }
+    
+    
+    public function getEncuestasrealizadastotales(){
+ 
+          $data =  new Collection(DB::select("SELECT *from listado_encuestas_proveedores_oferta"));
+        
+         
+        return ["success"=>true, "encuestas"=>$data];
+
+    }
+    
+    
     public function getEncuestasrealizadas($id){
  
           $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where sitio_para_encuesta =".$id));
