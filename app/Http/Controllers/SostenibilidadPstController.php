@@ -58,7 +58,7 @@ class SostenibilidadPstController extends Controller
     
     public function getCargarproveedoresrnt(){
         $proveedores = Proveedores_rnt::all();
-        $encuestadores = Digitador::with([ 'user'])->get();
+        $encuestadores = Digitador::whereHas('user',function($q){$q->where('estado', true);})->with(['user'])->get();
         
         return ['proveedores' => $proveedores, 'encuestadores' => $encuestadores];
     }
@@ -134,7 +134,7 @@ class SostenibilidadPstController extends Controller
         
         $encuesta['establecimiento'] = Proveedores_rnt::find($encuesta->proveedores_rnt_id);
         
-        $encuestadores = Digitador::with([ 'user'])->get();
+        $encuestadores = Digitador::whereHas('user',function($q){$q->where('estado', true);})->with(['user'])->get();
         
         return ['proveedores' => $proveedores, 'encuesta' => $encuesta, 'encuestadores' => $encuestadores];
     }
