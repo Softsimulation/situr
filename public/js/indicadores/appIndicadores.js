@@ -12,6 +12,7 @@
                                         scaleLabel: { display:true, fontSize:14, fontColor: "black", labelString:"" },
                                         ticks: {
                                                 callback: function(tickValue, index, ticks) {
+                                                    if(!isNaN(tickValue)){ return ""; }
                                                     return tickValue.length<=20 ? tickValue : tickValue.substring(0, 17) +"..." ;
                                                 }
                                         }
@@ -207,28 +208,46 @@
                     
                     $scope.inicializarDataGrafica(data.data);
                     
-                    $scope.options.scales.xAxes[0].scaleLabel.labelString = data.indicador.label_x;
-                    $scope.options.scales.yAxes[0].scaleLabel.labelString = data.indicador.label_y;
+                    $scope.label_x = data.indicador.label_x;
+                    $scope.label_y = data.indicador.label_y;
                     $scope.formato = ' ';
                 });
         }
         
         $scope.changeTipoGrafica = function(item){
             $scope.graficaSelect = item;
-            $scope.options.scales.xAxes[0].display = !(item.codigo=="pie");
-            $scope.options.scales.yAxes[0].display = !(item.codigo=="pie");
-            $scope.options.legend.display = ($scope.series.length>1 || item.codigo=="pie") ? true : false;
+            
+            var validar = (item.codigo=="pie" || item.codigo=="doughnut" || item.codigo=="polarArea" || item.codigo=="radar");
+            
+            $scope.options.scales.xAxes[0].display = !validar;
+            $scope.options.scales.yAxes[0].display = !validar;
+            $scope.options.legend.display = ($scope.series.length>1 || validar ) ? true : false;
             $scope.override = [];
             
-            if(item.codigo=="pie"){
+            if(item.codigo=="pie" || item.codigo=="doughnut" || item.codigo=="polarArea" || item.codigo=="radar" ){
                 $scope.override.push({ backgroundColor: [], borderColor: "white" });
                 for(var i=0;i<$scope.data[0].length>0;i++){
                    $scope.override[0].backgroundColor.push( $scope.getColor() );
                 }
-            }else{
+            }
+            else if(item.id==4){ // graficas de torta
+                for(var i=0;i<$scope.series.length>0;i++){
+                    $scope.override.push({ borderWidth: ( item.codigo!="line" ? 2 : 3) , pointBorderColor: $scope.colores[i]  });
+                }
+            }
+            else{
                 for(var i=0;i<$scope.series.length>0;i++){
                     $scope.override.push({ borderWidth: ( item.codigo!="line" ? 2 : 3) , fill:false, pointBorderColor: $scope.colores[i]  });
                 }
+            }
+            
+            if(item.codigo=="horizontalBar"){
+                $scope.options.scales.xAxes[0].scaleLabel.labelString = $scope.label_y;
+                $scope.options.scales.yAxes[0].scaleLabel.labelString = $scope.label_x;
+            }
+            else{
+                $scope.options.scales.xAxes[0].scaleLabel.labelString = $scope.label_x;
+                $scope.options.scales.yAxes[0].scaleLabel.labelString = $scope.label_y;
             }
             
         }   
