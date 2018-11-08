@@ -42,7 +42,16 @@ return [
     */
 
     'disks' => [
-
+        'Noticias' => [
+            'driver' => 'local',
+            'root' => public_path().'/Noticias',
+            'visibility' => 'public',
+        ],
+        'Sliders' => [
+            'driver' => 'local',
+            'root' => public_path().'/Sliders',
+            'visibility' => 'public',
+        ],
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -51,6 +60,11 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
+            'visibility' => 'public',
+        ],
+        'multimedia-informacion-departamento' => [
+            'driver' => 'local',
+            'root' => public_path().'/multimedia/informacion-departamento',
             'visibility' => 'public',
         ],
         'multimedia-informes' => [

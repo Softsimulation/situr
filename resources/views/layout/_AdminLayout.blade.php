@@ -150,6 +150,15 @@
         					    <li role="none"><a role="menuitem" href="{{asset('administradorrutas')}}">Administrar rutas turísticas</a></li>
         					</ul>
                         </li>
+                          <li>
+                            <a role="menuitem" href="{{asset('InformacionDepartamento/configuracionacercade')}}">Acerca de</a>
+                        
+                        </li>
+                          <li>
+                            <a role="menuitem" href="{{asset('/InformacionDepartamento/configuracionrequisitos')}}">Requisitos de viaje</a>
+                        
+                        </li>
+                        
                         <li>
                             <a role="menuitem" href="{{asset('turismoreceptor/listadoencuestas')}}">Turismo receptor</a>
                         </li>
@@ -164,6 +173,7 @@
                             <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
                         
                         </li>
+                        
                         <li>
                             <a role="menuitem" href="{{asset('EstadisticasSecundarias/configuracion')}}">Estadísticas Secundarias</a>
                         

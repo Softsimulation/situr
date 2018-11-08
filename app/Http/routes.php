@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/Departamento/AcercaDe','InformacionDepartamentoCtrl@AcercaDe');
+Route::get('/Departamento/Requisitos','InformacionDepartamentoCtrl@Requisitos');
+Route::controller('/InformacionDepartamento','InformacionDepartamentoCtrl');
 
 Route::controller('/promocionInforme','PublicoInformeController');
 Route::controller('/informes','InformesCtrl');
@@ -170,3 +173,7 @@ Route::controller('/postulado','PostuladoController');
 
 Route::controller('/noticias','NoticiaController');
 Route::controller('/promocionNoticia','PublicoNoticiaController');
+Route::controller('/promocionInforme','PublicoInformeController');
+Route::controller('/promocionPublicacion','PublicoPublicacionController');
+Route::controller('/sliders','SliderController');
+Route::controller('/suscriptores','SuscriptoreController');

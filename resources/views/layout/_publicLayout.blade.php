@@ -103,7 +103,12 @@
                         <li>
                             <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuSitur">SITUR</a>
                             <ul role="menu" id="menuSitur">
-                                        
+                                 <li role="none">
+                                    <a role="menuitem" href="/Departamento/AcercaDe">Acerca del departamento</a>
+                                </li>  
+                                 <li role="none">
+                                    <a role="menuitem" href="/Departamento/Requisitos">Requisitos de viaje</a>
+                                </li>  
                                 <li role="none">
                                     <a role="menuitem" href="/quienesSomos">¿Quiénes somos?</a>
                                 </li>
