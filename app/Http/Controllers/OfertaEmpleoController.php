@@ -2114,8 +2114,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
        		'porcentajeC.min' => 'El porcentaje de residentes en Colombia excepto magdalenenses debe ser mayor que 0.',
        		'porcentajeE.required' => 'El porcentaje de extranjeros es requerido.',
        		'porcentajeE.min' => 'El porcentaje de extranjeros debe ser mayor que 0.',
-       		'porcentajeM.required' => 'El porcentaje de residentes en el Magdalena es requerido.',
-       		'porcentajeM.min' => 'El residentes en el Magdalena debe ser mayor que 0.',
+       		'porcentajeM.required' => 'El porcentaje de residentes en el Atlántico es requerido.',
+       		'porcentajeM.min' => 'El residentes en el Atlántico debe ser mayor que 0.',
     	]);
        
     	if($validator->fails()){
