@@ -135,7 +135,7 @@
                             <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuViveAtlantico">Vive el Atlántico</a>
                             <ul role="menu" id="menuViveAtlantico">
                                 <li role="none">
-                                    <a role="menuitem" href="#">Carnaval</a>
+                                    <a role="menuitem" href="/quehacer?tipo=3">Destinos</a>
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="/quehacer/?tipo=4">Eventos</a>
@@ -193,10 +193,16 @@
                             <ul role="menu" id="menuPublicaciones">
                                         
                                 <li role="none">
-                                    <a role="menuitem" href="#">Informes</a>
+                                    <a role="menuitem" href="/promocionInforme/listado">Informes</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Noticias</a>
+                                    <a role="menuitem" href="/promocionNoticia/listado">Noticias</a>
+                                </li>
+                                 <li role="none">
+                                    <a role="menuitem" href="/promocionPublicacion/listado">Biblioteca Digital</a>
+                                </li>
+                                  <li role="none">
+                                    <a role="menuitem" href="/promocionBolsaEmpleo/vacantes">Bolsa de empleo</a>
                                 </li>
                             </ul>    
                             
@@ -233,8 +239,8 @@
                         <h3>Contacto</h3>
                         <ul>
                             <li><span class="ion-map" aria-hidden="true"></span> Cra 49·72-19</li>
-                            <li><span class="ion-android-call" aria-hidden="true"></span> Teléfono: 57 3 3059130</li>
-                            <li><span class="ion-at" aria-hidden="true"></span> Email: email@situratlantico.com</li>
+                            <li><span class="ion-android-call" aria-hidden="true"></span> Teléfono: (57-7) 3059130</li>
+                            <li><span class="ion-at" aria-hidden="true"></span> Email: info@situratlantico.com</li>
                             <li><span class="ion-android-pin" aria-hidden="true"></span> Barranquilla, Atlántico</li>
                         </ul>
                     </div>
@@ -242,10 +248,10 @@
                         <h3>Enlaces de intéres</h3>
                         <ul>
                             <li>
-                                <a href="" target="_blank">Centro de Información Turística CITUR</a>
+                                <a href="http://www.citur.gov.co/" target="_blank">Centro de Información Turística CITUR</a>
                             </li>
                             <li>
-                                <a href="" target="_blank">Cotelco Capítulo Atlántico</a>
+                                <a href="http://www.cotelcoatlantico.org/" target="_blank">Cotelco Capítulo Atlántico</a>
                             </li>
                         </ul>
                     </div>

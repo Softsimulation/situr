@@ -40,16 +40,16 @@
               </div>
               <section id="indicadores">
                 <div class="indicador">
-                    <h2>Vacaciones, recreo y ocio</h2>
-                    <p>fue el Motivo principal de viaje para visitar el Atlántico en el año 2017</p>
+                    <h2>Visitar familiaes y/o amigos</h2>
+                    <p>fue el Motivo principal de viaje para visitar el Atlántico en septiembre de 2018</p>
                 </div>
                 <div class="indicador">
                     <h2>Transporte terrestre de pasajeros</h2>
-                    <p>Fue el medio de transporte más utilizado por los visitantes en el 2017</p>
+                    <p>Fue el medio de transporte más utilizado por los visitantes en el Atlántico en septiembre de 2018</p>
                 </div>
                 <div class="indicador">
-                    <h2>Hotel</h2>
-                    <p>fue el tipo de alojamiento más utilizado en el 2017</p>
+                    <h2>Casa de familiares o amigos</h2>
+                    <p>fue el tipo de alojamiento más utilizado por los visitantes en el Atlántico en septiembre de 2018</p>
                 </div>
             </section>
             </div>
@@ -90,7 +90,13 @@
             <section id="descripcion">
                 <div class="container text-center">
                     <h2>SITUR Atlántico</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean varius metus quis neque vulputate maximus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi nec eros quis ex tristique gravida sed at elit. Sed vitae neque auctor elit viverra lobortis quis at risus. Nunc nibh felis, semper at lorem sed, gravida lobortis nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Phasellus lorem lorem, imperdiet a enim a, cursus placerat volutpat.</p>
+                    <p>
+El Sistema de Información Turística del Atlántico es una iniciativa del Ministerio de Comercio, Industria y Turismo (MinCIT) diseñada para integrar la información cuantitativa y cualitativa del 
+Turismo en el departamento del Atlántico con el objetivo de consolidar mediciones del sector que brinden información para caracterizar el turismo y generar estándares que permitan la comparación e integración estadística sectorial.
+La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias de promoción de la región y consolidar una cultura de información del turismo como sector económico.
+
+                        
+                        </p>
                 </div>
                 
             </section>
