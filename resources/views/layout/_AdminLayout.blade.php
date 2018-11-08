@@ -165,9 +165,17 @@
                         <li>
                             <a role="menuitem" href="{{asset('temporada')}}">Turismo interno y emisor</a>
                         </li>
-                        <li>
-                            <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedores')}}">Oferta y empleo</a>
+                      
                         
+                        <li>
+                            <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Oferta y empleo</a>
+                            <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">
+                                <li role="none">
+                                    <!--<a role="menuitem" href="{{asset('MuestraMaestra/periodos')}}">Periodos</a>-->
+                                    <a role="menuitem" href="{{asset('ofertaempleo/encuestasoferta')}}">Listado de encuestas</a>
+                                        <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedores')}}">Proveedores</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>

@@ -135,7 +135,11 @@
                             <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuViveAtlantico">Vive el Atlántico</a>
                             <ul role="menu" id="menuViveAtlantico">
                                 <li role="none">
+<<<<<<< HEAD
                                     <a role="menuitem" href="/quehacer/?tipo=3">Destinos</a>
+=======
+                                    <a role="menuitem" href="/quehacer?tipo=3">Destinos</a>
+>>>>>>> 8d6eba31c000bc877af09c2af2e4db062f7ff8ba
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="/quehacer/?tipo=4">Eventos</a>
@@ -197,6 +201,15 @@
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="/promocionNoticia/listado">Noticias</a>
+<<<<<<< HEAD
+=======
+                                </li>
+                                 <li role="none">
+                                    <a role="menuitem" href="/promocionPublicacion/listado">Biblioteca Digital</a>
+                                </li>
+                                  <li role="none">
+                                    <a role="menuitem" href="/promocionBolsaEmpleo/vacantes">Bolsa de empleo</a>
+>>>>>>> 8d6eba31c000bc877af09c2af2e4db062f7ff8ba
                                 </li>
                             </ul>    
                             
@@ -233,8 +246,8 @@
                         <h3>Contacto</h3>
                         <ul>
                             <li><span class="ion-map" aria-hidden="true"></span> Cra 49·72-19</li>
-                            <li><span class="ion-android-call" aria-hidden="true"></span> Teléfono: 57 3 3059130</li>
-                            <li><span class="ion-at" aria-hidden="true"></span> Email: email@situratlantico.com</li>
+                            <li><span class="ion-android-call" aria-hidden="true"></span> Teléfono: (57-7) 3059130</li>
+                            <li><span class="ion-at" aria-hidden="true"></span> Email: info@situratlantico.com</li>
                             <li><span class="ion-android-pin" aria-hidden="true"></span> Barranquilla, Atlántico</li>
                         </ul>
                     </div>
@@ -242,10 +255,10 @@
                         <h3>Enlaces de intéres</h3>
                         <ul>
                             <li>
-                                <a href="" target="_blank">Centro de Información Turística CITUR</a>
+                                <a href="http://www.citur.gov.co/" target="_blank">Centro de Información Turística CITUR</a>
                             </li>
                             <li>
-                                <a href="" target="_blank">Cotelco Capítulo Atlántico</a>
+                                <a href="http://www.cotelcoatlantico.org/" target="_blank">Cotelco Capítulo Atlántico</a>
                             </li>
                         </ul>
                     </div>

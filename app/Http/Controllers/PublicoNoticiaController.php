@@ -42,6 +42,22 @@ class PublicoNoticiaController extends Controller
         
         return view('noticias.ListadoNoticiasPublico',array('noticias' => $noticias,"tiposNoticias"=>$tiposNoticias));
 	}
+	public function getTop(Request $request) {
+	    $noticias = Noticia::
+        join('noticias_has_idiomas', 'noticias_has_idiomas.noticias_id', '=', 'noticias.id')
+        ->join('tipos_noticias', 'tipos_noticias.id', '=', 'noticias.tipos_noticias_id')
+        ->join('tipos_noticias_has_idiomas', 'tipos_noticias_has_idiomas.tipos_noticias_id', '=', 'tipos_noticias.id')
+        ->where('noticias_has_idiomas.idiomas_id',1)->where('tipos_noticias_has_idiomas.idiomas_id',1)
+        ->where('tipos_noticias.estado',1)
+        ->select("noticias.id as idNoticia","noticias.enlace_fuente","noticias.es_interno","noticias.estado", "noticias.created_at as fecha",
+        "noticias_has_idiomas.titulo as tituloNoticia","noticias_has_idiomas.resumen","noticias_has_idiomas.texto",
+        "tipos_noticias.id as idTipoNoticia","tipos_noticias_has_idiomas.nombre as nombreTipoNoticia")->
+        orderBy('fecha','DESC')->take(4)->get();
+        
+        $tiposNoticias = Tipo_noticia_Idioma::where('idiomas_id',1)->get();
+        return $noticias;
+        //return view('noticias.ListadoNoticiasPublico',array('noticias' => $noticias,"tiposNoticias"=>$tiposNoticias));
+	}
 	public function getVer($idNoticia){
 	    $noticia = Noticia::
         join('noticias_has_idiomas', 'noticias_has_idiomas.noticias_id', '=', 'noticias.id')
