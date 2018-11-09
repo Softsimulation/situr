@@ -25,11 +25,13 @@ Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
 
 Route::controller('/indicadores','IndicadoresCtrl');
 
-Route::get('/', function () {
 
-    return view('home.index');
+
+// Route::get('/', function () {
+
+//     return view('home.index');
   
-});
+// });
 Route::get('/quienesSomos', function () {
 
     return view('publico.situr.quienesSomos');
@@ -173,3 +175,9 @@ Route::controller('/postulado','PostuladoController');
 
 Route::controller('/noticias','NoticiaController');
 Route::controller('/promocionNoticia','PublicoNoticiaController');
+Route::controller('/promocionInforme','PublicoInformeController');
+Route::controller('/promocionPublicacion','PublicoPublicacionController');
+Route::controller('/sliders','SliderController');
+Route::controller('/suscriptores','SuscriptoreController');
+
+Route::controller('/','HomeController');

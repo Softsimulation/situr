@@ -4,6 +4,11 @@
 
 @section('estilos')
 <style>
+header {
+    position: relative;
+    background: black;
+    margin-bottom: 1rem;
+}
     label{
         font-weight: 500;
         margin: 0;
