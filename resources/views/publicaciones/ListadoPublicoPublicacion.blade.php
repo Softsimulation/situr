@@ -6,6 +6,10 @@
 
 @section('estilos')
 <style>
+header{
+        position: static;
+        background-color: black;
+    }
     .row{
         width: calc(100% + 30px);
     }

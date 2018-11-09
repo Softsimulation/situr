@@ -50,7 +50,9 @@
                 font-weight: 700;
                 text-transform: uppercase;
             }
-            
+            .btn.btn-xs{
+                font-size: .85rem;
+            }
         </style>
     </head>
     <body>
@@ -135,11 +137,7 @@
                             <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuViveAtlantico">Vive el Atlántico</a>
                             <ul role="menu" id="menuViveAtlantico">
                                 <li role="none">
-<<<<<<< HEAD
                                     <a role="menuitem" href="/quehacer/?tipo=3">Destinos</a>
-=======
-                                    <a role="menuitem" href="/quehacer?tipo=3">Destinos</a>
->>>>>>> 8d6eba31c000bc877af09c2af2e4db062f7ff8ba
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="/quehacer/?tipo=4">Eventos</a>
@@ -201,15 +199,12 @@
                                 </li>
                                 <li role="none">
                                     <a role="menuitem" href="/promocionNoticia/listado">Noticias</a>
-<<<<<<< HEAD
-=======
                                 </li>
                                  <li role="none">
                                     <a role="menuitem" href="/promocionPublicacion/listado">Biblioteca Digital</a>
                                 </li>
                                   <li role="none">
                                     <a role="menuitem" href="/promocionBolsaEmpleo/vacantes">Bolsa de empleo</a>
->>>>>>> 8d6eba31c000bc877af09c2af2e4db062f7ff8ba
                                 </li>
                             </ul>    
                             

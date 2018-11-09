@@ -21,6 +21,17 @@
             font-weight: 500;
             font-size: .85rem;
         }
+        .tile .tile-img .text-overlap{
+            display: flex;
+            align-items: flex-end;
+            background: transparent;
+        }
+        .tile .tile-img img{
+            width: 100%;
+        }
+        .tiles .tile .tile-img{
+            height: 256px;
+        }
     </style>
 @endsection
 @section('content')
@@ -79,7 +90,7 @@
         <div class="tiles">
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/david.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Dirección General y Analista Turismo Receptivo</span>
                     </div>
@@ -105,7 +116,7 @@
             </div>
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/endy_acosta.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Analista</span>
                     </div>
@@ -118,7 +129,7 @@
             </div>
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/paola_sierra.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Analista Turismo Sostenible</span>
                     </div>
@@ -157,7 +168,7 @@
             </div>
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/karime.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Profesional de Apoyo Administrativo</span>
                     </div>
@@ -170,7 +181,7 @@
             </div>
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/jesus_polanco.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Profesional de Apoyo Contable</span>
                     </div>

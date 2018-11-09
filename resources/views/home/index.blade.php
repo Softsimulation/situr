@@ -90,10 +90,7 @@
             <section id="descripcion">
                 <div class="container text-center">
                     <h2>SITUR Atlántico</h2>
-<<<<<<< HEAD
-                    <p>Es uno de los 32 departamentos en que está dividida políticamente la República de Colombia. Está ubicado en la Región Caribe de Colombia y su capital es Barranquilla. Tiene una superficie de 3,319 km² y cuenta con 2,403,000 habitantes. Es el departamento más poblado de la Costa Caribe colombiana.</p>
-                    <p>Los pobladores prehispánicos del departamento fueron los descendientes de dos grandes familias: los caribes y los arawak. La tribu más sobresaliente fue la Mocaná, que se distribuyó por zonas y, según los lugares que ocuparon, bautizaron así las regiones, muchas de las cuales aún conservan su nombre, como son Tubará, Usiacurí, Piojó, Galapa, Malambo y Baranoa, entre otras. Los asentamientos indígenas en el departamento se ubicaron en su mitad septentrional con epicentros en los municipios ya mencionados y en Suán, en el extremo sur, asentamiento ya extinguido.</p>
-=======
+
                     <p>
 El Sistema de Información Turística del Atlántico es una iniciativa del Ministerio de Comercio, Industria y Turismo (MinCIT) diseñada para integrar la información cuantitativa y cualitativa del 
 Turismo en el departamento del Atlántico con el objetivo de consolidar mediciones del sector que brinden información para caracterizar el turismo y generar estándares que permitan la comparación e integración estadística sectorial.
@@ -101,7 +98,7 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
 
                         
                         </p>
->>>>>>> 8d6eba31c000bc877af09c2af2e4db062f7ff8ba
+
                 </div>
                 
             </section>

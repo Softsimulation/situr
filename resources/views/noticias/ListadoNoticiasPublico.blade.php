@@ -9,7 +9,6 @@
     header{
         position: static;
         background-color: black;
-        margin-bottom: 1rem;
     }
     .nav-bar > .brand a img{
         height: auto;
@@ -105,9 +104,9 @@
                 </div>
             </div>
         </div>
-   </div>    
+      
     @endforeach
-    
+    </div> 
     
     <div class="text-center">
         {!!$noticias->appends(Input::except('page'))->links()!!}
