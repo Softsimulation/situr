@@ -10,9 +10,8 @@
         <meta name="copyright" content="Softsimulation S.A.S, SITUR Atlántico" />
         <meta property="og:title" content="SITUR Atlántico" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://situratlantico.com" />
-        <meta property="og:image" content="{{asset('/res/logo/192.png')}}" />
-        <meta property="og:description" content="Sistema de información turística del Atlántico y de Barranquilla - SITUR Atlántico."/>
+        
+        @yield('meta_og')
         <title>@yield('Title') SITUR Atlantico</title>
         <meta name='mobile-web-app-capable' content='yes'>
         <meta name='apple-mobile-web-app-capable' content='yes'>

@@ -25,6 +25,8 @@ Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
 
 Route::controller('/indicadores','IndicadoresCtrl');
 
+//Route::controller('/','HomeController');
+
 Route::get('/', function () {
 
     return view('home.index');
