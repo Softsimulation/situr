@@ -22,11 +22,13 @@ use App\Models\Multimedia_noticia_Idioma;
 use App\Models\Tipo_noticia;
 use App\Models\Tipo_noticia_Idioma;
 use App\Models\User;
+use App;
 
 class HomeController extends Controller
 {
 	
 	public function getIndex(Request $request) {
+	    App::setLocale('en');
 	    $noticias = Noticia::
         join('noticias_has_idiomas', 'noticias_has_idiomas.noticias_id', '=', 'noticias.id')
         ->join('tipos_noticias', 'tipos_noticias.id', '=', 'noticias.tipos_noticias_id')

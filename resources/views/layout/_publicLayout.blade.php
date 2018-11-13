@@ -60,7 +60,7 @@
                 <img src="/res/loading.gif" alt="" role="presentation">
             </div>
             
-            <span>Cargando. Por favor espere...</span>
+            <span>{{trans('resources.common.cargando')}}</span>
         </div>
         <header>
             
@@ -73,11 +73,11 @@
                     
                 </div>
                 <div id="navbar-mobile" class="text-center">
-                    <button type="button" class="btn btn-block btn-primary" title="Menu de navegación"><span aria-hidden="true" class="ion-navicon-round"></span><span class="sr-only">Menú de navegación</span></button>
+                    <button type="button" class="btn btn-block btn-primary" title="{{trans('resources.common.menuDeNavegacion')}}"><span aria-hidden="true" class="ion-navicon-round"></span><span class="sr-only">{{trans('resources.common.menuDeNavegacion')}}</span></button>
                 </div>
                 <nav id="nav-main" role="navigation">
                     <div class="toolbar">
-                        <a href="#content-main" class="sr-only">Ir al contenido</a>
+                        <a href="#content-main" class="sr-only">{{trans('resources.common.irAlContenido')}}</a>
                         <div id="socialNetworks" class="fix-right">
                             <a href="https://www.facebook.com/CotelcoAtlantico/" target="_blank" rel="noopener noreferrer" title="Facebook"><span class="ion-social-facebook" aria-hidden="true"></span><span class="sr-only">Facebook</span></a>
                             <a href="https://twitter.com/Situratlantico?lang=es" target="_blank" rel="noopener noreferrer" title="Twitter"><span class="ion-social-twitter" aria-hidden="true"></span><span class="sr-only">Twitter</span></a>
@@ -85,33 +85,33 @@
                         </div>
                         
                         <form>
-                            <label class="sr-only" for="searchBoxMain">Búsqueda</label>
+                            <label class="sr-only" for="searchBoxMain">{{trans('resources.common.busqueda')}}</label>
                             <input type="text" placeholder="Buscar..." name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
-                            <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">Buscar</span></button>
+                            <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.buscar')}}</span></button>
                         </form>
-                        <select aria-label="Seleccionar idioma" title="Seleccionar un idioma">
+                        <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}">
                             <option value="es" selected>ES</option>
                             <option value="en">EN</option>
                         </select>
-                        <a href="/login/login" title="Iniciar sesión"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">Iniciar sesión</span></a>
+                        <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
                         
                     </div>
                     <ul role="menubar">
                         <li>
-                            <a role="menuitem" href="/">Inicio</a>
+                            <a role="menuitem" href="/">{{trans('resources.menu.inicio')}}</a>
                             
                         </li>
                         <li>
                             <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuSitur">SITUR</a>
                             <ul role="menu" id="menuSitur">
                                  <li role="none">
-                                    <a role="menuitem" href="/Departamento/AcercaDe">Acerca del departamento</a>
+                                    <a role="menuitem" href="/Departamento/AcercaDe">{{trans('resources.menu.acercaDe')}}</a>
                                 </li>  
                                  <li role="none">
-                                    <a role="menuitem" href="/Departamento/Requisitos">Requisitos de viaje</a>
+                                    <a role="menuitem" href="/Departamento/Requisitos">{{trans('resources.menu.requisitos')}}</a>
                                 </li>  
                                 <li role="none">
-                                    <a role="menuitem" href="/quienesSomos">¿Quiénes somos?</a>
+                                    <a role="menuitem" href="/quienesSomos">{{trans('resources.menu.quienesSomos')}}</a>
                                 </li>
                                 <!--<li role="none">-->
                                 <!--    <a role="menuitem" href="/historia">Historia</a>-->
@@ -120,7 +120,7 @@
                                 <!--    <a role="menuitem" href="/vision">Visión</a>-->
                                 <!--</li>-->
                                 <li role="none">
-                                    <a role="menuitem" href="/equipo">Equipo SITUR</a>
+                                    <a role="menuitem" href="/equipo">{{trans('resources.menu.equipoSITUR')}}</a>
                                 </li>
                                 <!--<li role="none">-->
                                 <!--    <a role="menuitem" href="/queHacemos">¿Qué hacemos?</a>-->
@@ -133,83 +133,83 @@
                             
                         </li>
                         <li>
-                            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuViveAtlantico">Vive el Atlántico</a>
+                            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuViveAtlantico">{{trans('resources.menu.viveElAtlantico')}}</a>
                             <ul role="menu" id="menuViveAtlantico">
                                 <li role="none">
-                                    <a role="menuitem" href="/quehacer/?tipo=3">Destinos</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=3">{{trans('resources.entidad.destinos')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/quehacer/?tipo=4">Eventos</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=4">{{trans('resources.entidad.eventos')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/quehacer/?tipo=1">Actividades</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=1">{{trans('resources.entidad.actividades')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/quehacer/?tipo=2">Atracciones</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=2">{{trans('resources.entidad.atracciones')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/quehacer/?tipo=5">Rutas turísticas</a>
+                                    <a role="menuitem" href="/quehacer/?tipo=5">{{trans('resources.entidad.rutasTuristicas')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Guías</a>
+                                    <a role="menuitem" href="#">{{trans('resources.entidad.guias')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Alojamientos</a>
+                                    <a role="menuitem" href="#">{{trans('resources.entidad.alojamientos')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Restaurantes</a>
+                                    <a role="menuitem" href="#">{{trans('resources.entidad.restaurantes')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/Mapa">Mapa del departamento</a>
+                                    <a role="menuitem" href="/Mapa">{{trans('resources.menu.mapa')}}</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuEstadisticas">Estadísticas</a>
+                            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuEstadisticas">{{trans('resources.menu.estadisticas')}}</a>
                             <ul role="menu" id="menuEstadisticas">
                                         
                                 <li role="none">
-                                    <a role="menuitem" href="#">Turismo receptor</a>
+                                    <a role="menuitem" href="#">{{trans('resources.estadisticas.receptor')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Turismo interno y emisor</a>
+                                    <a role="menuitem" href="#">{{trans('resources.estadisticas.interno')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Empleo</a>
+                                    <a role="menuitem" href="#">{{trans('resources.estadisticas.empleo')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Oferta</a>
+                                    <a role="menuitem" href="#">{{trans('resources.estadisticas.oferta')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="#">Sostenibilidad</a>
+                                    <a role="menuitem" href="#">{{trans('resources.estadisticas.sostenibilidad')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/indicadores/secundarios">Indicadores Secundarios</a>
+                                    <a role="menuitem" href="/indicadores/secundarios">{{trans('resources.estadisticas.secundarios')}}</a>
                                 </li>
                             </ul> 
                             
                         </li>
                         <li>
-                            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuPublicaciones">Publicaciones</a>
+                            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#menuPublicaciones">{{trans('resources.menu.publicaciones')}}</a>
                             <ul role="menu" id="menuPublicaciones">
                                         
                                 <li role="none">
-                                    <a role="menuitem" href="/promocionInforme/listado">Informes</a>
+                                    <a role="menuitem" href="/promocionInforme/listado">{{trans('resources.publicaciones.informes')}}</a>
                                 </li>
                                 <li role="none">
-                                    <a role="menuitem" href="/promocionNoticia/listado">Noticias</a>
+                                    <a role="menuitem" href="/promocionNoticia/listado">{{trans('resources.publicaciones.noticias')}}</a>
                                 </li>
                                  <li role="none">
-                                    <a role="menuitem" href="/promocionPublicacion/listado">Biblioteca Digital</a>
+                                    <a role="menuitem" href="/promocionPublicacion/listado">{{trans('resources.publicaciones.bibliotecaDigital')}}</a>
                                 </li>
                                   <li role="none">
-                                    <a role="menuitem" href="/promocionBolsaEmpleo/vacantes">Bolsa de empleo</a>
+                                    <a role="menuitem" href="/promocionBolsaEmpleo/vacantes">{{trans('resources.publicaciones.bolsaDeEmpleo')}}</a>
                                 </li>
                             </ul>    
                             
                         </li>
                         <li>
-                            <a role="menuitem" href="#">Contáctanos</a>
+                            <a role="menuitem" href="#">{{trans('resources.menu.contactanos')}}</a>
                         </li>
                     </ul>
                 </nav>    
@@ -219,15 +219,16 @@
         <main id="content-main">
             @yield('content')
         </main>
+        
         <footer>
             <div id="logos">
                 <div id="slider-logos" class="container">
-                    <img src="/res/logo_mincit.png" alt="Logo de ministerio de industria, comercio y turismo" class="img-responsive">
-                    <img src="/res/logo_fontur.png" alt="Logo de Fontur" class="img-responsive">
-                    <img src="/res/logo_gobierno.png" alt="Logo de Gobierno de Colombia" class="img-responsive">
-                    <img src="/res/gobernacion.png" alt="Logo de la Gobernación del Atlantico" class="img-responsive">
-                    <img src="/res/alcaldia.png" alt="Logo de la alcaldía de Barranquilla" class="img-responsive">
-                    <img src="/res/logo_cotelco.png" alt="Logo de cotelco atlántico" class="img-responsive">    
+                    <img src="/res/logo_mincit.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Ministerio de Industria, Comercio y Turísmo'])}}" class="img-responsive">
+                    <img src="/res/logo_fontur.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Fontur'])}}" class="img-responsive">
+                    <img src="/res/logo_gobierno.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Gobierno de Colombia'])}}" class="img-responsive">
+                    <img src="/res/gobernacion.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Gobernación del Atlántico'])}}" class="img-responsive">
+                    <img src="/res/alcaldia.png" alt="{{trans('resources.common.logoDe', ['logo' => 'alcaldía de Barranquilla'])}}" class="img-responsive">
+                    <img src="/res/logo_cotelco.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Cotelco Atlántico'])}}" class="img-responsive">    
                 </div>
                 
             </div>
@@ -237,16 +238,16 @@
                         <img src="/res/logoCircularSiturAtlantico.jpg" alt="" class="img-circle" role="presentation">
                     </div>
                     <div class="col-xs-12 col-sm-4">
-                        <h3>Contacto</h3>
+                        <h3>{{trans('resources.common.contacto')}}</h3>
                         <ul>
                             <li><span class="ion-map" aria-hidden="true"></span> Cra 49·72-19</li>
-                            <li><span class="ion-android-call" aria-hidden="true"></span> Teléfono: (57-7) 3059130</li>
+                            <li><span class="ion-android-call" aria-hidden="true"></span> {{trans('resources.common.telefono')}}: (57-7) 3059130</li>
                             <li><span class="ion-at" aria-hidden="true"></span> Email: info@situratlantico.com</li>
                             <li><span class="ion-android-pin" aria-hidden="true"></span> Barranquilla, Atlántico</li>
                         </ul>
                     </div>
                     <div class="col-xs-12 col-sm-4">
-                        <h3>Enlaces de intéres</h3>
+                        <h3>{{trans('resources.common.enlacesDeInteres')}}</h3>
                         <ul>
                             <li>
                                 <a href="http://www.citur.gov.co/" target="_blank">Centro de Información Turística CITUR</a>
