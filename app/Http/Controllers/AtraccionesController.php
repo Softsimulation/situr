@@ -8,10 +8,16 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests;
 
 use App\Models\Atracciones;
+use App\Models\Atraccion_Favorita;
 
 class AtraccionesController extends Controller
 {
-    //
+    public function __construct()
+    {
+        
+        $this->middleware('auth',["only"=>["postFavorito"]]);
+        // $this->user = \Auth::user();
+    }
     
     public function getIndex (){
         $atracciones = Atracciones::with(['sitio' => function ($querySitio){
@@ -80,6 +86,29 @@ class AtraccionesController extends Controller
         //return ['atraccion' => $atraccion, 'video_promocional' => $video_promocional];
         
         return view('atracciones.Ver', ['atraccion' => $atraccion, 'video_promocional' => $video_promocional]);
+    }
+    
+    public function postFavorito(Request $request){
+        $this->user = \Auth::user();
+        $atraccion = Atracciones::find($request->atraccion_id);
+        if(!$atraccion){
+            return response('Not found.', 404);
+        }else{
+            if(Atraccion_Favorita::where('usuario_id',$this->user->id)->where('atracciones_id',$atraccion->id)->first() == null){
+                Atraccion_Favorita::create([
+                    'usuario_id' => $this->user->id,
+                    'atracciones_id' => $atraccion->id
+                ]);
+                return \Redirect::to('/atracciones/ver/'.$atraccion->id)
+                        ->with('message', 'Se ha añadido la atracción a tus favoritos.')
+                        ->withInput(); 
+            }else{
+                Atraccion_Favorita::where('usuario_id',$this->user->id)->where('atracciones_id',$atraccion->id)->delete();
+                return \Redirect::to('/atracciones/ver/'.$atraccion->id)
+                        ->with('message', 'Se ha quitado la atracción a tus favoritos.')
+                        ->withInput(); 
+            }
+        }
     }
     
 }
