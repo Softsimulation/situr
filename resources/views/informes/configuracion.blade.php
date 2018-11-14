@@ -1,171 +1,158 @@
 
 @extends('layout._AdminLayout')
 
-@section('title','Muestra maestra')
-@section('TitleSection', "Administración de informes" )
+@section('Title','Administración de informes')
 @section('app','ng-app="AppInformes"')
 @section('controller','ng-controller="InformesAdminCtrl"')
+
+@section('titulo','Informes')
+
+@section('subtitulo','El siguiente listado cuenta con @{{informes.length}} registro(s)')
 
 @section('estilos')
 
   <style>
-        .view-list > .description > .buttons {
-            width: 100% !important;
+        
+        .tile .tile-caption h3{
+            border-bottom: 1px solid #eee;
         }
-
-        .view-list > .description > .buttons > .button-sm, .buttons > .button-sm {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: orange;
-            border: none;
-            text-align: center;
-            font-weight: bold;
-            padding-top: 2px;
-            text-decoration: none;
-            color: black;
-            margin: 3px;
+        .text-muted{
+            font-weight: 400;
         }
-
-        .view-list > .description > .buttons > .button-lang,.buttons > .button-lang  {
-            background-color: white;
-            border: 2px solid orange;
-            padding: 0;
-        }
-
-        .view-list > .description > .buttons > a.button-sm,.buttons > a.button-sm {
-            padding: 0;
-            color: black;
-            font-size: 1.1em;
-            padding-top: .2em;
-        }
-
-        .view-list > .description > .buttons > .button-sm:hover,.buttons > .button-sm:hover {
-            box-shadow: 0px 0px 3px rgba(0,0,0,0.65);
-        }
-        .panel-body {
-            max-height: none;
-            box-shadow: 0px 0px 4px rgba(0,0,0,.35);
-            color: dimgray;
-        }
-
-        .breadcrumb {
-            margin-top: .5em;
-            margin-bottom: .5em;
-            border-radius: 20px;
-        }
-        .row {
-            margin-top: 0;
-        }
-        .form-group {
+        p{
             margin: 0;
-        }
-        .form-group label, .form-group .control-label, label {
-            font-size: smaller;
-        }
-        .input-group {
-            display: flex;
-        }
-        .input-group-addon {
-            width: 3em;
-        }
-        .text-error {
-            color: #a94442;
-            font-style: italic;
-            font-size: .7em;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        p {
-            font-size: .9em;
+            margin-bottom: .5rem;
         }
     </style>
 
 @endsection
 
 @section('content')
-<div class="main-page" >
-    <h1 class="title1">Listado de informes</h1>
-    <br />
-     
-    @if ( session('post') == true ) 
-        @if ( session('success') == true )
-            <div class="alert alert-success alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Registro guardado exitosamente!</strong> {{ session('mensaje') }}
-            </div>
-        @else
-           <div class="alert alert-danger alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Error al guardar registro!</strong> {{ session('mensaje') }}
-            </div>
-        @endif
-    @endif
+
+<div class="flex-list">
+    <button type="button" class="btn btn-lg btn-success" data-target="#modalCrear" data-toggle="modal" data-placement="bottom" title="Crear Informe">Añadir informe</button>
     
-    <div class="row">
-        <button type="button" class="btn btn-primary" data-target="#modalCrear" data-toggle="modal" data-placement="bottom" title="Crear Informe">Añadir informe</button>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-xs-12 col-md-12">
-
+    <div class="form-group has-feedback" style="display: inline-block;">
+        <label class="sr-only">Búsqueda de informes</label>
+        <input type="text" ng-model="prop.search" class="form-control input-lg" id="inputEmail3" placeholder="Buscar informe...">
+        <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+    </div>      
+</div>
+<div class="text-center" ng-if="(informes | filter:prop.search).length > 0 && (prop.search != '' && prop.search != undefined)">
+    <p>Hay @{{(informes | filter:prop.search).length}} registro(s) que coinciden con su búsqueda</p>
+</div>
+<div class="alert alert-info" ng-if="informes.length == 0">
+    <p>No hay registros almacenados</p>
+</div>
+<div class="alert alert-warning" ng-if="(informes | filter:prop.search).length == 0 && informes.length > 0">
+    <p>No existen registros que coincidan con su búsqueda</p>
+</div>
+     
+@if ( session('post') == true ) 
+    @if ( session('success') == true )
+        <div class="alert alert-success alert-dismissible">
+             <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+            <strong>Registro guardado exitosamente</strong> {{ session('mensaje') }}
         </div>
-        <div class="col-xs-12 col-md-12" dir-paginate="informe in informes | itemsPerPage: 8 as fTexto">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-4 col-md-3" style="text-align: center; overflow: hidden;">
-                            <img alt="Portada no disponible" ng-src="@{{informe.portada}}" class="img-rounded" width="180"/>
-                        </div>
-                        <div class="col-xs-12 col-sm-8 col-md-9">
+    @else
+       <div class="alert alert-danger alert-dismissible">
+             <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+            <strong>Error al guardar registro</strong> {{ session('mensaje') }}
+        </div>
+    @endif
+@endif
 
-                            <h3 style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap"><strong>@{{ (informe.idiomas|filter:{'idioma_id':1}:true)[0].nombre }} <small>Vol. @{{informe.volumen}}</small></strong></h3>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-8">
-                                    <ol class="breadcrumb">
-                                        <li class="active"><i class="glyphicon glyphicon-user" title="@Resource.InformeTItleAutor"></i> @{{informe.autores}}</li>
-                                    </ol>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-4">
-                                    <ol class="breadcrumb">
-                                        <li class="active"><i class="glyphicon glyphicon-calendar" title="@Resource.InformeTitleFechaPublicacion"></i> @{{informe.fecha_publicacion|date:shortDate}}</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <p class="text-justify">@{{ (informe.idiomas|filter:{'idioma_id':1}:true)[0].descripcion }}</p>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-8 col-md-9" style="padding: 0;">
-                                    <span class="label label-primary"><b>Tipo:</b> @{{informe.tipo.tipo_documento_idiomas[0].nombre}}</span>
-                                    <span class="label label-primary"><b>Categoria:</b> @{{informe.categoria.categoria_documento_idiomas[0].nombre}}</span>
-                                    <span class="label label-primary"><b>Periodo:</b> @{{informe.fecha_creacion|date:'MMMM/yyyy'}}</span>
-                                </div>
-                                
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-md-12" style="text-align: right; margin-top: 1em;">
-                                    <div class="buttons">
-                                        <button ng-if="informe.estado" type="button" class="btn btn-danger" ng-click="cambiarEstado(informe)">Desactivar</button>
-                                        <button ng-if="!informe.estado" type="button" class="btn btn-success" ng-click="cambiarEstado(informe)">Activar</button>
-                                        <button type="button" ng-repeat="i in informe.idiomas" class="btn button-sm button-lang" ng-click="ModalIdiomas(i, informe)" >
-                                            @{{i.idioma.culture}}
-                                        </button>
-                                        <button type="button" class="button-sm" ng-click="ModalIdiomas(null,informe)" ng-if="informe.idiomas.length<idiomas.length" title="Ingresar idioma"><span class="glyphicon glyphicon-plus"></span></button>
-                                        <button type="button" class="button-sm" ng-click="ModalEliminarIdioma(informe)"  ng-if="informe.idiomas.length > 1" title="Eliminar información de un idioma"><span class="glyphicon glyphicon-minus"></span></button>
-
-                                        <button type="button" class="button-sm" data-target="#modalEditar" ng-click="editarInforme(informe)" data-toggle="modal" data-placement="bottom" title="Editar informe"><span class="glyphicon glyphicon-edit"></span></button>
-
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                </div>
-                
+<div class="tiles">
+    <div class="tile inline-tile" dir-paginate="informe in informes | filter:prop.search | itemsPerPage:10" pagination-id="pagination_informes">
+        <div class="tile-img">
+            <img ng-src="@{{informe.portada ? informe.portada : 'img/app/noimage.jpg'}}" alt="@{{destino.destino_con_idiomas[0].nombre}}"/>
+        </div>
+        <div class="tile-body">
+            <div class="tile-caption">
+                <h3>@{{ (informe.idiomas|filter:{'idioma_id':1}:true)[0].nombre }} <small>Vol. @{{informe.volumen}}</small></h3>
             </div>
+            <p class="text-muted">@{{ (informe.idiomas|filter:{'idioma_id':1}:true)[0].descripcion | limitTo:255}}</p>
+            <p class="text-muted">Autores @{{informe.autores}} - fecha: @{{informe.fecha_publicacion|date:shortDate}}</p>
+            <p>
+                <span class="label label-primary"><b>Tipo:</b> @{{informe.tipo.tipo_documento_idiomas[0].nombre}}</span>
+                <span class="label label-primary"><b>Categoria:</b> @{{informe.categoria.categoria_documento_idiomas[0].nombre}}</span>
+                <span class="label label-primary"><b>Periodo:</b> @{{informe.fecha_creacion|date:'MMMM/yyyy'}}</span>
+            </p>
+            <div class="inline-buttons">
+                <button ng-if="informe.estado" type="button" class="btn btn-sm btn-danger" ng-click="cambiarEstado(informe)">Desactivar</button>
+                <button ng-if="!informe.estado" type="button" class="btn btn-sm btn-success" ng-click="cambiarEstado(informe)">Activar</button>
+                <button type="button" ng-repeat="i in informe.idiomas" class="btn btn-sm btn-default" ng-click="ModalIdiomas(i, informe)" >
+                    @{{i.idioma.culture}}
+                </button>
+                <button type="button" class="btn btn-sm btn-default" ng-click="ModalIdiomas(null,informe)" ng-if="informe.idiomas.length<idiomas.length" title="Ingresar idioma"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button" class="btn btn-sm btn-default" ng-click="ModalEliminarIdioma(informe)"  ng-if="informe.idiomas.length > 1" title="Eliminar información de un idioma"><span class="glyphicon glyphicon-minus"></span></button>
+
+                <button type="button" class="btn btn-sm btn-default" data-target="#modalEditar" ng-click="editarInforme(informe)" data-toggle="modal" data-placement="bottom" title="Editar informe"><span class="glyphicon glyphicon-pencil"></span></button>
+              
+            </div>  
+            
         </div>
     </div>
+</div>
+    
+    
+    <!--<div class="row">-->
+    <!--    <div class="col-xs-12 col-md-12" dir-paginate="informe in informes | filter:prop.search | itemsPerPage: 8 as fTexto">-->
+    <!--        <div class="panel panel-default">-->
+    <!--            <div class="panel-body">-->
+    <!--                <div class="row">-->
+    <!--                    <div class="col-xs-12 col-sm-4 col-md-3" style="text-align: center; overflow: hidden;">-->
+    <!--                        <img alt="Portada no disponible" ng-src="@{{informe.portada}}" class="img-rounded" width="180"/>-->
+    <!--                    </div>-->
+    <!--                    <div class="col-xs-12 col-sm-8 col-md-9">-->
+
+    <!--                        <h3 style="overflow: hidden; text-overflow: ellipsis;white-space: nowrap"><strong>@{{ (informe.idiomas|filter:{'idioma_id':1}:true)[0].nombre }} <small>Vol. @{{informe.volumen}}</small></strong></h3>-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-12 col-sm-12 col-md-8">-->
+    <!--                                <ol class="breadcrumb">-->
+    <!--                                    <li class="active"><i class="glyphicon glyphicon-user" title="@Resource.InformeTItleAutor"></i> @{{informe.autores}}</li>-->
+    <!--                                </ol>-->
+    <!--                            </div>-->
+    <!--                            <div class="col-xs-12 col-sm-12 col-md-4">-->
+    <!--                                <ol class="breadcrumb">-->
+    <!--                                    <li class="active"><i class="glyphicon glyphicon-calendar" title="@Resource.InformeTitleFechaPublicacion"></i> @{{informe.fecha_publicacion|date:shortDate}}</li>-->
+    <!--                                </ol>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        <p class="text-justify">@{{ (informe.idiomas|filter:{'idioma_id':1}:true)[0].descripcion }}</p>-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-12 col-sm-8 col-md-9" style="padding: 0;">-->
+    <!--                                <span class="label label-primary"><b>Tipo:</b> @{{informe.tipo.tipo_documento_idiomas[0].nombre}}</span>-->
+    <!--                                <span class="label label-primary"><b>Categoria:</b> @{{informe.categoria.categoria_documento_idiomas[0].nombre}}</span>-->
+    <!--                                <span class="label label-primary"><b>Periodo:</b> @{{informe.fecha_creacion|date:'MMMM/yyyy'}}</span>-->
+    <!--                            </div>-->
+                                
+    <!--                        </div>-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-12 col-md-12" style="text-align: right; margin-top: 1em;">-->
+    <!--                                <div class="buttons">-->
+    <!--                                    <button ng-if="informe.estado" type="button" class="btn btn-danger" ng-click="cambiarEstado(informe)">Desactivar</button>-->
+    <!--                                    <button ng-if="!informe.estado" type="button" class="btn btn-success" ng-click="cambiarEstado(informe)">Activar</button>-->
+    <!--                                    <button type="button" ng-repeat="i in informe.idiomas" class="btn button-sm button-lang" ng-click="ModalIdiomas(i, informe)" >-->
+    <!--                                        @{{i.idioma.culture}}-->
+    <!--                                    </button>-->
+    <!--                                    <button type="button" class="button-sm" ng-click="ModalIdiomas(null,informe)" ng-if="informe.idiomas.length<idiomas.length" title="Ingresar idioma"><span class="glyphicon glyphicon-plus"></span></button>-->
+    <!--                                    <button type="button" class="button-sm" ng-click="ModalEliminarIdioma(informe)"  ng-if="informe.idiomas.length > 1" title="Eliminar información de un idioma"><span class="glyphicon glyphicon-minus"></span></button>-->
+
+    <!--                                    <button type="button" class="button-sm" data-target="#modalEditar" ng-click="editarInforme(informe)" data-toggle="modal" data-placement="bottom" title="Editar informe"><span class="glyphicon glyphicon-edit"></span></button>-->
+
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+                            
+    <!--                    </div>-->
+    <!--                </div>-->
+
+    <!--            </div>-->
+                
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
    
     <div class="row">
 
@@ -627,7 +614,6 @@
                 </div>
             </div>
 
-</div>
 @endsection
 
 
