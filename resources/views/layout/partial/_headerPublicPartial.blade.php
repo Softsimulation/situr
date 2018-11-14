@@ -111,22 +111,22 @@
                     <ul role="menu" id="menuEstadisticas">
                                 
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.receptor')}}</a>
+                            <a role="menuitem" href="/indicadores/receptor">{{trans('resources.estadisticas.receptor')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.interno')}}</a>
+                            <a role="menuitem" href="/indicadores/interno">{{trans('resources.estadisticas.interno')}}</a>
                         </li>
                         <li role="none">
                             <a role="menuitem" href="#">{{trans('resources.estadisticas.empleo')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.oferta')}}</a>
+                            <a role="menuitem" href="/indicadores/oferta">{{trans('resources.estadisticas.oferta')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.sostenibilidad')}}</a>
+                            <a role="menuitem" href="/indicadores/receptor">{{trans('resources.estadisticas.sostenibilidad')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="/indicadores/secundarios">{{trans('resources.estadisticas.secundarias')}}</a>
+                            <a role="menuitem" href="#">{{trans('resources.estadisticas.secundarias')}}</a>
                         </li>
                     </ul> 
                     
