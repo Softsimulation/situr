@@ -9,7 +9,6 @@ use App\Models\Actividad;
 
 class ActividadesController extends Controller
 {
-    //
     public function getVer($id){
         if ($id == null){
             return response('Bad request.', 400);

@@ -27,9 +27,9 @@ class AdministradorAtraccionController extends Controller
 {
     public function __construct()
     {
-        
+       
         $this->middleware('auth');
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Promocion');
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
@@ -323,7 +323,7 @@ class AdministradorAtraccionController extends Controller
         }
         
         $atraccion = Atracciones::find($request->id);
-        $atraccion->user_update = "Situr";
+        $atraccion->user_update = $this->user->username;
         $atraccion->updated_at = Carbon::now();
         
         $portadaNombre = "portada.".pathinfo($request->portadaIMG->getClientOriginalName(), PATHINFO_EXTENSION);
