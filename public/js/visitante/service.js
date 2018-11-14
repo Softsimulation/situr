@@ -36,5 +36,16 @@ app.factory("visitanteServi", ["$http", "$q", function ($http, $q) {
             })
             return promise;
         },
+        QuitarFavorito: function(ruta, data){
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.post(ruta, data).success(function (data) {
+                defered.resolve(data);
+            }).error(function (err) {
+                defered.reject(err);
+            })
+            return promise;
+        }
     }
 }]);

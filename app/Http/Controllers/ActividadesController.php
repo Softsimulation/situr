@@ -14,7 +14,7 @@ class ActividadesController extends Controller
     public function __construct()
     {
         
-        $this->middleware('auth',["only"=>["postFavorito"]]);
+        $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
     
@@ -67,6 +67,25 @@ class ActividadesController extends Controller
                 return \Redirect::to('/actividades/ver/'.$actividad->id)
                         ->with('message', 'Se ha quitado la actividad de tus favoritos.')
                         ->withInput(); 
+            }
+        }
+    }
+    
+    public function postFavoritoclient(Request $request){
+        $this->user = \Auth::user();
+        $actividad = Actividad::find($request->actividad_id);
+        if(!$actividad){
+            return ["success" => false, "errores" => [["La actividad seleccionada no se encuentra en el sistema."]] ];
+        }else{
+            if(Actividad_Favorita::where('usuario_id',$this->user->id)->where('actividades_id',$actividad->id)->first() == null){
+                Actividad_Favorita::create([
+                    'usuario_id' => $this->user->id,
+                    'actividades_id' => $actividad->id
+                ]);
+                return ["success" => true];
+            }else{
+                Actividad_Favorita::where('usuario_id',$this->user->id)->where('actividades_id',$actividad->id)->delete();
+                return ["success" => true];
             }
         }
     }
