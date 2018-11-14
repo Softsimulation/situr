@@ -13,8 +13,6 @@ use App\Http\Requests;
 use Carbon\Carbon;
 use Storage;
 use File;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class AdministradorRutasController extends Controller
 {
@@ -22,7 +20,7 @@ class AdministradorRutasController extends Controller
     {
         
         $this->middleware('auth');
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Promocion');
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
@@ -63,7 +61,7 @@ class AdministradorRutasController extends Controller
             $queryRutasConIdiomas->with(['idioma' => function ($queryIdioma){
                 $queryIdioma->select('id', 'nombre', 'culture');
             }])->select('idioma_id', 'ruta_id', 'nombre', 'descripcion')->orderBy('idioma_id');
-        }])->select('id', 'estado', 'portada')->orderBy('id')->get();
+        }])->select('id', 'estado', 'portada', 'sugerido')->orderBy('id')->get();
         
         $idiomas = Idioma::select('id', 'nombre', 'culture')->get();
         
@@ -83,7 +81,7 @@ class AdministradorRutasController extends Controller
     public function postCrearruta (Request $request){
         $validator = \Validator::make($request->all(), [
             'nombre' => 'required|max:255',
-            'descripcion' => 'required|max:1000|min:100'
+            'descripcion' => 'required|min:100'
         ],[
             'nombre.required' => 'Se necesita un nombre para la ruta turística.',
             'nombre.max' => 'Se ha excedido el número máximo de caracteres para el campo "Nombre".',
@@ -108,8 +106,8 @@ class AdministradorRutasController extends Controller
         
         $ruta = new Ruta();
         $ruta->estado = true;
-        $ruta->user_create = $this->user->username;
-        $ruta->user_update = $this->user->username;
+        $ruta->user_create = "Situr";
+        $ruta->user_update = "Situr";
         $ruta->created_at = Carbon::now();
         $ruta->updated_at = Carbon::now();
         $ruta->save();
@@ -201,7 +199,29 @@ class AdministradorRutasController extends Controller
         $ruta = Ruta::find($request->id);
         $ruta->estado = !$ruta->estado;
         $ruta->updated_at = Carbon::now();
-        $ruta->user_update = $this->user->username;
+        $ruta->user_update = "Situr";
+        $ruta->save();
+        
+        return ['success' => true];
+    }
+    
+    public function postSugerir (Request $request){
+        $validator = \Validator::make($request->all(), [
+            'id' => 'required|numeric|exists:rutas'
+        ],[
+            'id.required' => 'Se necesita el identificador de la ruta turística.',
+            'id.numeric' => 'El identificador de la ruta debe ser un valor numérico.',
+            'id.exists' => 'La ruta no se encuentra registrada en la base de datos.'
+        ]);
+        
+        if($validator->fails()){
+            return ["success"=>false,'errores'=>$validator->errors()];
+        }
+        
+        $ruta = Ruta::find($request->id);
+        $ruta->sugerido = !$ruta->sugerido;
+        $ruta->updated_at = Carbon::now();
+        $ruta->user_update = "Situr";
         $ruta->save();
         
         return ['success' => true];
@@ -222,7 +242,7 @@ class AdministradorRutasController extends Controller
             'nombre' => 'required|max:255',
             'id' => 'required|exists:rutas|numeric',
             'idIdioma' => 'required|exists:idiomas,id|numeric',
-            'descripcion' => 'required|max:1000|min:100',
+            'descripcion' => 'required|min:100',
             'recomendacion' => 'max:1000|min:100'
         ],[
             'nombre.required' => 'Se necesita un nombre para la ruta turística.',
