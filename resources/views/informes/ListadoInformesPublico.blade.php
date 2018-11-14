@@ -56,7 +56,7 @@
                         <div class="form-group">
                             <label for="tipoInforme" class="control-label sr-only">Tipo de informe</label>
                             <select class="form-control" id="tipoInforme" name="tipoInforme" onchange="this.form.submit()">
-                                <option value="" selected @if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] == "") disabled @endif>@if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] != "") Ver todos los registros @else - Seleccione el tipo de turísmo -  @endif</option>
+                                <option value="" selected @if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] == "") disabled @endif>@if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] != "") Ver todos los registros @else - Seleccione el tipo de informe -  @endif</option>
                                 @foreach($tipos as $tipo)
                                     <option value="{{$tipo->tipo_documento_id}}" @if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] == $tipo->tipo_documento_id) selected @endif>{{$tipo->nombre}}</option>
                                 @endforeach
@@ -71,9 +71,9 @@
                         <div class="form-group">
                             <label for="categoriaInforme" class="control-label sr-only">Categoría de informe</label>
                             <select class="form-control" id="categoriaInforme" name="categoriaInforme" onchange="this.form.submit()">
-                                <option value="" selected @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == "") disabled @endif>@if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] != "") Ver todos los registros @else - Seleccione el tipo de turísmo -  @endif</option>
+                                <option value="" selected @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == "") disabled @endif>@if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] != "") Ver todos los registros @else - Seleccione la categoría -  @endif</option>
                                 @foreach($categorias as $categoria)
-                                    <option value="{{$categoria->categoria_documento_id}}" @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == $categoria->categoria_documento_id) selected @endif>{{$tipo->nombre}}</option>
+                                    <option value="{{$categoria->categoria_documento_id}}" @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == $categoria->categoria_documento_id) selected @endif>{{$categoria->nombre}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -128,7 +128,7 @@
         <p>No hay elementos publicados en este momento.</p>
     </div>
     @endif
-    @if ($informes != null || count($informes) > 0)
+    <!--@if ($informes != null || count($informes) > 0)
         @foreach ($informes as $informe)
             Tipo de informe : {{$informe->tipoInforme}}
             <br>
@@ -150,6 +150,6 @@
             <br>
             <a href="ver/{{$informe->id}}">Ver más de informe</a>
         @endforeach
-    @endif
+    @endif-->
     
 @endsection

@@ -30,7 +30,7 @@ class Tipo_Documento_Idioma extends Model
      */
     public function idioma()
     {
-        return $this->belongsTo('App\Idioma');
+        return $this->belongsTo('App\Models\Idioma');
     }
 
     /**
