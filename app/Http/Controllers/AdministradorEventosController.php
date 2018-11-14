@@ -14,6 +14,8 @@ use App\Models\Evento;
 use App\Models\Evento_Con_Idioma;
 use App\Models\Multimedia_Evento;
 use App\Models\Idioma;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 use Carbon\Carbon;
 use Storage;

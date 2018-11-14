@@ -20,6 +20,8 @@ use App\Models\Proveedores_rnt;
 use App\Models\Proveedores_rnt_idioma;
 use App\Models\Multimedia_Proveedor;
 use App\Models\Idioma;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdministradorProveedoresController extends Controller
 {

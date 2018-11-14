@@ -7,6 +7,8 @@ use App\Models\Ruta;
 use App\Models\Ruta_Con_Idioma;
 use App\Models\Ruta_Con_Atraccion;
 use App\Models\Idioma;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -106,8 +108,8 @@ class AdministradorRutasController extends Controller
         
         $ruta = new Ruta();
         $ruta->estado = true;
-        $ruta->user_create = "Situr";
-        $ruta->user_update = "Situr";
+        $ruta->user_create = $this->user->username;
+        $ruta->user_update = $this->user->username;
         $ruta->created_at = Carbon::now();
         $ruta->updated_at = Carbon::now();
         $ruta->save();
@@ -199,7 +201,7 @@ class AdministradorRutasController extends Controller
         $ruta = Ruta::find($request->id);
         $ruta->estado = !$ruta->estado;
         $ruta->updated_at = Carbon::now();
-        $ruta->user_update = "Situr";
+        $ruta->user_update = $this->user->username;
         $ruta->save();
         
         return ['success' => true];
@@ -221,7 +223,7 @@ class AdministradorRutasController extends Controller
         $ruta = Ruta::find($request->id);
         $ruta->sugerido = !$ruta->sugerido;
         $ruta->updated_at = Carbon::now();
-        $ruta->user_update = "Situr";
+        $ruta->user_update = $this->user->username;
         $ruta->save();
         
         return ['success' => true];
