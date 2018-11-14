@@ -89,10 +89,13 @@ function parse_yturl($url)
           </h2>
           <div class="text-center">
             @if(Auth::check())
-                <button class="btn btn-lg btn-circled btn-favorite">
-                  <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
-                </button>
-                
+                <form role="form" action="/atracciones/favorito" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="atraccion_id" value="{{$atraccion->id}}" />
+                    <button type="submit" class="btn btn-lg btn-circled btn-favorite">
+                      <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
+                    </button>    
+                </form>
             @else
                 <button type="button" class="btn btn-lg btn-circled" title="Marcar como favorito" data-toggle="modal" data-target="#modalIniciarSesion">
                   <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
@@ -148,6 +151,9 @@ function parse_yturl($url)
     <section id="informacionGeneral" class="section active">
         <div class="container">
             <h3 class="title-section">{{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}</h3>
+            @if(Session::has('message'))
+                <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
+            @endif
             <div class="row">
                 <div class="col-xs-12">
                     @if($video_promocional != null)
@@ -500,11 +506,11 @@ function parse_yturl($url)
                         <h4 class="modal-title" id="labelModalIniciarSesion">Iniciar sesión</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Para calificar, comentar o agregar a sus favoritos este contenido debe iniciar sesión. Si aún no se encuentra registrado <a href="#">haga clic aquí</a></p>
+                        <p>Para calificar, comentar o agregar a sus favoritos este contenido debe iniciar sesión. Si aún no se encuentra registrado <a href="/login/login">haga clic aquí</a></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Iniciar sesión</button>
+                        <a href="/login/login" class="btn btn-primary">Iniciar sesión</a>
                     </div>
                 </div>
             </div>

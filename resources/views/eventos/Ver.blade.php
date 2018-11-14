@@ -81,6 +81,22 @@ function parse_yturl($url)
 	          </small>
 	          @endif
           </h2>
+          <div class="text-center">
+            @if(Auth::check())
+                <form role="form" action="/eventos/favorito" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="evento_id" value="{{$evento->id}}" />
+                    <button type="submit" class="btn btn-lg btn-circled btn-favorite">
+                      <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
+                    </button>    
+                </form>
+            @else
+                <button type="button" class="btn btn-lg btn-circled" title="Marcar como favorito" data-toggle="modal" data-target="#modalIniciarSesion">
+                  <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
+                </button>
+            @endif
+              
+          </div>
       </div>
       <!-- Controls -->
       <!--<a class="left carousel-control" href="#carousel-main-page" role="button" data-slide="prev">-->
@@ -116,6 +132,9 @@ function parse_yturl($url)
             <h1>Nombre: {{$evento->eventosConIdiomas[0]->nombre}} Edicion {{$evento->eventosConIdiomas[0]->edicion or 'No disponible'}}</h1>
         </div>
     </div>
+    @if(Session::has('message'))
+        <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
+    @endif
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-4 col-sm-offset-4">
             Descripción: {{$evento->eventosConIdiomas[0]->descripcion}}
