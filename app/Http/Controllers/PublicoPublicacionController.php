@@ -43,7 +43,7 @@ class PublicoPublicacionController extends Controller
      //publicaciones_idioma::where("publicaciones_id",">",1)->delete();
      //Publicacione::where("estado",true)->delete();
      return view('publicaciones.VerPublicacionPublico', array(
-            "publicacion"=> Publicacion::with(["personas","temas","palabras"])->where("id","=",$id)->first()
+            "publicacion"=> Publicacion::with(["personas","temas"=>function($q){$q->with('getNombreEs');},"palabras"])->where("id","=",$id)->first()
                 
          ));
     
