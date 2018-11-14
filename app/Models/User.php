@@ -49,6 +49,10 @@ class User extends Authenticatable
         
     }
     
+    public function atraccionesFavoritas(){
+        return $this->hasMany('App\Models\Atraccion_Favorita','users_id');
+    }
+    
     public static function resolveUser()
     {   
         $user = JWTAuth::parseToken()->authenticate();

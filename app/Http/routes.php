@@ -173,6 +173,8 @@ Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
 
 Route::controller('/postulado','PostuladoController');
 
+Route::controller('/visitante', 'VisitanteController');
+
 Route::controller('/noticias','NoticiaController');
 Route::controller('/promocionNoticia','PublicoNoticiaController');
 Route::controller('/promocionInforme','PublicoInformeController');
