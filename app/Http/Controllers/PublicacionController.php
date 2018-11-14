@@ -17,6 +17,7 @@ use App\Models\Publicacion_autor;
 use App\Models\TipoPublicacion;
 use Carbon\Carbon;
 use App\Models\Suscriptore;
+use App\Models\User;
 
 
 class PublicacionController extends Controller

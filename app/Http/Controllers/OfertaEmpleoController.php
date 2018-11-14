@@ -65,6 +65,7 @@ use App\Models\Categoria_Proveedor_Con_Idioma;
 use App\Models\Proveedores_rnt;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 

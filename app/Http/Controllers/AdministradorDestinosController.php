@@ -16,6 +16,8 @@ use App\Models\Multimedia_Destino;
 use App\Models\Idioma;
 use App\Models\Sector;
 use App\Models\Sector_Con_Idioma;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AdministradorDestinosController extends Controller
 {
