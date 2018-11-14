@@ -227,6 +227,46 @@ angular.module('visitanteApp', ["visitanteService","ADM-dateTimePicker","ui.sele
     }
     
     
+    $scope.quitarFavoritos = function (fav) {
+        var ruta;
+        var data = {};
+        switch (fav.Tipo) {
+            case 1:
+                data.atraccion_id = fav.Id;
+                ruta = '/atracciones/favoritoclient';
+                break;
+            case 2:
+                data.actividad_id = fav.Id;
+                ruta = '/actividades/favoritoclient';
+                break;
+            case 3:
+                data.proveedor_id = fav.Id;
+                ruta = '/proveedor/favoritoclient';
+                break;
+            case 4:
+                data.evento_id = fav.Id;
+                ruta = '/eventos/favoritoclient';
+                break;
+        }
+        
+        $("body").attr("class", "charging");
+        visitanteServi.QuitarFavorito(ruta, data).then(function(data) {
+            if(data.success) {
+                swal("Exito!", "Se ha quitado satisfactoriamente de favoritos.", "success");
+                $scope.favoritos.splice($scope.favoritos.indexOf(fav), 1);
+            } else {
+                $scope.errores = data.errores;
+                swal("Error", "Se ha presentado un error en la petición.", "error");
+            }
+           $("body").attr("class", "cbp-spmenu-push");
+        }).catch(function() {
+           $("body").attr("class", "cbp-spmenu-push");
+           swal("Error", "Error en la carga, por favor recarga la página.", "error");
+        })
+        
+    }
+    
+    
     function validarFechas(fechaNuevaInicial, fechaNuevaFinal, fechaViejaInicial, fechaViejaFinal) {
         if ((fechaNuevaInicial >= fechaViejaInicial && fechaNuevaInicial <= fechaViejaFinal) || (fechaNuevaFinal >= fechaViejaInicial && fechaNuevaFinal <= fechaViejaFinal) || (fechaNuevaInicial < fechaViejaInicial && fechaNuevaFinal > fechaViejaFinal)) {
             return false;

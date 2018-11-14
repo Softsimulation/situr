@@ -14,7 +14,7 @@ class ProveedoresController extends Controller
     public function __construct()
     {
         
-        $this->middleware('auth',["only"=>["postFavorito"]]);
+        $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
     
@@ -81,6 +81,25 @@ class ProveedoresController extends Controller
                 return \Redirect::to('/proveedor/ver/'.$proveedor->id)
                         ->with('message', 'Se ha quitado el proveedor de tus favoritos.')
                         ->withInput(); 
+            }
+        }
+    }
+    
+    public function postFavoritoclient(Request $request){
+        $this->user = \Auth::user();
+        $proveedor = Proveedor::find($request->proveedor_id);
+        if(!$proveedor){
+           return ["success" => false, "errores" => [["El proveedor seleccionado no se encuentra en el sistema."]] ];
+        }else{
+            if(Proveedor_Favorito::where('usuario_id',$this->user->id)->where('proveedores_id',$proveedor->id)->first() == null){
+                Proveedor_Favorito::create([
+                    'usuario_id' => $this->user->id,
+                    'proveedores_id' => $proveedor->id
+                ]);
+                return ["success" => true];
+            }else{
+                Proveedor_Favorito::where('usuario_id',$this->user->id)->where('proveedores_id',$proveedor->id)->delete();
+                return ["success" => true]; 
             }
         }
     }

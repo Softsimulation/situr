@@ -15,7 +15,7 @@ class AtraccionesController extends Controller
     public function __construct()
     {
         
-        $this->middleware('auth',["only"=>["postFavorito"]]);
+        $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
     
@@ -107,6 +107,25 @@ class AtraccionesController extends Controller
                 return \Redirect::to('/atracciones/ver/'.$atraccion->id)
                         ->with('message', 'Se ha quitado la atracción a tus favoritos.')
                         ->withInput(); 
+            }
+        }
+    }
+    
+    public function postFavoritoclient(Request $request){
+        $this->user = \Auth::user();
+        $atraccion = Atracciones::find($request->atraccion_id);
+        if(!$atraccion){
+            return ["success" => false, "errores" => [["La atracción seleccionada no se encuentra en el sistema."]] ];
+        }else{
+            if(Atraccion_Favorita::where('usuario_id',$this->user->id)->where('atracciones_id',$atraccion->id)->first() == null){
+                Atraccion_Favorita::create([
+                    'usuario_id' => $this->user->id,
+                    'atracciones_id' => $atraccion->id
+                ]);
+                return ["success" => true]; 
+            }else{
+                Atraccion_Favorita::where('usuario_id',$this->user->id)->where('atracciones_id',$atraccion->id)->delete();
+                return ["success" => true]; 
             }
         }
     }

@@ -13,7 +13,7 @@ class EventosController extends Controller
     public function __construct()
     {
         
-        $this->middleware('auth',["only"=>["postFavorito"]]);
+        $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
     
@@ -82,6 +82,25 @@ class EventosController extends Controller
                 return \Redirect::to('/eventos/ver/'.$evento->id)
                         ->with('message', 'Se ha quitado el evento de tus favoritos.')
                         ->withInput(); 
+            }
+        }
+    }
+    
+    public function postFavoritoclient(Request $request){
+        $this->user = \Auth::user();
+        $evento = Evento::find($request->evento_id);
+        if(!$evento){
+            return ["success" => false, "errores" => [["El evento seleccionado no se encuentra en el sistema."]] ];
+        }else{
+            if(Evento_Favorita::where('usuario_id',$this->user->id)->where('eventos_id',$evento->id)->first() == null){
+                Evento_Favorita::create([
+                    'usuario_id' => $this->user->id,
+                    'eventos_id' => $evento->id
+                ]);
+                return ["success" => true];
+            }else{
+                Evento_Favorita::where('usuario_id',$this->user->id)->where('eventos_id',$evento->id)->delete();
+                return ["success" => true];
             }
         }
     }
