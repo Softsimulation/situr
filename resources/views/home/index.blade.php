@@ -121,7 +121,7 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
             @if(count($noticias) > 0)
             <section id="noticias">
                 <div class="container">
-                    <h2 class="text-uppercase text-center">Noticias</h2>
+                    <h2 class="text-uppercase text-center">{{trans('resources.publicaciones.noticias')}}</h2>
                     <hr>
                     <div class="tiles">
                         @foreach($noticias as $noticia)

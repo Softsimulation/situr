@@ -87,15 +87,38 @@
 
 @section('content')
 
-<div class="card" ng-init="indicadorSelect={{$indicadores[0]['id']}}" >
+<h2 class="text-center"><small class="btn-block">Indicador</small> @{{indicador.idiomas[0].nombre}}</h2>
+<hr>
+
+<div class="dropdown text-center" ng-init="indicadorSelect={{$indicadores[0]['id']}}">
+  <button type="button" class="btn btn-outline-primary text-uppercase dropdown-toggle"id="dropdownMenuIndicadores" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ver más estadísticas <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+  
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuIndicadores" ng-init="buscarData( {{$indicadores[0]['id']}} )">
+    @foreach ($indicadores as $indicador)
+        <li ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }">
+          <button type="button" ng-click="changeIndicador({{$indicador['id']}})">{{$indicador["idiomas"][0]['nombre']}}</button>
+        </li>
+    @endforeach
     
-    <ul class="list-group" ng-init="buscarData( {{$indicadores[0]['id']}} )" >
-        @foreach ($indicadores as $indicador)
-            <li class="list-group-item" ng-click="changeIndicador({{$indicador['id']}})" ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }"  >
-               {{$indicador["idiomas"][0]["nombre"]}}
-            </li>
-        @endforeach
-    </ul>
+  </ul>
+</div>
+<br>
+
+<div ng-if="indicador == undefined" class="text-center">
+    <img src="/res/spinner-200px.gif" alt="" role="presentation" style="display:inline-block; margin: 0 auto;">    
+</div>
+
+<div class="card" ng-init="indicadorSelect={{$indicadores[0]['id']}}" ng-show="indicador != undefined">
+    
+    
+    
+    <!--<ul class="list-group" ng-init="buscarData( {{$indicadores[0]['id']}} )" >-->
+    <!--    @foreach ($indicadores as $indicador)-->
+    <!--        <li class="list-group-item" ng-click="changeIndicador({{$indicador['id']}})" ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }"  >-->
+    <!--           {{$indicador["idiomas"][0]["nombre"]}}-->
+    <!--        </li>-->
+    <!--    @endforeach-->
+    <!--</ul>-->
     
     
     <div class="panel panel-default">

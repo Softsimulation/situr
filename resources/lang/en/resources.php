@@ -16,47 +16,47 @@ return [
         "contactanos" => "Contact us"
     ],
     "entidad" =>[
-        "destinos" => "Destinos",
-        "eventos" => "Eventos",
-        "actividades" => "Actividades",
-        "atracciones" => "Atracciones",
-        "rutasTuristicas" => "Rutas turísticas",
-        "guias" => "Guías",
-        "alojamientos" => "Alojamientos",
-        "restaurantes" => "Restaurantes"
+        "destinos" => "Destinations",
+        "eventos" => "Events",
+        "actividades" => "Activities",
+        "atracciones" => "Attractions",
+        "rutasTuristicas" => "Tourist routes",
+        "guias" => "Guides",
+        "alojamientos" => "Accommodations",
+        "restaurantes" => "Restaurants"
     ],
     "estadisticas" =>[
-        "receptor" => "Turísmo receptor",
-        "interno" => "Turísmo interno y emisor",
-        "empleo" => "Empleo",
-        "oferta" => "Oferta",
-        "sostenibilidad" => "Sostenibilidad",
-        "sostenible" => "Turísmo sostenible",
-        "secundarias" => "Indicadores secundarios"
+        "receptor" => "Receiving tourism",
+        "interno" => "Domestic tourism",
+        "empleo" => "Employment",
+        "oferta" => "Offer",
+        "sostenibilidad" => "Sustainability",
+        "sostenible" => "Sustainable tourism",
+        "secundarias" => "Secondary indicators"
     ],
     "publicaciones" =>[
-        "informes" => "Informes",
-        "noticias" => "Noticias",
-        "bibliotecaDigital" => "Biblioteca digital",
-        "bolsaDeEmpleo" => "Bolsa de empleo"
+        "informes" => "Reports",
+        "noticias" => "News",
+        "bibliotecaDigital" => "Digital library",
+        "bolsaDeEmpleo" => "Employment exchange"
     ],
     "common" => [
-        "siguiente" => "Siguiente",
-        "anterior" => "Anterior",
-        "verMas" => "Ver más",
-        "verTodo" => "Ver todo",
-        "cargando" => "Cargando. Por favor espere...",
-        "menuDeNavegacion" => "Menú de navegación",
-        "irAlContenido" => "Ir al contenido",
-        "busqueda" => "Búsqueda",
-        "buscar" => "Buscar",
-        "seleccionarIdioma" => "Seleccionar un idioma",
-        "iniciarSesion" => "Iniciar sesión",
-        "cerrarSesion" => "Cerrar sesión",
-        "logoDe" => "Logo de :logo",
-        "contacto" => "Contacto",
-        "enlacesDeInteres" => "Enlaces de intéres",
-        "telefono" => "Teléfono"
+        "siguiente" => "Next",
+        "anterior" => "Previous",
+        "verMas" => "See more",
+        "verTodo" => "See all",
+        "cargando" => "Charging. Please, wait...",
+        "menuDeNavegacion" => "Navigation menu",
+        "irAlContenido" => "Go to content",
+        "busqueda" => "Search",
+        "buscar" => "Go to search",
+        "seleccionarIdioma" => "Select a language",
+        "iniciarSesion" => "Sign in",
+        "cerrarSesion" => "Log out",
+        "logoDe" => "Brand of :logo",
+        "contacto" => "Contact",
+        "enlacesDeInteres" => "Interest links",
+        "telefono" => "Phone"
     ]
     
     

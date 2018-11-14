@@ -45,12 +45,12 @@ return [
         "restaurantes" => "Restaurantes"
     ],
     "estadisticas" =>[
-        "receptor" => "Turísmo receptor",
-        "interno" => "Turísmo interno y emisor",
+        "receptor" => "Turismo receptor",
+        "interno" => "Turismo interno y emisor",
         "empleo" => "Empleo",
         "oferta" => "Oferta",
         "sostenibilidad" => "Sostenibilidad",
-        "sostenible" => "Turísmo sostenible",
+        "sostenible" => "Turismo sostenible",
         "secundarias" => "Indicadores secundarios"
     ],
     "publicaciones" =>[
