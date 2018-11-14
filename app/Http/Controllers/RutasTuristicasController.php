@@ -25,8 +25,8 @@ class RutasTuristicasController extends Controller
                     $querySitiosConIdiomas->select('idiomas_id', 'sitios_id', 'nombre');
                 }, 'multimediaSitios' => function($queryMultimediaSitios){
                     $queryMultimediaSitios->select('sitios_id', 'ruta')->orderBy('portada', 'desc')->where('tipo', false);
-                }])->select('id');
-            }])->select('atracciones.id', 'atracciones.sitios_id');
+                }])->select('id', 'sitios_id');
+            }])->select('id');
         }])->select('id', 'portada')->first();
         
         //return ['ruta' => $ruta];

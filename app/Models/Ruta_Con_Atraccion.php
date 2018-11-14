@@ -45,6 +45,6 @@ class Ruta_Con_Atraccion extends Model
      */
     public function ruta()
     {
-        return $this->belongsTo('App\Models\Ruta');
+        return $this->belongsTo('App\Models\Ruta', 'ruta_id');
     }
 }
