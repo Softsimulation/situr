@@ -65,6 +65,7 @@ use App\Models\Categoria_Proveedor_Con_Idioma;
 use App\Models\Proveedores_rnt;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -80,7 +81,7 @@ class OfertaEmpleoController extends Controller
                                     'getCaracterizacionagenciasoperadoras','getAlojamientotrimestral','getEmpleo','getOcupacionagenciasoperadoras','getCaracterizacionalquilervehiculo','getCaracterizacion','getEmpleadoscaracterizacion','getCaracterizacion','getEmpleomensual','getNumeroempleados']]);
     
         $this->middleware('auth');
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Estadistico');
         if(\Auth::user() != null){
             $this->user = User::where('id',\Auth::user()->id)->first(); 
         } 

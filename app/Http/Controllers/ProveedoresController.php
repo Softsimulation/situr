@@ -7,10 +7,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests;
 use App\Models\Proveedor;
+<<<<<<< HEAD
 use App\Models\Comentario_Proveedor;
 use Carbon\Carbon;
+=======
+use App\Models\Proveedor_Favorito;
+
+>>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
 class ProveedoresController extends Controller
 {
+    
+    public function __construct()
+    {
+        
+        $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
+        // $this->user = \Auth::user();
+    }
+    
     //
     
         public function __construct()
@@ -63,6 +76,7 @@ class ProveedoresController extends Controller
         return view('proveedor.Ver', ['proveedor' => $proveedor, 'video_promocional' => $video_promocional]);
     }
     
+<<<<<<< HEAD
     public function postGuardarcomentario(Request $request){
 	   
 	   $validator = \Validator::make($request->all(), [
@@ -101,6 +115,48 @@ class ProveedoresController extends Controller
         $proveedor->save();
         
         return redirect('proveedor/ver/'.$request->id)->with('success','Comentario guardado correctamente');
+=======
+    public function postFavorito(Request $request){
+        $this->user = \Auth::user();
+        $proveedor = Proveedor::find($request->proveedor_id);
+        if(!$proveedor){
+           return response('Not found.', 404);
+        }else{
+            if(Proveedor_Favorito::where('usuario_id',$this->user->id)->where('proveedores_id',$proveedor->id)->first() == null){
+                Proveedor_Favorito::create([
+                    'usuario_id' => $this->user->id,
+                    'proveedores_id' => $proveedor->id
+                ]);
+                return \Redirect::to('/proveedor/ver/'.$proveedor->id)
+                        ->with('message', 'Se ha añadido el proveedor a tus favoritos.')
+                        ->withInput(); 
+            }else{
+                Proveedor_Favorito::where('usuario_id',$this->user->id)->where('proveedores_id',$proveedor->id)->delete();
+                return \Redirect::to('/proveedor/ver/'.$proveedor->id)
+                        ->with('message', 'Se ha quitado el proveedor de tus favoritos.')
+                        ->withInput(); 
+            }
+        }
+    }
+    
+    public function postFavoritoclient(Request $request){
+        $this->user = \Auth::user();
+        $proveedor = Proveedor::find($request->proveedor_id);
+        if(!$proveedor){
+           return ["success" => false, "errores" => [["El proveedor seleccionado no se encuentra en el sistema."]] ];
+        }else{
+            if(Proveedor_Favorito::where('usuario_id',$this->user->id)->where('proveedores_id',$proveedor->id)->first() == null){
+                Proveedor_Favorito::create([
+                    'usuario_id' => $this->user->id,
+                    'proveedores_id' => $proveedor->id
+                ]);
+                return ["success" => true];
+            }else{
+                Proveedor_Favorito::where('usuario_id',$this->user->id)->where('proveedores_id',$proveedor->id)->delete();
+                return ["success" => true]; 
+            }
+        }
+>>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
     }
     
 }

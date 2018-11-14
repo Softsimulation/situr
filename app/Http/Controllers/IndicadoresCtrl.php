@@ -9,13 +9,14 @@ use App\Http\Requests;
 
 use DB;
 
-
 use App\Models\Indicadores_medicion;
 use App\Models\Estadisitica_Secundaria;
 use App\Models\Valor_serie_tiempo;
 use App\Models\Series_estadistica;
 use App\Models\Rotulos_estadistica;
 use App\Models\Series_estadistica_rotulo;
+use App\Models\Temporada;
+use App\Models\Mes_Indicador;
 
 class IndicadoresCtrl extends Controller
 {
@@ -146,47 +147,151 @@ class IndicadoresCtrl extends Controller
         
         switch($id){
             
-            case 1:  /// indicador motivo principal del viaje de turismo recptor
-                $periodos = DB::select("SELECT *from tiempo_motivos(?)", array($cultura) );
-                $data = $this->MotivoPrincipalViajeReceptor($periodos[0],$cultura);
-                break;
+            ////////////////////////////RECEPTOR/////////////////////////////
+            case 1: $periodos = DB::select("SELECT *from tiempo_motivos(?)", array($cultura) );
+                    $data = $this->MotivoPrincipalViajeReceptor($periodos[0],$cultura); break;
                 
-            case 2:  /// indicador tipo alojamiento utilizado de turismo recptor
-                $periodos = DB::select("SELECT *from tiempo_tipo_alojamiento_receptor(?)", array($cultura) );
-                $data = $this->TipoAlojamientoUtilizadoReceptor($periodos[0],$cultura);
-                break;
+            case 2: $periodos = DB::select("SELECT *from tiempo_tipo_alojamiento_receptor(?)", array($cultura) );
+                    $data = $this->TipoAlojamientoUtilizadoReceptor($periodos[0],$cultura); break;
             
-            case 3:  /// indicador  medios de transporte utilizado de turismo recptor
-                $periodos = DB::select("SELECT *from tiempo_tipo_alojamiento_receptor(?)", array($cultura) );
-                $data = $this->MedioTransporteReceptor($periodos[0],$cultura);
-                break;
+            case 3: $periodos = DB::select("SELECT *from tiempo_tipo_alojamiento_receptor(?)", array($cultura) );
+                    $data = $this->MedioTransporteReceptor($periodos[0],$cultura);  break;
                 
-            case 4:  /// indicador  gasto medio de turismo recptor
-                $periodos = DB::select("SELECT *from tiempo_gasto_medio_receptor(?)", array($cultura) );
-                $data = $this->GastoMedioReceptor($periodos[0],$cultura);
-                break;
+            case 4: $periodos = DB::select("SELECT *from tiempo_gasto_medio_receptor(?)", array($cultura) );
+                    $data = $this->GastoMedioReceptor($periodos[0],$cultura);  break;
                 
-            case 5:  /// indicador  gasto medio por bienes o servicios utilizado de turismo recptor
-                $periodos = DB::select("SELECT id, year from tiempo_gasto_medio_rubro_receptor(?)", array($cultura) );
-                $data = $this->GastoMedioBienesServiciosReceptor( $periodos[0] ,$cultura);
-                break;
+            case 5: $periodos = DB::select("SELECT id, year from tiempo_gasto_medio_rubro_receptor(?)", array($cultura) );
+                    $data = $this->GastoMedioBienesServiciosReceptor( $periodos[0] ,$cultura);  break;
                 
-            case 6:  /// indicador duración media de la estancia de turismo recptor
-                $periodos = DB::select("SELECT id, year from tiempo_duracion_media_receptor(?)", array($cultura) );
-                $data = $this->DuracionMediaEstanciaReceptor($periodos[0],$cultura);
-                break;
+            case 6: $periodos = DB::select("SELECT id, year from tiempo_duracion_media_receptor(?)", array($cultura) );
+                    $data = $this->DuracionMediaEstanciaReceptor($periodos[0],$cultura); break;
                 
-            case 7:  /// indicador tamaño medio de grupos de viaje de turismo recptor
-                $periodos = DB::select("SELECT id, year from tiempo_tamanio_grupo_viaje(?)", array($cultura) );
-                $data = $this->TamanoMedioGrupoViajeReceptor($periodos[0],$cultura);
-                break;
+            case 7: $periodos = DB::select("SELECT id, year from tiempo_tamanio_grupo_viaje(?)", array($cultura) );
+                    $data = $this->TamanoMedioGrupoViajeReceptor($periodos[0],$cultura);  break;
+                
+            ////////////////////////////////INTERNO/////////////////////////////////////////
+            case 8: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "temporadas"=> $this->getTemporadas()
+                                    ],
+                                ]; 
+                    $object = new \stdClass();
+                    $object->temporada = $periodos[0]["temporadas"][0]->id ;
+                    $data = $this->MotivoPrincipalViajeInterno( $object , $cultura); break;   
+                
+            case 9:  $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "temporadas"=> $this->getTemporadas()
+                                    ],
+                                ]; 
+                    $object = new \stdClass();
+                    $object->temporada = $periodos[0]["temporadas"][0]->id ;
+                    $data = $this->TipoAlojamientoUtilizadoInterno($object,$cultura);  break; 
+            
+            case 10: 
+                    $periodos = [ [ "id"=>1, "year"=>2018 ] ]; 
+                    $data = $this->TamanoMedioGrupoViajeInterno(null,$cultura);  break;
+                
+            case 11: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "temporadas"=> $this->getTemporadas()
+                                    ],
+                                 ]; 
+                     $object = new \stdClass();
+                     $object->temporada = $periodos[0]["temporadas"][0]->id ;
+                     $data = $this->MedioTransporteInterno($object,$cultura);  break; 
+            
+            case 12: 
+                     $periodos = [ [ "id"=>1, "year"=>2018 ] ]; 
+                     $data = $this->DuracionMediaEstanciaInterno(null,$cultura);  break; 
+            
+            case 13:  $periodos = [ [ "id"=>1, "year"=>2018 ] ];
+                      $object = new \stdClass();
+                      $object->tipoGasto = 1;
+                      $data = $this->GastoInterno($object,$cultura);  break; 
+                
+            ////////////////////////////////EMISOR/////////////////////////////////////////
+            case 14: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "temporadas"=> $this->getTemporadas()
+                                    ],
+                                ]; 
+                     $object = new \stdClass();
+                     $object->temporada = $periodos[0]["temporadas"][0]->id ;
+                     $data = $this->MotivoPrincipalViajeEmisor($object,$cultura); break;   
+                
+            case 15: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "temporadas"=> $this->getTemporadas()
+                                    ],
+                                ]; 
+                     $object = new \stdClass();
+                     $object->temporada = $periodos[0]["temporadas"][0]->id ;
+                     $data = $this->TipoAlojamientoUtilizadoEmisor($object,$cultura);  break; 
+            
+            case 16: $periodos = [ [ "id"=>1, "year"=>2018 ] ]; 
+                     $data = $this->TamanoMedioGrupoViajeEmisor(null,$cultura);  break;
+                
+            case 17: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "temporadas"=> $this->getTemporadas()
+                                    ],
+                                ]; 
+                     $object = new \stdClass();
+                     $object->temporada = $periodos[0]["temporadas"][0]->id ;
+                     $data = $this->MedioTransporteEmisor($object,$cultura);  break; 
+            
+            case 18: $periodos = [ [ "id"=>1, "year"=>2018 ] ]; 
+                     $data = $this->DuracionMediaEstanciaEmisor(null,$cultura);  break; 
+            
+            case 19:  $periodos = [ [ "id"=>1, "year"=>2018 ] ];
+                      $object = new \stdClass();
+                      $object->tipoGasto = 1;
+                      $data = $this->GastoEmisor($object,$cultura);  break; 
+                      
+            case 20: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "meses"=> Mes_Indicador::get([ "id", "nombre" ])
+                                    ],
+                                ]; 
+                     $object = new \stdClass();
+                     $object->mes = $periodos[0]["meses"][0]->id ;
+                     $data = $this->NumeroEstablecimeintosOferta($object,$cultura);  break; 
+                     
+            case 21: $periodos = [
+                                    [ 
+                                        "id"=>1, 
+                                        "year"=>2018,
+                                        "meses"=> Mes_Indicador::get([ "id", "nombre" ])
+                                    ],
+                                ]; 
+                     $object = new \stdClass();
+                     $object->mes = $periodos[0]["meses"][0]->id ;
+                     $data = $this->AgenciasOperadorasOferta($object,$cultura);  break;
+                     
+            case 22: $periodos = [ [  "id"=>1,  "year"=>2018 ] ]; 
+                     $data = $this->TasaOCupacionOferta(null,$cultura);  break;
                 
             default: break;
         }
         
         return  [
                 "periodos"=> $periodos,
-                "indicador"=> Indicadores_medicion::where([ ["tipo_medicion_indicador_id",1], ["id",$id] ])
+                "indicador"=> Indicadores_medicion::where( "id",$id )
                                                   ->with([ 
                                                             "idiomas"=>function($q) use($idioma){ $q->where("idioma_id", $idioma)->select("id","indicadores_medicion_id","nombre","eje_x","eje_y"); }, 
                                                             "graficas"=>function($q){ $q->select("id","nombre","icono","codigo"); }
@@ -203,40 +308,47 @@ class IndicadoresCtrl extends Controller
         $idioma = "es";
         switch($request->indicador){
             
-            case 1:  /// indicador motivo principal del viaje de turismo recptor
-                $data = $this->MotivoPrincipalViajeReceptor($request,$idioma);
-                break;
+            ////////////////////////////RECEPTOR/////////////////////////////
+            case 1: $data = $this->MotivoPrincipalViajeReceptor($request,$idioma); break;
+            case 2: $data = $this->TipoAlojamientoUtilizadoReceptor($request,$idioma); break;
+            case 3: $data = $this->MedioTransporteReceptor($request,$idioma); break;
+            case 4: $data = $this->GastoMedioReceptor($request,$idioma); break;
+            case 5: $data = $this->GastoMedioBienesServiciosReceptor($request,$idioma); break;
+            case 6: $data = $this->DuracionMediaEstanciaReceptor($request,$idioma); break;
+            case 7: $data = $this->DuracionMediaEstanciaReceptor($request,$idioma); break;
                 
-            case 2:  /// indicador tipo alojamiento utilizado de turismo recptor
-                $data = $this->TipoAlojamientoUtilizadoReceptor($request,$idioma);
-                break;
-                
-            case 3:  /// indicador tipo alojamiento utilizado de turismo recptor
-                $data = $this->MedioTransporteReceptor($request,$idioma);
-                break;
-                
-            case 4:  /// indicador gasto medio de turismo recptor
-                $data = $this->GastoMedioReceptor($request,$idioma);
-                break;
+            ////////////////////////////////INTERNO/////////////////////////////////////////
+            case 8:  $data = $this->MotivoPrincipalViajeInterno($request,$idioma); break;
+            case 9:  $data = $this->TipoAlojamientoUtilizadoInterno($request,$idioma); break;
+            case 10: $data = $this->TamanoMedioGrupoViajeInterno($request,$idioma); break;
+            case 11: $data = $this->MedioTransporteInterno($request,$idioma); break;
+            case 12: $data = $this->DuracionMediaEstanciaInterno($request,$idioma); break;
+            case 13: $data = $this->GastoInterno($request,$idioma); break;
             
-            case 5:  /// indicador gasto medio por bienes o servicios de turismo recptor
-                $data = $this->GastoMedioBienesServiciosReceptor($request,$idioma);
-                break;
-             
-            case 6:  /// indicador duración media de la estancia de turismo recptor
-                $data = $this->DuracionMediaEstanciaReceptor($request,$idioma);
-                break;
-                
-            case 7:  /// indicador tamaño medio de grupos de viaje de turismo recptor
-                $data = $this->DuracionMediaEstanciaReceptor($request,$idioma);
-                break;
-                
+            ////////////////////////////////EMISOR/////////////////////////////////////////
+            case 14: $data = $this->MotivoPrincipalViajeEmisor($request,$idioma); break;
+            case 15: $data = $this->TipoAlojamientoUtilizadoEmisor($request,$idioma); break;
+            case 16: $data = $this->TamanoMedioGrupoViajeEmisor($request,$idioma); break;
+            case 17: $data = $this->MedioTransporteEmisor($request,$idioma); break;
+            case 18: $data = $this->DuracionMediaEstanciaEmisor($request,$idioma); break;
+            case 19: $data = $this->GastoEmisor($request,$idioma); break;
+            
+            ////////////////////////////////OFERTA/////////////////////////////////////////
+            case 20: $data = $this->NumeroEstablecimeintosOferta($request,$idioma); break;
+            case 21: $data = $this->AgenciasOperadorasOferta($request,$idioma); break;
+            case 22: $data = $this->TasaOCupacionOferta($request,$idioma); break;
+            case 23: $data = $this->TasaOCupacionRestaurantesOferta($request,$idioma); break;
+            case 24: $data = $this->ViajesEmisoresOferta($request,$idioma); break;
+            case 25: $data = $this->ViajesInternosOferta($request,$idioma); break;
+            
             default: break;
         }
             
         return $data;
     }
     
+    
+    ////////////////////////////RECEPTOR/////////////////////////////
     
     private function MotivoPrincipalViajeReceptor($request,$idioma){
         $data = new Collection( DB::select("SELECT *from motivo_viaje_receptor(?,?,?)", array($request->year ,$idioma, $request->mes)) );
@@ -324,6 +436,252 @@ class IndicadoresCtrl extends Controller
                           ]
         ];
     }
+    
+    
+    ////////////////////////////////INTERNO/////////////////////////////////////////
+    
+    private function MotivoPrincipalViajeInterno($request,$idioma){
+        $data = new Collection( DB::select("SELECT *from estadistica_motivo_viaje_interno(?,?)", array($request->temporada,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function MedioTransporteInterno($request,$idioma){
+        $data = new Collection( DB::select("SELECT *from estadistica_medio_transporte_interno(?,?)", array($request->temporada ,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function TipoAlojamientoUtilizadoInterno($request,$idioma){
+        $data = new Collection( DB::select("SELECT *from estadistica_tipos_alojamiento_interno(?,?)", array($request->temporada ,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function GastoInterno($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        
+        if($request->tipoGasto==1){
+            foreach(Temporada::where("estado",true)->get() as $temporada){
+            array_push($labels, $temporada->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_gastos_interno(?,?)", array($temporada->id ,$idioma)) ); 
+            $d = $d->pluck('gasto_total')->first();
+            array_push($data, $d ? $d :0 );
+        }
+        }
+        else{
+            foreach(Temporada::where("estado",true)->get() as $temporada){
+                array_push($labels, $temporada->nombre);
+                $d = new Collection( DB::select("SELECT *from estadistica_gastos_interno(?,?)", array($temporada->id ,$idioma)) ); 
+                $d = $d->pluck('gasto_dia')->first();
+                array_push($data, $d ? $d :0 );
+            }
+        }
+        
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    private function TamanoMedioGrupoViajeInterno($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        foreach(Temporada::where("estado",true)->get() as $temporada){
+            array_push($labels, $temporada->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_tamanio_grupo_viaje_interno(?,?)", array($temporada->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    private function DuracionMediaEstanciaInterno($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        foreach(Temporada::where("estado",true)->get() as $temporada){
+            array_push($labels, $temporada->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_duracion_media_interno(?,?)", array($temporada->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    
+    ////////////////////////////////EMISOR/////////////////////////////////////////
+    
+    private function MotivoPrincipalViajeEmisor($request,$idioma){
+        $data = new Collection( DB::select("SELECT *from estadistica_motivo_viaje_emisor(?,?)", array($request->temporada,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function MedioTransporteEmisor($request,$idioma){
+        $data = new Collection( DB::select("SELECT *from estadistica_medio_transporte_emisor(?,?)", array($request->temporada ,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function TipoAlojamientoUtilizadoEmisor($request,$idioma){
+        $data = new Collection( DB::select("SELECT *from estadistica_tipos_alojamiento_emisor(?,?)", array($request->temporada ,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function GastoEmisor($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        
+        if($request->tipoGasto==1){
+            foreach(Temporada::where("estado",true)->get() as $temporada){
+            array_push($labels, $temporada->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_gastos_emisor(?,?)", array($temporada->id ,$idioma)) ); 
+            $d = $d->pluck('gasto_total')->first();
+            array_push($data, $d ? $d :0 );
+        }
+        }
+        else{
+            foreach(Temporada::where("estado",true)->get() as $temporada){
+                array_push($labels, $temporada->nombre);
+                $d = new Collection( DB::select("SELECT *from estadistica_gastos_emisor(?,?)", array($temporada->id ,$idioma)) ); 
+                $d = $d->pluck('gasto_dia')->first();
+                array_push($data, $d ? $d :0 );
+            }
+        }
+        
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    private function TamanoMedioGrupoViajeEmisor($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        foreach(Temporada::where("estado",true)->get() as $temporada){
+            array_push($labels, $temporada->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_tamanio_grupo_viaje_emisor(?,?)", array($temporada->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    private function DuracionMediaEstanciaEmisor($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        foreach(Temporada::where("estado",true)->get() as $temporada){
+            array_push($labels, $temporada->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_duracion_media_emisor(?,?)", array($temporada->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    
+    
+    ////////////////////////////////OFERTA/////////////////////////////////////////
+    
+    private function NumeroEstablecimeintosOferta($request,$idioma){
+        
+        $data = new Collection( DB::select("SELECT *from estadistica_numero_establecimiento(?,?)", array($request->mes,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+
+    private function AgenciasOperadorasOferta($request,$idioma){
+        
+        $data = new Collection( DB::select("SELECT *from estadistica_agencia_viaje_operadoras(?,?)", array($request->mes,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function TasaOCupacionOferta($request,$idioma){
+       
+        $labels = [];
+        $data = [];
+        foreach(Mes_Indicador::get() as $mes){
+            array_push($labels, $mes->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_tasa_ocupacion_oferta(?,?)", array($mes->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    private function TasaOCupacionRestaurantesOferta($request,$idioma){
+        
+        $data = new Collection( DB::select("SELECT *from estadistica_tasa_ocupacion_oferta(?,?)", array($request->mes,$idioma)) );
+        return [
+            "labels"=> $data->lists('tipo')->toArray(),
+            "data"=>   $this->redondear($data->lists('cantidad')->toArray())
+        ];
+    }
+    
+    private function ViajesEmisoresOferta($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        foreach(Mes_Indicador::get() as $mes){
+            array_push($labels, $mes->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_agencia_viaje_emisor(?,?)", array($mes->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+        
+    }
+    
+    private function ViajesInternosOferta($request,$idioma){
+        
+        $labels = [];
+        $data = [];
+        foreach(Mes_Indicador::get() as $mes){
+            array_push($labels, $mes->nombre);
+            $d = new Collection( DB::select("SELECT *from estadistica_agencia_viaje_interno(?,?)", array($mes->id ,$idioma)) ); 
+            $d = $d->pluck('cantidad')->first();
+            array_push($data, $d ? $d :0 );
+        }
+    
+        return [ "labels"=> $labels, "data"=> $data ];
+    }
+    
+    //////////////////////////////////////////////////////////////////////////////
+    
+    
+    public function getTemporadas(){ 
+        return Temporada::where('estado',true)->get([ "id", "nombre" ]);
+    }
+    
+    
+    
     
     
     private function redondear($array){

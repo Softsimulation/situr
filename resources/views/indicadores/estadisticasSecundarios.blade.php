@@ -134,7 +134,7 @@
                         <div class="input-group" id="selectGrafica" >
                             <label class="input-group-addon">Gráfica </label>
                             <div class="btn-group" style="width: 100%;">
-                                <button type="button" class="btn btn-default btn-select" style="height:34px;" >
+                                <button type="button" class="btn btn-default btn-select">
                                    <img src="@{{graficaSelect.icono}}" class="icono" ></img> @{{graficaSelect.nombre || " "}}
                                 </button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
