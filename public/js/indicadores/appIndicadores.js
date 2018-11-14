@@ -197,6 +197,7 @@
             $scope.labels = [];
             $scope.data = [];
             $scope.series = null;
+            $scope.indicador = null;
             
             indicadoresServi.getDataSecundarios(id, $scope.filtro.year)
                 .then(function(data){
