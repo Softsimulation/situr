@@ -12,22 +12,29 @@
         .nav-bar > .brand a img{
             height: auto;
         }
-        main{
-            padding: 2% 0;
-        }
+        /*main{*/
+        /*    padding: 2% 0;*/
+        /*}*/
     </style>
 @endsection
 @section('content')
     <div class="container">
         <h2 class="title-section">Quiénes somos</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat enim vel lorem commodo venenatis. Sed eleifend metus quis diam malesuada mollis. Curabitur sit amet ipsum quam. Quisque at lectus mi. In dictum sodales augue, ac porttitor turpis egestas ut. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras congue consectetur sagittis. Nulla eu molestie tortor, et maximus eros. Sed nibh magna, hendrerit id pharetra quis, congue iaculis risus. Nullam lobortis metus quis turpis duis.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consequat enim vel lorem commodo venenatis. Sed eleifend metus quis diam malesuada mollis. Curabitur sit amet ipsum quam. Quisque at lectus mi. In dictum sodales augue, ac porttitor turpis egestas ut. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras congue consectetur sagittis. Nulla eu molestie tortor, et maximus eros. Sed nibh magna, hendrerit id pharetra quis, congue iaculis risus. Nullam lobortis metus quis turpis duis.</p>
+        <p>El <strong>Sistema de Información Turística del Atlántico</strong> es una iniciativa del Ministerio de Comercio, Industria y Turismo (MinCIT) diseñada para integrar la información cuantitativa y cualitativa del turismo en el departamento del Atlántico con el objetivo de consolidar mediciones del sector que brinden información para caracterizar el turismo y generar estándares que permitan la comparación e integración estadística sectorial.</p>
+        <p>La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias de promoción de la región y consolidar una cultura de información del turismo como sector económico.</p>
+        <p>Actualmente se realizan las siguientes mediciones:</p>
         <ul>
-            <li>Option list One</li>
-            <li>Option list Two</li>
-            <li>Option list Three</li>
-            <li>Option list Four</li>
+            <li>Turismo Receptor</li>
+            <li>Turismo Interno y Emisor</li>
+            <li>Caracterización de la Oferta</li>
+            <li>Impacto en la Generación de Empleo</li>
         </ul>
+        <p>
+            El <strong>SITUR Atlántico - Sistema de información turística del Atlántico</strong>, un proyecto del Ministerio de Comercio, Industria y Turismo, Gobernación del Atlántico y la Alcaldía Distrital de Barranquilla. Esta iniciativa pretende caracterizar el sector turístico del departamento a través de la consolidación de información estadística y de promoción, con el fin de promover el posicionamiento del turismo como motor de desarrollo, generación de empleo y calidad de vida de los habitantes, aumentando la competitividad del Atlántico y la región Caribe.
+        </p>
+        <p>
+            Este sistema ya fue reconocido por el MinCIT como un caso exitoso de recolección de datos, SITUR se ganó este reconocimiento nacional gracias a que es el único sistema en Colombia que más ha avanzado en la labor de medición ya que desde sus inicios, en el año 2005, funciona bajo los parámetros de la OMT.
+        </p>
     </div>
 
 @endsection

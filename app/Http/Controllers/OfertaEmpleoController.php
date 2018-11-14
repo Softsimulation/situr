@@ -207,6 +207,23 @@ class OfertaEmpleoController extends Controller
         return view('ofertaEmpleo.ListadoEncuestas',['id'=>$one]);
     }
     
+    
+   public function getEncuestasoferta(){
+        
+        return view('ofertaEmpleo.ListadoEncuestastotal');
+    }
+    
+    
+    public function getEncuestasrealizadastotales(){
+ 
+          $data =  new Collection(DB::select("SELECT *from listado_encuestas_proveedores_oferta"));
+        
+         
+        return ["success"=>true, "encuestas"=>$data];
+
+    }
+    
+    
     public function getEncuestasrealizadas($id){
  
           $data =  new Collection(DB::select("SELECT *from listado_encuesta_oferta where sitio_para_encuesta =".$id));
@@ -2097,8 +2114,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
        		'porcentajeC.min' => 'El porcentaje de residentes en Colombia excepto magdalenenses debe ser mayor que 0.',
        		'porcentajeE.required' => 'El porcentaje de extranjeros es requerido.',
        		'porcentajeE.min' => 'El porcentaje de extranjeros debe ser mayor que 0.',
-       		'porcentajeM.required' => 'El porcentaje de residentes en el Magdalena es requerido.',
-       		'porcentajeM.min' => 'El residentes en el Magdalena debe ser mayor que 0.',
+       		'porcentajeM.required' => 'El porcentaje de residentes en el Atlántico es requerido.',
+       		'porcentajeM.min' => 'El residentes en el Atlántico debe ser mayor que 0.',
     	]);
        
     	if($validator->fails()){

@@ -102,7 +102,7 @@ class ImportacionRntController extends Controller
 		    $registro = $validar['success'] ? $validar["registro"] : $registro;
 		    
 		    $similar = $proveedoresIngresados->filter(function($value, $key)use($registro){
-		    	return ($value['nit'] == $registro['nit'] && $registro['nit'] != null && $registro['nit'] != 0) || ( $value['digito_verificacion'] == $registro['digito_verificacion'] && $value['digito_verificacion'] != 0 && $value['digito_verificacion'] != null ) || ($value['correo'] == $registro['correo'] && strpos($value['correo'], '@') !== false);
+		    	return ($value['nit'] == $registro['nit'] && $registro['nit'] != null && $registro['nit'] != 0) ||  ($value['correo'] == $registro['correo'] && strpos($value['correo'], '@') !== false);
 		    })->first();
 		    
 		    $registro['es_correcto'] = $validar['success'] ? 1 : 0;
@@ -137,7 +137,7 @@ class ImportacionRntController extends Controller
 	        	]);
 	        	
 	        	if($registro["nombre_comercial_plataforma"] != null){
-	        		$proveedorIdioma = $proveedorCrear->proveedor_rnt_idioma->where('idioma_id',1)->first();
+	        		$proveedorIdioma = $proveedorCrear->idiomas->where('idioma_id',1)->first();
 					if($proveedorIdioma){
 						$proveedorIdioma->nombre = $request->nombre_comercial_plataforma;
 						$proveedorIdioma->save();
@@ -256,7 +256,7 @@ class ImportacionRntController extends Controller
 		$proveedor->user_update = $this->user->username;
 		$proveedor->save();
 		
-		$proveedorIdioma = $proveedor->proveedor_rnt_idioma->where('idioma_id',1)->first();
+		$proveedorIdioma = $proveedor->idiomas->where('idioma_id',1)->first();
 		if($proveedorIdioma){
 			$proveedorIdioma->nombre = $request->nombre_comercial_plataforma;
 			$proveedorIdioma->save();

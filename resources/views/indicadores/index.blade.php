@@ -2,30 +2,134 @@
 
 
 @section('app','ng-app="appIndicadores"')
-@section('controller','ng-controller="receptorCtrl"')
+@section('controller','ng-controller="IndicadoresCtrl"')
+
+@section('estilos')
+
+<style type="text/css">
+    #selectGrafica .btn-select{
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0;
+        width: calc(100% - 26px);
+    }
+    #selectGrafica .btn-select i{
+        font-size: 20px;
+        margin-right: 5px;
+    }
+    #modalData td, #modalData th{ padding: 1px; }
+    
+    .filtros .input-group-addon{
+        background-color: #009541!important;
+        border-color: #009541!important;
+        color: #fff!important;
+        font-weight: 700!important;
+    }
+    .menu-descraga, .menu-descraga .dropdown{
+            float: right;
+    }
+    .menu-descraga .dropdown button{
+        display:flex;
+        align-items:center;
+        background: transparent;
+    }
+    .menu-descraga .dropdown button .material-icons{
+        margin-right: .5rem;
+    }
+    #descargarTABLA{
+        float: right;
+        color: black;
+    }
+    #descargarTABLA i{
+        font-size:2em;
+    }
+    .panel-body{
+        padding:0!important;
+        padding-top:20px !important;
+    }
+    .icono{
+        height: 22px;
+        margin-right: 5px;
+    }
+    .btn-outline-primary{
+        background-color: white;
+        color: #004A87;
+        border-color: #004A87;
+        border-radius: 6px;
+    }
+    .btn-outline-primary:hover{
+        background-color: #004A87;
+        color: white;
+    }
+    .dropdown-menu{
+        width: 100%;
+        text-align:center;
+    }
+    .dropdown-menu>li>button:hover {
+        background-color: #eee;
+    }
+    .dropdown-menu>li>button {
+        display: block;
+        font-weight: 400;
+        line-height: 1.42857143;
+        color: #333;
+        white-space: normal;
+        font-size: 1rem;
+        width: 100%;
+        border: 0;
+        background-color: inherit;
+        padding: .5rem 1rem;
+    }
+</style>
+
+@endsection
 
 
 @section('content')
 
-<div class="card" ng-init="indicadorSelect={{$indicadores[0]['id']}}" >
+<h2 class="text-center"><small class="btn-block">Indicador</small> @{{indicador.idiomas[0].nombre}}</h2>
+<hr>
+
+<div class="dropdown text-center" ng-init="indicadorSelect={{$indicadores[0]['id']}}">
+  <button type="button" class="btn btn-outline-primary text-uppercase dropdown-toggle"id="dropdownMenuIndicadores" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ver más estadísticas <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></button>
+  
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuIndicadores" ng-init="buscarData( {{$indicadores[0]['id']}} )">
+    @foreach ($indicadores as $indicador)
+        <li ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }">
+          <button type="button" ng-click="changeIndicador({{$indicador['id']}})">{{$indicador["idiomas"][0]['nombre']}}</button>
+        </li>
+    @endforeach
     
-    <ul class="list-group" ng-init="buscarData( {{$indicadores[0]['id']}} )" >
-        @foreach ($indicadores as $indicador)
-            <li class="list-group-item" ng-click="changeIndicador({{$indicador['id']}})" ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }"  >
-               {{$indicador["idiomas"][0]["nombre"]}}
-            </li>
-        @endforeach
-    </ul>
+  </ul>
+</div>
+<br>
+
+<div ng-if="indicador == undefined" class="text-center">
+    <img src="/res/spinner-200px.gif" alt="" role="presentation" style="display:inline-block; margin: 0 auto;">    
+</div>
+
+<div class="card" ng-init="indicadorSelect={{$indicadores[0]['id']}}" ng-show="indicador != undefined">
+    
+    
+    
+    <!--<ul class="list-group" ng-init="buscarData( {{$indicadores[0]['id']}} )" >-->
+    <!--    @foreach ($indicadores as $indicador)-->
+    <!--        <li class="list-group-item" ng-click="changeIndicador({{$indicador['id']}})" ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }"  >-->
+    <!--           {{$indicador["idiomas"][0]["nombre"]}}-->
+    <!--        </li>-->
+    <!--    @endforeach-->
+    <!--</ul>-->
     
     
     <div class="panel panel-default">
         <div class="panel-heading">
+            
             <form name="form" >
                 <div class="row filtros" >
                     <div class="col-md-3" >
                         <div class="input-group">
                             <label class="input-group-addon">Período </label>
-                            <select class="form-control" ng-model="yearSelect" ng-change="filtro.year=yearSelect.year;filtrarDatos()" ng-options="y as y.year for y in periodos" requerid >
+                            <select class="form-control" ng-model="yearSelect" ng-change="filtro.year=yearSelect.year;filtro.id=yearSelect.id;filtrarDatos()" ng-options="y as y.year for y in periodos" requerid >
                             </select>
                         </div>
                     </div>
@@ -38,42 +142,57 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-4" ng-if="indicadorSelect==5">
+                    <div class="col-md-3" ng-show="yearSelect.meses" >
+                        <div class="input-group">
+                            <label class="input-group-addon">Meses</label>
+                            <select class="form-control" ng-model="filtro.mes" ng-change="filtrarDatos()" ng-options="m.id as m.nombre for m in yearSelect.meses" ng-requerid="yearSelect.meses"  >
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3" ng-show="yearSelect.temporadas" >
+                        <div class="input-group">
+                            <label class="input-group-addon">Temporada</label>
+                            <select class="form-control" ng-model="filtro.temporada" ng-change="filtrarDatos()" ng-options="m.id as m.nombre for m in yearSelect.temporadas" ng-requerid="yearSelect.temporadas"  >
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4" ng-if="indicadorSelect==5 || indicadorSelect==13">
                         <div class="input-group" >
                             <label class="input-group-addon colorInd">Gasto promedio </label>
                             <select class="form-control" ng-model="filtro.tipoGasto" id="SelectTipoGasto" ng-change="filtrarDatos()" >
-                                <option value="1" >Total</option>
+                                <option value="1" selectd >Total</option>
                                 <option value="2">Por día</option>
                             </select>
                         </div>
                     </div>
                     
-                    <div class="col-md-4" >
+                    <div class="col-xs-12 col-sm-6 col-md-3" >
                         <div class="input-group" id="selectGrafica" >
                             <label class="input-group-addon">Gráfica </label>
-                            <div class="btn-group">
+                            <div class="btn-group" style="width: 100%;">
                                 <button type="button" class="btn btn-default btn-select" style="height:34px;" >
-                                   <i class="material-icons">@{{graficaSelect.icono}}</i> @{{graficaSelect.nombre || " "}}
+                                   <img src="@{{graficaSelect.icono}}" class="icono" ></img> @{{graficaSelect.nombre || " "}}
                                 </button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <span class="caret "></span>
                                 </button>
                                 <ul class="dropdown-menu menuTipoGrafica" role="menu">
                                     <li ng-repeat="item in indicador.graficas" ng-click="changeTipoGrafica(item)"  >
-                                        <a> <i class="material-icons">@{{item.icono}}</i> @{{item.nombre}}</a>
+                                        <a> <img src="@{{item.icono}}" class="icono" ></img> @{{item.nombre}}</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div> 
                     
-                    <div class="col-md-1 menu-descraga" >
+                    <div class="col-xs-12 col-md-2 menu-descraga" >
                     
                         <div class="dropdown">
-                          <button class="dropdown-toggle" type="button" data-toggle="dropdown">
-                              <i class="material-icons">menu</i>
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                              <i class="material-icons">cloud_download</i> Descargar
                           </button>
-                          <ul class="dropdown-menu">
+                          <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href id="descargarPNG" >Descargar grafica : PNG</a></li>
                            <!-- <li><a href id="descargarJPG" >Download JPG image</a></li> -->
                             <li><a href id="descargarPDF" >Descargar grafica : PDF</a></li>
@@ -124,7 +243,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr  ng-repeat="label in labels" >
+                      <tr  ng-repeat="label in labels track by $index" >
                         <td>@{{label}}</td>
                         <td>@{{data[$index]}}</td>
                         <td ng-if="dataExtra" >@{{dataExtra.media[$index]}}</td>
@@ -138,7 +257,7 @@
                     <thead>
                       <tr>
                         <th></th>
-                        <th ng-repeat="item in labels" >@{{item}}</th>
+                        <th ng-repeat="item in labelstrack by $index" >@{{item}}</th>
                       </tr>
                     </thead>
                     <tbody>
