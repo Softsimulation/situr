@@ -193,14 +193,14 @@
                                                 
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 col-md-6">
                                             <div class="form-group" ng-class="{'has-error':(formeCrearInf.$submitted || formeCrearInf.Autor.$touched) && formeCrearInf.Autor.$error.required}">
                                                 <label class="control-label" for="autor">Autor</label> <span style="font-size: .6em;color: darkgrey;" ng-if="addInformeAutor.length > 0">@{{addInformeAutor.length}} / 255</span>
                                                 <input type="text" class="form-control" name="Autor" id="autor" maxlength="255" ng-model="addInformeAutor" placeholder="Ingrese el autor del informe" required/>
                                                 
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 col-md-3">
                                             <div class="form-group" ng-class="{'has-error':(formeCrearInf.$submitted || formeCrearInf.FechaCreacion.$touched) && formeCrearInf.FechaCreacion.$error.required}">
                                                 <label class="control-label" for="FechaCreacion">Fecha de creación</label>
                                                 <adm-dtp ng-model="addInformeFechaCreacion" full-data='date_details'>
@@ -209,7 +209,7 @@
                                                
                                             </div>
                                         </div>
-                                        <div class="col-xs-12 col-md-4">
+                                        <div class="col-xs-12 col-md-3">
                                             <div class="form-group" ng-class="{'has-error':(formeCrearInf.$submitted || formeCrearInf.FechaPublicacion.$touched) && formeCrearInf.FechaPublicacion.$error.required}">
                                                 <label class="control-label" for="FechaPublicacion">Fecha de publicación</label>
                                                 <adm-dtp ng-model="addInformeFechaPublicacion" full-data='date_details'>
@@ -306,140 +306,105 @@
                         <form method="post" name="editarForm" action="/informes/editar" enctype="multipart/form-data">
                             <div class="modal-body">
 
-                                <input type="hidden"  name="id" id="id" ng-value="informeEdit.id"  />
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-8 col-md-8">
-                                        <div class="form-group">
-                                            <label class="control-label">Título</label> <abbr title="El título del informe se puede modificar al momento de editar la información de los idiomas"><span class="glyphicon glyphicon-exclamation-sign"></span></abbr>
-                                            <p class="form-control-static" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">@{{ (informeEdit.idiomas|filter:{'idioma_id':1}:true)[0].nombre }}</p>
-
+                                <fieldset>
+                                    <legend>Formulario de edición de informes</legend>
+                                    <div class="alert alert-info">Todos los campos en este formulario son obligatorios</div>
+                                    <input type="hidden"  name="id" id="id" ng-value="informeEdit.id"  />
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-8">
+                                            <div class="form-group">
+                                                <label class="control-label">Título</label> <abbr title="El título del informe se puede modificar al momento de editar la información de los idiomas"><span class="glyphicon glyphicon-exclamation-sign"></span></abbr>
+                                                <p class="form-control-static">@{{ (informeEdit.idiomas|filter:{'idioma_id':1}:true)[0].nombre }}</p>
+    
+                                            </div>
                                         </div>
-
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(editarForm.$submitted || editarForm.Volumen.$touched) && editarForm.Volumen.$error.required]">
-                                            <label class="control-label" for="editVolumen">Volumen</label> <span class="text-error" ng-show="(editarForm.$submitted || editarForm.Volumen.$touched) && editarForm.Volumen.$error.required">(El campo es obligatorio)</span>
-                                            <div class="input-group">
-                                                <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                        <div class="col-xs-12 col-md-4">
+                                            <div class="form-group" ng-class="{'has-error':(editarForm.$submitted || editarForm.Volumen.$touched) && (editarForm.Volumen.$error.required || editarForm.Volumen.$error.min)}">
+                                                <label class="control-label" for="editVolumen">Volumen</label>
                                                 <input type="number" class="form-control" name="volumen" id="editVolumen" ng-model="informeEdit.volumen" placeholder="Solo números" min="0" required />
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(editarForm.$submitted || editarForm.Volumen.$touched) && editarForm.Volumen.$error.required"></span>
+                                                <span class="text-error" ng-if="(editarForm.$submitted || editarForm.Volumen.$touched) && editarForm.Volumen.$error.min">Mín. 0</span>
                                             </div>
-
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-6">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(editarForm.$submitted || editarForm.Autor.$touched) && editarForm.Autor.$error.required]">
-                                            <label class="control-label" for="editAutor">Autor</label> <span style="font-size: .6em;color: darkgrey;" ng-if="informeEdit.Autor.length > 0">@{{informeEdit.Autor.length}} / 255</span><span class="text-error" ng-show="(editarForm.$submitted || editarForm.Autor.$touched) && editarForm.Autor.$error.required">(El campo es obligatorio)</span>
-                                            <div class="input-group">
-                                                <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="form-group" ng-class="{'has-error':(editarForm.$submitted || editarForm.Autor.$touched) && editarForm.Autor.$error.required}">
+                                                <label class="control-label" for="editAutor">Autor(es)</label>
                                                 <input type="text" class="form-control" name="autores" id="editAutor" maxlength="255" ng-model="informeEdit.autores" placeholder="Ingrese el autor del informe" required />
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(editarForm.$submitted || editarForm.Autor.$touched) && editarForm.Autor.$error.required"></span>
+                                              
                                             </div>
-
                                         </div>
-
-                                    </div>
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(editarForm.$submitted || editarForm.fechaCreacion.$touched) && editarForm.fechaCreacion.$error.required]">
-                                            <label class="control-label" for="fechaCreacion">Fecha de creación</label> <span class="text-error" ng-show="(editarForm.$submitted || editarForm.fechaCreacion.$touched) && editarForm.fechaCreacion.$error.required">(Obligatorio)</span>
-                                            <div class="input-group">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="form-group" ng-class="{'has-error':(editarForm.$submitted || editarForm.fechaCreacion.$touched) && editarForm.fechaCreacion.$error.required}">
+                                                <label class="control-label" for="fechaCreacionEdit">Fecha de creación</label>
                                                 <adm-dtp ng-model="informeEdit.fecha_creacion" full-data='date_details'>
-                                                    <input type='text' class="form-control" name="fechaCreacion" id="fechaCreacion" ng-model="informeEdit.fecha_creacion" dtp-input required placeholder="dd-mm-yyyy" />
+                                                    <input type='text' class="form-control" name="fechaCreacion" id="fechaCreacionEdit" ng-model="informeEdit.fecha_creacion" dtp-input required placeholder="dd-mm-yyyy" />
                                                 </adm-dtp>
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(editarForm.$submitted || editarForm.fechaCreacion.$touched) && editarForm.fechaCreacion.$error.required"></span>
+                                               
                                             </div>
-
                                         </div>
-
-                                    </div>
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(editarForm.$submitted || editarForm.fechaPublicacion.$touched) && editarForm.fechaPublicacion.$error.required]">
-                                            <label class="control-label" for="fechaPublicacion">Fecha de publicación</label> <span class="text-error" ng-show="(editarForm.$submitted || editarForm.fechaPublicacion.$touched) && editarForm.fechaPublicacion.$error.required">(Obligatorio)</span>
-                                            <div class="input-group">
+                                        <div class="col-xs-12 col-md-3">
+                                            <div class="form-group" ng-class="{'has-error':(editarForm.$submitted || editarForm.fechaPublicacion.$touched) && editarForm.fechaPublicacion.$error.required}">
+                                                <label class="control-label" for="fechaPublicacionEdit">Fecha de publicación</label>
                                                 <adm-dtp ng-model="informeEdit.fecha_publicacion" full-data='date_details'>
-                                                    <input type='text' class="form-control" name="fechaPublicacion" id="fechaPublicacion" ng-model="informeEdit.fecha_publicacion" dtp-input required placeholder="dd-mm-yyyy" />
+                                                    <input type='text' class="form-control" name="fechaPublicacion" id="fechaPublicacionEdit" ng-model="informeEdit.fecha_publicacion" dtp-input required placeholder="dd-mm-yyyy" />
                                                 </adm-dtp>
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(editarForm.$submitted || editarForm.fechaPublicacion.$touched) && editarForm.fechaPublicacion.$error.required"></span>
+                                              
                                             </div>
-
                                         </div>
-
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <div class="alert alert-dismissible alert-default" style="background-color: rgba(255, 255, 0,.5); box-shadow: 0px 0px 4px rgba(0,0,0,.45); margin-bottom:0;">
-                                            <button type="button" class="close" data-dismiss="alert">×</button>
-                                            <h4><strong>Tenga en cuenta que para subir documentos:</strong></h4>
-                                            <ul style="margin-left: 4%; font-size: .9em;">
-                                                <li>Los documentos subidos deben ser de formato PDF.</li>
-                                                <li>Se recomienda que el archivos a subir sea comprimido para reducir su peso. Para comprimir los archivos PDF se recomienda el uso de <a target="_blank" href="http://www.ilovepdf.com/compress_pdf">I<i class="glyphicon glyphicon-heart"></i>PDF <i class="glyphicon glyphicon-new-window" style="font-size: 1em"></i></a>, <a target="_blank" href="https://smallpdf.com/compress-pdf">SmallPDF <i class="glyphicon glyphicon-new-window" style="font-size: 1em"></i></a> o cualquier otro compresor de PDF.</li>
-
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(editarForm.$submitted || editarForm.IdTipo.$touched) && editarForm.Tipo.$error.required]">
-                                            <label class="control-label" for="editTipo">Tipo de documento</label> <span class="text-error" ng-show="(editarForm.$submitted || editarForm.Tipo.$touched) && editarForm.Tipo.$error.required">(El campo es obligatorio)</span>
-                                            <div class="input-group">
-                                                <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="form-group" ng-class="{'has-error':(editarForm.$submitted || editarForm.Tipo.$touched) && editarForm.Tipo.$error.required}">
+                                                <label class="control-label" for="editTipo">Tipo de documento</label>
                                                 <select class="form-control" name="Tipo" id="editTipo" ng-model="informeEdit.tipo_documento_id" required>
                                                     <option value="" disabled>Seleccione un tipo</option>
                                                     <option ng-repeat="tipo in tipos" value='@{{tipo.id}}' >@{{tipo.tipo_documento_idiomas[0].nombre}}</option>
                                                 </select>
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(editarForm.$submitted || editarForm.Tipo.$touched) && editarForm.Tipo.$error.required"></span>
+                                               
                                             </div>
-
                                         </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Documento</label> <span style="font-size: .6em;color: darkgrey;">(Formato permitido: PDF)</span>
-                                            <input type="file" class="form-control" name="Archivo" id="Archivo" accept=".pdf" />
-                                            <span class="messages" ng-show="formeCrearInf.$submitted || formeCrearInf.Archivo.$touched">
-                                                <span ng-show="formeCrearInf.Archivo.$error.required">* El campo es obligatorio.</span>
-                                            </span>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(editarForm.$submitted || editarForm.Categoria.$touched) && editarForm.Categoria.$error.required]">
-                                            <label class="control-label" for="editCategoria">Categoría de documento</label> <span class="text-error" ng-show="(editarForm.$submitted || editarForm.Categoria.$touched) && editarForm.Categoria.$error.required">(Obligatorio)</span>
-                                            <div class="input-group">
-                                                <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="form-group" ng-class="{'has-error':(editarForm.$submitted || editarForm.Categoria.$touched) && editarForm.Categoria.$error.required}">
+                                                <label class="control-label" for="editCategoria">Categoría de documento</label> 
                                                 <select class="form-control" name="Categoria" id="editCategoria" ng-model="informeEdit.categoria_doucmento_id" required>
                                                     <option value="" disabled>Seleccione una categoría</option>
                                                     <option ng-repeat="ctg in categorias" value='@{{ctg.id}}' >@{{ctg.categoria_documento_idiomas[0].nombre}}</option>
                                                 </select>
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(editarForm.$submitted || editarForm.Categoria.$touched) && editarForm.Categoria.$error.required"></span>
+                                               
+    
                                             </div>
-
                                         </div>
-                                        <div class="form-group">
-                                            <label>Portada</label> <span style="font-size: .6em;color: darkgrey;">(Formato permitido: PNG, JPG)</span>
-                                            <input type="file" class="form-control" name="Portada" id="Portada" accept=".jpg,.jpeg,.png" />
-                                            <span class="messages" ng-show="formeCrearInf.$submitted || formeCrearInf.Portada.$touched">
-                                                <span ng-show="formeCrearInf.Portada.$error.required">* El campo es obligatorio.</span>
-                                            </span>
+                                        <div class="col-xs-12">
+                                            <div class="alert alert-dismissible alert-info">
+                                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                                <h4><strong>Tenga en cuenta que para subir documentos:</strong></h4>
+                                                <ul style="margin-left: 4%; font-size: .9em;">
+                                                    <li>Los documentos subidos deben ser de formato PDF.</li>
+                                                    <li>Se recomienda que el archivos a subir sea comprimido para reducir su peso. Para comprimir los archivos PDF se recomienda el uso de <a target="_blank" href="http://www.ilovepdf.com/compress_pdf">I<i class="glyphicon glyphicon-heart"></i>PDF <i class="glyphicon glyphicon-new-window" style="font-size: 1em"></i></a>, <a target="_blank" href="https://smallpdf.com/compress-pdf">SmallPDF <i class="glyphicon glyphicon-new-window" style="font-size: 1em"></i></a> o cualquier otro compresor de PDF.</li>
+    
+                                                </ul>
+                                            </div>
                                         </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="form-group">
+                                                <label for="ArchivoEdit">Documento</label> <span style="font-size: .6em;color: darkgrey;">(Formato permitido: PDF)</span>
+                                                <input type="file" class="form-control" name="Archivo" id="ArchivoEdit" accept=".pdf" />
+                                                <span class="text-error" ng-show="(formeCrearInf.$submitted || formeCrearInf.Archivo.$touched) && formeCrearInf.Archivo.$error.required">* El campo es obligatorio.</span>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-md-6">
+                                            <div class="form-group">
+                                                <label for="PortadaEdit">Portada</label> <span style="font-size: .6em;color: darkgrey;">(Formato permitido: PNG, JPG)</span>
+                                                <input type="file" class="form-control" name="Portada" id="PortadaEdit" accept=".jpg,.jpeg,.png" />
+                                                <span class="text-error" ng-show="(formeCrearInf.$submitted || formeCrearInf.Portada.$touched) && formeCrearInf.Portada.$error.required">* El campo es obligatorio.</span>
+                                                <span class="text-error text-msg"><a href="@{{informeEdit.portada}}" target="_blank">Ver portada actual</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
 
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4 col-md-4">
-                                        <label style="font-style: italic; font-size: .8em;">(Portada actual)</label>
-                                        <img ng-src="@{{informeEdit.portada}}" width="180"  style="box-shadow: 0px 0px 3px 0px rgba(0,0,0,.45)"/>
-                            
-                                    </div>
-                                        
-                                </div>
-                                    
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Aceptar</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success">Guardar</button>
                             </div>
                         </form>
 
@@ -466,38 +431,30 @@
                                 </div>
                                 <div class="row" >
                                     <div class="col-xs-12">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(formIdioma.$submitted || formIdioma.idoSelectCrear.$touched) && formIdioma.idoSelectCrear.$error.required]">
-                                            <label class="control-label" for="addSelectedLang">Seleccione el idioma para el que quiere agregar información del informe</label> <span class="text-error" ng-show="(formIdioma.$submitted || formIdioma.idoSelectCrear.$touched) && editarForm.idoSelectCrear.$error.required">(Obligatorio)</span>
-                                            <div class="input-group">
-                                                <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                <select class="form-control" name="idoSelectCrear" id="addSelectedLang" ng-model="idiomaInforme.idioma_id" ng-options="idioma.id as idioma.nombre for idioma in idiomasFiltrados" ng-disabled="idiomaInforme.idioma" required >
-                                                    <option value="" disabled>Seleccione un idioma</option>
-                                                </select>
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(formIdioma.$submitted || formIdioma.idoSelectCrear.$touched) && formIdioma.idoSelectCrear.$error.required"></span>
-                                            </div>
-
+                                        <div class="form-group" ng-class="{'has-error':(formIdioma.$submitted || formIdioma.idoSelectCrear.$touched) && formIdioma.idoSelectCrear.$error.required}">
+                                            <label class="control-label" for="addSelectedLang">Seleccione el idioma para el que quiere agregar información del informe</label>
+                                            <select class="form-control" name="idoSelectCrear" id="addSelectedLang" ng-model="idiomaInforme.idioma_id" ng-options="idioma.id as idioma.nombre for idioma in idiomasFiltrados" ng-disabled="idiomaInforme.idioma" required >
+                                                <option value="" disabled>Seleccione un idioma</option>
+                                            </select>
+                                            
                                         </div>
                                     </div>
                                     
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(formIdioma.$submitted || formIdioma.tituloCrearIdo.$touched) && formIdioma.tituloCrearIdo.$error.required]">
-                                            <label class="control-label" for="addLangTitulo">Título</label> <span style="font-size: .6em;color: darkgrey;" ng-if="idiomaInforme.nombre.length > 0">@{{idiomaInforme.nombre.length}} / 255</span><span class="text-error" ng-show="(formIdioma.$submitted || formIdioma.tituloCrearIdo.$touched) && formIdioma.tituloCrearIdo.$error.required">(Obligatorio)</span>
-                                            <div class="input-group">
-                                                <div class="input-group-addon" title="Campo requerido"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                <input type="text" name="tituloCrearIdo" id="addLangTitulo" class="form-control" ng-model="idiomaInforme.nombre" required/>
-                                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback" aria-hidden="true" ng-if="(formIdioma.$submitted || formIdioma.tituloCrearIdo.$touched) && formIdioma.tituloCrearIdo.$error.required"></span>
-                                            </div>
-
+                                        <div class="form-group" ng-class="{'has-error':(formIdioma.$submitted || formIdioma.tituloCrearIdo.$touched) && formIdioma.tituloCrearIdo.$error.required}">
+                                            <label class="control-label" for="addLangTitulo">Título</label> <span style="font-size: .6em;color: darkgrey;" ng-if="idiomaInforme.nombre.length > 0">@{{idiomaInforme.nombre.length}} / 255</span>
+                                            <input type="text" name="tituloCrearIdo" id="addLangTitulo" class="form-control" ng-model="idiomaInforme.nombre" required/>
+                                          
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(formIdioma.$submitted || formIdioma.descripCrearIdo.$touched) && formIdioma.descripCrearIdo.$error.required]">
-                                            <label class="control-label" for="addLangDescripcion">Descripción</label> <span style="font-size: .6em;color: darkgrey;" ng-if="idiomaInforme.descripcion.length > 0">@{{idiomaInforme.descripcion.length}} / 500</span><span class="text-error" ng-show="(formIdioma.$submitted || formIdioma.descripCrearIdo.$touched) && formIdioma.descripCrearIdo.$error.required">(Obligatorio)</span>
+                                        <div class="form-group" ng-class="{'has-error':(formIdioma.$submitted || formIdioma.descripCrearIdo.$touched) && formIdioma.descripCrearIdo.$error.required}">
+                                            <label class="control-label" for="addLangDescripcion">Descripción</label> <span style="font-size: .6em;color: darkgrey;" ng-if="idiomaInforme.descripcion.length > 0">@{{idiomaInforme.descripcion.length}} / 500</span>
                                             <textarea class="form-control" name="descripCrearIdo" id="addLangDescripcion" style="resize: none" rows="6" ng-model="idiomaInforme.descripcion" maxlength="500" placeholder="Máx 500 caracteres" required></textarea>
 
                                         </div>
@@ -506,8 +463,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-group" ng-class="{true:'form-group has-error has-feedback',false:'form-group'}[(formIdioma.$submitted || formIdioma.palabrasCrearIdo.$touched) && formIdioma.palabrasCrearIdo.$error.required]">
-                                            <label class="control-label" for="addLangPalabrasClave">Palabras clave</label> <span style="font-size: .6em;color: darkgrey;" ng-if="idiomaInforme.palabrasclaves.length > 0">@{{idiomaInforme.palabrasclaves.length}} / 500</span><span class="text-error" ng-show="(formIdioma.$submitted || formIdioma.palabrasCrearIdo.$touched) && formIdioma.palabrasCrearIdo.$error.required">(Obligatorio)</span>
+                                        <div class="form-group" ng-class="{'has-error':(formIdioma.$submitted || formIdioma.palabrasCrearIdo.$touched) && formIdioma.palabrasCrearIdo.$error.required}">
+                                            <label class="control-label" for="addLangPalabrasClave">Palabras clave</label> <span style="font-size: .6em;color: darkgrey;" ng-if="idiomaInforme.palabrasclaves.length > 0">@{{idiomaInforme.palabrasclaves.length}} / 500</span>
                                             <textarea class="form-control" name="palabrasCrearIdo" id="addLangPalabrasClave" style="resize: none" rows="4" ng-model="idiomaInforme.palabrasclaves" maxlength="500" placeholder="Máx 500 caracteres" required></textarea>
 
                                         </div>
@@ -519,7 +476,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary" ng-click="guardarIdioama()">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="guardarIdioama()">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -557,7 +514,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary" ng-click="eliminarIdioma()">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="eliminarIdioma()">Guardar</button>
                             </div>
                         </form>
                     </div>
