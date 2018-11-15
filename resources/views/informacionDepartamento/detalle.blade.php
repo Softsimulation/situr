@@ -55,6 +55,8 @@
         <div class="container">
     <div id="contentDetalle">
         {!! $informacion->cuerpo !!}
+        
+        {{$informacion->video}}
     </div>
     
     </div>
