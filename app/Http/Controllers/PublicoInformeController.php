@@ -54,7 +54,8 @@ class PublicoInformeController extends Controller
                                                 ->orderBy('id')->paginate(10),*/
                "tipos"=> Tipo_Documento_Idioma::with(['tipoDocumento'=>function($s){$s->where('estado',true);}])->where('idioma_id',1)->get(),
                "categorias"=> Categoria_Documento_Idioma::with(['categoriaDocumento'=>function($s){$s->where("estado",true);}])->where('idioma_id',1)->get(),
-               "suscriptorExiste"=>null
+               "suscriptorExiste"=>null,
+               "exitoso"=>null
             ));
        
     }

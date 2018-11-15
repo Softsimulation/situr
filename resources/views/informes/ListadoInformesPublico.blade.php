@@ -143,6 +143,14 @@
                         </span>
                     </div>
                 @endif
+                @if($exitoso != null)
+                    <div class="alert alert-success">
+                        <h6>Aviso</h6>
+                        <span class="messages">
+                              <span>*{{$exitoso}}</span><br/>
+                        </span>
+                    </div>
+                @endif
     		</form>
     	</div>
     </div>
