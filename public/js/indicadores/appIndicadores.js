@@ -75,6 +75,8 @@
                     $scope.options.scales.yAxes[0].scaleLabel.labelString = data.indicador.idiomas[0].eje_y;
                     $scope.formato = ' ';
                 });
+                
+            indicadoresServi.getDataPivoTable(id);
         }
         
         $scope.changeTipoGrafica = function(item){
@@ -195,6 +197,12 @@
 				});
 			}
 		});
+        
+        
+        
+      
+        
+        
         
     }]);
     

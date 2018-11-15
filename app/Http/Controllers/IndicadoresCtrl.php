@@ -147,7 +147,7 @@ class IndicadoresCtrl extends Controller
                                     ->orderBy('peso', 'asc')->get();
     }
     
-    public function getDataindicador($id){
+    public function getDataindicador($id){ 
         $idioma = 1;
         $cultura = "es";
         $periodos = [];
@@ -297,6 +297,25 @@ class IndicadoresCtrl extends Controller
                      $periodos = DB::select("SELECT *from tiempo_indicadores"); 
                      $data = $this->getDataIndicadorDB("estadistica_dominio_ingles", $periodos[0], $cultura);
                      break; 
+            
+            case 30: 
+                     $periodos = DB::select("SELECT *from tiempo_indicadores"); 
+                     $data = $this->getDataIndicadorDB("estadistica_numero_empleados", $periodos[0], $cultura);
+                     break; 
+                     
+            case 31: 
+                     $periodos = DB::select("SELECT *from tiempo_indicadores"); 
+                     $data = $this->getDataIndicadorDB("estadistica_numero_empleados_tc", $periodos[0], $cultura);
+                     break; 
+            case 32: 
+                     $periodos = DB::select("SELECT *from tiempo_indicadores"); 
+                     $data = $this->getDataIndicadorDB("estadistica_remuneracion_promedio", $periodos[0], $cultura);
+                     break; 
+            
+            case 33: 
+                     $periodos = DB::select("SELECT *from tiempo_indicadores"); 
+                     $data = $this->getDataIndicadorDB("estadistica_vacantes", $periodos[0], $cultura);
+                     break; 
                 
             default: break;
         }
@@ -357,6 +376,10 @@ class IndicadoresCtrl extends Controller
             case 27: $data = $this->getDataIndicadorDB("estadistica_vinculacion_laboral", $request, $idioma); break;
             case 28: $data = $this->getDataIndicadorDB("estadistica_total_personas", $request, $idioma); break;
             case 29: $data = $this->getDataIndicadorDB("estadistica_dominio_ingles", $request, $idioma); break;
+            case 30: $data = $this->getDataIndicadorDB("estadistica_numero_empleados", $request, $idioma); break;
+            case 31: $data = $this->getDataIndicadorDB("estadistica_numero_empleados_tc", $request, $idioma); break;
+            case 32: $data = $this->getDataIndicadorDB("estadistica_remuneracion_promedio", $request, $idioma); break;
+            case 33: $data = $this->getDataIndicadorDB("estadistica_vacantes", $request, $idioma); break;
             
             default: break;
         }
@@ -364,9 +387,27 @@ class IndicadoresCtrl extends Controller
         return $data;
     }
     
+    
+    public function getDatapivotable($id){
+       
+        switch($id){
+            
+            case 1: return  DB::select("SELECT *from motivo_viaje_receptor"); break;
+            case 2: return  DB::select("SELECT *from alojamiento_receptor"); break;
+            case 3: return  DB::select("SELECT *from medio_transporte_receptor"); break;
+            case 4: return  DB::select("SELECT *from gasto_medio_receptor"); break;
+            case 5: return  DB::select("SELECT *from gasto_medio_total_receptor"); break;
+            
+            default: break;
+        }
+        
+        
+            
+    }
+    
     /////////////////////////////////////////////////////
     
-    private function getDataIndicadorDB($procedimiento, $request, $idioma){
+    private function getDataIndicadorDB($procedimiento, $request, $idioma){ 
         $data = new Collection( DB::select("SELECT *from ".$procedimiento."(?,?)", array($request->id,$idioma)) );
         return [
             "labels"=> $data->lists('tipo')->toArray(),
