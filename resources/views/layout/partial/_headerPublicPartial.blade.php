@@ -32,11 +32,16 @@
                     <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.buscar')}}</span></button>
                 </form>
                 <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                    <option value="/lang/es" selected>ES</option>
-                    <option value="/lang/en">EN</option>
+                    <!--<option value="" selected>{{Session::get('lang')}}</option>-->
+                    
+                    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>
+                    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>
                 </select>
+                @if(Auth::check())
                 <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
-                
+                @else
+                <a href="/visitante/misfavoritos" title="Mis favoritos"><span class="ion-heart" aria-hidden="true"></span><span class="sr-only">Mis favoritos</span></a>
+                @endif
             </div>
             <ul role="menubar">
                 <li>
