@@ -28,7 +28,7 @@ class HomeController extends Controller
 {
 	
 	public function getIndex(Request $request) {
-	    App::setLocale('en');
+	    
 	    $noticias = Noticia::
         join('noticias_has_idiomas', 'noticias_has_idiomas.noticias_id', '=', 'noticias.id')
         ->join('tipos_noticias', 'tipos_noticias.id', '=', 'noticias.tipos_noticias_id')

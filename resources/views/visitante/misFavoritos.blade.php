@@ -7,6 +7,7 @@
     header{
         position: static;
         background-color: black;
+        margin: 0;
     }
     
     
@@ -24,8 +25,34 @@
     .ADMdtp-box header{
         background: white;
     }
-
-        
+    .parallax {
+        /* The image used */
+        background-image: url("/res/bg.jpg");
+    
+        /* Set a specific height */
+        min-height: 280px; 
+    
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .header-bg-fixed{
+        display:flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 2% 4%;
+    }
+    .header-bg-fixed h2{
+        text-transform: uppercase;
+        background-color: white;
+        padding: .5rem 1rem;
+        border-radius: 4px;
+        margin-top: 0;
+        color: #18337e;
+    }
     </style>
     
     <link href="{{asset('/css/ADM-dateTimePicker.min.css')}}" rel='stylesheet' type='text/css' />
@@ -44,48 +71,44 @@
 
 @section('content')
 <div class="main-page" ng-app="visitanteApp" ng-controller="misFavoritosCtrl">
+    <div class="header-bg-fixed parallax">
+        <h2>Mis favoritos</h2>
+        <p>Guarda como favorito los destinos, atracciones y actividades y demás elementos que SITUR Atlántico te ofrece y planifica los viajes que realices al departamento.</p>
+    </div>
     
-    <div class="content-titulo">
-        <div>
-            <div style="text-align: center; margin-top: 1em;">
-                <a href="#" class="btn btn-default titulo-btn">Antes de viajar</a>
+    <div class="container">
+        <div class="row" ng-if="intrucciones.ver">
+            <div class="col-xs-12 col-md-6">
+                <!--Para guardar tus favoritos-->
+                <h3>Para guardar tus favoritos</h3>
+                <ul class="text-muted">
+                    <!--Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.-->
+                    <li>Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.</li>
+                    <!--Presione en el botón Guardar como favorito indicado con el icono de un corazón.-->
+                    <li>Presione en el botón Guardar como favorito indicado con el icono de un corazón.</li>
+                    <!--Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación-->
+                    <li>Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación</li>
+                </ul>
+                <!--<img src="/Content/image/instruccion_planificador_1.png" style="width: 100%; margin: 1em;" />-->
             </div>
-            <div id="titulo">
-                <h1><strong>Planifica tu viaje</strong></h1>
+            <div class="col-xs-12 col-md-6">
+                <!--Para crear un planificador-->
+                <h3>Para crear un planificador</h3>
+                <ul class="text-muted">
+                    <!--Presione el botón Crear planificador e ingrese la información solicitada.-->
+                    <li>Presione el botón Crear planificador e ingrese la información solicitada.</li>
+                    <!--Agregue los días en los que realizará alguna actividad.-->
+                    <li>Agregue los días en los que realizará alguna actividad.</li>
+                    <!--Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.-->
+                    <li>Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.</li>
+                    <!--Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.-->
+                    <li>Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.</li>
+                </ul>
+                <!--<img src="/Content/image/instruccion_planificador_2.png" style="width: 100%; margin: 1em;" />-->
             </div>
         </div>
     </div>
     
-    <div class="row" style="padding: 0; padding-left: 2%; padding-right: 2%;" ng-if="intrucciones.ver">
-        <div class="col-xs-12 col-md-6">
-            <!--Para guardar tus favoritos-->
-            <h2>Para guardar tus favoritos</h2>
-            <ul>
-                <!--Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.-->
-                <li>Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.</li>
-                <!--Presione en el botón Guardar como favorito indicado con el icono de un corazón.-->
-                <li>Presione en el botón Guardar como favorito indicado con el icono de un corazón.</li>
-                <!--Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación-->
-                <li>Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación</li>
-            </ul>
-            <img src="/Content/image/instruccion_planificador_1.png" style="width: 100%; margin: 1em;" />
-        </div>
-        <div class="col-xs-12 col-md-6">
-            <!--Para crear un planificador-->
-            <h2>Para crear un planificador</h2>
-            <ul>
-                <!--Presione el botón Crear planificador e ingrese la información solicitada.-->
-                <li>Presione el botón Crear planificador e ingrese la información solicitada.</li>
-                <!--Agregue los días en los que realizará alguna actividad.-->
-                <li>Agregue los días en los que realizará alguna actividad.</li>
-                <!--Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.-->
-                <li>Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.</li>
-                <!--Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.-->
-                <li>Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.</li>
-            </ul>
-            <img src="/Content/image/instruccion_planificador_2.png" style="width: 100%; margin: 1em;" />
-        </div>
-    </div>
     
     <div style="text-align: center;border-top: 1px solid lightgray;">
         <button type="button" class="btn btn-default" style="border-top-left-radius: 0; border-top-right-radius: 0;margin-bottom: 1em;border-top: 0;" ng-click="intrucciones.ver = !intrucciones.ver">
@@ -94,7 +117,7 @@
     </div>
     
     <div class="alert alert-danger" ng-if="errores != null">
-        <h3><b>Corrige los errores:</b></h3>
+        <h4><b>Corrige los errores:</b></h4>
         
         <div ng-repeat="error in errores">
             -@{{error[0]}}
@@ -238,7 +261,7 @@
             
             <br />
             <div class="row" ng-show="listaPlanificadores.length > 0">
-                <h2>Planificadores anteriores</h2>
+                <h2 class="col-xs-12">Planificadores anteriores</h2>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-test" dir-paginate="planificador in listaPlanificadores | orderBy: 'Fecha_inicio'|itemsPerPage:6" pagination-id="plan" ng-show="listaPlanificadores.length > 0">
                     <div id="listaplanificadores" class="panel panel-default">
                         <div class="panel-heading heading-planificador">
