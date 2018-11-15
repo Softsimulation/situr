@@ -118,8 +118,7 @@
                     <a target="_blank" href="{{$informe->ruta}}" class="btn btn-xs btn-link">Descargar PDF</a>
                 </div>
             </div>
-        </div>
-   </div>    
+        </div>  
     @endforeach
     </div>
     {!!$informes->links()!!}

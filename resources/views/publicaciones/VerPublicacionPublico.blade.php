@@ -31,6 +31,20 @@ main h1, main h2, main h3, main h4, main h5, main h6 {
     margin-top: .5rem;
     
 }
+.list-group-item:first-child {
+    border-radius: 0;
+    border-top: 0;
+}
+.list-group-item:last-child {
+    border-radius: 0;
+    border-bottom: 0;
+}
+.list-group-item {
+    border-left: 0;
+    border-right: 0;
+    padding: .5rem 1rem;
+    border-color: #eee;
+}
 </style>
 @endsection
 
@@ -47,26 +61,52 @@ main h1, main h2, main h3, main h4, main h5, main h6 {
     <blockquote style="white-space:pre-line;">{{$publicacion->resumen}}</blockquote>
     @endif
     @if($publicacion->portada && $publicacion->portada != null)
-    <img src="{{$publicacion->portada}}" class="img-responsive" alt="Imagen de presentación de {{$publicacion->titulo}}">
+    <img src="{{$publicacion->portada}}" class="img-responsive" alt="Imagen de presentación de {{$publicacion->titulo}}" style="margin-bottom: 1rem;">
+
     @endif
-    @foreach($publicacion->temas as $tema)
-    Temas
-    <p>{{$tema}}</p>
-    @endforeach
-    @foreach($publicacion->personas as $personas)
-    Personas
-    <p>{{$personas->nombres}} {{$personas->apellidos}}</p>
-    @endforeach
-    @foreach($publicacion->palabras as $palabras)
-    Palabras
-    <p>{{$palabras->nombre}}</p>
-    @endforeach
+    
     <div id="contenidoNoticia">
         {!! $publicacion->descripcion !!}
     </div>
+    @if($publicacion->temas || $publicacion->personas || $publicacion->palabras)
+    <hr>
+    @endif
+    <div class="row">
+        @if($publicacion->temas)
+        <div class="col-xs-12 col-md-4">
+            <strong>Temas</strong>
+            <ul class="list-group">
+            @foreach($publicacion->temas as $tema)
+            <li class="list-group-item">{{$tema->idiomas[0]['nombre']}}</li>
+            @endforeach
+            </ul>
+        </div>
+        @endif
+        @if($publicacion->personas)
+        <div class="col-xs-12 col-md-4">
+            <strong>Personas</strong>
+            <ul class="list-group">
+            @foreach($publicacion->personas as $personas)
+            <li class="list-group-item">{{$personas->nombres}} {{$personas->apellidos}}</li>
+            @endforeach
+            </ul>
+        </div>
+        @endif
+        @if($publicacion->palabras)
+        <div class="col-xs-12 col-md-4">
+            <strong>Palabras</strong>
+            <ul class="list-group">
+            @foreach($publicacion->palabras as $palabras)
+            <li class="list-group-item">{{$palabras->nombre}}</li>
+            @endforeach
+            </ul>
+        </div>
+        @endif
+    </div>
+   
     @if ($publicacion->ruta != null)
-    <div class="text-right">
-          <p><i>Fuente: <a href="{{$publicacion->ruta}}" target="_blank">Clic para ir a la ruta</a></i></p>  
+    <div class="text-center">
+        <a role="button" class="btn btn-lg btn-success" href="{{$publicacion->ruta}}" target="_blank"><i class="ion-android-download"></i> Descargar archivo</a>
     </div>
     @endif
     <div id="shareButtons" class="text-right">
@@ -92,7 +132,5 @@ main h1, main h2, main h3, main h4, main h5, main h6 {
  
 </div>
 
-
-{{$publicacion}}
 
 @endsection
