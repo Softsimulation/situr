@@ -92,9 +92,9 @@
                         <li role="none">
                             <a role="menuitem" href="/quehacer/?tipo=5">{{trans('resources.entidad.rutasTuristicas')}}</a>
                         </li>
-                        <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.entidad.guias')}}</a>
-                        </li>
+                        <!--<li role="none">-->
+                        <!--    <a role="menuitem" href="#">{{trans('resources.entidad.guias')}}</a>-->
+                        <!--</li>-->
                         <li role="none">
                             <a role="menuitem" href="#">{{trans('resources.entidad.alojamientos')}}</a>
                         </li>

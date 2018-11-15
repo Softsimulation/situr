@@ -91,7 +91,9 @@
                 <img src="/img/news.png" alt="" role="presentation">
                 @endif
                 <div class="text-overlap">
-                    <a href="/promocionNoticia/listado/?tipoNoticia={{$noticia->nombreTipoNoticia}}"><span class="label label-info">{{$noticia->nombreTipoNoticia}}</span></a>
+                    <!--<a href="/promocionNoticia/listado/?tipoNoticia={{$noticia->nombreTipoNoticia}}">-->
+                        <span class="label label-info">{{$noticia->nombreTipoNoticia}}</span>
+                    <!--</a>-->
                 </div>
             </div>
             <div class="tile-body">
