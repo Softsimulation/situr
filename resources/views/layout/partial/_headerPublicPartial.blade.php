@@ -34,13 +34,15 @@
                 <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                     <!--<option value="" selected>{{Session::get('lang')}}</option>-->
                     
-                    <option value="/lang/es" @if(Session::has('lang') && Session::get('lang') == 'es') selected @endif>ES</option>
-                    <option value="/lang/en" @if(Session::has('lang') && Session::get('lang') == 'en') selected @endif>EN</option>
+                    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>
+                    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>
                 </select>
                 @if(Auth::check())
-                <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
-                @else
+                <a href="/login/cerrarsesion" title="Cerrar sesión"><i class="ion-log-out"></i><span class="sr-only">Cerrar sesión</span></a>
                 <a href="/visitante/misfavoritos" title="Mis favoritos"><span class="ion-heart" aria-hidden="true"></span><span class="sr-only">Mis favoritos</span></a>
+                
+                @else
+                <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
                 @endif
             </div>
             <ul role="menubar">
@@ -120,6 +122,9 @@
                         </li>
                         <li role="none">
                             <a role="menuitem" href="/indicadores/interno">{{trans('resources.estadisticas.interno')}}</a>
+                        </li>
+                        <li role="none">
+                            <a role="menuitem" href="/indicadores/emisor">{{trans('resources.estadisticas.emisor')}}</a>
                         </li>
                         <li role="none">
                             <a role="menuitem" href="#">{{trans('resources.estadisticas.empleo')}}</a>

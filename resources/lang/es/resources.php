@@ -46,7 +46,8 @@ return [
     ],
     "estadisticas" =>[
         "receptor" => "Turismo receptor",
-        "interno" => "Turismo interno y emisor",
+        "interno" => "Turismo interno",
+        "emisor" => "Turismo emisor",
         "empleo" => "Empleo",
         "oferta" => "Oferta",
         "sostenibilidad" => "Sostenibilidad",

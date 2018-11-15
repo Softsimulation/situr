@@ -1,6 +1,6 @@
 @extends('layout._publicLayout')
 
-@section('title', 'Mis favoritos')
+@section('Title', 'Mis favoritos')
 
 @section('estilos')
     <style>
@@ -41,9 +41,11 @@
     .header-bg-fixed{
         display:flex;
         flex-wrap: wrap;
-        align-items: flex-end;
-        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
         padding: 2% 4%;
+        margin-bottom: 1rem;
     }
     .header-bg-fixed h2{
         text-transform: uppercase;
@@ -52,6 +54,20 @@
         border-radius: 4px;
         margin-top: 0;
         color: #18337e;
+    }
+    .list-group-item:first-child {
+        border-radius: 0;
+        border-top: 0;
+    }
+    .list-group-item:last-child {
+        border-radius: 0;
+        border-bottom: 0;
+    }
+    .list-group-item {
+        border-left: 0;
+        border-right: 0;
+        padding: .5rem 1rem;
+        border-color: #eee;
     }
     </style>
     
@@ -65,19 +81,20 @@
     <script src="{{asset('/js/plugins/angular.min.js')}}"></script>
 @endsection
 
-@section('TitleSection', 'Mis favoritos')
-
 
 
 @section('content')
 <div class="main-page" ng-app="visitanteApp" ng-controller="misFavoritosCtrl">
     <div class="header-bg-fixed parallax">
         <h2>Mis favoritos</h2>
-        <p>Guarda como favorito los destinos, atracciones y actividades y demás elementos que SITUR Atlántico te ofrece y planifica los viajes que realices al departamento.</p>
+        
     </div>
     
     <div class="container">
         <div class="row" ng-if="intrucciones.ver">
+            <div class="col-xs-12">
+                <p>Guarda como favorito los destinos, atracciones y actividades y demás elementos que SITUR Atlántico te ofrece y planifica los viajes que realices al departamento.</p>
+            </div>
             <div class="col-xs-12 col-md-6">
                 <!--Para guardar tus favoritos-->
                 <h3>Para guardar tus favoritos</h3>
@@ -387,7 +404,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary" ng-click="crearPlanificador()">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="crearPlanificador()">Guardar</button>
                             </div>
                         </form>
 
@@ -433,7 +450,7 @@
             				</div>
             				<div class="modal-footer">
             					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            					<button type="submit" class="btn btn-primary" ng-click="editarPlanificador()">Editar</button>
+            					<button type="submit" class="btn btn-success" ng-click="editarPlanificador()">Editar</button>
             				</div>
             			</form>
             		</div>
@@ -442,23 +459,29 @@
             
         </div>
     @else
-        <div class="row" style="padding: 0;">
-            <div class="jumbotron" style="text-align: center;font-size: 4em; padding-top: 2em; padding-bottom: 2em;">
-                <span class="glyphicon glyphicon-lock" style="font-size: 2.5em;"></span>
-                <!--Para acceder a esta funcionalidad debe iniciar sesión-->
-                <h2>Para acceder a esta funcionalidad debe iniciar sesión</h2>
-                <!--Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal-->
-                <p>Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal</p>
-                <div class="row">
-                    <div class="col-xs-6 col-md-6 col-md-6" style="text-align: right;">
-                        <a href="/Account/Login" class="btn btn-lg btn-default">Iniciar sesión</a>
-                    </div>
-                    <div class="col-xs-6 col-md-6 col-md-6" style="text-align: left;">
-                        <a href="/Account/Register" class="btn btn-lg btn-success">Registrarse</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="jumbotron" style="text-align: center;font-size: 4em; padding-top: 2em; padding-bottom: 2em;">
+                    <span class="glyphicon glyphicon-lock" style="font-size: 2.5em;"></span>
+                    <!--Para acceder a esta funcionalidad debe iniciar sesión-->
+                    <h2>Para acceder a esta funcionalidad debe iniciar sesión</h2>
+                    <!--Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal-->
+                    <p>Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal</p>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6 col-md-6" style="text-align: right;">
+                            <a href="/login/login" class="btn btn-lg btn-default">Iniciar sesión</a>
+                        </div>
+                        <!--<div class="col-xs-6 col-md-6 col-md-6" style="text-align: left;">-->
+                        <!--    <a href="/Account/Register" class="btn btn-lg btn-success">Registrarse</a>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
+            
         </div>
+    </div>
+        
     @endif
     
     <div class='carga'>
