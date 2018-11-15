@@ -21,7 +21,7 @@
 @section('content')
     <div class="container">
         <h2 class="text-danger text-center">{{$informacion->titulo}}</h2>
-    </div>
+    
         @if(count($informacion->imagenes) > 0)
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
@@ -52,7 +52,6 @@
         </div>
         <br>
         @endif
-        <div class="container">
     <div id="contentDetalle">
         {!! $informacion->cuerpo !!}
         

@@ -17,8 +17,8 @@ class InformacionDepartamentoCtrl extends Controller
     public function __construct()
     {
        
-        $this->middleware('auth');
-        $this->middleware('role:Admin|Promocion');
+        $this->middleware('auth',['except' => ['AcercaDe','Requisitos'] ]);
+        $this->middleware('role:Admin|Promocion',['except' => ['AcercaDe','Requisitos'] ]);
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }

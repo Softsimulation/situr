@@ -324,7 +324,7 @@ class IndicadoresCtrl extends Controller
                 "periodos"=> $periodos,
                 "indicador"=> Indicadores_medicion::where( "id",$id )
                                                   ->with([ 
-                                                            "idiomas"=>function($q) use($idioma){ $q->where("idioma_id", $idioma)->select("id","indicadores_medicion_id","nombre","eje_x","eje_y"); }, 
+                                                            "idiomas"=>function($q) use($idioma){ $q->where("idioma_id", $idioma)->select("id","indicadores_medicion_id","nombre", "descripcion","eje_x","eje_y"); }, 
                                                             "graficas"=>function($q){ $q->select("id","nombre","icono","codigo"); }
                                                         ])->first(),
                 "data"=> $data

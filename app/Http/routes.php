@@ -62,6 +62,11 @@ Route::get('/entidadesAsociadas', function () {
     return view('publico.situr.entidadesAsociadas');
   
 });
+Route::get('/registrar', function () {
+
+    return view('publico.situr.registrar');
+  
+});
 Route::get('/listados', function () {
 
     return view('publico.listados.index');

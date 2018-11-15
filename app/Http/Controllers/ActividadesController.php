@@ -6,6 +6,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Actividad;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Comentario_Actividad;
+use Carbon\Carbon;
+
 use App\Models\Actividad_Favorita;
 
 class ActividadesController extends Controller
@@ -17,6 +23,7 @@ class ActividadesController extends Controller
         $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
+
     
     public function getVer($id){
         if ($id == null){
@@ -51,6 +58,7 @@ class ActividadesController extends Controller
         return view('actividades.Ver', ['actividad' => $actividad]);
     }
     
+
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $actividad = Actividad::find($request->actividad_id);
@@ -144,6 +152,8 @@ class ActividadesController extends Controller
         
         return redirect('actividades/ver/'.$request->id)->with('success','Comentario guardado correctamente');
     }
+
+
     
     
 }

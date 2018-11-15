@@ -139,6 +139,7 @@
     
   </ul>
 </div>
+
 <br>
 
 <div ng-if="indicador == undefined" class="text-center">
@@ -257,7 +258,11 @@
                     
                 </div>
             </div>
-    
+           
+           <p>
+               Descripción: @{{indicador.idiomas[0].descripcion}}
+           </p>
+           
             <div class="panel panel-default" ng-show="data.length>0" >
                     <div class="panel-heading">
                         <i class="material-icons">table_chart</i> <span id="tituloIndicadorGrafica" > @{{tituloIndicadorGrafica}} </span>

@@ -105,21 +105,20 @@
                 <img src="/res/report.png" alt="" role="presentation">
                 @endif
                 <div class="text-overlap">
-                    <span class="label label-info">{{$informe->tipoInforme}}</span>
+                    <span class="label label-info">{{$informe->tipoInforme}}</span><br>
                     <span class="label label-warning">{{$informe->categoriaInforme}}</span>
                 </div>
             </div>
             <div class="tile-body">
                 <div class="tile-caption">
-                    <h3><a href="/promocionNoticia/ver/{{$informe->idNoticia}}">{{$informe->tituloInforme}}</a></h3>
+                    <h3><a target="_blank" href="{{$informe->ruta}}">{{$informe->tituloInforme}}</a></h3>
                 </div>
                 <p class="text-muted">{{$informe->descripcion}}</p>
                 <div class="text-right">
                     <a target="_blank" href="{{$informe->ruta}}" class="btn btn-xs btn-link">Descargar PDF</a>
                 </div>
             </div>
-        </div>
-   </div>    
+        </div>  
     @endforeach
     </div>
     {!!$informes->links()!!}
@@ -128,6 +127,32 @@
         <p>No hay elementos publicados en este momento.</p>
     </div>
     @endif
+    <div class="row">
+    	<div class="col-xs-12">
+    		<form name="guardarSuscriptor" action="/suscriptores/guardarsuscriptor" method="post">
+    			<div class="form-group">
+                    <input type="email" class="form-control" name="emailSuscriptor" id="emailSuscriptor" placeholder="Ingrese el correo donde desea recibir las notificaciones"/>
+					<button type="submit" class="btn btn-success">Enviar</button>
+                </div>
+                @if($suscriptorExiste != null)
+                    <div class="alert alert-warning">
+                        <h6>Aviso</h6>
+                        <span class="messages">
+                              <span>*{{$suscriptorExiste}}</span><br/>
+                        </span>
+                    </div>
+                @endif
+                @if($exitoso != null)
+                    <div class="alert alert-success">
+                        <h6>Aviso</h6>
+                        <span class="messages">
+                              <span>*{{$exitoso}}</span><br/>
+                        </span>
+                    </div>
+                @endif
+    		</form>
+    	</div>
+    </div>
     <!--@if ($informes != null || count($informes) > 0)
         @foreach ($informes as $informe)
             Tipo de informe : {{$informe->tipoInforme}}
