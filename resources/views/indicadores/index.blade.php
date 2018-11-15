@@ -160,7 +160,6 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    
                     <form name="form" >
                         <div class="row filtros" >
                             <div class="col-xs-12 col-md-3" >
@@ -247,11 +246,6 @@
                       chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-colors="colores" chart-dataset-override="override" >
                     </canvas>
                     
-                    <!--
-                    <a class="item-footer" style="float:left;margin-bottom:-20px;" href data-toggle="modal" data-target="#modalData"  >
-                        <i class="material-icons">table_chart</i> Tabla de datos
-                    </a>
-                    -->
                     <a class="item-footer" style="float:right;margin-right: 10px;" href="http://www.citur.gov.co/" target="_blank"  >
                         <img src="/Content/image/presentacion_CITUR-01.png" width="65">
                     </a>
@@ -330,28 +324,6 @@
     
     
 </div>
-
-<!--
-<div class="modal" tabindex="-1" role="dialog" id="modalData" >
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"> @{{indicador.idiomas[0].nombre}} </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
--->
 
 @endsection
 
