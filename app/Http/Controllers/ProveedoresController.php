@@ -7,13 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests;
 use App\Models\Proveedor;
-<<<<<<< HEAD
 use App\Models\Comentario_Proveedor;
 use Carbon\Carbon;
-=======
 use App\Models\Proveedor_Favorito;
-
->>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
 class ProveedoresController extends Controller
 {
     
@@ -23,13 +19,6 @@ class ProveedoresController extends Controller
         $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
-    
-    //
-    
-        public function __construct()
-	{
-	    $this->user = Auth::user();
-	}
     //
     public function getVer($id){
         if ($id == null){
@@ -76,7 +65,6 @@ class ProveedoresController extends Controller
         return view('proveedor.Ver', ['proveedor' => $proveedor, 'video_promocional' => $video_promocional]);
     }
     
-<<<<<<< HEAD
     public function postGuardarcomentario(Request $request){
 	   
 	   $validator = \Validator::make($request->all(), [
@@ -115,7 +103,7 @@ class ProveedoresController extends Controller
         $proveedor->save();
         
         return redirect('proveedor/ver/'.$request->id)->with('success','Comentario guardado correctamente');
-=======
+    }
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $proveedor = Proveedor::find($request->proveedor_id);
@@ -156,7 +144,6 @@ class ProveedoresController extends Controller
                 return ["success" => true]; 
             }
         }
->>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
     }
     
 }

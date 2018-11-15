@@ -6,21 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Actividad;
-<<<<<<< HEAD
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Comentario_Actividad;
 use Carbon\Carbon;
-class ActividadesController extends Controller
-{
-
-    public function __construct()
-	{
-	    $this->user = Auth::user();
-	}
-	
-=======
 use App\Models\Actividad_Favorita;
 
 class ActividadesController extends Controller
@@ -32,8 +22,6 @@ class ActividadesController extends Controller
         $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
-    
->>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
     public function getVer($id){
         if ($id == null){
             return response('Bad request.', 400);
@@ -66,8 +54,6 @@ class ActividadesController extends Controller
         //return ['actividad' => $actividad];
         return view('actividades.Ver', ['actividad' => $actividad]);
     }
-    
-<<<<<<< HEAD
     
         public function postGuardarcomentario(Request $request){
 	   
@@ -120,8 +106,6 @@ class ActividadesController extends Controller
         
         return redirect('actividades/ver/'.$request->id)->with('success','Comentario guardado correctamente');
     }
-    
-=======
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $actividad = Actividad::find($request->actividad_id);
@@ -163,6 +147,5 @@ class ActividadesController extends Controller
             }
         }
     }
->>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
     
 }
