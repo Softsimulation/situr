@@ -28,10 +28,8 @@ class QueHacerController extends Controller
      * La fecha inicial y final solo aplica para el tipo 4 (Eventos)
      * para el resto de tipos las fechas tienen por default 'NOW()'
      * */
-    private function queHacerData ($idIdioma, $request){
-        if (Idioma::find($idIdioma) == null){
-            return ['success' => false, 'msg' => 'El idioma especificado no se encuentra registrado en la base de datos.'];
-        }
+    private function queHacerData (){
+        $idIdioma = \Config::get('app.locale') == 'es' ? 1 : 2;
         
         
         $query = DB::select("(SELECT actividades.id AS id,  
@@ -39,6 +37,7 @@ class QueHacerController extends Controller
                  1 AS tipo, 
                  NOW() AS fecha_inicio, 
                  NOW() AS fecha_fin, 
+                 actividades.sugerido AS sugerido,  
                  actividades_con_idiomas.nombre AS nombre,
                  multimedias_actividades.ruta AS portada 
              FROM actividades INNER JOIN actividades_con_idiomas ON actividades_con_idiomas.actividades_id = actividades.id AND actividades_con_idiomas.idiomas = ?
@@ -49,6 +48,7 @@ class QueHacerController extends Controller
                  2 AS tipo, 
                  NOW() AS fecha_inicio, 
                  NOW() AS fecha_fin, 
+                 atracciones.sugerido AS sugerido, 
                  sitios_con_idiomas.nombre AS nombre,
                  multimedia_sitios.ruta AS portada 
              FROM atracciones INNER JOIN sitios ON sitios.id = atracciones.sitios_id 
@@ -60,6 +60,7 @@ class QueHacerController extends Controller
                  3 AS tipo, 
                  NOW() AS fecha_inicio, 
                  NOW() AS fecha_fin, 
+                 destino.sugerido AS sugerido, 
                  destino_con_idiomas.nombre AS nombre, 
                  multimedia_destino.ruta AS portada 
              FROM destino INNER JOIN destino_con_idiomas ON destino.id = destino_con_idiomas.destino_id AND destino_con_idiomas.idiomas_id = ? 
@@ -70,6 +71,7 @@ class QueHacerController extends Controller
                  4 AS tipo, 
                  eventos.fecha_in AS fecha_inicio, 
                  eventos.fecha_fin AS fecha_fin, 
+                 eventos.sugerido AS sugerido, 
                  eventos_con_idiomas.nombre AS nombre,
                  multimedia_evento.ruta AS portada 
              FROM eventos INNER JOIN eventos_con_idiomas ON eventos.id = eventos_con_idiomas.eventos_id AND eventos_con_idiomas.idiomas_id = ? 
@@ -80,6 +82,7 @@ class QueHacerController extends Controller
                  5 AS tipo, 
                  NOW() AS fecha_inicio, 
                  NOW() AS fecha_fin, 
+                 rutas.sugerido AS sugerido, 
                  rutas_con_idiomas.nombre AS nombre,
                  rutas.portada AS portada 
              FROM rutas INNER JOIN rutas_con_idiomas ON rutas.id = rutas_con_idiomas.ruta_id AND rutas_con_idiomas.idioma_id = ?  

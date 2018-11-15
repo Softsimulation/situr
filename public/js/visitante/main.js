@@ -141,7 +141,7 @@ angular.module('visitanteApp', ["visitanteService","ADM-dateTimePicker","ui.sele
         visitanteServi.GuardarPlanificador($scope.planificadores[0]).then(function(data) {
             if(data.success) {
                 swal("Realizado", "Se ha guardado satisfactoriamente el planificador.", "success");
-                // window.location = '/visitante/misfavoritos';
+                window.location = '/visitante/misfavoritos';
             } else {
                 $scope.errores = data.errores;
                 swal("Error", "Por favor verifique la información", "error");

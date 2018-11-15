@@ -49,8 +49,8 @@ function parse_yturl($url)
 @endsection
 
 @section('meta_og')
-<meta property="og:title" content="Conoce {{$actividad->actividadesConIdiomas[0]->nombre}} en el departamento del Magdalena" />
-<meta property="og:image" content="{{asset('/res/img/brand/128.png')}}" />
+<meta property="og:title" content="{{$actividad->actividadesConIdiomas[0]->nombre}}. Miralo en SITUR Atlántico" />
+<meta property="og:image" content="{{asset('/res/logo/black/128.png')}}" />
 <meta property="og:description" content="{{$actividad->actividadesConIdiomas[0]->descripcion}}"/>
 @endsection
 
@@ -209,11 +209,10 @@ function parse_yturl($url)
             <h3 class="title-section">Comentarios</h3>
             <p class="text-center">Te invitamos a que compartas tu opinión acerca de {{$actividad->actividadesConIdiomas[0]->nombre}}.</p>   
             <div class="text-center">
-                <div class="text-center">
                 <a id="btn-share-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{\Request::url()}}" class="btn btn-primary" target="_blank" rel="noopener noreferrer"><span class="ion-social-facebook" aria-hidden="true"></span> Facebook</a>
                 <a id="btn-share-twitter" href="https://twitter.com/home?status=Realiza {{$actividad->actividadesConIdiomas[0]->nombre}} en el departamento del Atlántico. Conoce más en {{\Request::url()}}" class="btn btn-info" target="_blank" rel="noopener noreferrer"><span class="ion-social-twitter" aria-hidden="true"></span> Twitter</a>
                 <a id="btn-share-googleplus" href="https://plus.google.com/share?url={{\Request::url()}}" class="btn btn-danger" target="_blank" rel="noopener noreferrer"><span class="ion-social-googleplus" aria-hidden="true"></span> Google +</a>
-            </div>
+            
             </div>
             <div class="row" id="puntajes">
                 <div class="col-xs-12 col-md-4">
@@ -409,13 +408,23 @@ function parse_yturl($url)
             </div>
             @endif
             
-                     <ul class="list-group list-group-flush">
-                    @foreach ($actividad->comentariosActividads as $comentario)
-                         <li>{{$comentario->user->username}} {{$comentario->comentario}}</li>
-                    @endforeach
-                      
-                               
-                </ul>
+            @if(count($actividad->comentariosActividads) > 0)
+            <h3>Comentarios <small>({{count($actividad->comentariosActividads)}})</small></h3>
+            <hr>
+             <ul class="list-group list-group-flush no-list-style">
+                @foreach ($actividad->comentariosActividads as $comentario)
+                     <li class="list-group-item">
+                         <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+
+                        <blockquote>
+                        {{$comentario->comentario}}
+                        </blockquote>
+                    </li>
+                @endforeach
+                  
+                           
+            </ul>
+            @endif
             
             
         </div>

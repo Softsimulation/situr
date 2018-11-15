@@ -1,5 +1,5 @@
 @extends('layout._publicLayout')
-@section('title', $publicacion->titulo)
+@section('Title', $publicacion->titulo)
 @section('estilos')
 <style>
 header{
@@ -46,6 +46,12 @@ main h1, main h2, main h3, main h4, main h5, main h6 {
     border-color: #eee;
 }
 </style>
+@endsection
+
+@section('meta_og')
+<meta property="og:title" content="{{$publicacion->titulo}}. Miralo en SITUR Magdalena" />
+<meta property="og:image" content="{{asset('/res/logo/black/128.png')}}" />
+<meta property="og:description" content="{{$publicacion->resumen}}"/>
 @endsection
 
 @section('content')

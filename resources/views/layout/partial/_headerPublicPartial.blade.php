@@ -31,12 +31,19 @@
                     <input type="text" placeholder="Buscar..." name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
                     <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.buscar')}}</span></button>
                 </form>
-                <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}">
-                    <option value="es" selected>ES</option>
-                    <option value="en">EN</option>
+                <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <!--<option value="" selected>{{Session::get('lang')}}</option>-->
+                    
+                    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>
+                    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>
                 </select>
-                <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
+                @if(Auth::check())
+                <a href="/login/cerrarsesion" title="Cerrar sesión"><i class="ion-log-out"></i><span class="sr-only">Cerrar sesión</span></a>
+                <a href="/visitante/misfavoritos" title="Mis favoritos"><span class="ion-heart" aria-hidden="true"></span><span class="sr-only">Mis favoritos</span></a>
                 
+                @else
+                <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
+                @endif
             </div>
             <ul role="menubar">
                 <li>
@@ -117,16 +124,19 @@
                             <a role="menuitem" href="/indicadores/interno">{{trans('resources.estadisticas.interno')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.empleo')}}</a>
+                            <a role="menuitem" href="/indicadores/emisor">{{trans('resources.estadisticas.emisor')}}</a>
+                        </li>
+                        <li role="none">
+                            <a role="menuitem" href="/indicadores/empleo">{{trans('resources.estadisticas.empleo')}}</a>
                         </li>
                         <li role="none">
                             <a role="menuitem" href="/indicadores/oferta">{{trans('resources.estadisticas.oferta')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="/indicadores/receptor">{{trans('resources.estadisticas.sostenibilidad')}}</a>
+                            <a role="menuitem" href="#">{{trans('resources.estadisticas.sostenibilidad')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.secundarias')}}</a>
+                            <a role="menuitem" href="/indicadores/secundarios">{{trans('resources.estadisticas.secundarias')}}</a>
                         </li>
                     </ul> 
                     

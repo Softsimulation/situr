@@ -359,13 +359,23 @@ function parse_yturl($url)
             
         </div>
         
-        
-          <ul class="list-group list-group-flush">
-                    @foreach ($atraccion->comentariosAtracciones as $comentario)
-                         <li>{{$comentario->user->username}} {{$comentario->comentario}} {{$comentario->llegar}}</li>
-                    @endforeach
-                      
+        @if(count($atraccion->comentariosAtracciones) > 0)
+        <h3>Comentarios <small>({{count($atraccion->comentariosAtracciones)}})</small></h3>
+        <hr>
+         <ul class="list-group list-group-flush no-list-style">
+            @foreach ($atraccion->comentariosAtracciones as $comentario)
+                 <li class="list-group-item">
+                     <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+
+                    <blockquote>
+                    {{$comentario->comentario}}
+                    </blockquote>
+                </li>
+            @endforeach
+              
+                       
         </ul>
+        @endif
     </section>
 @if(Auth::check())
         <div class="text-center">

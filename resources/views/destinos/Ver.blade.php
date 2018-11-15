@@ -48,13 +48,14 @@ function parse_yturl($url)
             .nav-bar nav>ul li ul a, .submenu{
                 background-color:white;
             }
+            
         </style>
     @endif
 @endsection
 
 @section('meta_og')
 <meta property="og:title" content="Conoce {{$destino->destinoConIdiomas[0]->nombre}} en el departamento del Atlántico" />
-<meta property="og:image" content="{{asset('/res/img/brand/128.png')}}" />
+<meta property="og:image" content="{{asset('/res/logo/black/128.png')}}" />
 <meta property="og:description" content="{{$destino->destinoConIdiomas[0]->descripcion}}"/>
 @endsection
 
@@ -233,14 +234,23 @@ function parse_yturl($url)
     		        </small>
                 </div>
             </div>
-            
-             <ul class="list-group list-group-flush">
-                    @foreach ($destino->comentariosDestinos as $comentario)
-                         <li>{{$comentario->user->username}} {{$comentario->comentario}}</li>
-                    @endforeach
-                      
-                               
-                </ul>
+            @if(count($destino->comentariosDestinos) > 0)
+            <h3>Comentarios <small>({{count($destino->comentariosDestinos)}})</small></h3>
+            <hr>
+             <ul class="list-group list-group-flush no-list-style">
+                @foreach ($destino->comentariosDestinos as $comentario)
+                     <li class="list-group-item">
+                         <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+
+                        <blockquote>
+                        {{$comentario->comentario}}
+                        </blockquote>
+                    </li>
+                @endforeach
+                  
+                           
+            </ul>
+            @endif
     </section>
     @if(Auth::check())
             <div class="text-center">
