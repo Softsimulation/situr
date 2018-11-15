@@ -63,8 +63,7 @@ Route::get('/entidadesAsociadas', function () {
   
 });
 Route::get('/registrar', function () {
-
-    return view('publico.situr.registrar');
+    return view('publico.situr.registrar',array('errores' => null,'mensajeExito'=>null));
   
 });
 Route::get('/listados', function () {
@@ -159,18 +158,24 @@ Route::group(['prefix' => 'publicaciones','middleware'=>'auth'], function () {
 
 Route::controller('/bolsaEmpleo','BolsaEmpleoController');
 
-Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
+
 
 Route::controller('/postulado','PostuladoController');
 
 
 
 Route::controller('/noticias','NoticiaController');
+/*
 Route::controller('/promocionNoticia','PublicoNoticiaController');
 Route::controller('/promocionInforme','PublicoInformeController');
-Route::controller('/promocionPublicacion','PublicoPublicacionController');
+Route::controller('/promocionPublicacion','PublicoPublicacionController');*/
 Route::controller('/sliders','SliderController');
 Route::controller('/suscriptores','SuscriptoreController');
+Route::controller('/registrar','RegistrarController');
+
+//Route::controller('/','HomeController');
+
+
 
 
 
@@ -200,6 +205,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::controller('/proveedor', 'ProveedoresController');
     
     Route::controller('/actividades', 'ActividadesController');
+    
+    Route::controller('/promocionNoticia', 'PublicoNoticiaController');
+    
+    Route::controller('/promocionPublicacion', 'PublicoPublicacionController');
+    
+    Route::controller('/promocionInforme', 'PublicoInformeController');
+    
+    Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
  
     Route::controller('/','HomeController');
  

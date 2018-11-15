@@ -18,6 +18,7 @@ class PublicoBolsaEmpleoController extends Controller
     public function __construct()
 	{
 	    $this->middleware('auth', ['only' => ['getMispostulaciones'] ]);
+	    $this->idioma_id = \Config::get('app.locale') == "en" ? 2 : 1;
 	}
     
     public function getVer($id){

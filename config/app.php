@@ -170,7 +170,8 @@ return [
         //Api token 
         'Tymon\JWTAuth\Providers\JWTAuthServiceProvider',
         
-        Chumper\Zipper\ZipperServiceProvider::class
+        Chumper\Zipper\ZipperServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class
 
     ],
 
@@ -228,7 +229,8 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'JWTAuth' => 'Tymon\JWTAuth\Facades\JWTAuth',
         'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory',
-        'Zipper' => Chumper\Zipper\Zipper::class
+        'Zipper' => Chumper\Zipper\Zipper::class,
+        'Socialite'=> Laravel\Socialite\Facades\Socialite::class
 
 
     ],

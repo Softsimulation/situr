@@ -127,16 +127,16 @@
                             <a role="menuitem" href="/indicadores/emisor">{{trans('resources.estadisticas.emisor')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.empleo')}}</a>
+                            <a role="menuitem" href="/indicadores/empleo">{{trans('resources.estadisticas.empleo')}}</a>
                         </li>
                         <li role="none">
                             <a role="menuitem" href="/indicadores/oferta">{{trans('resources.estadisticas.oferta')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="/indicadores/receptor">{{trans('resources.estadisticas.sostenibilidad')}}</a>
+                            <a role="menuitem" href="#">{{trans('resources.estadisticas.sostenibilidad')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.estadisticas.secundarias')}}</a>
+                            <a role="menuitem" href="/indicadores/secundarios">{{trans('resources.estadisticas.secundarias')}}</a>
                         </li>
                     </ul> 
                     

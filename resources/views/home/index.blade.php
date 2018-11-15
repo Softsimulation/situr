@@ -15,6 +15,14 @@
         font-size: 0.875rem;
         color: grey;
     }
+    .invert-img{
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+    }
 </style>
 @endsection
 
@@ -75,8 +83,11 @@
                     <li id="turismoReceptor">
                         <a role="button" href="/indicadores/receptor"><span class="sprite estadisticas-receptor invert" aria-hidden="true"></span> {{trans('resources.estadisticas.receptor')}}</a>
                     </li>
+                    <li id="turismoInternoInterno">
+                        <a role="button" href="/indicadores/interno"><span class="sprite estadisticas-emisor invert invert-img" aria-hidden="true"></span> {{trans('resources.estadisticas.interno')}}</a>
+                    </li>
                     <li id="turismoInternoEmisor">
-                        <a role="button" href="/indicadores/emisor"><span class="sprite estadisticas-emisor invert" aria-hidden="true"></span> {{trans('resources.estadisticas.interno')}}</a>
+                        <a role="button" href="/indicadores/emisor"><span class="sprite estadisticas-emisor invert" aria-hidden="true"></span> {{trans('resources.estadisticas.emisor')}}</a>
                     </li>
                     <li id="turismoEmpleo">
                         <a role="button" href="#"><span class="sprite estadisticas-empleo invert" aria-hidden="true"></span> {{trans('resources.estadisticas.empleo')}}</a>
