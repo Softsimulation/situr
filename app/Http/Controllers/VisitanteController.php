@@ -27,6 +27,7 @@ class VisitanteController extends Controller
         
         $this->middleware('auth',['except' => ['getMiplanificador','getPlanificador', 'getMisfavoritos', 'getFavoritos'] ]);
         $this->user = \Auth::user();
+        $this->idioma_id = \Config::get('app.locale') == "en" ? 2 : 1;
     }
     
     public function getMisfavoritos(){
@@ -41,7 +42,7 @@ class VisitanteController extends Controller
                             ->join('atracciones','atracciones_favoritas.atracciones_id','=','atracciones.id')
                             ->join('sitios_con_idiomas', function($join){
                                 $join->on('atracciones.sitios_id', '=','sitios_con_idiomas.sitios_id')
-                                ->where('sitios_con_idiomas.idiomas_id','=', 1);
+                                ->where('sitios_con_idiomas.idiomas_id','=', $this->idioma_id);
                             })
                             ->join('multimedia_sitios', function($join){
                                 $join->on('atracciones.sitios_id','=','multimedia_sitios.sitios_id')
@@ -52,7 +53,7 @@ class VisitanteController extends Controller
             $actividades = Actividad_Favorita::where('usuario_id', $this->user->id)
                             ->join('actividades_con_idiomas', function($join){
                                 $join->on('actividades_favoritas.actividades_id', '=', 'actividades_con_idiomas.actividades_id')
-                                ->where('actividades_con_idiomas.idiomas','=',1);
+                                ->where('actividades_con_idiomas.idiomas','=',$this->idioma_id);
                             })
                             ->join('multimedias_actividades', function($join){
                                 $join->on('multimedias_actividades.actividades_id', '=', 'actividades_favoritas.actividades_id')
@@ -65,7 +66,7 @@ class VisitanteController extends Controller
                             ->join('proveedores_rnt', 'proveedores_rnt.id', '=', 'proveedores.proveedor_rnt_id')
                             ->join('proveedores_rnt_idiomas', function($join){
                                 $join->on('proveedores_rnt.id', '=', 'proveedores_rnt_idiomas.proveedor_rnt_id')
-                                ->where('proveedores_rnt_idiomas.idioma_id','=', 1);
+                                ->where('proveedores_rnt_idiomas.idioma_id','=', $this->idioma_id);
                             })
                             ->join('multimedias_proveedores', function($join){
                                 $join->on('proveedores.id','=','multimedias_proveedores.proveedor_id')
@@ -77,7 +78,7 @@ class VisitanteController extends Controller
                         ->join('eventos','eventos_favoritas.eventos_id', '=', 'eventos.id')
                         ->join('eventos_con_idiomas', function($join){
                             $join->on('eventos_con_idiomas.eventos_id', '=' , 'eventos_favoritas.eventos_id')
-                            ->where('eventos_con_idiomas.idiomas_id', '=', 1);
+                            ->where('eventos_con_idiomas.idiomas_id', '=', $this->idioma_id);
                         })
                         ->join('multimedia_evento', function($join){
                             $join->on('eventos_favoritas.eventos_id', '=', 'multimedia_evento.eventos_id')
@@ -104,7 +105,7 @@ class VisitanteController extends Controller
                                                 ->join('atracciones','planificador_atracciones.atracciones_id','=','atracciones.id')
                                                 ->join('sitios_con_idiomas', function($join){
                                                     $join->on('atracciones.sitios_id', '=','sitios_con_idiomas.sitios_id')
-                                                    ->where('sitios_con_idiomas.idiomas_id','=', 1);
+                                                    ->where('sitios_con_idiomas.idiomas_id','=', $this->idioma_id);
                                                 })
                                                 ->join('multimedia_sitios', function($join){
                                                     $join->on('atracciones.sitios_id','=','multimedia_sitios.sitios_id')
@@ -115,7 +116,7 @@ class VisitanteController extends Controller
                     $actividadesSeleccionadas = Planificador_Actividad::where('planificador_id', $planificador->id)->where('dia', $i)
                                                 ->join('actividades_con_idiomas', function($join){
                                                     $join->on('planificador_actividades.actividades_id', '=', 'actividades_con_idiomas.actividades_id')
-                                                    ->where('actividades_con_idiomas.idiomas','=',1);
+                                                    ->where('actividades_con_idiomas.idiomas','=',$this->idioma_id);
                                                 })
                                                 ->join('multimedias_actividades', function($join){
                                                     $join->on('multimedias_actividades.actividades_id', '=', 'planificador_actividades.actividades_id')
@@ -128,7 +129,7 @@ class VisitanteController extends Controller
                                                 ->join('proveedores_rnt', 'proveedores_rnt.id', '=', 'proveedores.proveedor_rnt_id')
                                                 ->join('proveedores_rnt_idiomas', function($join){
                                                     $join->on('proveedores_rnt.id', '=', 'proveedores_rnt_idiomas.proveedor_rnt_id')
-                                                    ->where('proveedores_rnt_idiomas.idioma_id','=', 1);
+                                                    ->where('proveedores_rnt_idiomas.idioma_id','=', $this->idioma_id);
                                                 })
                                                 ->join('multimedias_proveedores', function($join){
                                                     $join->on('proveedores.id','=','multimedias_proveedores.proveedor_id')
@@ -140,7 +141,7 @@ class VisitanteController extends Controller
                                             ->join('eventos','planificador_eventos.eventos_id', '=', 'eventos.id')
                                             ->join('eventos_con_idiomas', function($join){
                                                 $join->on('eventos_con_idiomas.eventos_id', '=' , 'planificador_eventos.eventos_id')
-                                                ->where('eventos_con_idiomas.idiomas_id', '=', 1);
+                                                ->where('eventos_con_idiomas.idiomas_id', '=', $this->idioma_id);
                                             })
                                             ->join('multimedia_evento', function($join){
                                                 $join->on('planificador_eventos.eventos_id', '=', 'multimedia_evento.eventos_id')
@@ -173,9 +174,11 @@ class VisitanteController extends Controller
 			'Fecha_inicio' => 'required',
 			'Nombre' => 'required|max:250',
 			'Dias'=> 'required|min:1',
-			'Dias.*.items.*.orden' => 'required|min:1'
+			'Dias.*.Items' => 'required|min:1',
+			'Dias.*.Items.*.Orden' => 'required|min:1'
     	],[
-       		
+       		'Dias.*.Items.required' => 'Verifique que los días del planificador tenga por lo menos un ítem.',
+       		'Dias.*.Items.min' => 'Verifique que los días del planificador tenga por lo menos un ítem.',
     	]);
        
     	if($validator->fails()){
@@ -306,7 +309,7 @@ class VisitanteController extends Controller
                                         ->join('sitios','atracciones.sitios_id', '=', 'sitios.id')
                                         ->join('sitios_con_idiomas', function($join){
                                             $join->on('atracciones.sitios_id', '=','sitios_con_idiomas.sitios_id')
-                                            ->where('sitios_con_idiomas.idiomas_id','=', 1);
+                                            ->where('sitios_con_idiomas.idiomas_id','=', $this->idioma_id);
                                         })
                                         ->join('multimedia_sitios', function($join){
                                             $join->on('atracciones.sitios_id','=','multimedia_sitios.sitios_id')
@@ -317,7 +320,7 @@ class VisitanteController extends Controller
             $actividadesSeleccionadas = Planificador_Actividad::where('planificador_id', $planificador->id)->where('dia', $i)
                                         ->join('actividades_con_idiomas', function($join){
                                             $join->on('planificador_actividades.actividades_id', '=', 'actividades_con_idiomas.actividades_id')
-                                            ->where('actividades_con_idiomas.idiomas','=',1);
+                                            ->where('actividades_con_idiomas.idiomas','=',$this->idioma_id);
                                         })
                                         ->join('multimedias_actividades', function($join){
                                             $join->on('multimedias_actividades.actividades_id', '=', 'planificador_actividades.actividades_id')
@@ -330,7 +333,7 @@ class VisitanteController extends Controller
                                         ->join('proveedores_rnt', 'proveedores_rnt.id', '=', 'proveedores.proveedor_rnt_id')
                                         ->join('proveedores_rnt_idiomas', function($join){
                                             $join->on('proveedores_rnt.id', '=', 'proveedores_rnt_idiomas.proveedor_rnt_id')
-                                            ->where('proveedores_rnt_idiomas.idioma_id','=', 1);
+                                            ->where('proveedores_rnt_idiomas.idioma_id','=', $this->idioma_id);
                                         })
                                         ->join('multimedias_proveedores', function($join){
                                             $join->on('proveedores.id','=','multimedias_proveedores.proveedor_id')
@@ -342,7 +345,7 @@ class VisitanteController extends Controller
                                     ->join('eventos','planificador_eventos.eventos_id', '=', 'eventos.id')
                                     ->join('eventos_con_idiomas', function($join){
                                         $join->on('eventos_con_idiomas.eventos_id', '=' , 'planificador_eventos.eventos_id')
-                                        ->where('eventos_con_idiomas.idiomas_id', '=', 1);
+                                        ->where('eventos_con_idiomas.idiomas_id', '=', $this->idioma_id);
                                     })
                                     ->join('multimedia_evento', function($join){
                                         $join->on('planificador_eventos.eventos_id', '=', 'multimedia_evento.eventos_id')

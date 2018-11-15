@@ -34,8 +34,8 @@
                 <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                     <!--<option value="" selected>{{Session::get('lang')}}</option>-->
                     
-                    <option value="/lang/es" @if(Session::has('lang') && Session::get('lang') == 'es') selected @endif>ES</option>
-                    <option value="/lang/en" @if(Session::has('lang') && Session::get('lang') == 'en') selected @endif>EN</option>
+                    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>
+                    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>
                 </select>
                 @if(Auth::check())
                 <a href="/login/cerrarsesion" title="Cerrar sesión"><i class="ion-log-out"></i><span class="sr-only">Cerrar sesión</span></a>
