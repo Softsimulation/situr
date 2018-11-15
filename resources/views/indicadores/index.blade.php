@@ -106,19 +106,18 @@
                     <div class="col-md-3" >
                         <div class="input-group">
                             <label class="input-group-addon">Período </label>
-                            <select class="form-control" ng-model="yearSelect" ng-change="filtro.year=yearSelect.year;filtro.id=yearSelect.id;filtrarDatos()" ng-options="y as y.year for y in periodos" requerid >
+                            <select class="form-control" ng-model="yearSelect" ng-change="changePeriodo()" ng-options="y as y.year for y in periodos | unique: 'year'" requerid >
                             </select>
                         </div>
                     </div>
-                    
+                   
                     <div class="col-md-3" ng-show="yearSelect.mes" >
                         <div class="input-group">
                             <label class="input-group-addon">Mes</label>
-                            <select class="form-control" ng-model="filtro.mes" ng-change="filtrarDatos()" ng-options="m.mes as m.mes for m in periodos | filter:{ 'id': yearSelect.id }" ng-requerid="yearSelect.mes"  >
+                            <select class="form-control" ng-model="mesSelect" ng-change="filtro.id=mesSelect.id;filtrarDatos()" ng-options="m as m.mes for m in periodos | filter:{ 'id': yearSelect.id }" ng-requerid="yearSelect.mes"  >
                             </select>
                         </div>
                     </div>
-                    
                     <div class="col-md-3" ng-show="yearSelect.meses" >
                         <div class="input-group">
                             <label class="input-group-addon">Meses</label>
@@ -134,7 +133,7 @@
                         </div>
                     </div>
                     
-                    <div class="col-md-4" ng-if="indicadorSelect==5 || indicadorSelect==13">
+                    <div class="col-md-4" ng-if="indicadorSelect==5 || indicadorSelect==13 || indicadorSelect==19">
                         <div class="input-group" >
                             <label class="input-group-addon colorInd">Gasto promedio </label>
                             <select class="form-control" ng-model="filtro.tipoGasto" id="SelectTipoGasto" ng-change="filtrarDatos()" >
@@ -323,6 +322,7 @@
     <script src="{{asset('/js/plugins/Chart.min.js')}}"></script>
     <script src="{{asset('/js/plugins/angular-chart.min.js')}}"></script>
     <script src="{{asset('/js/plugins/chartsjs-plugin-data-labels.js')}}"></script>
+    <script src="{{asset('/js/plugins/angular-filter.js')}}"></script>
     <script src="{{asset('/js/indicadores/appIndicadores.js')}}"></script>
     <script src="{{asset('/js/indicadores/servicios.js')}}"></script> 
     

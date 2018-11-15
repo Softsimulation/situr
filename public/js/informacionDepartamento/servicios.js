@@ -37,6 +37,7 @@
             
         getData: function(id){ return http.get("/InformacionDepartamento/data/"+id );  },
         guardar: function(data){ return http.post("/InformacionDepartamento/guardar", data);  },
+        guardarvideo: function(data){ return http.post("/InformacionDepartamento/guardarvideo", data);  },
         
         guardarGaleria: function(fd){ return http.postFile("/InformacionDepartamento/guardargaleria",fd);  },
         eliminarImagen: function(id){ return http.post("/InformacionDepartamento/eliminarimagen",{ id:id});  },

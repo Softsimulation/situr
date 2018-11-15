@@ -23,7 +23,7 @@
                 };
                 
            
-    var app = angular.module("appIndicadores", [  "chart.js", "indicadoresServices" ] );
+    var app = angular.module("appIndicadores", [  "chart.js", "indicadoresServices", 'angular.filter' ] );
    
     app.controller("IndicadoresCtrl", ["$scope","indicadoresServi", function($scope,indicadoresServi){
         
@@ -60,7 +60,9 @@
                     $scope.indicador = data.indicador;
                     
                     $scope.yearSelect = data.periodos[0];
+                    $scope.mesSelect = data.periodos[0];
                     $scope.filtro.year = $scope.yearSelect.year;
+                    $scope.filtro.id = $scope.yearSelect.id;
                     if($scope.yearSelect.mes){ $scope.filtro.mes = $scope.yearSelect.mes; }
                     else if($scope.yearSelect.meses){ $scope.filtro.mes = $scope.yearSelect.meses[0].id; }
                     $scope.filtro.mes = $scope.yearSelect.mes;
@@ -114,7 +116,7 @@
             $scope.series = data.series;
             $scope.dataExtra = data.dataExtra;
             
-            if($scope.filtro.indicador==5){
+            if($scope.filtro.indicador==5 || $scope.filtro.indicador==13 || $scope.filtro.indicador==19){
                 $scope.tituloIndicadorGrafica = $scope.indicador.idiomas[0].nombre + " ("+ $("#SelectTipoGasto option:selected" ).text() +"/"+$scope.filtro.year+")";
             }   
             else{
@@ -131,6 +133,13 @@
             
         }
         
+        
+        $scope.changePeriodo = function(){
+            $scope.filtro.year = $scope.yearSelect.year;
+            $scope.filtro.id =   $scope.yearSelect.id;
+            $scope.mesSelect = $scope.yearSelect;
+            $scope.filtrarDatos();
+        }
         
         $scope.getYear = function(id){
             for(var i=0; i<$scope.periodos.length; i++){

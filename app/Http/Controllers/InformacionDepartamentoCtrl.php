@@ -61,6 +61,29 @@ class InformacionDepartamentoCtrl extends Controller
         return [ "success"=>true ];
     }
     
+    public  function postGuardarvideo(Request $request){
+        
+        $validator = \Validator::make($request->all(),[
+            'id' => 'required|exists:informacion_departamento,id',
+            'video' => 'required|string',
+        ],[
+            'id.required' => 'Error en los datos.',
+            'id.exists' => 'Error en los datos.',
+            'video.required' => 'El titulo es requerido.',
+            ]
+        );
+        
+        if($validator->fails()){ return ["success"=>false,"errores"=>$validator->errors()]; }
+        
+        $informacion = Informacion_departamento::find($request->id);
+        
+        $informacion->video = $request->video;
+        $informacion->user_update = "Admin";
+        $informacion->save();
+        
+        return [ "success"=>true ];
+    }
+    
     public function postGuardargaleria(Request $request){
         
         
