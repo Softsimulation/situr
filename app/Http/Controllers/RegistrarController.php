@@ -75,9 +75,10 @@ class RegistrarController extends Controller
         } else {  
             // En caso de que no exista creamos un nuevo usuario con sus datos.
             $user = User::create([
-                'name' => $social_user->name,
+                'nombre' => $social_user->name,
                 'email' => $social_user->email,
-                'avatar' => $social_user->avatar,
+                'username' => $social_user->email,
+                'estado' => 1,
             ]);
 
 
