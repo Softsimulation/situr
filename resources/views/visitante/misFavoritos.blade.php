@@ -55,6 +55,20 @@
         margin-top: 0;
         color: #18337e;
     }
+    .list-group-item:first-child {
+        border-radius: 0;
+        border-top: 0;
+    }
+    .list-group-item:last-child {
+        border-radius: 0;
+        border-bottom: 0;
+    }
+    .list-group-item {
+        border-left: 0;
+        border-right: 0;
+        padding: .5rem 1rem;
+        border-color: #eee;
+    }
     </style>
     
     <link href="{{asset('/css/ADM-dateTimePicker.min.css')}}" rel='stylesheet' type='text/css' />

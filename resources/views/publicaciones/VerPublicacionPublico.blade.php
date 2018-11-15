@@ -1,5 +1,5 @@
 @extends('layout._publicLayout')
-@section('title', $publicacion->titulo)
+@section('Title', $publicacion->titulo)
 @section('estilos')
 <style>
 header{

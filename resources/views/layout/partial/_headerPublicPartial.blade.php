@@ -124,6 +124,9 @@
                             <a role="menuitem" href="/indicadores/interno">{{trans('resources.estadisticas.interno')}}</a>
                         </li>
                         <li role="none">
+                            <a role="menuitem" href="/indicadores/emisor">{{trans('resources.estadisticas.emisor')}}</a>
+                        </li>
+                        <li role="none">
                             <a role="menuitem" href="#">{{trans('resources.estadisticas.empleo')}}</a>
                         </li>
                         <li role="none">

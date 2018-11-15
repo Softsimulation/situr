@@ -28,6 +28,7 @@ return [
     "estadisticas" =>[
         "receptor" => "Receiving tourism",
         "interno" => "Domestic tourism",
+        "emisor" => "Outbound tourism",
         "empleo" => "Employment",
         "oferta" => "Offer",
         "sostenibilidad" => "Sustainability",
