@@ -106,21 +106,6 @@ Route::controller('/administradoractividades', 'AdministradorActividadesControll
 Route::controller('/administradordestinos', 'AdministradorDestinosController');
 
 
-// Public Jáder
-Route::controller('/atracciones', 'AtraccionesController');
-
-Route::controller('/actividades', 'ActividadesController');
-
-Route::controller('/destinos', 'DestinosController');
-
-Route::controller('/quehacer', 'QueHacerController');
-
-Route::controller('/rutas', 'RutasTuristicasController');
-
-Route::controller('/eventos', 'EventosController');
-
-Route::controller('/proveedor', 'ProveedoresController');
-
 Route::group(['middleware' => 'cors'], function(){
     Route::controller('/authapi', 'ApiAuthController');
     Route::group(['middleware'=> 'jwt.auth'], function () {
@@ -200,6 +185,21 @@ Route::group(['middleware' => ['web']], function () {
         'lang' => 'en|es'
     ]);
     Route::controller('/visitante', 'VisitanteController');
+    
+    // Public Jáder
+    Route::controller('/atracciones', 'AtraccionesController');
+    
+    Route::controller('/destinos', 'DestinosController');
+    
+    Route::controller('/quehacer', 'QueHacerController');
+    
+    Route::controller('/rutas', 'RutasTuristicasController');
+    
+    Route::controller('/eventos', 'EventosController');
+    
+    Route::controller('/proveedor', 'ProveedoresController');
+    
+    Route::controller('/actividades', 'ActividadesController');
  
     Route::controller('/','HomeController');
  

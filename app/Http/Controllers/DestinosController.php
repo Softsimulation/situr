@@ -27,19 +27,21 @@ class DestinosController extends Controller
             return response('Not found.', 404);
         }
         
+        $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        
         $destino = Destino::where('id', $id)->with(['comentariosDestinos'=> function ($queryComentario){
             $queryComentario->orderBy('fecha', 'DESC')->with(['user']);
-        },'tipoDestino' => function ($queryTipoDestino){
-            $queryTipoDestino->with(['tipoDestinoConIdiomas' => function($queryTipoDestinoConIdiomas){
-                $queryTipoDestinoConIdiomas->orderBy('idiomas_id')->select('idiomas_id', 'tipo_destino_id', 'nombre');
+        },'tipoDestino' => function ($queryTipoDestino) use ($idioma){
+            $queryTipoDestino->with(['tipoDestinoConIdiomas' => function($queryTipoDestinoConIdiomas) use ($idioma){
+                $queryTipoDestinoConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'tipo_destino_id', 'nombre');
             }])->select('id');
-        }, 'destinoConIdiomas' => function($queryDestinoConIdiomas){
-            $queryDestinoConIdiomas->orderBy('idiomas_id')->select('destino_id', 'idiomas_id', 'nombre', 'descripcion');
+        }, 'destinoConIdiomas' => function($queryDestinoConIdiomas) use ($idioma){
+            $queryDestinoConIdiomas->where('idiomas_id', $idioma)->select('destino_id', 'idiomas_id', 'nombre', 'descripcion');
         }, 'multimediaDestinos' => function ($queryMultimediaDestinos){
             $queryMultimediaDestinos->where('tipo', false)->orderBy('portada', 'desc')->select('destino_id', 'ruta');
-        }, 'sectores' => function($querySectores){
-            $querySectores->with(['sectoresConIdiomas' => function($querySectoresConIdiomas){
-                $querySectoresConIdiomas->select('idiomas_id', 'sectores_id', 'nombre');
+        }, 'sectores' => function($querySectores) use ($idioma){
+            $querySectores->with(['sectoresConIdiomas' => function($querySectoresConIdiomas) use ($idioma){
+                $querySectoresConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'sectores_id', 'nombre');
             }])->select('id', 'destino_id', 'es_urbano');
         }])->select('id', 'tipo_destino_id', 'latitud', 'longitud', 'calificacion_legusto', 'calificacion_llegar', 'calificacion_recomendar', 'calificacion_volveria')->first();
         
