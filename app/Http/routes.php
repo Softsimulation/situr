@@ -63,8 +63,7 @@ Route::get('/entidadesAsociadas', function () {
   
 });
 Route::get('/registrar', function () {
-
-    return view('publico.situr.registrar');
+    return view('publico.situr.registrar',array('errores' => null,'mensajeExito'=>null));
   
 });
 Route::get('/listados', function () {
@@ -186,5 +185,7 @@ Route::controller('/promocionInforme','PublicoInformeController');
 Route::controller('/promocionPublicacion','PublicoPublicacionController');
 Route::controller('/sliders','SliderController');
 Route::controller('/suscriptores','SuscriptoreController');
-
+Route::controller('/registrar','RegistrarController');
 Route::controller('/','HomeController');
+
+
