@@ -9,10 +9,20 @@ use Storage;
 use File;
 use App\Models\Informacion_departamento;
 use App\Models\Inoformacion_departamento_imagenes;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class InformacionDepartamentoCtrl extends Controller
 {
-    
+    public function __construct()
+    {
+       
+        $this->middleware('auth');
+        $this->middleware('role:Admin|Promocion');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function AcercaDe(){
         return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",1 )->first()  ] );
     }

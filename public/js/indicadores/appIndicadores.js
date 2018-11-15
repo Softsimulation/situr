@@ -53,6 +53,7 @@
             $scope.labels = [];
             $scope.data = [];
             $scope.series = null;
+            $scope.indicador = undefined;
             
             indicadoresServi.getDataIndicador(id)
                 .then(function(data){
