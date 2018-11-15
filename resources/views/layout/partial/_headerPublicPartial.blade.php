@@ -38,9 +38,11 @@
                     <option value="/lang/en" @if(Session::has('lang') && Session::get('lang') == 'en') selected @endif>EN</option>
                 </select>
                 @if(Auth::check())
-                <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
-                @else
+                <a href="/login/cerrarsesion" title="Cerrar sesión"><i class="ion-log-out"></i><span class="sr-only">Cerrar sesión</span></a>
                 <a href="/visitante/misfavoritos" title="Mis favoritos"><span class="ion-heart" aria-hidden="true"></span><span class="sr-only">Mis favoritos</span></a>
+                
+                @else
+                <a href="/login/login" title="{{trans('resources.common.iniciarSesion')}}"><span class="ion-person" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.iniciarSesion')}}</span></a>
                 @endif
             </div>
             <ul role="menubar">
