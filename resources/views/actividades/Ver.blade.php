@@ -55,6 +55,17 @@ function parse_yturl($url)
 @endsection
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
     
     <div id="carousel-main-page" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
@@ -241,7 +252,7 @@ function parse_yturl($url)
                 <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalComentario">Comentar</button>
             </div>
             <!-- Modal comentar-->
-        <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
+             <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -250,8 +261,9 @@ function parse_yturl($url)
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="formEnviarComentario" name="formEnviarComentario" method="post" action="#">
+                    <form id="formEnviarComentario" name="formEnviarComentario" method="post" action="/actividades/guardarcomentario">
                         <div class="modal-body">
+                            <input type="hidden" name="id" value="{{$actividad->id}}" />
                             <div class="form-group text-center">
                                 <label class="control-label" for="calificacionLeGusto">¿Le gustó?</label>
                                 <div class="checks">
@@ -356,6 +368,7 @@ function parse_yturl($url)
                                 </div>
                                 
                             </div>
+                            
                             <div class="form-group">
                                 <label class="control-label" for="comentario"><span class="asterisk">*</span> Comentario</label>
                                 <textarea class="form-control" id="comentario" name="comentario" rows="5" maxlength="1000" placeholder="Ingrese su comentario. Máx. 1000 caracteres" style="resize:none;" required></textarea>    
@@ -371,6 +384,7 @@ function parse_yturl($url)
                 </div>
             </div>
         </div>
+
             @else
             <div class="text-center">
                 <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalIniciarSesion">Comentar</button>
@@ -394,6 +408,16 @@ function parse_yturl($url)
                 </div>
             </div>
             @endif
+            
+                     <ul class="list-group list-group-flush">
+                    @foreach ($actividad->comentariosActividads as $comentario)
+                         <li>{{$comentario->user->username}} {{$comentario->comentario}}</li>
+                    @endforeach
+                      
+                               
+                </ul>
+            
+            
         </div>
         
     </section>

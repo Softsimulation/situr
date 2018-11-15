@@ -54,6 +54,8 @@
         @endif
     <div id="contentDetalle">
         {!! $informacion->cuerpo !!}
+        
+        {{$informacion->video}}
     </div>
     
     </div>

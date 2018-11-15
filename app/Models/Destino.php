@@ -50,10 +50,6 @@ class Destino extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function comentariosDestinos()
-    {
-        return $this->hasMany('App\Models\Comentario_Destino', 'destinos_id');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -61,6 +57,11 @@ class Destino extends Model
     public function destinoConIdiomas()
     {
         return $this->hasMany('App\Models\Destino_Con_Idioma');
+    }
+
+   public function comentariosDestinos()
+    {
+        return $this->hasMany('App\Models\Comentario_Destino', 'destinos_id');
     }
 
     /**
