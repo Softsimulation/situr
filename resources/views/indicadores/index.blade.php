@@ -279,7 +279,7 @@
                             <tbody>
                               <tr  ng-repeat="label in labels" >
                                 <td>@{{label}}</td>
-                                <td>@{{data[$index]}}</td>
+                                <td>@{{data[0][$index]}}</td>
                                 <td ng-if="dataExtra" >@{{dataExtra.media[$index]}}</td>
                                 <td ng-if="dataExtra" >@{{dataExtra.mediana[$index]}}</td>
                                 <td ng-if="dataExtra" >@{{dataExtra.moda[$index]}}</td>

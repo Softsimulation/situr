@@ -229,7 +229,7 @@
             
             $scope.options.scales.xAxes[0].display = !validar_tipo_grafica;
             $scope.options.scales.yAxes[0].display = !validar_tipo_grafica;
-            $scope.options.legend.display = validar_tipo_grafica;
+            $scope.options.legend.display = validar_tipo_grafica || $scope.series;
             $scope.override = [];
             
             if( validar_tipo_grafica && $scope.data.length>0 ){
@@ -253,7 +253,7 @@
         
         $scope.inicializarDataGrafica = function(data){
             $scope.labels = data.labels;
-            $scope.data = [data.data];
+            $scope.data = data.series ? data.data : [data.data];
             $scope.series = data.series;
             $scope.dataExtra = data.dataExtra;
             
