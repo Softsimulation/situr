@@ -86,6 +86,10 @@ return [
         "informacionGeneral" => "General information",
         "ubicacion" => "Location",
         "queDeboTenerEnCuenta" => "What should I consider?"
+    ],
+    "home" => [
+        "descripcion" => "The Tourist Information System of the Atlantic is an initiative of the Ministry of Commerce, Industry and Tourism (MinCIT) designed to integrate quantitative and qualitative information of Tourism in the Department of Atlántico with the aim of consolidating measurements of the sector that provide information to characterize the tourism and generate standards that allow the comparison and sectoral statistical integration. The purpose of SITUR is to support decision-making, support the promotion strategies of the region and consolidate a culture of tourism information as an economic sector.",
+        "clima" => "Weather"
     ]
     
     ];

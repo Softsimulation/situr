@@ -68,7 +68,7 @@ function parse_yturl($url)
     </div>
 @endif
 
-
+    @if(isset($proveedor->multimediaProveedores) && count($proveedor->multimediaProveedores) > 0)
     <div id="carousel-main-page" class="carousel slide carousel-fade" data-ride="carousel">
       <ol class="carousel-indicators">
         @for($i = 0; $i < count($proveedor->multimediaProveedores); $i++)
@@ -100,6 +100,7 @@ function parse_yturl($url)
       </div>
       
     </div>
+    @endif
     <div id="menu-page">
     	<div class="container">
     		<ul id="menu-page-list">
@@ -164,7 +165,7 @@ function parse_yturl($url)
             
             <div class="row">
                 <div class="col-xs-12">
-                    @if($video_promocional != null)
+                    @if(isset($video_promocional))
                     <iframe src="https://www.youtube.com/embed/<?php echo parse_yturl($video_promocional); ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 350px;"></iframe>
                     @endif
                 </div>

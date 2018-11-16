@@ -104,7 +104,11 @@ return [
         "informacionGeneral" => "Información general",
         "ubicacion" => "Ubicación",
         "queDeboTenerEnCuenta" => "¿Qué debo tener en cuenta?"
-    ]
+    ],
+    "home" => [
+        "descripcion" => "El Sistema de Información Turística del Atlántico es una iniciativa del Ministerio de Comercio, Industria y Turismo (MinCIT) diseñada para integrar la información cuantitativa y cualitativa del Turismo en el departamento del Atlántico con el objetivo de consolidar mediciones del sector que brinden información para caracterizar el turismo y generar estándares que permitan la comparación e integración estadística sectorial. La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias de promoción de la región y consolidar una cultura de información del turismo como sector económico.",
+        "clima" => "Clima"
+        ]
     
     
     

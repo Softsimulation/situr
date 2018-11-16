@@ -117,6 +117,7 @@
         padding:0!important;
         padding-top:20px !important;
     }
+    
 </style>
 
 @endsection

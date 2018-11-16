@@ -146,7 +146,8 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12">
-                            <a class="weatherwidget-io" href="https://forecast7.com/es/11d00n74d81/barranquilla/" data-label_1="BARRANQUILLA" data-label_2="Clima" data-theme="original" >BARRANQUILLA Clima</a>
+                            
+                            <a class="weatherwidget-io" href="https://forecast7.com/{{Config::get('app.locale')}}/11d00n74d81/barranquilla/" data-label_1="BARRANQUILLA" data-label_2="{{trans('resources.home.clima')}}" data-theme="original" >BARRANQUILLA {{trans('resources.home.clima')}}</a>
 <script>
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
 </script>
@@ -157,12 +158,10 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
             </section>
             <section id="descripcion">
                 <div class="container text-center">
-                    <h2>SITUR Atlántico</h2>
+                    <h2>SITUR ATLÁNTICO</h2>
 
                     <p>
-El Sistema de Información Turística del Atlántico es una iniciativa del Ministerio de Comercio, Industria y Turismo (MinCIT) diseñada para integrar la información cuantitativa y cualitativa del 
-Turismo en el departamento del Atlántico con el objetivo de consolidar mediciones del sector que brinden información para caracterizar el turismo y generar estándares que permitan la comparación e integración estadística sectorial.
-La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias de promoción de la región y consolidar una cultura de información del turismo como sector económico.
+                {{trans('resources.home.descripcion')}}
 
                         
                         </p>
