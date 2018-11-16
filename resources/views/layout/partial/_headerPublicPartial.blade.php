@@ -28,7 +28,7 @@
                 
                 <form>
                     <label class="sr-only" for="searchBoxMain">{{trans('resources.common.busqueda')}}</label>
-                    <input type="text" placeholder="Buscar..." name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
+                    <input type="text" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
                     <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.buscar')}}</span></button>
                 </form>
                 <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
@@ -160,9 +160,9 @@
                     </ul>    
                     
                 </li>
-                <li>
-                    <a role="menuitem" href="#">{{trans('resources.menu.contactanos')}}</a>
-                </li>
+                <!--<li>-->
+                <!--    <a role="menuitem" href="#">{{trans('resources.menu.contactanos')}}</a>-->
+                <!--</li>-->
             </ul>
         </nav>    
     </div>

@@ -1,3 +1,32 @@
+<?php 
+function getItemType($type){
+    $path = ""; $name = "";
+    switch($type){
+        case(1):
+            $name = "Actividades";
+            $path = "/actividades/ver/";
+            break;
+        case(2):
+            $name = "Atracciones";
+            $path = "/atracciones/ver/";
+            break;
+        case(3):
+            $name = "Destinos";
+            $path = "/destinos/ver/";
+            break;
+        case(4):
+            $name = "Eventos";
+            $path = "/eventos/ver/";
+            break; 
+        case(5):
+            $name = "Rutas turísticas";
+            $path = "/rutas/ver/";
+            break;
+    }
+    return (object)array('name'=>$name, 'path'=>$path);
+}
+$colorTipo = ['primary','success','danger', 'info', 'warning'];
+?>
 @extends('layout._publicLayout')
 
 @section('Title','')
@@ -22,6 +51,18 @@
         transform: scaleX(-1);
         filter: FlipH;
         -ms-filter: "FlipH";
+    }
+    .tile .tile-img .text-overlap h3 small {
+        font-size: 0.875rem;
+        color: white;
+    }
+    
+    .tile .tile-img .text-overlap h3 {
+        line-height: 2;
+        font-size: 1rem;
+    }
+    .tiles .tile .tile-img {
+        height: 220px;
     }
 </style>
 @endsection
@@ -129,6 +170,39 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
                 </div>
                 
             </section>
+            @if(count($sugeridos))
+            <div class="container">
+                <h2 class="text-uppercase text-center">Sugerencias</h2>
+                <div class="tiles">
+                    @foreach($sugeridos as $sugerido)
+                    <div class="tile">
+                        <div class="tile-img">
+                            <img src="{{$sugerido->portada}}" alt="" role="presentation">
+                            <div class="text-overlap">
+                                <span class="label label-{{$colorTipo[$sugerido->tipo - 1]}}">{{getItemType($sugerido->tipo)->name}}</span>
+                                <h3>
+                                    <a href="{{getItemType($sugerido->tipo)->path}}{{$sugerido->id}}">{{$sugerido->nombre}}</a>
+                                    @if($sugerido->tipo == 4)
+                                    <small>{{trans('resources.listado.fechaEvento', ['fechaInicio' => date('d/m/Y', strtotime($sugerido->fecha_inicio)), 'fechaFin' => date('d/m/Y', strtotime($sugerido->fecha_fin))])}}</small>
+                                    @endif
+                                </h3>
+                                
+                            </div>
+                            
+                        </div>
+                        <!--<div class="tile-body">-->
+                        <!--    <div class="tile-caption">-->
+                        <!--        <h3><a href="#">{{$sugerido->nombre}}</a></h3>-->
+                                
+                        <!--    </div>-->
+                        <!--</div>-->
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            
+            @endif
+            
             @if(count($noticias) > 0)
             <section id="noticias">
                 <div class="container">

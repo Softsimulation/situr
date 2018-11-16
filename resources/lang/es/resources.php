@@ -76,9 +76,35 @@ return [
         "logoDe" => "Logo de :logo",
         "contacto" => "Contacto",
         "enlacesDeInteres" => "Enlaces de intéres",
-        "telefono" => "Teléfono"
+        "telefono" => "Teléfono",
+        "enviar" => "Enviar",
+        "suscribir" => "Suscribir",
+        "suscribase" => "Suscríbase para recibir notificaciones"
+    ],
+    "listado" => [
+        "buscadorGeneral" => "Buscador general",
+        "queDeseaBuscar" => "¿Qué desea buscar?",
+        "vistaLista" => "Vista de lista",
+        "vistaMosaico" => "Vista de mosaico",
+        "buscar" => "Buscar",
+        "noHayElementos" => "No hay elementos para mostrar",
+        "fechaEvento" => "Del :fechaInicio al :fechaFin",
+        "descargarPDF" => "Descargar PDF",
+        "limpiarFiltros" => "Limpiar filtros",
+        "tipoDeInforme" => "Tipo de informe",
+        "seleccioneElTipoDeInforme" => "Seleccione el tipo de informe",
+        "verTodosLosRegistros" => "Ver todos los registros",
+        "categoriaDeInforme" => "Categoría de informe",
+        "seleccioneLaCategoria" => "Seleccione la categoría"
+    ],
+    "detalle" => [
+        "altImagenPresentacion" => "Imagen de presentación de :imagen",
+        "comentar" => "Comentar",
+        "comentarios" => "Comentarios",
+        "informacionGeneral" => "Información general",
+        "ubicacion" => "Ubicación",
+        "queDeboTenerEnCuenta" => "¿Qué debo tener en cuenta?"
     ]
-    
     
     
     

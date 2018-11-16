@@ -57,14 +57,35 @@ return [
         "logoDe" => "Brand of :logo",
         "contacto" => "Contact",
         "enlacesDeInteres" => "Interest links",
-        "telefono" => "Phone"
+        "telefono" => "Phone",
+        "enviar" => "Send",
+        "suscribir" => "Suscribe",
+        "suscribase" => "Subscribe to receive notifications"
+    ],
+    
+    "listado" => [
+        "buscadorGeneral" => "General search",
+        "queDeseaBuscar" => "What would you like to search?",
+        "vistaLista" => "List view",
+        "vistaMosaico" => "Mosaic view",
+        "buscar" => "Search",
+        "noHayElementos" => "There is no items to show in this view",
+        "fechaEvento" => "From :fechaInicio to :fechaFin",
+        "descargarPDF" => "Download PDF",
+        "limpiarFiltros" => "Clean filters",
+        "tipoDeInforme" => "Type of report",
+        "seleccioneElTipoDeInforme" => "Select a type of report",
+        "verTodosLosRegistros" => "See all records",
+        "categoriaDeInforme" => "Report category",
+        "seleccioneLaCategoria" => "Selec a category"
+    ],
+    "detalle" => [
+        "altImagenPresentacion" => "Presentation image of :imagen",
+        "comentar" => "Comment",
+        "comentarios" => "Comments",
+        "informacionGeneral" => "General information",
+        "ubicacion" => "Location",
+        "queDeboTenerEnCuenta" => "What should I consider?"
     ]
-    
-    
-    
-    
-    
-    
-    
     
     ];

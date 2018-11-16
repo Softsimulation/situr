@@ -81,7 +81,7 @@ function parse_yturl($url)
       <div class="carousel-inner">
         @for($i = 0; $i < count($actividad->multimediasActividades); $i++)
         <div class="item {{  $i === 0 ? 'active' : '' }}">
-          <img src="{{$actividad->multimediasActividades[$i]->ruta}}" alt="Imagen de presentación de {{$actividad->actividadesConIdiomas[0]->nombre}}">
+          <img src="{{$actividad->multimediasActividades[$i]->ruta}}" alt="{{trans('resources.detalle.altImagenPresentacion', ['imagen' => $actividad->actividadesConIdiomas[0]->nombre])}}">
           
         </div>
         @endfor
