@@ -3,23 +3,23 @@ function getItemType($type){
     $path = ""; $name = "";
     switch($type){
         case(1):
-            $name = "Actividades";
+            $name = trans('resources.entidad.actividades');
             $path = "/actividades/ver/";
             break;
         case(2):
-            $name = "Atracciones";
+            $name = trans('resources.entidad.atracciones');
             $path = "/atracciones/ver/";
             break;
         case(3):
-            $name = "Destinos";
+            $name = trans('resources.entidad.destinos');
             $path = "/destinos/ver/";
             break;
         case(4):
-            $name = "Eventos";
+            $name = trans('resources.entidad.eventos');
             $path = "/eventos/ver/";
             break; 
         case(5):
-            $name = "Rutas turísticas";
+            $name = trans('resources.entidad.rutasTuristicas');
             $path = "/rutas/ver/";
             break;
     }
