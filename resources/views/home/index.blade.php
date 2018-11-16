@@ -8,6 +8,16 @@
 <meta property="og:description" content="Sistema de información turística del Atlántico y de Barranquilla - SITUR Atlántico."/>
 @endsection
 
+@section('javascript')
+<style>
+    .tile-date {
+        font-style: italic;
+        font-size: 0.875rem;
+        color: grey;
+    }
+</style>
+@endsection
+
 <!-- BEGIN JIVOSITE CODE {literal} -->
 <script type='text/javascript'>
 (function(){ var widget_id = '3HNHEawOTn';var d=document;var w=window;function l(){var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;s.src = '//code.jivosite.com/script/widget/'+widget_id; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
@@ -108,4 +118,32 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
                 </div>
                 
             </section>
+            @if(count($noticias) > 0)
+            <section id="noticias">
+                <div class="container">
+                    <h2 class="text-uppercase text-center">Noticias</h2>
+                    <hr>
+                    <div class="tiles">
+                        @foreach($noticias as $noticia)
+                        <div class="tile inline-tile">
+                            <div class="tile-body">
+                                <div class="tile-caption">
+                                    <h3><a href="/promocionNoticia/ver/{{$noticia->idNoticia}}">{{$noticia->tituloNoticia}}</a></h3>
+                                </div>
+                                <p class="tile-date"><i class="ion-calendar" aria-hidden="true"></i> {{date("d/m/Y h:i A", strtotime($noticia->fecha))}}</p>
+                                <p class="text-muted">{{$noticia->resumen}}</p>
+                                <div class="text-right">
+                                    <a href="/promocionNoticia/ver/{{$noticia->idNoticia}}" class="btn btn-xs btn-success">Ver más</a>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="text-center">
+                        <a href="/promocionNoticia/listado" class="btn btn-success">Ver todas</a>
+                    </div>
+                </div>
+                
+            </section>
+            @endif
 @endsection
