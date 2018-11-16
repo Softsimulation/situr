@@ -32,6 +32,28 @@ angular.module('AppInformacionDepartamento', [ 'InformacionServices', 'InputFile
 
     }    
     
+    $scope.guardarvideo = function () {
+        
+        if (!$scope.formVideo.$valid) { return; }
+        
+        $scope.errores = null;
+        $("body").attr("class", "charging");
+        
+        InformacionServi.guardarvideo($scope.informacion).then(function (data) {
+            if(data.success == true){
+                swal("Éxito", "Acción realizada satisfactoriamente", "success");
+            }else{
+               swal("Error", "La acción no se pudo realizar", "error");
+               $scope.errores = data.errores;
+            }
+            $("body").attr("class", "cbp-spmenu-push");
+            
+        }).catch(function () {
+            $("body").attr("class", "cbp-spmenu-push");
+            swal("Error", "Hubo un error en la petición intentalo nuevamente", "error");
+        });
+
+    }
     
     $scope.guardarGaleria = function(){
         

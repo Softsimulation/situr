@@ -108,14 +108,6 @@
 </div>
 <div class="card" ng-init="indicadorSelect={{$indicadores[0]['id']}}" ng-show="indicador != undefined">
     
-    <!--<ul class="list-group" ng-init="buscarData( {{$indicadores[0]['id']}} )" >-->
-    <!--    @foreach ($indicadores as $indicador)-->
-    <!--        <li class="list-group-item" ng-click="changeIndicador({{$indicador['id']}})" ng-class="{'active': (indicadorSelect=={{$indicador['id']}}) }" role="button">-->
-    <!--          {{$indicador["nombre"]}}-->
-    <!--        </li>-->
-    <!--    @endforeach-->
-    <!--</ul>-->
-    
     
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -134,7 +126,7 @@
                         <div class="input-group" id="selectGrafica" >
                             <label class="input-group-addon">Gráfica </label>
                             <div class="btn-group" style="width: 100%;">
-                                <button type="button" class="btn btn-default btn-select" style="height:34px;" >
+                                <button type="button" class="btn btn-default btn-select">
                                    <img src="@{{graficaSelect.icono}}" class="icono" ></img> @{{graficaSelect.nombre || " "}}
                                 </button>
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -173,11 +165,6 @@
               chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-colors="colores" chart-dataset-override="override" >
             </canvas>
             
-            <!--
-            <a class="item-footer" style="float:left;margin-bottom:-20px;" href data-toggle="modal" data-target="#modalData"  >
-                <i class="material-icons">table_chart</i> Tabla de datos
-            </a>
-            -->
             <a class="item-footer" style="float:right;margin-right: 10px;" href="http://www.citur.gov.co/" target="_blank"  >
                 <img src="/Content/image/presentacion_CITUR-01.png" width="65">
             </a>
@@ -236,27 +223,6 @@
     
 </div>
 
-<!--
-<div class="modal" tabindex="-1" role="dialog" id="modalData" >
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title"> @{{indicador.idiomas[0].nombre}} </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
--->
 
 @endsection
 
@@ -268,9 +234,10 @@
     <script src="{{asset('/js/plugins/jspdf.min.js')}}"></script>
     <script src="{{asset('/js/plugins/Chart.min.js')}}"></script>
     <script src="{{asset('/js/plugins/angular-chart.min.js')}}"></script>
-   
+    <script src="{{asset('/js/plugins/chartsjs-plugin-data-labels.js')}}"></script>
+    <script src="{{asset('/js/plugins/angular-filter.js')}}"></script>
     <script src="{{asset('/js/indicadores/appIndicadores.js')}}"></script>
-    <script src="{{asset('/js/indicadores/servicios.js')}}"></script> 
+    <script src="{{asset('/js/indicadores/servicios.js')}}"></script>   
     
     <script>
     

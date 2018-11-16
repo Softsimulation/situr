@@ -36,7 +36,7 @@ class Ruta extends Model
      */
     public function rutasConAtracciones()
     {
-        return $this->hasMany('App\Models\Ruta_Con_Atraccion');
+        return $this->hasMany('App\Models\Ruta_Con_Atraccion', 'ruta_id');
     }
 
     /**

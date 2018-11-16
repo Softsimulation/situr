@@ -9,10 +9,20 @@ use Storage;
 use File;
 use App\Models\Informacion_departamento;
 use App\Models\Inoformacion_departamento_imagenes;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class InformacionDepartamentoCtrl extends Controller
 {
-    
+    public function __construct()
+    {
+       
+        $this->middleware('auth',['except' => ['AcercaDe','Requisitos'] ]);
+        $this->middleware('role:Admin|Promocion',['except' => ['AcercaDe','Requisitos'] ]);
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function AcercaDe(){
         return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",1 )->first()  ] );
     }
@@ -56,6 +66,29 @@ class InformacionDepartamentoCtrl extends Controller
         $informacion->cuerpo = $request->cuerpo;
         $informacion->user_update = "Admin";
         
+        $informacion->save();
+        
+        return [ "success"=>true ];
+    }
+    
+    public  function postGuardarvideo(Request $request){
+        
+        $validator = \Validator::make($request->all(),[
+            'id' => 'required|exists:informacion_departamento,id',
+            'video' => 'required|string',
+        ],[
+            'id.required' => 'Error en los datos.',
+            'id.exists' => 'Error en los datos.',
+            'video.required' => 'El titulo es requerido.',
+            ]
+        );
+        
+        if($validator->fails()){ return ["success"=>false,"errores"=>$validator->errors()]; }
+        
+        $informacion = Informacion_departamento::find($request->id);
+        
+        $informacion->video = $request->video;
+        $informacion->user_update = "Admin";
         $informacion->save();
         
         return [ "success"=>true ];

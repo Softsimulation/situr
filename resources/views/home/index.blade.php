@@ -15,6 +15,14 @@
         font-size: 0.875rem;
         color: grey;
     }
+    .invert-img{
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+    }
 </style>
 @endsection
 
@@ -73,19 +81,22 @@
             <div id="estadisticas" class="estadisticas">
                 <ul>
                     <li id="turismoReceptor">
-                        <a role="button" href="#"><span class="sprite estadisticas-receptor invert" aria-hidden="true"></span> Turismo receptor</a>
+                        <a role="button" href="/indicadores/receptor"><span class="sprite estadisticas-receptor invert" aria-hidden="true"></span> {{trans('resources.estadisticas.receptor')}}</a>
+                    </li>
+                    <li id="turismoInternoInterno">
+                        <a role="button" href="/indicadores/interno"><span class="sprite estadisticas-emisor invert invert-img" aria-hidden="true"></span> {{trans('resources.estadisticas.interno')}}</a>
                     </li>
                     <li id="turismoInternoEmisor">
-                        <a role="button" href="#"><span class="sprite estadisticas-emisor invert" aria-hidden="true"></span> Turismo interno y emisor</a>
+                        <a role="button" href="/indicadores/emisor"><span class="sprite estadisticas-emisor invert" aria-hidden="true"></span> {{trans('resources.estadisticas.emisor')}}</a>
                     </li>
                     <li id="turismoEmpleo">
-                        <a role="button" href="#"><span class="sprite estadisticas-empleo invert" aria-hidden="true"></span> Empleo</a>
+                        <a role="button" href="#"><span class="sprite estadisticas-empleo invert" aria-hidden="true"></span> {{trans('resources.estadisticas.empleo')}}</a>
                     </li>
                     <li id="turismoOferta">
-                        <a role="button" href="#"> <span class="sprite estadisticas-oferta invert" aria-hidden="true"></span> Oferta</a>
+                        <a role="button" href="/indicadores/oferta"> <span class="sprite estadisticas-oferta invert" aria-hidden="true"></span> {{trans('resources.estadisticas.oferta')}}</a>
                     </li>
                     <li id="turismoSostenibilidad">
-                        <a role="button" href="#"> <span class="sprite estadisticas-sostenibilidad invert" aria-hidden="true"></span>Turismo sostenible</a>
+                        <a role="button" href="#"> <span class="sprite estadisticas-sostenibilidad invert" aria-hidden="true"></span>{{trans('resources.estadisticas.sostenible')}}</a>
                     </li>
                 </ul>
             </div>
@@ -121,7 +132,7 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
             @if(count($noticias) > 0)
             <section id="noticias">
                 <div class="container">
-                    <h2 class="text-uppercase text-center">Noticias</h2>
+                    <h2 class="text-uppercase text-center">{{trans('resources.publicaciones.noticias')}}</h2>
                     <hr>
                     <div class="tiles">
                         @foreach($noticias as $noticia)
@@ -133,14 +144,14 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
                                 <p class="tile-date"><i class="ion-calendar" aria-hidden="true"></i> {{date("d/m/Y h:i A", strtotime($noticia->fecha))}}</p>
                                 <p class="text-muted">{{$noticia->resumen}}</p>
                                 <div class="text-right">
-                                    <a href="/promocionNoticia/ver/{{$noticia->idNoticia}}" class="btn btn-xs btn-success">Ver más</a>
+                                    <a href="/promocionNoticia/ver/{{$noticia->idNoticia}}" class="btn btn-xs btn-success">{{trans('resources.common.verMas')}}</a>
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
                     <div class="text-center">
-                        <a href="/promocionNoticia/listado" class="btn btn-success">Ver todas</a>
+                        <a href="/promocionNoticia/listado" class="btn btn-success">{{trans('resources.common.verTodo')}}</a>
                     </div>
                 </div>
                 

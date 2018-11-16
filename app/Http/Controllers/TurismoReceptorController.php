@@ -71,11 +71,11 @@ class TurismoReceptorController extends Controller
 {
     public function __construct()
 	{
-	    //$this->middleware('auth');
+	    $this->middleware('auth');
 	    $this->middleware('receptor',['only' =>  ['getSeccionestancia','getSecciontransporte','getSecciongrupoviaje','getSecciongastos','getSeccionpercepcionviaje','getSeccionfuentesinformacion'] ]);
 	    //$this->user = Auth::user();
 	    $this->middleware('auth');
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Estadistico');
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
