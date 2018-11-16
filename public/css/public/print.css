@@ -1,4 +1,4 @@
-#toolbar-main, #nav-menu-main, #navbar-mobile, footer, .breadcrumb, #shareButtons, a[role=button]{
+#toolbar-main, #nav-menu-main, #navbar-mobile, footer, .breadcrumb, #shareButtons, a[role=button], button{
     display: none;
 }
 header{

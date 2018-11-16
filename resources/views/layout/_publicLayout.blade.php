@@ -32,6 +32,7 @@
         <link href="{{asset('/css/public/style_768.css')}}" rel="stylesheet" media="(min-width: 768px)">
         <link href="{{asset('/css/public/style_992.css')}}" rel="stylesheet" media="(min-width: 992px)">
         <link href="{{asset('/css/public/style_1200.css')}}" rel="stylesheet" media="(min-width: 1200px)">
+        <link rel="stylesheet" href="{{asset('/css/public/print.css')}}" media="print"/>
         @yield('estilos')
         <style>
             .bannerSitur img{
