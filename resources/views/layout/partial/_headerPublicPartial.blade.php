@@ -68,9 +68,9 @@
                         <li role="none">
                             <a role="menuitem" href="/quienesSomos">{{trans('resources.menu.quienesSomos')}}</a>
                         </li>
-                        <!--<li role="none">-->
-                        <!--    <a role="menuitem" href="/historia">Historia</a>-->
-                        <!--</li>-->
+                        <li role="none">
+                              <a role="menuitem" href="/PlanificaTuViaje ">Planifica tu viaje</a>
+                        </li>
                         <!--<li role="none">-->
                         <!--    <a role="menuitem" href="/vision">Visión</a>-->
                         <!--</li>-->
@@ -140,6 +140,9 @@
                         </li>
                         <li role="none">
                             <a role="menuitem" href="#">{{trans('resources.estadisticas.sostenibilidad')}}</a>
+                        </li>
+                         <li role="none">
+                            <a role="menuitem" href="/MuestraMaestra/detalles">Verificación de proveedores RNT</a>
                         </li>
                         <li role="none">
                             <a role="menuitem" href="/indicadores/secundarios">{{trans('resources.estadisticas.secundarias')}}</a>
