@@ -6,6 +6,7 @@
 
 
 @section('estilos')
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style type="text/css">
     
         #alertProveedores{
@@ -116,9 +117,12 @@
             margin-top: -11px;
             color: white;
         }
+        .form-control {
+    height: auto;
+}
         
         /*////////////////////////////////////////////*/
-        .ui-select-multiple.ui-select-bootstrap input.ui-select-search{ width:100% !important; }
+    .ui-select-multiple.ui-select-bootstrap input.ui-select-search{ width:100% !important; border: 0; }
         .panel-default>.panel-heading a:after {
             content: "-";
             position: absolute;
@@ -313,6 +317,9 @@
             padding: .3rem 0;
         }
         .filtros_tabla_bloques td{ padding: 5px 25px !important; }
+        #logos, footer{
+            display:none;
+        }
     </style>
 @endsection
 
@@ -325,7 +332,10 @@
     
     <div id="contentPage">
         <div id="cont-filtros" ng-show="!pantallaCompleta">
-            <img id="logoSitur" src="{{asset('Content/image/logo.min.png')}}" alt="Logo SITUR Magdalena" class="img-responsive"/>
+            <a href="/" class="btn-block text-center">
+                <img id="logoSitur" src="{{asset('Content/image/logo.min.png')}}" alt="Logo SITUR Magdalena" class="img-responsive" style="margin: 0 auto;"/>
+            </a>
+            
             <h1 id="tituloMuestraMaestra">Muestra maestra</h1>
             <h2>
                 {{$periodo->nombre}}  
@@ -394,25 +404,25 @@
                     </div>
                   </div>
                   
-                  <div class="panel panel-default" ng-show="estados.length > 0">
-                    <div class="panel-heading" role="tab" id="headingThree">
-                      <h4 class="panel-title">
-                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                          Estado del proveedor
-                        </a>
-                      </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                      <div class="panel-body">
-                            <div class="checkbox" ng-repeat="it in estados" >
-                               <label>
-                                   <input type="checkbox" checklist-model="filtro.estados" checklist-value="it.id" > 
-                                   @{{it.nombre}} (@{{getCantidadPorEstado(it.id)}})
-                                </label>
-                            </div>
-                      </div>
-                    </div>
-                  </div>
+                  <!--<div class="panel panel-default" ng-show="estados.length > 0">-->
+                  <!--  <div class="panel-heading" role="tab" id="headingThree">-->
+                  <!--    <h4 class="panel-title">-->
+                  <!--      <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">-->
+                  <!--        Estado del proveedor-->
+                  <!--      </a>-->
+                  <!--    </h4>-->
+                  <!--  </div>-->
+                  <!--  <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">-->
+                  <!--    <div class="panel-body">-->
+                  <!--          <div class="checkbox" ng-repeat="it in estados" >-->
+                  <!--             <label>-->
+                  <!--                 <input type="checkbox" checklist-model="filtro.estados" checklist-value="it.id" > -->
+                  <!--                 @{{it.nombre}} (@{{getCantidadPorEstado(it.id)}})-->
+                  <!--              </label>-->
+                  <!--          </div>-->
+                  <!--    </div>-->
+                  <!--  </div>-->
+                  <!--</div>-->
                   
                   <div class="panel panel-default" ng-show="sectoresZonas.length > 0">
                     <div class="panel-heading" role="tab" id="headingFour">
@@ -520,22 +530,22 @@
         </div>
         <div id="contentMap" ng-class="{ 'showed': pantallaCompleta }">
             <div id="filtros-buttons">
-                <a class="btn" href="/MuestraMaestra/periodos" title="Regresar al listado" >
-                   <i class="material-icons">reply</i>
+                <a class="btn" href="/" title="Regresar a la página inicial" >
+                   <i class="material-icons">home</i>
                 </a>  
-                <div class="btn-map">
+                <!--<div class="btn-map">-->
                     
                     
-                    <div class="dropdown">
-                          <a class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-                             <i class="material-icons">menu</i>
-                          </a>
-                          <ul class="dropdown-menu">
-                            <li><a href ng-click="verTablaZonas()" ><i class="material-icons">table_chart</i> Ver tabla de bloques</a></li>
-                          </ul>
-                    </div>
+                <!--    <div class="dropdown">-->
+                <!--          <a class="btn dropdown-toggle" type="button" data-toggle="dropdown">-->
+                <!--             <i class="material-icons">menu</i>-->
+                <!--          </a>-->
+                <!--          <ul class="dropdown-menu">-->
+                <!--            <li><a href ng-click="verTablaZonas()" ><i class="material-icons">table_chart</i> Ver tabla de bloques</a></li>-->
+                <!--          </ul>-->
+                <!--    </div>-->
                     
-                </div>
+                <!--</div>-->
                 <button type="button" class="btn" title="Ocultar menu" ng-click="pantallaCompleta=true" ng-show="!pantallaCompleta">
                    <i class="material-icons">arrow_back</i>
                 </button>  
