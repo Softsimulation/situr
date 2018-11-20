@@ -29,8 +29,10 @@ class LoginController extends Controller
                     return redirect()->intended('usuario/listadousuarios'); 
                 }else if(Auth::user()->hasRole("Promocion")){
                     return redirect()->intended('noticias/listadonoticias'); 
-                }else{
+                }else if(Auth::user()->hasRole("Estadistico")){
                     return redirect()->intended('ofertaempleo/listadoproveedores'); 
+                }else{
+                    return redirect()->intended('/');
                 }
                    
             }
@@ -43,7 +45,7 @@ class LoginController extends Controller
     }
     public function getCerrarsesion(){
         Auth::logout();
-        return redirect()->intended('/login/login');
+        return redirect()->intended('/');
     
     }
 }

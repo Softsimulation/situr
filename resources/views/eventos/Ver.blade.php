@@ -119,67 +119,126 @@ function parse_yturl($url)
                 <li>
                     <a href="#caracteristicas" class="toSection">
 						<i class="ionicons ionicons ion-android-pin" aria-hidden="true"></i>
-						<span class="hidden-xs">Ubicación</span>
+						<span class="hidden-xs">{{trans('resources.detalle.queDeboTenerEnCuenta')}}</span>
 					</a>
                 </li>
             </ul>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-xs-12 text-center">
-            <h1>Nombre: {{$evento->eventosConIdiomas[0]->nombre}} Edicion {{$evento->eventosConIdiomas[0]->edicion or 'No disponible'}}</h1>
-        </div>
-    </div>
     @if(Session::has('message'))
         <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
     @endif
-    <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-4 col-sm-offset-4">
-            Descripción: {{$evento->eventosConIdiomas[0]->descripcion}}
+    <section id="informacionGeneral" class="container">
+        <h3 class="title-section">{{$evento->eventosConIdiomas[0]->nombre}} <small>Ed: {{$evento->eventosConIdiomas[0]->edicion or 'No disponible'}}</small></h2>
+        <div class="row">
+            <div class="col-xs-12">
+                @if($video_promocional != null)
+                <iframe src="https://www.youtube.com/embed/<?php echo parse_yturl($video_promocional); ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 350px;margin-bottom: 1rem;"></iframe>
+                @endif
+            </div>
+            <div class="col-xs-12 col-md-8">
+                 <p style="white-space: pre-line;">{{$evento->eventosConIdiomas[0]->descripcion}}</p>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <ul class="list">
+                    <li>
+                        <div class="row align-items-center">
+                            <div class="col-xs-2">
+                                <span class="ionicons ion-cash" aria-hidden="true"></span> <span class="sr-only">Valor estimado</span>
+                            </div>
+                            <div class="col-xs-10">
+                                <div class="form-group">
+                                    <label>Valor estimado</label>
+                                    <p class="form-control-static">
+                                        ${{number_format(intval($evento->valor_min))}} - ${{number_format(intval($evento->valor_max))}}
+                                    </p>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </li>
+                    <li>
+                        <div class="row align-items-center">
+                            <div class="col-xs-2">
+                                <span class="ionicons ion-calendar" aria-hidden="true"></span> <span class="sr-only">Fechas del evento</span>
+                            </div>
+                            <div class="col-xs-10">
+                                <div class="form-group">
+                                    <label>Fechas del evento</label>
+                                    <p class="form-control-static">
+                                        {{trans('resources.listado.fechaEvento', ['fechaInicio' => date('d/m/Y', strtotime($evento->fecha_inicio)), 'fechaFin' => date('d/m/Y', strtotime($evento->fecha_fin))])}}
+                                        
+                                    </p>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </li>
+                    @if($evento->telefono != null)
+                    <li>
+                        <div class="row align-items-center">
+                            <div class="col-xs-2">
+                                <span class="ionicons ion-android-call" aria-hidden="true"></span> <span class="sr-only">Teléfono</span>
+                            </div>
+                            <div class="col-xs-10">
+                                <div class="form-group">
+                                    <label>Teléfono</label>
+                                    <p class="form-control-static">{{$evento->telefono}}</p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </li>
+                    @endif
+                    @if($evento->sitio_web != null)
+                    <li>
+                        <div class="row align-items-center">
+                            <div class="col-xs-2">
+                                <span class="ionicons ion-android-globe" aria-hidden="true"></span> <span class="sr-only">Sitio web</span>
+                            </div>
+                            <div class="col-xs-10">
+                                <div class="form-group">
+                                    <label>Sitio web</label>
+                                    <p class="form-control-static">
+                                        <a href="{{$evento->sitio_web}}" target="_blank" rel="noopener noreferrer">Clic para ir al sitio web</a>
+                                    </p>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </li>
+                    @endif
+                    
+                </ul>    
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-4 col-sm-offset-4">
-            Valor mínimo: {{$evento->valor_min}} Valor máximo: {{$evento->valor_max}}
+    </section>
+
+    <!--{{-- La posición 0 es la portada --}}-->
+    <!--<div class="row">-->
+    <!--    <img src="{{$evento->multimediaEventos[0]->ruta}}"></img>-->
+    <!--</div>-->
+    <!--<div class="row">-->
+    <!--    {{-- La cuenta empieza desde 1 porque la primera posición es la portada --}}-->
+    <!--    @for($i = 1; $i < count($evento->multimediaEventos[0]->ruta); $i++)-->
+    <!--    <img src="{{$evento->multimediaEventos[0]->ruta}}"></img>-->
+    <!--    @endfor-->
+    <!--</div>-->
+    @if(count($evento->sitiosConEventos) > 0)
+    <section id="caracteristicas" class="container">
+        <h3 class="title-section">Sitios</h3>
+        <div class="tiles">
+            @foreach ($evento->sitiosConEventos as $sitio)
+            <div class="tile">
+                <div class="tile-body">
+                    {{$sitio->sitiosConIdiomas[0]->nombre}}
+                </div>
+                
+            </div>
+            @endforeach
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-4 col-sm-offset-4">
-            Fecha de inicio: {{$evento->fecha_in}} Fecha de fin: {{$evento->fecha_fin}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-4 col-sm-offset-4">
-            Teléfono: {{$evento->telefono or 'No disponible'}}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-4 col-sm-offset-4">
-            Página web: {{$evento->web or 'No disponible'}}
-        </div>
-    </div>
-    {{-- La posición 0 es la portada --}}
-    <div class="row">
-        <img src="{{$evento->multimediaEventos[0]->ruta}}"></img>
-    </div>
-    <div class="row">
-        {{-- La cuenta empieza desde 1 porque la primera posición es la portada --}}
-        @for($i = 1; $i < count($evento->multimediaEventos[0]->ruta); $i++)
-        <img src="{{$evento->multimediaEventos[0]->ruta}}"></img>
-        @endfor
-    </div>
-    <div class="row">
-        <iframe src="{{$video_promocional}}">
-        </iframe>
-    </div>
-    <br/>
-    <h4>Sitios: </h4>
-    <div class="row">
-        @foreach ($evento->sitiosConEventos as $sitio)
-        <div class="col-sm-12 col-md-12 col-xs-12">
-            {{$sitio->sitiosConIdiomas[0]->nombre}}
-        </div>
-        @endforeach
-    </div>
+    </section>
+    @endif
 @endsection

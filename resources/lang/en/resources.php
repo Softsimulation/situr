@@ -28,6 +28,7 @@ return [
     "estadisticas" =>[
         "receptor" => "Receiving tourism",
         "interno" => "Domestic tourism",
+        "emisor" => "Outbound tourism",
         "empleo" => "Employment",
         "oferta" => "Offer",
         "sostenibilidad" => "Sustainability",
@@ -56,14 +57,39 @@ return [
         "logoDe" => "Brand of :logo",
         "contacto" => "Contact",
         "enlacesDeInteres" => "Interest links",
-        "telefono" => "Phone"
+        "telefono" => "Phone",
+        "enviar" => "Send",
+        "suscribir" => "Suscribe",
+        "suscribase" => "Subscribe to receive notifications"
+    ],
+    
+    "listado" => [
+        "buscadorGeneral" => "General search",
+        "queDeseaBuscar" => "What would you like to search?",
+        "vistaLista" => "List view",
+        "vistaMosaico" => "Mosaic view",
+        "buscar" => "Search",
+        "noHayElementos" => "There is no items to show in this view",
+        "fechaEvento" => "From :fechaInicio to :fechaFin",
+        "descargarPDF" => "Download PDF",
+        "limpiarFiltros" => "Clean filters",
+        "tipoDeInforme" => "Type of report",
+        "seleccioneElTipoDeInforme" => "Select a type of report",
+        "verTodosLosRegistros" => "See all records",
+        "categoriaDeInforme" => "Report category",
+        "seleccioneLaCategoria" => "Selec a category"
+    ],
+    "detalle" => [
+        "altImagenPresentacion" => "Presentation image of :imagen",
+        "comentar" => "Comment",
+        "comentarios" => "Comments",
+        "informacionGeneral" => "General information",
+        "ubicacion" => "Location",
+        "queDeboTenerEnCuenta" => "What should I consider?"
+    ],
+    "home" => [
+        "descripcion" => "The Tourist Information System of the Atlantic is an initiative of the Ministry of Commerce, Industry and Tourism (MinCIT) designed to integrate quantitative and qualitative information of Tourism in the Department of Atlántico with the aim of consolidating measurements of the sector that provide information to characterize the tourism and generate standards that allow the comparison and sectoral statistical integration. The purpose of SITUR is to support decision-making, support the promotion strategies of the region and consolidate a culture of tourism information as an economic sector.",
+        "clima" => "Weather"
     ]
-    
-    
-    
-    
-    
-    
-    
     
     ];

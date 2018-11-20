@@ -39,6 +39,10 @@
                 background-color: black;
                 margin-bottom: 1rem;
             }
+            .dropdown-menu.menuTipoGrafica {
+                text-align: left;
+                width: auto;
+            }
         </style>
         
         <script src="{{asset('/js/plugins/angular.min.js')}}"></script>

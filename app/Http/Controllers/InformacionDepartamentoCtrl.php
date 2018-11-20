@@ -16,13 +16,13 @@ class InformacionDepartamentoCtrl extends Controller
 {
     public function __construct()
     {
-       
-        $this->middleware('auth',['except' => ['AcercaDe','Requisitos'] ]);
-        $this->middleware('role:Admin|Promocion',['except' => ['AcercaDe','Requisitos'] ]);
+        $this->middleware('auth',['except' => ['AcercaDe','Requisitos', 'PlanificaTuViaje'] ]);
+        $this->middleware('role:Admin|Promocion',['except' => ['AcercaDe','Requisitos', 'PlanificaTuViaje'] ]);
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
     }
+    
     public function AcercaDe(){
         return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",1 )->first()  ] );
     }
@@ -31,12 +31,20 @@ class InformacionDepartamentoCtrl extends Controller
         return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",2 )->first()  ] );
     }
     
+    public function PlanificaTuViaje(){
+        return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",3 )->first()  ] );
+    }
+    
     public  function getConfiguracionacercade(){
         return View("informacionDepartamento.configuracion", [ "id"=>1 ] );
     }
     
     public  function getConfiguracionrequisitos(){
         return View("informacionDepartamento.configuracion", [ "id"=>2 ]);
+    }
+    
+    public  function getConfiguracionplanificatuviaje(){
+        return View("informacionDepartamento.configuracion", [ "id"=>3 ] );
     }
     
     public  function getData($id){

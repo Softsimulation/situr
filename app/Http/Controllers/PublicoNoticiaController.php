@@ -25,12 +25,16 @@ use App\Models\User;
 
 class PublicoNoticiaController extends Controller
 {
+    public function __construct()
+    {
+        $this->idioma_id = \Config::get('app.locale') == "en" ? 2 : 1;
+    }
 	public function getListado(Request $request) {
 	    $noticias = Noticia::
         join('noticias_has_idiomas', 'noticias_has_idiomas.noticias_id', '=', 'noticias.id')
         ->join('tipos_noticias', 'tipos_noticias.id', '=', 'noticias.tipos_noticias_id')
         ->join('tipos_noticias_has_idiomas', 'tipos_noticias_has_idiomas.tipos_noticias_id', '=', 'tipos_noticias.id')
-        ->where('noticias_has_idiomas.idiomas_id',1)->where('tipos_noticias_has_idiomas.idiomas_id',1)
+        ->where('noticias_has_idiomas.idiomas_id',$this->idioma_id)->where('tipos_noticias_has_idiomas.idiomas_id',$this->idioma_id)
         ->where('tipos_noticias.estado',1)
         ->where(function($q)use($request){ if( isset($request->tipoNoticia) && $request->tipoNoticia != null ){$q->where('tipos_noticias.id',$request->tipoNoticia);}})
         ->where(function($q)use($request){ if( isset($request->buscar) && $request->buscar != null ){$q->where(trim(strtolower('noticias_has_idiomas.titulo')),'like','%'.trim(strtolower($request->buscar)).'%');}})             
@@ -38,7 +42,7 @@ class PublicoNoticiaController extends Controller
         "noticias_has_idiomas.titulo as tituloNoticia","noticias_has_idiomas.resumen","noticias_has_idiomas.texto",
         "tipos_noticias.id as idTipoNoticia","tipos_noticias_has_idiomas.nombre as nombreTipoNoticia")->paginate(10);
         
-        $tiposNoticias = Tipo_noticia_Idioma::where('idiomas_id',1)->get();
+        $tiposNoticias = Tipo_noticia_Idioma::where('idiomas_id',$this->idioma_id)->get();
         
         return view('noticias.ListadoNoticiasPublico',array('noticias' => $noticias,"tiposNoticias"=>$tiposNoticias));
 	}
@@ -47,14 +51,14 @@ class PublicoNoticiaController extends Controller
         join('noticias_has_idiomas', 'noticias_has_idiomas.noticias_id', '=', 'noticias.id')
         ->join('tipos_noticias', 'tipos_noticias.id', '=', 'noticias.tipos_noticias_id')
         ->join('tipos_noticias_has_idiomas', 'tipos_noticias_has_idiomas.tipos_noticias_id', '=', 'tipos_noticias.id')
-        ->where('noticias_has_idiomas.idiomas_id',1)->where('tipos_noticias_has_idiomas.idiomas_id',1)
+        ->where('noticias_has_idiomas.idiomas_id',$this->idioma_id)->where('tipos_noticias_has_idiomas.idiomas_id',$this->idioma_id)
         ->where('tipos_noticias.estado',1)
         ->select("noticias.id as idNoticia","noticias.enlace_fuente","noticias.es_interno","noticias.estado", "noticias.created_at as fecha",
         "noticias_has_idiomas.titulo as tituloNoticia","noticias_has_idiomas.resumen","noticias_has_idiomas.texto",
         "tipos_noticias.id as idTipoNoticia","tipos_noticias_has_idiomas.nombre as nombreTipoNoticia")->
         orderBy('fecha','DESC')->take(4)->get();
         
-        $tiposNoticias = Tipo_noticia_Idioma::where('idiomas_id',1)->get();
+        $tiposNoticias = Tipo_noticia_Idioma::where('idiomas_id',$this->idioma_id)->get();
         return $noticias;
         //return view('noticias.ListadoNoticiasPublico',array('noticias' => $noticias,"tiposNoticias"=>$tiposNoticias));
 	}
@@ -78,7 +82,7 @@ class PublicoNoticiaController extends Controller
         
         $portada = Multimedia_noticia::
         join('multimedias_noticias_has_idiomas', 'multimedias_noticias_has_idiomas.multimedias_noticias_id', '=', 'multimedias_noticias.id')
-        ->where('multimedias_noticias.noticia_id',1)->where('multimedias_noticias.es_portada',1)->where('multimedias_noticias_has_idiomas.idiomas_id',1)
+        ->where('multimedias_noticias.noticia_id',1)->where('multimedias_noticias.es_portada',1)->where('multimedias_noticias_has_idiomas.idiomas_id',$this->idioma_id)
         ->select("multimedias_noticias.id as idMultimedia","multimedias_noticias.ruta as ruta","multimedias_noticias.es_portada as portada",
         "multimedias_noticias_has_idiomas.idiomas_id as idiomas_id", "multimedias_noticias_has_idiomas.texto_alternativo as texto")->first();
         

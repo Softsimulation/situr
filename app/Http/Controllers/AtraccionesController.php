@@ -47,33 +47,35 @@ class AtraccionesController extends Controller
             return response('Not found.', 404);
         }
         
+        $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        
         $atraccion = Atracciones::with(['comentariosAtracciones'=> function ($queryComentario){
             $queryComentario->orderBy('fecha', 'DESC')->with(['user']);
-        },'sitio' => function ($querySitio){
-            $querySitio->with(['sitiosConIdiomas' => function ($querySitiosConIdiomas){
-                $querySitiosConIdiomas->orderBy('idiomas_id')->select('idiomas_id', 'sitios_id', 'nombre', 'descripcion');
+        },'sitio' => function ($querySitio) use ($idioma){
+            $querySitio->with(['sitiosConIdiomas' => function ($querySitiosConIdiomas) use ($idioma){
+                $querySitiosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'sitios_id', 'nombre', 'descripcion');
             }, 'multimediaSitios' => function($queryMultimediaSitios){
                 $queryMultimediaSitios->select('sitios_id', 'ruta')->orderBy('portada', 'desc')->where('tipo', false);
-            }, 'sitiosConActividades' => function ($querySitiosConActividades){
-                $querySitiosConActividades->with(['actividadesConIdiomas' => function($queryActividadesConIdiomas){
-                    $queryActividadesConIdiomas->select('actividades_id', 'idiomas', 'nombre');
+            }, 'sitiosConActividades' => function ($querySitiosConActividades) use ($idioma){
+                $querySitiosConActividades->with(['actividadesConIdiomas' => function($queryActividadesConIdiomas) use ($idioma){
+                    $queryActividadesConIdiomas->where('idiomas', $idioma)->select('actividades_id', 'idiomas', 'nombre');
                 }, 'multimediasActividades' => function($queryMultimediasActividades){
                     $queryMultimediasActividades->where('portada', true)->select('actividades_id', 'ruta');
                 }])->select('actividades.id');
             }])->select('id', 'longitud', 'latitud', 'direccion');
-        }, 'atraccionesConIdiomas' => function ($queryAtraccionesConIdiomas){
-            $queryAtraccionesConIdiomas->orderBy('idiomas_id')->select('atracciones_id', 'idiomas_id'  , 'como_llegar', 'horario', 'periodo', 'recomendaciones', 'reglas');
-        }, 'atraccionesConTipos' => function ($queryAtraccionesConTipos){
-            $queryAtraccionesConTipos->with(['tipoAtraccionesConIdiomas' => function ($queryTipoAtraccionesConIdiomas){
-                $queryTipoAtraccionesConIdiomas->select('idiomas_id', 'tipo_atracciones_id', 'nombre');
+        }, 'atraccionesConIdiomas' => function ($queryAtraccionesConIdiomas) use ($idioma){
+            $queryAtraccionesConIdiomas->where('idiomas_id', $idioma)->select('atracciones_id', 'idiomas_id'  , 'como_llegar', 'horario', 'periodo', 'recomendaciones', 'reglas');
+        }, 'atraccionesConTipos' => function ($queryAtraccionesConTipos) use ($idioma){
+            $queryAtraccionesConTipos->with(['tipoAtraccionesConIdiomas' => function ($queryTipoAtraccionesConIdiomas) use ($idioma){
+                $queryTipoAtraccionesConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'tipo_atracciones_id', 'nombre');
             }])->select('tipo_atracciones.id');
-        }, 'categoriaTurismoConAtracciones' => function($queryCategoriaTurismoConAtracciones){
-            $queryCategoriaTurismoConAtracciones->with(['categoriaTurismoConIdiomas' => function ($queryCategoriaTurismoConIdiomas){
-                $queryCategoriaTurismoConIdiomas->select('categoria_turismo_id', 'idiomas_id', 'nombre');
+        }, 'categoriaTurismoConAtracciones' => function($queryCategoriaTurismoConAtracciones) use ($idioma){
+            $queryCategoriaTurismoConAtracciones->with(['categoriaTurismoConIdiomas' => function ($queryCategoriaTurismoConIdiomas) use ($idioma){
+                $queryCategoriaTurismoConIdiomas->where('idiomas_id', $idioma)->select('categoria_turismo_id', 'idiomas_id', 'nombre');
             }])->select('categoria_turismo.id');
-        }, 'perfilesUsuariosConAtracciones' => function ($queryPerfilesUsuariosConAtracciones){
-            $queryPerfilesUsuariosConAtracciones->with(['perfilesUsuariosConIdiomas' => function($queryPerfilesUsuariosConIdiomas){
-                $queryPerfilesUsuariosConIdiomas->select('idiomas_id', 'perfiles_usuarios_id', 'nombre');
+        }, 'perfilesUsuariosConAtracciones' => function ($queryPerfilesUsuariosConAtracciones) use ($idioma){
+            $queryPerfilesUsuariosConAtracciones->with(['perfilesUsuariosConIdiomas' => function($queryPerfilesUsuariosConIdiomas) use ($idioma){
+                $queryPerfilesUsuariosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'perfiles_usuarios_id', 'nombre');
             }])->select('perfiles_usuarios.id');
         }])->where('id', $id)->select('id', 'sitios_id', 'calificacion_legusto', 'calificacion_recomendar', 'calificacion_volveria', 'sitio_web')->first();
         

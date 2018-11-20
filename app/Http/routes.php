@@ -11,6 +11,7 @@
 |
 */
 
+Route::get('/PlanificaTuViaje','InformacionDepartamentoCtrl@PlanificaTuViaje');
 Route::get('/Departamento/AcercaDe','InformacionDepartamentoCtrl@AcercaDe');
 Route::get('/Departamento/Requisitos','InformacionDepartamentoCtrl@Requisitos');
 Route::controller('/InformacionDepartamento','InformacionDepartamentoCtrl');
@@ -63,8 +64,7 @@ Route::get('/entidadesAsociadas', function () {
   
 });
 Route::get('/registrar', function () {
-
-    return view('publico.situr.registrar');
+    return view('publico.situr.registrar',array('errores' => null,'mensajeExito'=>null));
   
 });
 Route::get('/listados', function () {
@@ -105,21 +105,6 @@ Route::controller('/administradoractividades', 'AdministradorActividadesControll
 
 Route::controller('/administradordestinos', 'AdministradorDestinosController');
 
-
-// Public Jáder
-Route::controller('/atracciones', 'AtraccionesController');
-
-Route::controller('/actividades', 'ActividadesController');
-
-Route::controller('/destinos', 'DestinosController');
-
-Route::controller('/quehacer', 'QueHacerController');
-
-Route::controller('/rutas', 'RutasTuristicasController');
-
-Route::controller('/eventos', 'EventosController');
-
-Route::controller('/proveedor', 'ProveedoresController');
 
 Route::group(['middleware' => 'cors'], function(){
     Route::controller('/authapi', 'ApiAuthController');
@@ -174,18 +159,24 @@ Route::group(['prefix' => 'publicaciones','middleware'=>'auth'], function () {
 
 Route::controller('/bolsaEmpleo','BolsaEmpleoController');
 
-Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
+
 
 Route::controller('/postulado','PostuladoController');
 
 
 
 Route::controller('/noticias','NoticiaController');
+/*
 Route::controller('/promocionNoticia','PublicoNoticiaController');
 Route::controller('/promocionInforme','PublicoInformeController');
-Route::controller('/promocionPublicacion','PublicoPublicacionController');
+Route::controller('/promocionPublicacion','PublicoPublicacionController');*/
 Route::controller('/sliders','SliderController');
 Route::controller('/suscriptores','SuscriptoreController');
+Route::controller('/registrar','RegistrarController');
+
+//Route::controller('/','HomeController');
+
+
 
 
 
@@ -200,6 +191,29 @@ Route::group(['middleware' => ['web']], function () {
         'lang' => 'en|es'
     ]);
     Route::controller('/visitante', 'VisitanteController');
+    
+    // Public Jáder
+    Route::controller('/atracciones', 'AtraccionesController');
+    
+    Route::controller('/destinos', 'DestinosController');
+    
+    Route::controller('/quehacer', 'QueHacerController');
+    
+    Route::controller('/rutas', 'RutasTuristicasController');
+    
+    Route::controller('/eventos', 'EventosController');
+    
+    Route::controller('/proveedor', 'ProveedoresController');
+    
+    Route::controller('/actividades', 'ActividadesController');
+    
+    Route::controller('/promocionNoticia', 'PublicoNoticiaController');
+    
+    Route::controller('/promocionPublicacion', 'PublicoPublicacionController');
+    
+    Route::controller('/promocionInforme', 'PublicoInformeController');
+    
+    Route::controller('/promocionBolsaEmpleo','PublicoBolsaEmpleoController');
  
     Route::controller('/','HomeController');
  

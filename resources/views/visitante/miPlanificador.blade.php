@@ -1,30 +1,28 @@
 @extends('layout._publicLayout')
 
-@section('title', 'Mi planificador')
+@section('Title', 'Mi planificador')
 
 @section('estilos')
     <style>
     header{
         position: static;
         background-color: black;
+        margin-bottom: 1rem;
     }
     
-    
-    .ADMdtp-box footer {
-       /*height: 1.7em;*/
-       position: relative;
-       overflow: hidden;
-       background: transparent;
-       color: #333;
-       border: 0;
-       margin: 0;
-       padding: 0;
+    .btn.btn-circle {
+        font-size: 1.5rem;
+        line-height: 1.35;
+        padding: .5rem;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        text-align: center;
     }
-    
-    .ADMdtp-box header{
-        background: white;
+    #shareButtons{
+        margin-top: .5rem;
+        
     }
-
         
     </style>
     
@@ -38,19 +36,17 @@
     <script src="{{asset('/js/plugins/angular.min.js')}}"></script> 
 @endsection
 
-@section('TitleSection', 'Mi planificador')
+@section('meta_og')
+<meta property="og:title" content="@{{planificador.Nombre}}. Miralo en SITUR Atlántico" />
+<meta property="og:image" content="{{asset('/res/logo/black/128.png')}}" />
+@endsection
 
 @section('content')
     <div class="container" ng-app="visitanteApp" ng-controller="planificador">
         <input type="hidden" ng-model="Id" ng-init="Id={{$id}}" />
-        <div class="jumbotron" style="background-color: transparent;">
-            <div class="row hide-page show-print">
-                <div class="col-xs-12" style="text-align: center;">
-                    <img src="/Content/image/logo2.png" alt="Logo Situr" height="160" />
-                </div>
-            </div>
-            <h1 class="titulo">@{{planificador.Nombre}}</h1>
-    
+            
+            <h2 class="titulo">@{{planificador.Nombre}}</h2>
+            <hr>
             <div id="planificadores" class="panel panel-default">
                 <div class="panel-heading heading-planificador">
                     <div class="row">
@@ -114,66 +110,27 @@
                 </div>
     
             </div>
-            @if (!Auth::check())
-                <div class="row hide-print">
-                    <div class="col-xs-12" style="text-align: center;">
-                        <button type="button" class="btn btn-lg btn-primary btn-orange" data-toggle="modal" data-target="#modalCrearPlanificador"><span class="glyphicon glyphicon-plus"></span> Agregar planificador</button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="modalCrearPlanificador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div id="shareButtons" class="text-center">
+                <p>Comparte esta publicación</p>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={{\Request::url()}}" role="button" class="btn btn-circle btn-primary" title="Compartir en Facebook" target="_blank" rel="noopener noreferrer">
+                    <span class="ion-social-facebook" aria-hidden="true"></span>
+                    <span class="sr-only">Compartir en Facebook</span>
+                </a>
+                <a href="https://twitter.com/home?status= Comparte @{{planificador.Nombre}} por SITUR Atlántico. Lee más en {{\Request::url()}}" role="button" class="btn btn-circle btn-info" title="Compartir en Twitter" target="_blank" rel="noopener noreferrer">
+                    <span class="ion-social-twitter" aria-hidden="true"></span>
+                    <span class="sr-only">Compartir en Twitter</span>
+                </a>
+                <a href="https://plus.google.com/share?url={{\Request::url()}}" role="button" class="btn btn-circle btn-danger" title="Compartir en Google +" target="_blank" rel="noopener noreferrer">
+                    <span class="ion-social-googleplus" aria-hidden="true"></span>
+                    <span class="sr-only">Compartir en Google +</span>
+                </a>
+                <button type="button" class="btn btn-circle btn-default" title="Imprimir esta publicación" onclick="window.print();return false;">
+                    <span class="ion-android-print" aria-hidden="true"></span>
+                    <span class="sr-only">Imprimir esta publicación</span>
+                </button>
+            </div>
+            
     
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row" style="padding: 0;">
-                                            <div class="jumbotron" style="text-align: center;font-size: 4em; padding-top: 2em; padding-bottom: 2em;">
-                                                <span class="glyphicon glyphicon-lock" style="font-size: 2.5em;"></span>
-                                                <!--Para acceder a esta funcionalidad debe iniciar sesión-->
-                                                <h2>Para acceder a esta funcionalidad debe iniciar sesión</h2>
-                                                <!--Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal-->
-                                                <p>Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal</p>
-    
-                                                <div class="row">
-                                                    <div class="col-xs-6 col-md-6 col-md-6" style="text-align: right;">
-                                                        <a href="/Account/Login" class="btn btn-lg btn-default">Iniciar sesión</a>
-                                                    </div>
-                                                    <div class="col-xs-6 col-md-6 col-md-6" style="text-align: left;">
-                                                        <a href="/Account/Register" class="btn btn-lg btn-success">Registrarse</a>
-                                                    </div>
-                                                </div>
-    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    
-                    </div>
-                </div>
-            @else
-                <div class="row hide-print">
-                    <div class="col-xs-12" style="text-align: center;">
-                        <h3>Compartir @{{planificador.Nombre}}</h3>
-                    </div>
-                    <div class="col-xs-12" style="text-align: center;">
-                        <!--<a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=https://siturmagdalena.com/Visitante/MiPlanificador/@ViewBag.Id&picture=https://www.siturmagdalena.com/Content/image/logo2.png&title=@ViewBag.Titulo', 'facebook-share-dialog', 'width=626,height=436'); return false;" class="btn btn-viewMore blue"><span class="ion-social-facebook"></span> Facebook</a>-->
-                        <!--<a href="#" onclick="window.open('https://plus.google.com/share?url=' + encodeURIComponent(location.href), 'Google +', 'width=420,height=466'); return false;" class="btn btn-viewMore red"><span class="ion-social-googleplus"></span> Google +</a>-->
-                        <!--<a href="#" onclick="window.open('https://twitter.com/intent/tweet?hashtags=SiturMagdalena&text=' + document.querySelector('.titulo').innerHTML + '&original_referer=' + encodeURIComponent(location.href) + '&tw_p=tweetbutton&url=' + encodeURIComponent(location.href), 'Twitter', 'width=640,height=250'); return false;" class="btn btn-viewMore lightblue"><span class="ion-social-twitter"></span> Twitter</a>-->
-        
-                    </div>
-                    <div class="col-xs-12" style="text-align: center;">
-                        <button type="button" class="btn btn-viewMore green" onclick="window.print()">
-                            <i class="glyphicon glyphicon-print"></i> Imprimir este planificador
-                        </button>
-                    </div>
-        
-                </div>
-            @endif
-    
-        </div>
     
     
     </div>
