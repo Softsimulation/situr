@@ -34,6 +34,33 @@
                         <a href="http://www.cotelcoatlantico.org/" target="_blank">Cotelco Capítulo Atlántico</a>
                     </li>
                 </ul>
+                <hr style="margin: .5rem 0">
+                <p style="margin: 0">{{trans('resources.common.suscribase')}}</p>
+                <form class="form-inline" name="guardarSuscriptor" action="/suscriptores/guardarsuscriptor" method="post">
+        			<div class="form-group" style="width: 80%;">
+        			    <label class="sr-only">{{trans('resources.common.suscribir')}}</label>
+                        <input type="email" class="form-control" style="width: 100%;" required name="emailSuscriptor" id="emailSuscriptor" placeholder="Ingrese el correo donde desea recibir las notificaciones"/>
+    					
+                    </div>
+                    <button type="submit" class="btn btn-info">{{trans('resources.common.enviar')}}</button>
+                </form>
+                    @if(isset($suscriptorExiste) && $suscriptorExiste != null)
+                        <div class="alert alert-warning">
+                            
+                            <span class="messages">
+                                  <span>*{{$suscriptorExiste}}</span><br/>
+                            </span>
+                        </div>
+                    @endif
+                    @if(isset($exitoso) && $exitoso != null)
+                        <div class="alert alert-success">
+                            
+                            <span class="messages">
+                                  <span>*{{$exitoso}}</span><br/>
+                            </span>
+                        </div>
+                    @endif
+        		
             </div>
         </div>
     </div>

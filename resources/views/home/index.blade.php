@@ -1,3 +1,32 @@
+<?php 
+function getItemType($type){
+    $path = ""; $name = "";
+    switch($type){
+        case(1):
+            $name = trans('resources.entidad.actividades');
+            $path = "/actividades/ver/";
+            break;
+        case(2):
+            $name = trans('resources.entidad.atracciones');
+            $path = "/atracciones/ver/";
+            break;
+        case(3):
+            $name = trans('resources.entidad.destinos');
+            $path = "/destinos/ver/";
+            break;
+        case(4):
+            $name = trans('resources.entidad.eventos');
+            $path = "/eventos/ver/";
+            break; 
+        case(5):
+            $name = trans('resources.entidad.rutasTuristicas');
+            $path = "/rutas/ver/";
+            break;
+    }
+    return (object)array('name'=>$name, 'path'=>$path);
+}
+$colorTipo = ['primary','success','danger', 'info', 'warning'];
+?>
 @extends('layout._publicLayout')
 
 @section('Title','')
@@ -22,6 +51,18 @@
         transform: scaleX(-1);
         filter: FlipH;
         -ms-filter: "FlipH";
+    }
+    .tile .tile-img .text-overlap h3 small {
+        font-size: 0.875rem;
+        color: white;
+    }
+    
+    .tile .tile-img .text-overlap h3 {
+        line-height: 2;
+        font-size: 1rem;
+    }
+    .tiles .tile .tile-img {
+        height: 220px;
     }
 </style>
 @endsection
@@ -105,7 +146,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12">
-                            <a class="weatherwidget-io" href="https://forecast7.com/es/11d00n74d81/barranquilla/" data-label_1="BARRANQUILLA" data-label_2="Clima" data-theme="original" >BARRANQUILLA Clima</a>
+                            
+                            <a class="weatherwidget-io" href="https://forecast7.com/{{Config::get('app.locale')}}/11d00n74d81/barranquilla/" data-label_1="BARRANQUILLA" data-label_2="{{trans('resources.home.clima')}}" data-theme="original" >BARRANQUILLA {{trans('resources.home.clima')}}</a>
 <script>
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
 </script>
@@ -116,12 +158,10 @@
             </section>
             <section id="descripcion">
                 <div class="container text-center">
-                    <h2>SITUR Atlántico</h2>
+                    <h2>SITUR ATLÁNTICO</h2>
 
                     <p>
-El Sistema de Información Turística del Atlántico es una iniciativa del Ministerio de Comercio, Industria y Turismo (MinCIT) diseñada para integrar la información cuantitativa y cualitativa del 
-Turismo en el departamento del Atlántico con el objetivo de consolidar mediciones del sector que brinden información para caracterizar el turismo y generar estándares que permitan la comparación e integración estadística sectorial.
-La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias de promoción de la región y consolidar una cultura de información del turismo como sector económico.
+                {{trans('resources.home.descripcion')}}
 
                         
                         </p>
@@ -129,6 +169,39 @@ La finalidad del SITUR es apoyar la toma de decisiones, soportar las estrategias
                 </div>
                 
             </section>
+            @if(count($sugeridos))
+            <div class="container">
+                <h2 class="text-uppercase text-center">Sugerencias</h2>
+                <div class="tiles">
+                    @foreach($sugeridos as $sugerido)
+                    <div class="tile">
+                        <div class="tile-img">
+                            <img src="{{$sugerido->portada}}" alt="" role="presentation">
+                            <div class="text-overlap">
+                                <span class="label label-{{$colorTipo[$sugerido->tipo - 1]}}">{{getItemType($sugerido->tipo)->name}}</span>
+                                <h3>
+                                    <a href="{{getItemType($sugerido->tipo)->path}}{{$sugerido->id}}">{{$sugerido->nombre}}</a>
+                                    @if($sugerido->tipo == 4)
+                                    <small>{{trans('resources.listado.fechaEvento', ['fechaInicio' => date('d/m/Y', strtotime($sugerido->fecha_inicio)), 'fechaFin' => date('d/m/Y', strtotime($sugerido->fecha_fin))])}}</small>
+                                    @endif
+                                </h3>
+                                
+                            </div>
+                            
+                        </div>
+                        <!--<div class="tile-body">-->
+                        <!--    <div class="tile-caption">-->
+                        <!--        <h3><a href="#">{{$sugerido->nombre}}</a></h3>-->
+                                
+                        <!--    </div>-->
+                        <!--</div>-->
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            
+            @endif
+            
             @if(count($noticias) > 0)
             <section id="noticias">
                 <div class="container">

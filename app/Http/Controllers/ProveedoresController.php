@@ -13,13 +13,11 @@ use App\Models\Proveedor_Favorito;
 class ProveedoresController extends Controller
 {
   
-    
-    
-    
-        public function __construct()
+    public function __construct()
 	{
 	    $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
 	}
+	
     //
     public function getVer($id){
         if ($id == null){

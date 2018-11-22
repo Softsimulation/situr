@@ -149,6 +149,7 @@ class AtraccionesController extends Controller
        
         return redirect('atracciones/ver/'.$request->id)->with('success','Comentario guardado correctamente');
     }
+    
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $atraccion = Atracciones::find($request->atraccion_id);
