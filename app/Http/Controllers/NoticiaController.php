@@ -274,6 +274,7 @@ class NoticiaController extends Controller
         $multimedia->ruta = "/Noticias/".$nombrex;
         $multimedia->user_create = $this->user->username;
         $multimedia->user_update = $this->user->username;
+        $multimedia->es_video = 0;
         $multimedia->updated_at = Carbon::now();
         $multimedia->created_at = Carbon::now();
         $multimedia->save();
