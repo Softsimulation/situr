@@ -193,7 +193,7 @@
         
                  <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.6 De las siguientes situaciones en función del turismo sostenible, ¿Cuáles considera que representan  un riesgo  alto, medio  o bajo en  Atlántico</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.19 De los siguientes riesgos o problemáticas ambientales en función del turismo sostenible ¿Cuáles cree que representan un riesgo alto, medio o bajo en el departamento del Atlántico?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Respuesta múltiple</b></div>
                 <div class="panel-body">
