@@ -117,6 +117,7 @@
         padding:0!important;
         padding-top:20px !important;
     }
+    
 </style>
 
 @endsection
@@ -173,7 +174,7 @@
                             <div class="col-xs-12 col-md-3" ng-show="yearSelect.mes" >
                                 <div class="input-group">
                                     <label class="input-group-addon">Mes</label>
-                                    <select class="form-control" ng-model="mesSelect" ng-change="filtro.id=mesSelect.id;filtrarDatos()" ng-options="m as m.mes for m in periodos | filter:{ 'year': yearSelect.year }" ng-requerid="yearSelect.mes"  >
+                                    <select class="form-control" ng-model="mesSelect" ng-change="filtro.id=mesSelect.id;filtro.mes=mesSelect.mes;filtrarDatos()" ng-options="m as m.mes for m in periodos | filter:{ 'year': yearSelect.year }" ng-requerid="yearSelect.mes"  >
                                     </select>
                                 </div>
                             </div>
@@ -279,7 +280,7 @@
                             <tbody>
                               <tr  ng-repeat="label in labels" >
                                 <td>@{{label}}</td>
-                                <td>@{{data[$index]}}</td>
+                                <td>@{{data[0][$index]}}</td>
                                 <td ng-if="dataExtra" >@{{dataExtra.media[$index]}}</td>
                                 <td ng-if="dataExtra" >@{{dataExtra.mediana[$index]}}</td>
                                 <td ng-if="dataExtra" >@{{dataExtra.moda[$index]}}</td>

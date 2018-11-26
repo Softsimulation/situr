@@ -10,6 +10,40 @@ function parse_yturl($url)
 ?>
 @extends('layout._publicLayout')
 
+@section ('estilos')
+    <link href="{{asset('/css/public/pages.css')}}" rel="stylesheet">
+    @if(count($proveedor->multimediaProveedores) == 0)
+        <style>
+            header {
+                position: relative;
+                background: black;
+                margin-bottom: 1rem;
+            }
+            .carousel-caption{
+                position: static;
+                padding: 0;
+                color: #333;
+            }
+            .carousel-caption h2 {
+                text-shadow: none;
+                font-size: 2.325rem;
+                color: #185a1e;
+            }
+            .carousel-caption h2 small, .carousel-caption .ion-android-star, .carousel-caption .ion-android-star-outline{
+                color:darkorange;
+            }
+            .btn.btn-lg.btn-circled{
+                font-size: 1.825rem;
+                color: red;
+                background: whitesmoke;
+            }
+            .nav-bar nav>ul li ul a, .submenu{
+                background-color:white;
+            }
+        </style>
+    @endif
+@endsection
+
 @section('Title',$proveedor->proveedorRnt->razon_social)
 
 @section('TitleSection','Proveedores')
@@ -20,12 +54,6 @@ function parse_yturl($url)
 <meta property="og:description" content="{{$proveedor->proveedorRnt->idiomas[0]->descripcion}}"/>
 @endsection
 
-@section ('estilos')
-    <link href="{{asset('/css/public/pages.css')}}" rel="stylesheet">
-    <link href="{{asset('/css/public/details.css')}}" rel="stylesheet">
-    <link href="//cdn.materialdesignicons.com/2.5.94/css/materialdesignicons.min.css" rel="stylesheet">
-    
-@endsection
 
 @section('content')
 @if (session('success'))
@@ -40,7 +68,7 @@ function parse_yturl($url)
     </div>
 @endif
 
-
+    @if(isset($proveedor->multimediaProveedores) && count($proveedor->multimediaProveedores) > 0)
     <div id="carousel-main-page" class="carousel slide carousel-fade" data-ride="carousel">
       <ol class="carousel-indicators">
         @for($i = 0; $i < count($proveedor->multimediaProveedores); $i++)
@@ -50,15 +78,15 @@ function parse_yturl($url)
       <div class="carousel-inner">
       
         @for($i = 0; $i < count($proveedor->multimediaProveedores); $i++)
-        <div class="carousel-item {{  $i === 0 ? 'active' : '' }}">
-          <img class="d-block" src="{{$proveedor->multimediaProveedores[$i]->ruta}}" alt="Imagen de presentación de">
+        <div class="item {{  $i === 0 ? 'active' : '' }}">
+          <img src="{{$proveedor->multimediaProveedores[$i]->ruta}}" alt="Imagen de presentación de">
           
         </div>
         @endfor
         
-        <div class="carousel-caption d-none d-md-block">
-		    <h2 class="text-center container">{{$proveedor->proveedorRnt->razon_social}}
-		        <small class="d-block">
+        <div class="carousel-caption">
+		    <h2>{{$proveedor->proveedorRnt->razon_social}}
+		        <small class="btn-block">
 		            <span class="{{ ($proveedor->calificacion_legusto > 0.0) ? (($proveedor->calificacion_legusto <= 0.9) ? 'mdi mdi-star-half' : 'mdi mdi-star') : 'mdi mdi-star-outline'}}" aria-hidden="true"></span>
 		            <span class="{{ ($proveedor->calificacion_legusto > 1.0) ? (($proveedor->calificacion_legusto <= 1.9) ? 'mdi mdi-star-half' : 'mdi mdi-star') : 'mdi mdi-star-outline'}}" aria-hidden="true"></span>
 		            <span class="{{ ($proveedor->calificacion_legusto > 2.0) ? (($proveedor->calificacion_legusto <= 2.9) ? 'mdi mdi-star-half' : 'mdi mdi-star') : 'mdi mdi-star-outline'}}" aria-hidden="true"></span>
@@ -72,131 +100,227 @@ function parse_yturl($url)
       </div>
       
     </div>
-    <div id="title-main-page">
+    @endif
+    <div id="menu-page">
     	<div class="container">
-    		<div class="row align-items-center d-flex justify-content-center">
-	    		
-	    		<div class="col-12 col-md-12 row align-items-center d-flex justify-content-center">
-    			    <div class="col text-center">
-    					<a href="#informacionGeneral">
-    						<i class="ionicons ion-information-circled" aria-hidden="true"></i>
-    						Información general
-    					</a>
-    				</div>
-    				<div class="col text-center">
-    					<a href="#caracteristicas">
-    						<i class="ionicons ion-android-apps" aria-hidden="true"></i>
-    						Características
-    					</a>
-    				</div>
-    				@if($paraTenerEnCuentaContieneAlgo)
-    				<div class="col text-center">
-    					<a href="#paraTenerEnCuenta">
-    						<i class="ionicons ion-help-circled" aria-hidden="true"></i>
-    						¿Qué debo tener en cuenta?
-    					</a>
-    				</div>
-    				@endif
-    				<div class="col text-center">
-    					<a href="#comentarios">
-    						<i class="ionicons ion-chatbubbles" aria-hidden="true"></i>
-    						Comentarios
-    					</a>
-    				</div>
-	    				
-	    		</div>
-	    	</div>	
+    		<ul id="menu-page-list">
+                <li>
+                    <a href="#informacionGeneral" class="toSection">
+						<i class="ionicons ion-information-circled" aria-hidden="true"></i>
+						<span class="hidden-xs">{{trans('resources.detalle.informacionGeneral')}}</span>
+					</a>
+                </li>
+     <!--           <li>-->
+     <!--               <a href="#caracteristicas" class="toSection">-->
+					<!--	<i class="ionicons ionicons ion-android-pin" aria-hidden="true"></i>-->
+					<!--	<span class="hidden-xs">{{trans('resources.detalle.ubicacion')}}</span>-->
+					<!--</a>-->
+     <!--           </li>-->
+                @if($paraTenerEnCuentaContieneAlgo)
+                <li>
+                    <a href="#paraTenerEnCuenta" class="toSection">
+						<i class="ionicons ion-help-circled" aria-hidden="true"></i>
+						<span class="hidden-xs">{{trans('resources.detalle.queDeboTenerEnCuenta')}}</span>
+					</a>
+                </li>
+                @endif
+                <li>
+                    <a href="#comentarios" class="toSection">
+						<i class="ionicons ion-chatbubbles" aria-hidden="true"></i>
+						<span class="hidden-xs">{{trans('resources.detalle.comentarios')}}</span>
+					</a>
+                </li>
+            </ul>
     	</div>
     	
     </div>
     <section id="informacionGeneral">
         <div class="container">
-            <h3>Información general</h3>
-            <h4 class="text-center">{{$proveedor->proveedorRnt->razon_social}}</h4>
+            <h3 class="title-section">{{$proveedor->proveedorRnt->razon_social}}</h3>
+            
             <div class="text-center">
-                <button type="button" class="btn btn-lg btn-link" id="btn-favorite">
-                    <span class="ionicons ion-android-favorite-outline" aria-hidden="true"></span>
+            @if(Auth::check())
+                <form role="form" action="/proveedor/favorito" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="proveedor_id" value="{{$proveedor->id}}" />
+                    <button type="submit" class="btn btn-lg btn-circled btn-favorite">
+                      <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
+                    </button>    
+                </form>
+            @else
+                <button type="button" class="btn btn-lg btn-circled" title="Marcar como favorito" data-toggle="modal" data-target="#modalIniciarSesion">
+                  <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
                 </button>
-            </div>
-            @if($video_promocional != null)
-            <iframe src="https://www.youtube.com/embed/{{print(parse_yturl($video_promocional))}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 350px;"></iframe>
             @endif
-            <p style="white-space: pre-line;">{{$proveedor->proveedorRnt->idiomas[0]->descripcion}}</p>
-        </div>
-        
-    </section>
-    <section id="caracteristicas">
-        <div class="container">
-            <h3>Características</h3>
-            <!--<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porttitor, augue quis tempus dictum, augue dui molestie sem, vitae molestie augue ipsum id turpis. Fusce feugiat vestibulum ante. Sed a consequat eros, finibus luctus nisl. In ut diam congue, condimentum sem vel, sagittis dolor. Nunc ut vestibulum ex, vitae eleifend metus. Proin id ex eu erat aliquet egestas. Fusce id suscipit velit, ut sodales turpis. Aliquam turpis risus, luctus vitae lobortis finibus, condimentum in felis. Pellentesque vel erat tellus. Suspendisse potenti. Integer porta sed lorem ac iaculis. Pellentesque pretium ex et convallis condimentum. In luctus leo nulla, eu finibus justo volutpat quis.</p>-->
+            @if(Session::has('message'))
+                <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
+            @endif  
+          </div>
+            
+            <!--<div class="text-center">-->
+            <!--    <button type="button" class="btn btn-lg btn-link" id="btn-favorite">-->
+            <!--        <span class="ionicons ion-android-favorite-outline" aria-hidden="true"></span>-->
+            <!--    </button>-->
+            <!--</div>-->
+            
             <div class="row">
+                <div class="col-xs-12">
+                    @if(isset($video_promocional))
+                    <iframe src="https://www.youtube.com/embed/<?php echo parse_yturl($video_promocional); ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 350px;"></iframe>
+                    @endif
+                </div>
                 <div class="col-xs-12 col-md-8">
-                    <div id="map"></div>
+                    <p style="white-space: pre-line;">{{$proveedor->proveedorRnt->idiomas[0]->descripcion}}</p>
                 </div>
                 <div class="col-xs-12 col-md-4">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item active text-uppercase"><strong>Detalles</strong></li>
-                        
-                        <li class="list-group-item">
-                            <div class="row">
+                    <ul class="list">
+                        <li>
+                            <div class="row align-items-center">
                                 <div class="col-xs-2">
-                                    <span class="ion-cash" aria-hidden="true"></span> <span class="sr-only">Valor</span>
+                                    <span class="ionicons ion-android-time" aria-hidden="true"></span> <span class="sr-only">Horario</span>
                                 </div>
-                                <div class="col">
-                                    ${{number_format(intval($proveedor->valor_min))}} - ${{number_format(intval($proveedor->valor_max))}}
+                                <div class="col-xs-10">
+                                    <div class="form-group">
+                                        <label>Horario</label>
+                                        <p class="form-control-static">
+                                            {{$proveedor->proveedoresConIdiomas[0]->horario}}
+                                        </p>
+                                    </div>
+                                    
                                 </div>
                                 
                             </div>
-                            <div class="row">
-                                <div class="col-xs-2">
-                                    <span class="ion-android-time" aria-hidden="true"></span> <span class="sr-only">Horario</span>
-                                </div>
-                                <div class="col">
-                                    {{$proveedor->proveedoresConIdiomas[0]->horario}}
-                                </div>
-                                
-                            </div>
-                            @if($proveedor->telefono != null)
-                            <div class="row">
-                                <div class="col-xs-2">
-                                    <span class="ion-android-call" aria-hidden="true"></span> <span class="sr-only">Telefóno</span>
-                                </div>
-                                <div class="col">
-                                    {{$proveedor->telefono}}
-                                </div>
-                                
-                            </div>
-                            @endif
-                            @if($proveedor->sitio_web != null)
-                            <div class="row">
-                                <div class="col-xs-2">
-                                    <span class="ion-android-globe" aria-hidden="true"></span> <span class="sr-only">Sitio web</span>
-                                </div>
-                                <div class="col">
-                                    <a href="{{$proveedor->sitio_web}}" target="_blank" rel="noopener noreferrer">Clic para ir al sitio web</a>
-                                </div>
-                            </div>
-                            @endif
                         </li>
+                        <li>
+                            <div class="row align-items-center">
+                                <div class="col-xs-2">
+                                    <span class="ionicons ion-cash" aria-hidden="true"></span> <span class="sr-only">Valor estimado</span>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div class="form-group">
+                                        <label>Valor estimado</label>
+                                        <p class="form-control-static">
+                                            ${{number_format(intval($proveedor->valor_min))}} - ${{number_format(intval($proveedor->valor_max))}}
+                                        </p>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </div>
+                        </li>
+                        @if($proveedor->telefono != null)
+                        <li>
+                            <div class="row align-items-center">
+                                <div class="col-xs-2">
+                                    <span class="ionicons ion-android-call" aria-hidden="true"></span> <span class="sr-only">Dirección</span>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div class="form-group">
+                                        <label>Teléfono</label>
+                                        <p class="form-control-static">$proveedor->telefono</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        @endif
+                        @if($proveedor->sitio_web != null)
+                        <li>
+                            <div class="row align-items-center">
+                                <div class="col-xs-2">
+                                    <span class="ionicons ion-android-globe" aria-hidden="true"></span> <span class="sr-only">Sitio web</span>
+                                </div>
+                                <div class="col-xs-10">
+                                    <div class="form-group">
+                                        <label>Sitio web</label>
+                                        <p class="form-control-static">
+                                            <a href="{{$proveedor->sitio_web}}" target="_blank" rel="noopener noreferrer">Clic para ir al sitio web</a>
+                                        </p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                        @endif
                     </ul>
                 </div>
             </div>
+            
         </div>
+        
     </section>
-    @if(count($proveedor->actividadesProveedores) > 0)
-    Actividades
-    <div class="row">
-        @foreach ($proveedor->actividadesProveedores as $actividad)
-        <div class="col-sm-12 col-md-12 col-xs-12">
-            Actividad {{$actividad->id}}: {{$actividad->actividadesConIdiomas[0]->nombre}}
-        </div>
-        @endforeach
-    </div>
+    <!--<section id="caracteristicas">-->
+    <!--    <div class="container">-->
+    <!--        <h3>Características</h3>-->
+            <!--<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porttitor, augue quis tempus dictum, augue dui molestie sem, vitae molestie augue ipsum id turpis. Fusce feugiat vestibulum ante. Sed a consequat eros, finibus luctus nisl. In ut diam congue, condimentum sem vel, sagittis dolor. Nunc ut vestibulum ex, vitae eleifend metus. Proin id ex eu erat aliquet egestas. Fusce id suscipit velit, ut sodales turpis. Aliquam turpis risus, luctus vitae lobortis finibus, condimentum in felis. Pellentesque vel erat tellus. Suspendisse potenti. Integer porta sed lorem ac iaculis. Pellentesque pretium ex et convallis condimentum. In luctus leo nulla, eu finibus justo volutpat quis.</p>-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-xs-12 col-md-8">-->
+    <!--                <div id="map"></div>-->
+    <!--            </div>-->
+    <!--            <div class="col-xs-12 col-md-4">-->
+    <!--                <ul class="list-group list-group-flush">-->
+    <!--                    <li class="list-group-item active text-uppercase"><strong>Detalles</strong></li>-->
+                        
+    <!--                    <li class="list-group-item">-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-2">-->
+    <!--                                <span class="ion-cash" aria-hidden="true"></span> <span class="sr-only">Valor</span>-->
+    <!--                            </div>-->
+    <!--                            <div class="col">-->
+    <!--                                ${{number_format(intval($proveedor->valor_min))}} - ${{number_format(intval($proveedor->valor_max))}}-->
+    <!--                            </div>-->
+                                
+    <!--                        </div>-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-2">-->
+    <!--                                <span class="ion-android-time" aria-hidden="true"></span> <span class="sr-only">Horario</span>-->
+    <!--                            </div>-->
+    <!--                            <div class="col">-->
+    <!--                                {{$proveedor->proveedoresConIdiomas[0]->horario}}-->
+    <!--                            </div>-->
+                                
+    <!--                        </div>-->
+    <!--                        @if($proveedor->telefono != null)-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-2">-->
+    <!--                                <span class="ion-android-call" aria-hidden="true"></span> <span class="sr-only">Telefóno</span>-->
+    <!--                            </div>-->
+    <!--                            <div class="col">-->
+    <!--                                {{$proveedor->telefono}}-->
+    <!--                            </div>-->
+                                
+    <!--                        </div>-->
+    <!--                        @endif-->
+    <!--                        @if($proveedor->sitio_web != null)-->
+    <!--                        <div class="row">-->
+    <!--                            <div class="col-xs-2">-->
+    <!--                                <span class="ion-android-globe" aria-hidden="true"></span> <span class="sr-only">Sitio web</span>-->
+    <!--                            </div>-->
+    <!--                            <div class="col">-->
+    <!--                                <a href="{{$proveedor->sitio_web}}" target="_blank" rel="noopener noreferrer">Clic para ir al sitio web</a>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                        @endif-->
+    <!--                    </li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
+    <!--@if(count($proveedor->actividadesProveedores) > 0)-->
+    <!--Actividades-->
+    <!--<div class="row">-->
+    <!--    @foreach ($proveedor->actividadesProveedores as $actividad)-->
+    <!--    <div class="col-sm-12 col-md-12 col-xs-12">-->
+    <!--        Actividad {{$actividad->id}}: {{$actividad->actividadesConIdiomas[0]->nombre}}-->
+    <!--    </div>-->
+    <!--    @endforeach-->
+    <!--</div>-->
 
-    @endif
+    <!--@endif-->
     <section id="comentarios">
         <div class="container">
-            <h3>Comentarios</h3>
+            <h3 class="title-section">Comentarios <small>({{count($proveedor->comentariosProveedores)}})</small></h3>
             <p class="text-center">Te invitamos a que compartas tu opinión acerca de {{$proveedor->proveedorRnt->razon_social}}.</p>   
             <div class="text-center">
                 <div class="text-center">
@@ -208,7 +332,7 @@ function parse_yturl($url)
             <div class="row justify-content-center" id="puntajes">
                 <div class="col-xs-12">
                     <p class="text-center">¿Le gustó?</p>
-                    <small class="d-block text-center">
+                    <small class="btn-block text-center">
     		            <span class="{{ ($proveedor->calificacion_legusto > 0.0) ? (($proveedor->calificacion_legusto <= 0.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
     		            <span class="{{ ($proveedor->calificacion_legusto > 1.0) ? (($proveedor->calificacion_legusto <= 1.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
     		            <span class="{{ ($proveedor->calificacion_legusto > 2.0) ? (($proveedor->calificacion_legusto <= 2.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
@@ -222,12 +346,26 @@ function parse_yturl($url)
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalComentario">Comentar</button>
             </div>
         </div>
-          <ul class="list-group list-group-flush">
-                    @foreach ($proveedor->comentariosProveedores as $comentario)
-                         <li>{{$comentario->user->username}} {{$comentario->comentario}}</li>
-                    @endforeach
-                      
-        </ul>
+        @if(count($proveedor->comentariosProveedores) > 0)
+        <div class="container">
+            <hr>
+             <ul class="list-group list-group-flush no-list-style">
+                @foreach ($proveedor->comentariosProveedores as $comentario)
+                     <li class="list-group-item">
+                         <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+    
+                        <blockquote>
+                        {{$comentario->comentario}}
+                        </blockquote>
+                    </li>
+                @endforeach
+                  
+                           
+            </ul>
+        </div>
+        
+        @endif
+        
         
         <!-- Modal -->
          <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
@@ -289,24 +427,7 @@ function parse_yturl($url)
    </section>
 
     
-    <div class="text-center">
-    @if(Auth::check())
-        <form role="form" action="/proveedor/favorito" method="post">
-            {{ csrf_field() }}
-            <input type="hidden" name="proveedor_id" value="{{$proveedor->id}}" />
-            <button type="submit" class="btn btn-lg btn-circled btn-favorite">
-              <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
-            </button>    
-        </form>
-    @else
-        <button type="button" class="btn btn-lg btn-circled" title="Marcar como favorito" data-toggle="modal" data-target="#modalIniciarSesion">
-          <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
-        </button>
-    @endif
-    @if(Session::has('message'))
-        <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
-    @endif  
-  </div>
+    
     
 
 @endsection

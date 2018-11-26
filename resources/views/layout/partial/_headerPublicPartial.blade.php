@@ -28,15 +28,21 @@
                 
                 <form>
                     <label class="sr-only" for="searchBoxMain">{{trans('resources.common.busqueda')}}</label>
-                    <input type="text" placeholder="Buscar..." name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
+                    <input type="text" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
                     <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.buscar')}}</span></button>
                 </form>
-                <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                <!--<select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">-->
                     <!--<option value="" selected>{{Session::get('lang')}}</option>-->
                     
-                    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>
-                    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>
-                </select>
+                <!--    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>-->
+                <!--    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>-->
+                <!--</select>-->
+                <div id="google_translate_element"></div><script type="text/javascript">
+                function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({pageLanguage: 'es', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+                }
+                </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                        
                 @if(Auth::check())
                 <a href="/login/cerrarsesion" title="Cerrar sesión"><i class="ion-log-out"></i><span class="sr-only">Cerrar sesión</span></a>
                 <a href="/visitante/misfavoritos" title="Mis favoritos"><span class="ion-heart" aria-hidden="true"></span><span class="sr-only">Mis favoritos</span></a>
@@ -160,9 +166,9 @@
                     </ul>    
                     
                 </li>
-                <li>
-                    <a role="menuitem" href="#">{{trans('resources.menu.contactanos')}}</a>
-                </li>
+                <!--<li>-->
+                <!--    <a role="menuitem" href="#">{{trans('resources.menu.contactanos')}}</a>-->
+                <!--</li>-->
             </ul>
         </nav>    
     </div>

@@ -12,23 +12,23 @@ function getItemType($type){
     $path = ""; $name = "";
     switch($type){
         case(1):
-            $name = "Actividades";
+            $name = trans('resources.entidad.actividades');
             $path = "/actividades/ver/";
             break;
         case(2):
-            $name = "Atracciones";
+            $name = trans('resources.entidad.atracciones');
             $path = "/atracciones/ver/";
             break;
         case(3):
-            $name = "Destinos";
+            $name = trans('resources.entidad.destinos');
             $path = "/destinos/ver/";
             break;
         case(4):
-            $name = "Eventos";
+            $name = trans('resources.entidad.eventos');
             $path = "/eventos/ver/";
             break; 
         case(5):
-            $name = "Rutas turísticas";
+            $name = trans('resources.entidad.rutasTuristicas');
             $path = "/rutas/ver/";
             break;
     }
@@ -136,14 +136,14 @@ $countItems = ($tipoItem) ? $countItems : count($query) > 0;
     <h2 class="text-uppercase">{{$tituloPagina}}</h2>
     
     <div id="opciones">
-        <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','tile-list')" title="Vista de lista"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><span class="sr-only">Vista de lista</span></button>
-        <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','')" title="Vista de mosaico"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="sr-only">Vista de mosaico</span></button>
+        <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','tile-list')" title="Vista de lista"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.vistaLista')}}</span></button>
+        <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','')" title="Vista de mosaico"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.vistaMosaico')}}</span></button>
         <form class="form-inline">
             <div class="form-group">
-                <label class="sr-only" for="searchMain">Buscador general</label>
+                <label class="sr-only" for="searchMain">{{trans('resources.listado.buscadorGeneral')}}</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchMain" placeholder="¿Qué desea buscar?" maxlength="255">
-                    <div class="input-group-addon"><button type="submit" class="btn btn-default" title="Buscar"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="sr-only">Buscar</span></button></div>
+                    <input type="text" class="form-control" id="searchMain" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" maxlength="255">
+                    <div class="input-group-addon"><button type="submit" class="btn btn-default" title="Buscar"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.buscar')}}</span></button></div>
                 </div>
                 
             </div>
@@ -176,7 +176,7 @@ $countItems = ($tipoItem) ? $countItems : count($query) > 0;
                     <h3><a href="{{getItemType($query[$i]->tipo)->path}}{{$query[$i]->id}}">{{$query[$i]->nombre}}</a></h3>
                 </div>
                 @if($query[$i]->tipo == 4)
-                <p class="tile-date">Del {{date('d/m/Y', strtotime($query[$i]->fecha_inicio))}} al {{date('d/m/Y', strtotime($query[$i]->fecha_fin))}}</p>
+                <p class="tile-date">{{trans('resources.listado.fechaEvento', ['fechaInicio' => date('d/m/Y', strtotime($query[$i]->fecha_inicio)), 'fechaFin' => date('d/m/Y', strtotime($query[$i]->fecha_fin))])}}</p>
                 @endif
                 <div class="btn-block ranking">
     	              <span class="{{ ($query[$i]->calificacion_legusto > 0.0) ? (($query[$i]->calificacion_legusto <= 0.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
@@ -195,7 +195,7 @@ $countItems = ($tipoItem) ? $countItems : count($query) > 0;
     </div>
     @else
     <div class="alert alert-info">
-        <p>No hay elementos disponibles para mostrar.</p>
+        <p>{{trans('resources.listado.noHayElementos')}}</p>
     </div>
     @endif
 </div>

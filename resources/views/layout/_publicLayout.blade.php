@@ -53,6 +53,42 @@
             .btn.btn-xs{
                 font-size: .85rem;
             }
+            /*Google traductor*/
+            .goog-te-gadget img {
+                display: none!important;
+            }
+            .goog-te-gadget-simple {
+                background: transparent!important;
+                color: white!important;
+                border: 0!important;
+            }
+            .goog-te-gadget-simple .goog-te-menu-value span {
+                color: white!important;
+                font-size: 1rem!important;
+                padding-right: .5rem!important;
+                font-family: Futura, sans-serif!important;
+            }
+            .goog-te-banner {
+                background: black!important;
+                color: white!important;
+            }
+            .goog-te-button div {
+                background: transparent!important;
+                border: 0!important;
+            }
+            .goog-te-button button {
+                color: white!important;
+                border: 0!important;
+                background-color: transparent!important;
+                font-family: Futura, sans-serif!important;
+            }
+            .goog-te-button {
+                border: 0!important;
+            }
+            .goog-te-menu-value span {
+                color: white!important;
+                font-family: Futura, sans-serif!important;
+            }
         </style>
     </head>
     <body>

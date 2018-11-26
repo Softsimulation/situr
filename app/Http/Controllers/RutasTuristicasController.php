@@ -22,12 +22,14 @@ class RutasTuristicasController extends Controller
         $ruta = Ruta::where('id', $id)->with(['rutasConIdiomas' => function ($queryRutasConIdiomas) use ($idioma){
             $queryRutasConIdiomas->where('idioma_id', $idioma)->select('idioma_id', 'ruta_id', 'nombre', 'descripcion', 'recomendacion');
         }, 'rutasConAtracciones' => function ($queryRutasConAtracciones) use ($idioma){
-            $queryRutasConAtracciones->with(['sitio' => function($querySitio) use ($idioma){
-                $querySitio->with(['sitiosConIdiomas' => function($querySitiosConIdiomas) use ($idioma){
-                    $querySitiosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'sitios_id', 'nombre');
-                }, 'multimediaSitios' => function($queryMultimediaSitios){
-                    $queryMultimediaSitios->select('sitios_id', 'ruta')->orderBy('portada', 'desc')->where('tipo', false);
-                }])->select('id', 'sitios_id');
+            $queryRutasConAtracciones->with(['atraccione' => function ($queryAtraccione) use ($idioma){
+                $queryAtraccione->with(['sitio' => function($querySitio) use ($idioma){
+                    $querySitio->with(['sitiosConIdiomas' => function($querySitiosConIdiomas) use ($idioma){
+                        $querySitiosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'sitios_id', 'nombre');
+                    }, 'multimediaSitios' => function($queryMultimediaSitios){
+                        $queryMultimediaSitios->select('sitios_id', 'ruta')->orderBy('portada', 'desc')->where('tipo', false);
+                    }])->select('id', 'sitios_id');
+                }])->select('atraccion_id', 'ruta_id', 'orden');
             }])->select('id');
         }])->select('id', 'portada')->first();
         
