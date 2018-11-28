@@ -247,7 +247,7 @@
                 </div>
                 <span ng-show="datosForm.$submitted || datosForm.beneficiosEconomicos.$touched">
                     <span class="label label-danger" ng-show="encuesta.beneficiosEconomicos.length == 0">* Debe seleccionar alguno de los valores.</span>
-                    <span class="label label-danger" ng-show="encuesta.beneficiosEconomicos.length != 3">* Debe seleccionar solo 3 opciones.</span>
+                    <span class="label label-danger" ng-show="encuesta.beneficiosEconomicos.length != 3 && encuesta.beneficiosEconomicos.indexOf(11) == -1">* Debe seleccionar solo 3 opciones.</span>
                     <span class="label label-danger" ng-show="datosForm.otroEconomico.$error.required">* Debe llenar la casilla otro.</span>
                 </span>
             </div>
