@@ -865,8 +865,11 @@ class SostenibilidadPstController extends Controller
 		if(count($request->aspectosSeleccion) != 2){
 			return ["success" => false, "errores" => [["En la pregunta 24.2 solo debe seleccionar dos opciones."]] ];
 		}
-		if(count($request->beneficiosEconomicos) != 3){
+		if(count($request->beneficiosEconomicos) != 3 && !in_array(11,$request->beneficiosEconomicos) ){
 			return ["success" => false, "errores" => [["En la pregunta 27 solo debe seleccionar tres opciones."]] ];
+		}
+		if(count($request->beneficiosEconomicos) != 1 && in_array(11,$request->beneficiosEconomicos) ){
+			return ["success" => false, "errores" => [["En la pregunta 27 si seleccionó ns/nr solo debe seleccionar una opción."]] ];
 		}
 		
 		$encuesta = Encuesta_Pst_Sostenibilidad::find($request->pst_id);

@@ -395,7 +395,7 @@
             
             <div class="panel panel-success" ng-show="social.conservacion_patrimonio_id== true">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.9.1 De las siguientes situaciones en función del turismo sostenible, ¿Cuáles considera que representan  un riesgo  alto, medio  o bajo en  Atlántico</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.9.1 De los siguientes factores de patrimonio cultural, ¿Cuáles cree que han mejorado, desmejorado o permanecen igual en el departamento del Atlántico como consecuencia del turismo?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Respuesta múltiple</b></div>
                 <div class="panel-body">

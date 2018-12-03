@@ -70,7 +70,7 @@ function parse_yturl($url)
       
       <div class="carousel-inner">
         @for($i = 0; $i < count($atraccion->sitio->multimediaSitios); $i++)
-        <div class="item {{  $i === 0 ? 'active' : '' }}">
+        <div class="carousel-item {{  $i === 0 ? 'active' : '' }}">
           <img src="{{$atraccion->sitio->multimediaSitios[$i]->ruta}}" alt="Imagen de presentación de {{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}">
           
         </div>
@@ -103,7 +103,6 @@ function parse_yturl($url)
                   <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
                 </button>
             @endif
-              
           </div>
       </div>
       <!-- Controls -->

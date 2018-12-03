@@ -13,13 +13,24 @@ use App\Models\Proveedor_Favorito;
 class ProveedoresController extends Controller
 {
   
-    
-    
-    
-        public function __construct()
+    public function __construct()
 	{
 	    $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
 	}
+	
+	public function getIndex(){
+	    $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        $proveedores = Proveedor::with(['proveedorRnt' => function ($queryProveedorRnt) use ($idioma){
+            $queryProveedorRnt->with(['idiomas' => function ($queyProveedor_rnt_idioma) use ($idioma){
+                $queyProveedor_rnt_idioma->where('idioma_id', $idioma)->select('proveedor_rnt_id', 'idioma_id', 'descripcion', 'nombre')->orderBy('idioma_id');
+            }])->select('id', 'razon_social');
+        }, 'multimediaProveedores' => function ($queryMultimediaProveedores){
+            $queryMultimediaProveedores->where('tipo', false)->orderBy('portada', 'desc')->select('proveedor_id', 'ruta');
+        }])->select('id', 'valor_min', 'valor_max', 'calificacion_legusto', 'proveedor_rnt_id')->where('estado', true)->get();
+        
+        return view('proveedor.Index', ['proveedores' => $proveedores]);
+	}
+	
     //
     public function getVer($id){
         if ($id == null){
