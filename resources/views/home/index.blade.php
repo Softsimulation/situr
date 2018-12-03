@@ -37,7 +37,7 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
 <meta property="og:description" content="Sistema de información turística del Atlántico y de Barranquilla - SITUR Atlántico."/>
 @endsection
 
-@section('javascript')
+@section('estilos')
 <style>
     .tile-date {
         font-style: italic;
