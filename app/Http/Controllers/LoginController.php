@@ -25,7 +25,16 @@ class LoginController extends Controller
             if(\Hash::check($request->password,$user->password)){
             
                 Auth::login($user);
-                return redirect()->intended('usuario/listadousuarios');    
+                if(Auth::user()->hasRole("Admin")){
+                    return redirect()->intended('usuario/listadousuarios'); 
+                }else if(Auth::user()->hasRole("Promocion")){
+                    return redirect()->intended('noticias/listadonoticias'); 
+                }else if(Auth::user()->hasRole("Estadistico")){
+                    return redirect()->intended('ofertaempleo/listadoproveedores'); 
+                }else{
+                    return redirect()->intended('/');
+                }
+                   
             }
              
             return redirect()->intended('login/login')->with('message', 'Credenciales no válidas');
@@ -36,7 +45,7 @@ class LoginController extends Controller
     }
     public function getCerrarsesion(){
         Auth::logout();
-        return redirect()->intended('/login/login');
+        return redirect()->intended('/');
     
     }
 }

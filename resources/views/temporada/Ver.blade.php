@@ -177,7 +177,7 @@
                                     <td>@{{item.persona.hogare.edificacione.barrio.nombre}}</td>
                                     <td>@{{item.ultima_sesion}}</td>
                                     <td>
-                                        <a href="/turismointerno/viajesrealizados/@{{item.id}}" class="btn btn-xs btn-default" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span><span class="sr-only">Editar</span></a>
+                                        <a href="/turismointerno/viajesrealizados/@{{item.persona.id}}" class="btn btn-xs btn-default" title="Editar registro"><span class="glyphicon glyphicon-pencil"></span><span class="sr-only">Editar</span></a>
                                     </td>
                                 </tr>
 

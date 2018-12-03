@@ -38,10 +38,12 @@ class SostenibilidadHogaresController extends Controller
     //
     public function __construct()
     {
-        
+       
         $this->middleware('auth');
-        $this->middleware('role:Admin');
-        $this->user = Auth::user();
+        $this->middleware('role:Admin|Estadistico');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
     }
     
     public function getCrear(){
@@ -170,14 +172,14 @@ class SostenibilidadHogaresController extends Controller
     }
     
     public function getInfocomponentesocial($id){
-        $estratos = Estrato::all();
-        $barrios = Barrio::all();
-        $criterios = Criterio_Calificacion::all();
+        $estratos = Estrato::where('estado', true)->get();
+        $barrios = Barrio::where('estado', true)->get();
+        $criterios = Criterio_Calificacion::where('estado', true)->get();
         $culturales = Accion_Cultural::where('estado',true)->where('es_hogar', true)->get();
         $social = Componente_Social::find($id);
         $casa = Casa_Sostenibilidad::find($id);
         $factores = Factor_Calidad::where('estado',true)->where('tipo_factor_id','!=',3)->get();
-        $riesgos = Tipo_Riesgo::where('categorias_riesgo_id',1)->get();
+        $riesgos = Tipo_Riesgo::where('estado', true)->where('categorias_riesgo_id',1)->get();
         $factoresPositivos = Factor_Calidad::where('estado',true)->where('tipo_factor_id',3)->get();
         $calificacionFactor = Calificacion_Factor::where('estado',true)->get();
         $beneficios = Beneficio::where('tipo_beneficio',false)->where('id', '<>',25)->where('id', '<>',27)->orderBy('peso')->get();
@@ -544,10 +546,10 @@ class SostenibilidadHogaresController extends Controller
     
     public function getInfocomponenteambiental($id){
     	
-    	 $criterios = Criterio_Calificacion::all();
-    	 $actividades = Actividad_Medio_Ambiente::where('es_hogar', true)->get();
+    	 $criterios = Criterio_Calificacion::where('estado', true)->get();
+    	 $actividades = Actividad_Medio_Ambiente::where('estado', true)->where('es_hogar', true)->get();
     	 $acciones = Accion_Ambiental::where('estado',true)->get();
-    	 $riesgos = Tipo_Riesgo::where('categorias_riesgo_id',2)->get();
+    	 $riesgos = Tipo_Riesgo::where('estado', true)->where('categorias_riesgo_id',2)->get();
     	 $casa = Casa_Sostenibilidad::find($id);
     	 $ambiente = Componente_Ambiental::find($id);
     	 
@@ -742,12 +744,12 @@ class SostenibilidadHogaresController extends Controller
     }
     
     public function getCargardatoseconomico($id){
-    	$sectoresTurismo = Sectores_Turismo::all();
-    	$sectoresEconomia = Sectores_Economia::all();
-    	$beneficios = Beneficio::where('tipo_beneficio',true)->where('id', '<>',26)->where('id', '<>',28)->orderBy('peso')->get();
-    	$calificacionesFactor = Calificacion_Factor::all();
-    	$tiposRiesgos = Tipo_Riesgo::where('categorias_riesgo_id',3)->get();
-    	$criteriosCalificacion = Criterio_Calificacion::all();
+    	$sectoresTurismo = Sectores_Turismo::where('estado', true)->get();
+    	$sectoresEconomia = Sectores_Economia::where('estado', true)->get();
+    	$beneficios = Beneficio::where('estado', true)->where('tipo_beneficio',true)->where('id', '<>',26)->where('id', '<>',28)->where('id', '<>',29)->where('id', '<>',30)->orderBy('peso')->get();
+    	$calificacionesFactor = Calificacion_Factor::where('estado', true)->get();
+    	$tiposRiesgos = Tipo_Riesgo::where('estado', true)->where('categorias_riesgo_id',3)->get();
+    	$criteriosCalificacion = Criterio_Calificacion::where('estado', true)->get();
     	
     	$encuesta = Casa_Sostenibilidad::find($id);
     	$objeto = null;

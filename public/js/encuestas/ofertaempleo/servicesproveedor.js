@@ -26,6 +26,17 @@ app.factory("proveedorServi", ["$http", "$q", function ($http, $q) {
             })
             return promise;
         },
+           getEncuestasTotal: function (id) {
+            var defered = $q.defer();
+            var promise = defered.promise;
+
+            $http.get('/ofertaempleo/encuestasrealizadastotales/'+id).success(function (data) {
+                defered.resolve(data);
+            }).error(function (err) {
+                defered.reject(err);
+            })
+            return promise;
+        },
            getProveedor: function (id) {
             var defered = $q.defer();
             var promise = defered.promise;

@@ -17,16 +17,20 @@ class RutasTuristicasController extends Controller
             return response('Not found.', 404);
         }
         
-        $ruta = Ruta::where('id', $id)->with(['rutasConIdiomas' => function ($queryRutasConIdiomas){
-            $queryRutasConIdiomas->orderBy('idioma_id')->select('idioma_id', 'ruta_id', 'nombre', 'descripcion', 'recomendacion');
-        }, 'rutasConAtracciones' => function ($queryRutasConAtracciones){
-            $queryRutasConAtracciones->with(['sitio' => function($querySitio){
-                $querySitio->with(['sitiosConIdiomas' => function($querySitiosConIdiomas){
-                    $querySitiosConIdiomas->select('idiomas_id', 'sitios_id', 'nombre');
-                }, 'multimediaSitios' => function($queryMultimediaSitios){
-                    $queryMultimediaSitios->select('sitios_id', 'ruta')->orderBy('portada', 'desc')->where('tipo', false);
-                }])->select('id');
-            }])->select('atracciones.id', 'atracciones.sitios_id');
+        $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        
+        $ruta = Ruta::where('id', $id)->with(['rutasConIdiomas' => function ($queryRutasConIdiomas) use ($idioma){
+            $queryRutasConIdiomas->where('idioma_id', $idioma)->select('idioma_id', 'ruta_id', 'nombre', 'descripcion', 'recomendacion');
+        }, 'rutasConAtracciones' => function ($queryRutasConAtracciones) use ($idioma){
+            $queryRutasConAtracciones->with(['atraccione' => function ($queryAtraccione) use ($idioma){
+                $queryAtraccione->with(['sitio' => function($querySitio) use ($idioma){
+                    $querySitio->with(['sitiosConIdiomas' => function($querySitiosConIdiomas) use ($idioma){
+                        $querySitiosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'sitios_id', 'nombre');
+                    }, 'multimediaSitios' => function($queryMultimediaSitios){
+                        $queryMultimediaSitios->select('sitios_id', 'ruta')->orderBy('portada', 'desc')->where('tipo', false);
+                    }])->select('id', 'sitios_id');
+                }])->select('atraccion_id', 'ruta_id', 'orden');
+            }])->select('id');
         }])->select('id', 'portada')->first();
         
         //return ['ruta' => $ruta];

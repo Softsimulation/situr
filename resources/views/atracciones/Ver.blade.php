@@ -55,6 +55,8 @@ function parse_yturl($url)
 @section('TitleSection','Atracciones')
 
 @section('content')
+
+
     <div id="carousel-main-page" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">
@@ -68,7 +70,7 @@ function parse_yturl($url)
       
       <div class="carousel-inner">
         @for($i = 0; $i < count($atraccion->sitio->multimediaSitios); $i++)
-        <div class="item {{  $i === 0 ? 'active' : '' }}">
+        <div class="carousel-item {{  $i === 0 ? 'active' : '' }}">
           <img src="{{$atraccion->sitio->multimediaSitios[$i]->ruta}}" alt="Imagen de presentación de {{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}">
           
         </div>
@@ -89,16 +91,18 @@ function parse_yturl($url)
           </h2>
           <div class="text-center">
             @if(Auth::check())
-                <button class="btn btn-lg btn-circled btn-favorite">
-                  <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
-                </button>
-                
+                <form role="form" action="/atracciones/favorito" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="atraccion_id" value="{{$atraccion->id}}" />
+                    <button type="submit" class="btn btn-lg btn-circled btn-favorite">
+                      <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
+                    </button>    
+                </form>
             @else
                 <button type="button" class="btn btn-lg btn-circled" title="Marcar como favorito" data-toggle="modal" data-target="#modalIniciarSesion">
                   <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
                 </button>
             @endif
-              
           </div>
       </div>
       <!-- Controls -->
@@ -118,27 +122,27 @@ function parse_yturl($url)
                 <li>
                     <a href="#informacionGeneral" class="toSection">
 						<i class="ionicons ion-information-circled" aria-hidden="true"></i>
-						<span class="hidden-xs">Información general</span>
+						<span class="hidden-xs">{{trans('resources.detalle.informacionGeneral')}}</span>
 					</a>
                 </li>
                 <li>
                     <a href="#caracteristicas" class="toSection">
 						<i class="ionicons ionicons ion-android-pin" aria-hidden="true"></i>
-						<span class="hidden-xs">Ubicación</span>
+						<span class="hidden-xs">{{trans('resources.detalle.ubicacion')}}</span>
 					</a>
                 </li>
                 @if($paraTenerEnCuentaContieneAlgo)
                 <li>
                     <a href="#paraTenerEnCuenta" class="toSection">
 						<i class="ionicons ion-help-circled" aria-hidden="true"></i>
-						<span class="hidden-xs">¿Qué debo tener en cuenta?</span>
+						<span class="hidden-xs">{{trans('resources.detalle.queDeboTenerEnCuenta')}}</span>
 					</a>
                 </li>
                 @endif
                 <li>
                     <a href="#comentarios" class="toSection">
 						<i class="ionicons ion-chatbubbles" aria-hidden="true"></i>
-						<span class="hidden-xs">Comentarios</span>
+						<span class="hidden-xs">{{trans('resources.detalle.comentarios')}}</span>
 					</a>
                 </li>
             </ul>
@@ -148,6 +152,9 @@ function parse_yturl($url)
     <section id="informacionGeneral" class="section active">
         <div class="container">
             <h3 class="title-section">{{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}</h3>
+            @if(Session::has('message'))
+                <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
+            @endif
             <div class="row">
                 <div class="col-xs-12">
                     @if($video_promocional != null)
@@ -295,7 +302,7 @@ function parse_yturl($url)
                         </div>
                     </div>
                     <div class="col-xs-12 text-center">
-                        <a href="/actividades" class="btn btn-lg btn-success">Ver más</a>
+                        <a href="/quehacer?tipo=1" class="btn btn-lg btn-success">{{trans('resources.common.verMas')}}</a>
                     </div>
                 </div>
             @endif
@@ -307,7 +314,7 @@ function parse_yturl($url)
     
     <section id="comentarios">
         <div class="container">
-            <h3 class="title-section">Comentarios</h3>
+            <h3 class="title-section">{{trans('resources.detalle.comentarios')}} <small>({{count($atraccion->comentariosAtracciones)}})</small></h3>
             <p class="text-center">Te invitamos a que compartas tu opinión acerca de {{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}.</p>   
             <div class="text-center">
                 <div class="text-center">
@@ -351,145 +358,166 @@ function parse_yturl($url)
             
         </div>
         
+        @if(count($atraccion->comentariosAtracciones) > 0)
+        <div class="container">
+            <hr>
+             <ul class="list-group list-group-flush no-list-style">
+                @foreach ($atraccion->comentariosAtracciones as $comentario)
+                     <li class="list-group-item">
+                         <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+    
+                        <blockquote>
+                        {{$comentario->comentario}}
+                        </blockquote>
+                    </li>
+                @endforeach
+                  
+                           
+            </ul>
+        </div>
+        
+        @endif
     </section>
 @if(Auth::check())
         <div class="text-center">
-            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalComentario">Comentar</button>
+            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalComentario">{{trans('resources.detalle.comentar')}}</button>
         </div>
         <!-- Modal comentar-->
-    <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="labelModalComentario">Comentar y calificar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="formEnviarComentario" name="formEnviarComentario" method="post" action="#">
-                    <div class="modal-body">
-                        <div class="form-group text-center">
-                            <label class="control-label" for="calificacionLeGusto">¿Le gustó?</label>
-                            <div class="checks">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-1" value="1" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionLeGusto-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-2" value="2" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionLeGusto-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-3" value="3" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionLeGusto-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-4" value="4" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionLeGusto-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-5" value="5" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionLeGusto-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="form-group text-center">
-                            <label class="control-label" for="calificacionFueFacilLlegar">¿Fue fácil llegar?</label>
-                            <div class="checks">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-1" value="1" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionFueFacilLlegar-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-2" value="2" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionFueFacilLlegar-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-3" value="3" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionFueFacilLlegar-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-4" value="4" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionFueFacilLlegar-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-5" value="5" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionFueFacilLlegar-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="form-group text-center">
-                            <label class="control-label" for="calificacionRecomendaria">¿Lo recomendaría?</label>
-                            <div class="checks">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-1" value="1" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRecomendaria-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-2" value="2" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRecomendaria-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-3" value="3" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRecomendaria-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-4" value="4" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRecomendaria-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-5" value="5" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRecomendaria-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="form-group text-center">
-                            <label class="control-label" for="calificacionRegresaria">¿Rgresaría?</label>
-                            <div class="checks">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-1" value="1" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRegresaria-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-2" value="2" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRegresaria-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-3" value="3" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRegresaria-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-4" value="4" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRegresaria-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-5" value="5" required onclick="showStars(this)">
-                                    <label class="form-check-label" for="calificacionRegresaria-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="comentario"><span class="asterisk">*</span> Comentario</label>
-                            <textarea class="form-control" id="comentario" name="comentario" rows="5" maxlength="1000" placeholder="Ingrese su comentario. Máx. 1000 caracteres" style="resize:none;" required></textarea>    
-                        </div>
-                        
+   <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="labelModalComentario">Comentar y calificar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>    
-                </form>
-                
+                    <form id="formEnviarComentario" name="formEnviarComentario" method="post" action="/atracciones/guardarcomentario">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" value="{{$atraccion->id}}" />
+                            <div class="form-group text-center">
+                                <label class="control-label" for="calificacionLeGusto">¿Le gustó?</label>
+                                <div class="checks">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-1" value="1" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionLeGusto-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-2" value="2" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionLeGusto-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-3" value="3" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionLeGusto-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-4" value="4" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionLeGusto-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionLeGusto" id="calificacionLeGusto-5" value="5" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionLeGusto-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group text-center">
+                                <label class="control-label" for="calificacionFueFacilLlegar">¿Fue fácil llegar?</label>
+                                <div class="checks">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-1" value="1" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionFueFacilLlegar-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-2" value="2" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionFueFacilLlegar-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-3" value="3" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionFueFacilLlegar-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-4" value="4" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionFueFacilLlegar-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionFueFacilLlegar" id="calificacionFueFacilLlegar-5" value="5" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionFueFacilLlegar-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group text-center">
+                                <label class="control-label" for="calificacionRecomendaria">¿Lo recomendaría?</label>
+                                <div class="checks">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-1" value="1" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRecomendaria-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-2" value="2" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRecomendaria-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-3" value="3" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRecomendaria-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-4" value="4" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRecomendaria-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRecomendaria" id="calificacionRecomendaria-5" value="5" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRecomendaria-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-group text-center">
+                                <label class="control-label" for="calificacionRegresaria">¿Rgresaría?</label>
+                                <div class="checks">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-1" value="1" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRegresaria-1"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">1</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-2" value="2" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRegresaria-2"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">2</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-3" value="3" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRegresaria-3"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">3</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-4" value="4" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRegresaria-4"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">4</span></label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="calificacionRegresaria" id="calificacionRegresaria-5" value="5" required onclick="showStars(this)">
+                                        <label class="form-check-label" for="calificacionRegresaria-5"><span class="ionicons-inline ion-android-star-outline"></span><span class="sr-only">5</span></label>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label" for="comentario"><span class="asterisk">*</span> Comentario</label>
+                                <textarea class="form-control" id="comentario" name="comentario" rows="5" maxlength="1000" placeholder="Ingrese su comentario. Máx. 1000 caracteres" style="resize:none;" required></textarea>    
+                            </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                        </div>    
+                    </form>
+                    
+                </div>
             </div>
         </div>
-    </div>
-        @else
+            @else
         <div class="text-center">
-            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalIniciarSesion">Comentar</button>
+            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalIniciarSesion">{{trans('resources.detalle.comentar')}}</button>
         </div>
         <!-- Modal iniciar sesión-->
         <div class="modal fade" id="modalIniciarSesion" tabindex="-1" role="dialog" aria-labelledby="labelModalIniciarSesion">
@@ -500,11 +528,11 @@ function parse_yturl($url)
                         <h4 class="modal-title" id="labelModalIniciarSesion">Iniciar sesión</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Para calificar, comentar o agregar a sus favoritos este contenido debe iniciar sesión. Si aún no se encuentra registrado <a href="#">haga clic aquí</a></p>
+                        <p>Para calificar, comentar o agregar a sus favoritos este contenido debe iniciar sesión. Si aún no se encuentra registrado <a href="/login/login">haga clic aquí</a></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary">Iniciar sesión</button>
+                        <a href="/login/login" class="btn btn-primary">Iniciar sesión</a>
                     </div>
                 </div>
             </div>

@@ -107,7 +107,7 @@ class Atracciones extends Model
      */
     public function comentariosAtracciones()
     {
-        return $this->hasMany('App\ComentariosAtraccione', 'atraccion_id');
+        return $this->hasMany('App\Models\Comentario_Atraccion', 'atraccion_id');
     }
 
     /**
@@ -123,7 +123,7 @@ class Atracciones extends Model
      */
     public function rutasConAtracciones()
     {
-        return $this->hasMany('App\RutasConAtraccione', 'atraccion_id');
+        return $this->hasMany('App\Models\Ruta_Con_Atraccion', 'atraccion_id');
     }
 
     /**

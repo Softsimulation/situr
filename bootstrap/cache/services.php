@@ -36,8 +36,7 @@
     32 => 'Zizaco\\Entrust\\EntrustServiceProvider',
     33 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
     34 => 'Chumper\\Zipper\\ZipperServiceProvider',
-
-
+    35 => 'Laravel\\Socialite\\SocialiteServiceProvider',
   ),
   'eager' => 
   array (
@@ -62,7 +61,6 @@
     18 => 'Zizaco\\Entrust\\EntrustServiceProvider',
     19 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
     20 => 'Chumper\\Zipper\\ZipperServiceProvider',
-
   ),
   'deferred' => 
   array (
@@ -154,6 +152,7 @@
     'form' => 'Collective\\Html\\HtmlServiceProvider',
     'Collective\\Html\\HtmlBuilder' => 'Collective\\Html\\HtmlServiceProvider',
     'Collective\\Html\\FormBuilder' => 'Collective\\Html\\HtmlServiceProvider',
+    'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
   ),
   'when' => 
   array (
@@ -197,6 +196,9 @@
     array (
     ),
     'Collective\\Html\\HtmlServiceProvider' => 
+    array (
+    ),
+    'Laravel\\Socialite\\SocialiteServiceProvider' => 
     array (
     ),
   ),

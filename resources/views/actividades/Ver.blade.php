@@ -49,12 +49,23 @@ function parse_yturl($url)
 @endsection
 
 @section('meta_og')
-<meta property="og:title" content="Conoce {{$actividad->actividadesConIdiomas[0]->nombre}} en el departamento del Magdalena" />
-<meta property="og:image" content="{{asset('/res/img/brand/128.png')}}" />
+<meta property="og:title" content="{{$actividad->actividadesConIdiomas[0]->nombre}}. Miralo en SITUR Atlántico" />
+<meta property="og:image" content="{{asset('/res/logo/black/128.png')}}" />
 <meta property="og:description" content="{{$actividad->actividadesConIdiomas[0]->descripcion}}"/>
 @endsection
 
 @section('content')
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
     
     <div id="carousel-main-page" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
@@ -70,7 +81,7 @@ function parse_yturl($url)
       <div class="carousel-inner">
         @for($i = 0; $i < count($actividad->multimediasActividades); $i++)
         <div class="item {{  $i === 0 ? 'active' : '' }}">
-          <img src="{{$actividad->multimediasActividades[$i]->ruta}}" alt="Imagen de presentación de {{$actividad->actividadesConIdiomas[0]->nombre}}">
+          <img src="{{$actividad->multimediasActividades[$i]->ruta}}" alt="{{trans('resources.detalle.altImagenPresentacion', ['imagen' => $actividad->actividadesConIdiomas[0]->nombre])}}">
           
         </div>
         @endfor
@@ -90,16 +101,18 @@ function parse_yturl($url)
           </h2>
           <div class="text-center">
             @if(Auth::check())
-                <button class="btn btn-lg btn-circled btn-favorite">
-                  <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
-                </button>
-                
+                <form role="form" action="/actividades/favorito" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="actividad_id" value="{{$actividad->id}}" />
+                    <button type="submit" class="btn btn-lg btn-circled btn-favorite">
+                      <span class="ion-android-favorite" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
+                    </button>    
+                </form>
             @else
                 <button type="button" class="btn btn-lg btn-circled" title="Marcar como favorito" data-toggle="modal" data-target="#modalIniciarSesion">
                   <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
                 </button>
             @endif
-              
           </div>
       </div>
       <!-- Controls -->
@@ -121,12 +134,12 @@ function parse_yturl($url)
 						<span class="hidden-xs">Información general</span>
 					</a>
                 </li>
-     <!--           <li>-->
-     <!--               <a href="#caracteristicas" class="toSection">-->
-					<!--	<i class="ionicons ionicons ion-android-pin" aria-hidden="true"></i>-->
-					<!--	<span class="hidden-xs">Ubicación</span>-->
-					<!--</a>-->
-     <!--           </li>-->
+                <li>
+                    <a href="#caracteristicas" class="toSection">
+						<i class="ionicons ionicons ion-android-pin" aria-hidden="true"></i>
+						<span class="hidden-xs">Ubicación</span>
+					</a>
+                </li>
                 <li>
                     <a href="#comentarios" class="toSection">
 						<i class="ionicons ion-chatbubbles" aria-hidden="true"></i>
@@ -140,6 +153,9 @@ function parse_yturl($url)
         <div class="container">
             @if(count($actividad->multimediasActividades) > 0)
             <h3 class="title-section">{{$actividad->actividadesConIdiomas[0]->nombre}}</h3>
+                @if(Session::has('message'))
+                    <div class="alert alert-info" role="alert" style="text-align: center;">{{Session::get('message')}}</div>
+                @endif
             @endif
             <div class="row">
                 
@@ -174,16 +190,28 @@ function parse_yturl($url)
         </div>
         
     </section>
+    <section id="caracteristicas">
+        <div class="container">
+            <h3 class="title-section">Ubicación</h3>
+        </div>
+            <!--<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porttitor, augue quis tempus dictum, augue dui molestie sem, vitae molestie augue ipsum id turpis. Fusce feugiat vestibulum ante. Sed a consequat eros, finibus luctus nisl. In ut diam congue, condimentum sem vel, sagittis dolor. Nunc ut vestibulum ex, vitae eleifend metus. Proin id ex eu erat aliquet egestas. Fusce id suscipit velit, ut sodales turpis. Aliquam turpis risus, luctus vitae lobortis finibus, condimentum in felis. Pellentesque vel erat tellus. Suspendisse potenti. Integer porta sed lorem ac iaculis. Pellentesque pretium ex et convallis condimentum. In luctus leo nulla, eu finibus justo volutpat quis.</p>-->
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="map"></div>
+                </div>
+                
+            </div>
+        
+    </section>
     <section id="comentarios">
         <div class="container">
             <h3 class="title-section">Comentarios</h3>
             <p class="text-center">Te invitamos a que compartas tu opinión acerca de {{$actividad->actividadesConIdiomas[0]->nombre}}.</p>   
             <div class="text-center">
-                <div class="text-center">
                 <a id="btn-share-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{\Request::url()}}" class="btn btn-primary" target="_blank" rel="noopener noreferrer"><span class="ion-social-facebook" aria-hidden="true"></span> Facebook</a>
                 <a id="btn-share-twitter" href="https://twitter.com/home?status=Realiza {{$actividad->actividadesConIdiomas[0]->nombre}} en el departamento del Atlántico. Conoce más en {{\Request::url()}}" class="btn btn-info" target="_blank" rel="noopener noreferrer"><span class="ion-social-twitter" aria-hidden="true"></span> Twitter</a>
                 <a id="btn-share-googleplus" href="https://plus.google.com/share?url={{\Request::url()}}" class="btn btn-danger" target="_blank" rel="noopener noreferrer"><span class="ion-social-googleplus" aria-hidden="true"></span> Google +</a>
-            </div>
+            
             </div>
             <div class="row" id="puntajes">
                 <div class="col-xs-12 col-md-4">
@@ -222,7 +250,7 @@ function parse_yturl($url)
                 <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalComentario">Comentar</button>
             </div>
             <!-- Modal comentar-->
-        <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
+             <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -231,8 +259,9 @@ function parse_yturl($url)
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form id="formEnviarComentario" name="formEnviarComentario" method="post" action="#">
+                    <form id="formEnviarComentario" name="formEnviarComentario" method="post" action="/actividades/guardarcomentario">
                         <div class="modal-body">
+                            <input type="hidden" name="id" value="{{$actividad->id}}" />
                             <div class="form-group text-center">
                                 <label class="control-label" for="calificacionLeGusto">¿Le gustó?</label>
                                 <div class="checks">
@@ -337,6 +366,7 @@ function parse_yturl($url)
                                 </div>
                                 
                             </div>
+                            
                             <div class="form-group">
                                 <label class="control-label" for="comentario"><span class="asterisk">*</span> Comentario</label>
                                 <textarea class="form-control" id="comentario" name="comentario" rows="5" maxlength="1000" placeholder="Ingrese su comentario. Máx. 1000 caracteres" style="resize:none;" required></textarea>    
@@ -352,6 +382,7 @@ function parse_yturl($url)
                 </div>
             </div>
         </div>
+
             @else
             <div class="text-center">
                 <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalIniciarSesion">Comentar</button>
@@ -375,7 +406,74 @@ function parse_yturl($url)
                 </div>
             </div>
             @endif
+            
+            @if(count($actividad->comentariosActividads) > 0)
+            <h3>Comentarios <small>({{count($actividad->comentariosActividads)}})</small></h3>
+            <hr>
+             <ul class="list-group list-group-flush no-list-style">
+                @foreach ($actividad->comentariosActividads as $comentario)
+                     <li class="list-group-item">
+                         <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+
+                        <blockquote>
+                        {{$comentario->comentario}}
+                        </blockquote>
+                    </li>
+                @endforeach
+                  
+                           
+            </ul>
+            @endif
+            
+            
         </div>
         
     </section>
+@endsection
+@section('javascript')
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBNCXa64urvn7WPRdFSW29prR-SpZIHZPs&callback=initMap">
+</script>
+<script>
+    
+    function initMap() {
+          var sitiosConActividades = <?php print($actividad->sitiosConActividades); ?>;
+          console.log(sitiosConActividades);
+          var lat = 10.1287919, long = -75.366555;
+          var posInit = {lat: lat, lng: long};
+          // Initialize and add the map
+          var map = new google.maps.Map(
+              document.getElementById('map'), {zoom: 8, center: posInit});
+          for (i = 0; i < sitiosConActividades.length; i++) { 
+              var pos = {lat: parseFloat(sitiosConActividades[i].latitud), lng: parseFloat(sitiosConActividades[i].longitud)};
+              var marker = new google.maps.Marker({position: pos, map: map});
+          }
+            
+        }
+        function changeViewList(obj, idList, view){
+            var element, name, arr;
+            element = document.getElementById(idList);
+            name = view;
+            element.className = "tiles " + name;
+        } 
+        function showStars(input){
+            //var checksFacilLlegar = document.getElementsByName(input.name);
+            $("input[name='" + input.name + "']+label>.ionicons-inline").removeClass('ion-android-star');
+            $("input[name='" + input.name + "']+label>.ionicons-inline").addClass('ion-android-star-outline');
+            for(var i = 0; i < parseInt(input.value); i++){
+                $("label[for='" + input.name + "-" + (i+1) + "'] .ionicons-inline").removeClass('ion-android-star-outline');
+                $("label[for='" + input.name + "-" + (i+1) + "'] .ionicons-inline").addClass('ion-android-star');
+                //console.log(checksFacilLlegar[i].value);
+            }
+        }
+</script>
+<script>
+    $(document).ready(function(){
+        $('#modalComentario').on('hidden.bs.modal', function (e) {
+            $(this).find('form')[0].reset();
+            $(this).find('.checks .ionicons-inline').removeClass('ion-android-star');
+            $(this).find('.checks .ionicons-inline').addClass('ion-android-star-outline');
+        })
+    });
+</script>
 @endsection

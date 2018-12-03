@@ -16,6 +16,7 @@ use App\Models\Multimedia_noticia_Idioma;
 use App\Models\Tipo_noticia;
 use App\Models\Tipo_noticia_Idioma;
 use App\Models\User;
+use App\Models\Suscriptore;
 
 class NoticiaController extends Controller
 {
@@ -23,18 +24,10 @@ class NoticiaController extends Controller
     {
        
         $this->middleware('auth');
-        
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Promocion');
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
-        /*$this->middleware('permissions:list-noticia',['only' => ['getListadonoticias','getNoticias'] ]);
-        $this->middleware('permissions:create-noticia',['only' => ['getCrearnoticia','getDatoscrearnoticias','postGuardarnoticia',
-        'postGuardarmultimedianoticia','postGuardartextoalternativo','postEliminarmultimedia'] ]);
-        $this->middleware('permissions:read-noticia',['only' => ['getVernoticia','getDatosver'] ]);
-        $this->middleware('permissions:edit-noticia',['only' => ['getNuevoidioma','postGuardarnoticia','postGuardarmultimedianoticia',
-        'postGuardartextoalternativo','postEliminarmultimedia','getVistaeditar','getDatoseditar','postModificarnoticia' ] ]);
-        $this->middleware('permissions:estado-noticia',['only' => ['postCambiarestado'] ]);*/
     }
      
     public function getListadonoticias() {
@@ -281,6 +274,7 @@ class NoticiaController extends Controller
         $multimedia->ruta = "/Noticias/".$nombrex;
         $multimedia->user_create = $this->user->username;
         $multimedia->user_update = $this->user->username;
+        $multimedia->es_video = 0;
         $multimedia->updated_at = Carbon::now();
         $multimedia->created_at = Carbon::now();
         $multimedia->save();

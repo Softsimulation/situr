@@ -141,24 +141,45 @@
                     <ul role="menubar">
                         <li>
                             <a role="menuitem" href="#menuPromocion" aria-haspopup="true" aria-expanded="false">Promoción</a>
-                            <ul role="menu" id="menuPromocion" aria-label="Promoción">
-                                <li role="none"><a role="menuitem" href="{{asset('administradordestinos')}}">Administrar destinos</a></li>
-                                <li role="none"><a role="menuitem" href="{{asset('administradoratracciones')}}">Administrar atracciones</a></li>
-        					    <li role="none"><a role="menuitem" href="{{asset('administradoractividades')}}">Administrar actividades</a></li>
-        					    <li role="none"><a role="menuitem" href="{{asset('administradorproveedores')}}">Administrar proveedores</a></li>
-        					    <li role="none"><a role="menuitem" href="{{asset('administradoreventos')}}">Administrar eventos</a></li>
-        					    <li role="none"><a role="menuitem" href="{{asset('administradorrutas')}}">Administrar rutas turísticas</a></li>
+                           
+                           <ul role="menu" id="menuPromocion" aria-label="Promoción">
+                                <li role="none"><a role="menuitem" href="{{asset('/administradordestinos')}}">Administrar destinos</a></li>
+                                <li role="none"><a role="menuitem" href="{{asset('/administradoratracciones')}}">Administrar atracciones</a></li>
+        					    <li role="none"><a role="menuitem" href="{{asset('/administradoractividades')}}">Administrar actividades</a></li>
+        					    <li role="none"><a role="menuitem" href="{{asset('/administradorproveedores')}}">Administrar proveedores</a></li>
+        					    <li role="none"><a role="menuitem" href="{{asset('/administradoreventos')}}">Administrar eventos</a></li>
+        					    <li role="none"><a role="menuitem" href="{{asset('http://demo.situratlantico.info/administradorrutas')}}">Administrar rutas turísticas</a></li>
+        					    <li><a role="menuitem" href="{{asset('/InformacionDepartamento/configuracionacercade')}}">Acerca de</a></li>
+        					    <li><a role="menuitem" href="{{asset('/InformacionDepartamento/configuracionrequisitos')}}">Requisitos de viaje</a></li>
+        					    <li><a role="menuitem" href="{{asset('o/publicaciones/listadoadmin')}}">Biblioteca Digital</a></li>
+        					    <li><a role="menuitem" href="{{asset('/informes/configuracion')}}">Informes</a></li>
+        					    <li><a role="menuitem" href="{{asset('/noticias/listadonoticias')}}">Noticias</a></li>
+        					    <li><a role="menuitem" href="{{asset('/bolsaEmpleo/vacantes')}}">Bolsa de empleo</a></li>
+        					   
+        					    
+        					    
         					</ul>
+                           
+                         
                         </li>
+                    
                         <li>
                             <a role="menuitem" href="{{asset('turismoreceptor/listadoencuestas')}}">Turismo receptor</a>
                         </li>
                         <li>
                             <a role="menuitem" href="{{asset('temporada')}}">Turismo interno y emisor</a>
                         </li>
-                        <li>
-                            <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedores')}}">Oferta y empleo</a>
+                      
                         
+                        <li>
+                            <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Oferta y empleo</a>
+                            <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">
+                                <li role="none">
+                                    <!--<a role="menuitem" href="{{asset('MuestraMaestra/periodos')}}">Periodos</a>-->
+                                    <a role="menuitem" href="{{asset('ofertaempleo/encuestasoferta')}}">Listado de encuestas</a>
+                                        <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedores')}}">Proveedores</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>
@@ -173,6 +194,7 @@
                             <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
                         
                         </li>
+                        
                         <li>
                             <a role="menuitem" href="{{asset('EstadisticasSecundarias/configuracion')}}">Estadísticas Secundarias</a>
                         

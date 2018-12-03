@@ -65,6 +65,7 @@ use App\Models\Categoria_Proveedor_Con_Idioma;
 use App\Models\Proveedores_rnt;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -80,7 +81,7 @@ class OfertaEmpleoController extends Controller
                                     'getCaracterizacionagenciasoperadoras','getAlojamientotrimestral','getEmpleo','getOcupacionagenciasoperadoras','getCaracterizacionalquilervehiculo','getCaracterizacion','getEmpleadoscaracterizacion','getCaracterizacion','getEmpleomensual','getNumeroempleados']]);
     
         $this->middleware('auth');
-        $this->middleware('role:Admin');
+        $this->middleware('role:Admin|Estadistico');
         if(\Auth::user() != null){
             $this->user = User::where('id',\Auth::user()->id)->first(); 
         } 
@@ -206,6 +207,23 @@ class OfertaEmpleoController extends Controller
         
         return view('ofertaEmpleo.ListadoEncuestas',['id'=>$one]);
     }
+    
+    
+   public function getEncuestasoferta(){
+        
+        return view('ofertaEmpleo.ListadoEncuestastotal');
+    }
+    
+    
+    public function getEncuestasrealizadastotales(){
+ 
+          $data =  new Collection(DB::select("SELECT *from listado_encuestas_proveedores_oferta"));
+        
+         
+        return ["success"=>true, "encuestas"=>$data];
+
+    }
+    
     
     public function getEncuestasrealizadas($id){
  
@@ -2097,8 +2115,8 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
        		'porcentajeC.min' => 'El porcentaje de residentes en Colombia excepto magdalenenses debe ser mayor que 0.',
        		'porcentajeE.required' => 'El porcentaje de extranjeros es requerido.',
        		'porcentajeE.min' => 'El porcentaje de extranjeros debe ser mayor que 0.',
-       		'porcentajeM.required' => 'El porcentaje de residentes en el Magdalena es requerido.',
-       		'porcentajeM.min' => 'El residentes en el Magdalena debe ser mayor que 0.',
+       		'porcentajeM.required' => 'El porcentaje de residentes en el Atlántico es requerido.',
+       		'porcentajeM.min' => 'El residentes en el Atlántico debe ser mayor que 0.',
     	]);
        
     	if($validator->fails()){
