@@ -111,7 +111,7 @@
                 slider = $('#slider-logos').bxSlider({
                     auto: true,
                     autoControls: false,
-                    maxSlides: 4,
+                    maxSlides: 6,
                     //slideWidth: 250,
                     controls: false,
                     // autoHover: true,
