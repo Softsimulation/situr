@@ -150,6 +150,7 @@
         					    <li role="none"><a role="menuitem" href="{{asset('/administradoreventos')}}">Administrar eventos</a></li>
         					    <li role="none"><a role="menuitem" href="{{asset('http://demo.situratlantico.info/administradorrutas')}}">Administrar rutas turísticas</a></li>
         					    <li><a role="menuitem" href="{{asset('/InformacionDepartamento/configuracionacercade')}}">Acerca de</a></li>
+        					    <li><a role="menuitem" href="{{asset('/InformacionDepartamento/configuracionplanificatuviaje')}}">Planifica tu viaje</a></li>
         					    <li><a role="menuitem" href="{{asset('/InformacionDepartamento/configuracionrequisitos')}}">Requisitos de viaje</a></li>
         					    <li><a role="menuitem" href="{{asset('o/publicaciones/listadoadmin')}}">Biblioteca Digital</a></li>
         					    <li><a role="menuitem" href="{{asset('/informes/configuracion')}}">Informes</a></li>
