@@ -44,8 +44,10 @@ class ExportacionController extends Controller
                 $this->ExportacionTurismoReceptor2($request->fecha_inicial,$request->fecha_final);
                 $url='/excel/exports/Exportacion.xlsx';
             break;
-             case 'interno': 
+            case 'interno': 
                $url= $this->ExportacionTurismoInterno2($request->fecha_inicial,$request->fecha_final);
+            case 'sostenibilidad': 
+               $url= $this->ExportacionSostenibilidadpst($request->fecha_inicial,$request->fecha_final);
             break;
             
         }
@@ -153,5 +155,57 @@ class ExportacionController extends Controller
         }
         
     }
+    
+    protected function ExportacionSostenibilidadpst($fecha_inicial,$fecha_final){
+        
+        $exportacion=new Exportacion();
+        $exportacion->nombre="Exportacion Sostenibilidad PST";
+        $exportacion->fecha_realizacion=\Carbon\Carbon::now();
+        $exportacion->fecha_inicio=$fecha_inicial;
+        $exportacion->fecha_fin=$fecha_final;
+        $exportacion->estado=1;
+        $exportacion->usuario_realizado=$this->user->username;
+        $exportacion->hora_comienzo=\Carbon\Carbon::now()->format('h:i:s');
+        $exportacion->save();
+        
+        $datos = \DB::select("SELECT *from exportacionsostenibilidadpst(?,?)", array($fecha_inicial ,$fecha_final));
+        $array= json_decode( json_encode($datos), true);
+        $datos=$array;
+        
+        try{
+        
+               \Excel::create('ExportacionSostenibilidadPst', function($excel) use($datos) {
+        
+                    $excel->sheet('Sostebibilidad pst', function($sheet) use($datos) {
+                       
+                
+                        $sheet->fromArray($datos, null, 'A1', false, true);
+                
+                    });
+                
+                })->store('xlsx', public_path('excel/exports'));
+                
+                
+                
+                $exportacion->estado=2;
+                $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
+                $exportacion->save();
+                
+                return '/excel/exports/ExportacionSostenibilidadPst.xlsx'; 
+        
+        
+        }catch(Exception $e){
+            
+            
+            $exportacion=$e;
+            $exportacion->estado=3;
+            $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
+            $exportacion->save();
+            
+        }
+        
+    }
+    
+    
     
 }
