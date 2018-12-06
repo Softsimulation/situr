@@ -156,6 +156,7 @@
         					    <li><a role="menuitem" href="{{asset('/informes/configuracion')}}">Informes</a></li>
         					    <li><a role="menuitem" href="{{asset('/noticias/listadonoticias')}}">Noticias</a></li>
         					    <li><a role="menuitem" href="{{asset('/bolsaEmpleo/vacantes')}}">Bolsa de empleo</a></li>
+        				        <li role="none"><a role="menuitem" href="{{asset('sliders/listadosliders')}}">Galería de imágenes</a></li>
         					   
         					    
         					    
