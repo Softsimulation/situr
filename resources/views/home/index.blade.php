@@ -64,6 +64,15 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
     .tiles .tile .tile-img {
         height: 220px;
     }
+    .carousel-inner > .item > video{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateY(-50%) translateX(-50%);
+        transform: translateY(-50%) translateX(-50%);
+        width: 100%;
+    }
+    
 </style>
 @endsection
 
@@ -84,24 +93,32 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
             
               <!-- Wrapper for slides -->
               <div class="carousel-inner" role="listbox">
-                <div class="item active">
-                  <img src="res/slider/slide1.jpeg" alt="" role="presentation">
-                  <div class="carousel-caption">
-                    ...
-                  </div>
+                 <div class="item active">
+                     <video loop autoplay muted id="video">
+                      <source src="/res/Conoce y Disfruta de Barranquilla.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                    </video>
+                     <!--<iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/-a9zXm9prmI?autoplay=1&loop=1&controls=0&mute=1&showinfo=0" frameborder="0"></iframe>-->
+                  <!--<img src="res/slider/slide1.jpeg" alt="" role="presentation">-->
                 </div>
-                <div class="item">
-                  <img src="res/slider/slide2.jpeg" alt="" role="presentation">
-                  <div class="carousel-caption">
-                    ...
-                  </div>
-                </div>
-                <div class="item">
-                  <img src="res/slider/slide3.jpeg" alt="" role="presentation">
-                  <div class="carousel-caption">
-                    ...
-                  </div>
-                </div>
+                <!--<div class="item active">-->
+                <!--  <img src="res/slider/slide1.jpeg" alt="" role="presentation">-->
+                <!--  <div class="carousel-caption">-->
+                <!--    ...-->
+                <!--  </div>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                <!--  <img src="res/slider/slide2.jpeg" alt="" role="presentation">-->
+                <!--  <div class="carousel-caption">-->
+                <!--    ...-->
+                <!--  </div>-->
+                <!--</div>-->
+                <!--<div class="item">-->
+                <!--  <img src="res/slider/slide3.jpeg" alt="" role="presentation">-->
+                <!--  <div class="carousel-caption">-->
+                <!--    ...-->
+                <!--  </div>-->
+                <!--</div>-->
               </div>
               <section id="indicadores">
                 <div class="indicador">
@@ -170,6 +187,7 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
                 
             </section>
             @if(count($sugeridos))
+            
             <div class="container">
                 <h2 class="text-uppercase text-center">Sugerencias</h2>
                 <div class="tiles">
@@ -230,4 +248,12 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
                 
             </section>
             @endif
+@endsection
+@section('javascript')
+<script>
+$(document).ready(function(){
+    document.getElementById('video').play();
+})
+    
+</script>
 @endsection

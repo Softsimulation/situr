@@ -31,12 +31,12 @@
                     <input type="text" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" name="searchBoxMain" id="searchBoxMain" required maxlength="255"/>
                     <button type="submit" class="btn btn-link" title="Buscar"><span class="ion-android-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.common.buscar')}}</span></button>
                 </form>
-                <!--<select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">-->
-                    <!--<option value="" selected>{{Session::get('lang')}}</option>-->
+                <select aria-label="{{trans('resources.common.seleccionarIdioma')}}" title="{{trans('resources.common.seleccionarIdioma')}}" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                    <option value="" selected>{{Session::get('lang')}}</option>
                     
-                <!--    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>-->
-                <!--    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>-->
-                <!--</select>-->
+                    <option value="/lang/es" @if(Config::get('app.locale') == 'es') selected @endif>ES</option>
+                    <option value="/lang/en" @if(Config::get('app.locale') == 'en') selected @endif>EN</option>
+                </select>
                 <div id="google_translate_element"></div><script type="text/javascript">
                 function googleTranslateElementInit() {
                   new google.translate.TranslateElement({pageLanguage: 'es', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
