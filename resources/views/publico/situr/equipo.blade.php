@@ -103,6 +103,23 @@
                 
             </div>
             
+            
+            
+              <div class="tile">
+                <div class="tile-img" style="background:white;">
+                    <img src="/res/equipo/endy.jpeg" alt="Imagen por defecto de persona">
+                    <div class="text-overlap">
+                        <span class="label label-success">Analista</span>
+                    </div>
+                </div>
+                <div class="tile-body">
+                    <h4>Endy Salon</h4>
+                    <p class="text-muted">Economista Universidad del Norte</p>
+                </div>
+                
+            </div>
+            
+            
          <div class="tile">
                 <div class="tile-img" style="background:white;">
                     <img src="/res/equipo/javier.jpeg" alt="Imagen por defecto de persona">
@@ -118,19 +135,7 @@
             </div>
             
             
-            <div class="tile">
-                <div class="tile-img" style="background:white;">
-                    <img src="/res/equipo/endy_acosta.jpg" alt="Imagen por defecto de persona">
-                    <div class="text-overlap">
-                        <span class="label label-success">Analista</span>
-                    </div>
-                </div>
-                <div class="tile-body">
-                    <h4>Endy Salon</h4>
-                    <p class="text-muted">Economista Universidad del Norte</p>
-                </div>
-                
-            </div>
+          
           
          
          
@@ -138,7 +143,7 @@
          
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/alveiro.jpeg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Profesional de Apoyo </span>
                     </div>
@@ -153,7 +158,7 @@
             
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/equipo/paola_sierra.jpg" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/paola.jpeg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Profesional de Apoyo </span>
                     </div>
@@ -167,7 +172,7 @@
             
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/equipo/karime.jpg" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/karine.jpeg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
                         <span class="label label-success">Profesional de Apoyo </span>
                     </div>
@@ -201,7 +206,7 @@
                 </div>
                 <div class="tile-body">
                     <h4>Ana Romero</h4>
-                    <p class="text-muted"> </p>
+                    <p class="text-muted">Técnica en mercadeo y ventas </p>
                 </div>
                 
             </div>
