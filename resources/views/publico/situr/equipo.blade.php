@@ -38,11 +38,11 @@
     <div class="container">
         <h2 class="title-section">Equipo SITUR Atlántico</h2>
         <hr>
-        <h3>Junta Directiva SITUR Atlántico</h3>
+        <h3>Comité Directivo SITUR Atlántico</h3>
         <div class="tiles">
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/Carlos_Leyes.jpeg" alt="Imagen por defecto de persona">
                     
                 </div>
                 <div class="tile-body">
@@ -53,7 +53,7 @@
             </div>
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/Jaime_Alfaro.jpeg" alt="Imagen por defecto de persona">
                     
                 </div>
                 <div class="tile-body">
@@ -76,7 +76,7 @@
             </div>
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/marbel.jpeg" alt="Imagen por defecto de persona">
                     
                 </div>
                 <div class="tile-body">
@@ -87,33 +87,37 @@
             </div>
         </div>
         <hr>
+         <h3>Equipo de trabajo SITUR Atlántico</h3>
         <div class="tiles">
             <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/equipo/david.jpg" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/david.jpeg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
-                        <span class="label label-success">Dirección General y Analista Turismo Receptivo</span>
+                        <span class="label label-success">Director</span>
                     </div>
                 </div>
                 <div class="tile-body">
                     <h4>David Borge</h4>
-                    <p class="text-muted">Magíster en Desarrollo Social Universidad del Norte, Economista Universidad del Norte</p>
+                    <p class="text-muted">Economista - Magister en Desarrollo Social</p>
                 </div>
                 
             </div>
-            <div class="tile">
+            
+         <div class="tile">
                 <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
+                    <img src="/res/equipo/javier.jpeg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
-                        <span class="label label-success">Analista Estadístico</span>
+                        <span class="label label-success">Supervisor de Campo</span>
                     </div>
                 </div>
                 <div class="tile-body">
-                    <h4>Gustavo Rodríguez</h4>
-                    <p class="text-muted">Doctor en Ciencias Sociales Universidad del Norte, Magíster en Estadística Universidad del Norte, Economista Universidad del Atlántico</p>
+                    <h4>Javier Ortega</h4>
+                    <p class="text-muted">Economista Universidad del Norte</p>
                 </div>
                 
             </div>
+            
+            
             <div class="tile">
                 <div class="tile-img" style="background:white;">
                     <img src="/res/equipo/endy_acosta.jpg" alt="Imagen por defecto de persona">
@@ -127,37 +131,16 @@
                 </div>
                 
             </div>
-            <div class="tile">
-                <div class="tile-img" style="background:white;">
-                    <img src="/res/equipo/paola_sierra.jpg" alt="Imagen por defecto de persona">
-                    <div class="text-overlap">
-                        <span class="label label-success">Analista Turismo Sostenible</span>
-                    </div>
-                </div>
-                <div class="tile-body">
-                    <h4>Paola Sierra</h4>
-                    <p class="text-muted">Ingeniera Ambiental Universidad de la Costa</p>
-                </div>
-                
-            </div>
+          
+         
+         
+         
+         
             <div class="tile">
                 <div class="tile-img" style="background:white;">
                     <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
-                        <span class="label label-success">Supervisor de Campo</span>
-                    </div>
-                </div>
-                <div class="tile-body">
-                    <h4>Javier Ortega</h4>
-                    <p class="text-muted">Economista Universidad del Norte</p>
-                </div>
-                
-            </div>
-            <div class="tile">
-                <div class="tile-img" style="background:white;">
-                    <img src="/res/User-Profile.png" alt="Imagen por defecto de persona">
-                    <div class="text-overlap">
-                        <span class="label label-success">Profesional de Apoyo en Comunicaciones y Eventos</span>
+                        <span class="label label-success">Profesional de Apoyo </span>
                     </div>
                 </div>
                 <div class="tile-body">
@@ -166,11 +149,27 @@
                 </div>
                 
             </div>
+              
+            
+            <div class="tile">
+                <div class="tile-img" style="background:white;">
+                    <img src="/res/equipo/paola_sierra.jpg" alt="Imagen por defecto de persona">
+                    <div class="text-overlap">
+                        <span class="label label-success">Profesional de Apoyo </span>
+                    </div>
+                </div>
+                <div class="tile-body">
+                    <h4>Paola Sierra</h4>
+                    <p class="text-muted">Ingeniera Ambiental Universidad de la Costa</p>
+                </div>
+                
+            </div>
+            
             <div class="tile">
                 <div class="tile-img" style="background:white;">
                     <img src="/res/equipo/karime.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
-                        <span class="label label-success">Profesional de Apoyo Administrativo</span>
+                        <span class="label label-success">Profesional de Apoyo </span>
                     </div>
                 </div>
                 <div class="tile-body">
@@ -183,12 +182,26 @@
                 <div class="tile-img" style="background:white;">
                     <img src="/res/equipo/jesus_polanco.jpg" alt="Imagen por defecto de persona">
                     <div class="text-overlap">
-                        <span class="label label-success">Profesional de Apoyo Contable</span>
+                        <span class="label label-success">Profesional de Apoyo </span>
                     </div>
                 </div>
                 <div class="tile-body">
                     <h4>Jesús Polanco Medrano</h4>
                     <p class="text-muted">Contador de la Universidad Simón Bolívar</p>
+                </div>
+                
+            </div>
+            
+              <div class="tile">
+                <div class="tile-img" style="background:white;">
+                    <img src="/res/equipo/Anaromero.jpeg" alt="Imagen por defecto de persona">
+                    <div class="text-overlap">
+                        <span class="label label-success">Agente de llamadas </span>
+                    </div>
+                </div>
+                <div class="tile-body">
+                    <h4>Ana Romero</h4>
+                    <p class="text-muted"> </p>
                 </div>
                 
             </div>
