@@ -16,13 +16,13 @@ class InformacionDepartamentoCtrl extends Controller
 {
     public function __construct()
     {
-       
-        $this->middleware('auth');
-        $this->middleware('role:Admin|Promocion');
+        $this->middleware('auth',['except' => ['AcercaDe','Requisitos', 'PlanificaTuViaje'] ]);
+        $this->middleware('role:Admin|Promocion',['except' => ['AcercaDe','Requisitos', 'PlanificaTuViaje'] ]);
         if(Auth::user() != null){
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
     }
+    
     public function AcercaDe(){
         return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",1 )->first()  ] );
     }
@@ -31,12 +31,20 @@ class InformacionDepartamentoCtrl extends Controller
         return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",2 )->first()  ] );
     }
     
+    public function PlanificaTuViaje(){
+        return View("informacionDepartamento.detalle", [ "informacion"=>Informacion_departamento::with("imagenes")->where( "id",3 )->first()  ] );
+    }
+    
     public  function getConfiguracionacercade(){
         return View("informacionDepartamento.configuracion", [ "id"=>1 ] );
     }
     
     public  function getConfiguracionrequisitos(){
         return View("informacionDepartamento.configuracion", [ "id"=>2 ]);
+    }
+    
+    public  function getConfiguracionplanificatuviaje(){
+        return View("informacionDepartamento.configuracion", [ "id"=>3 ] );
     }
     
     public  function getData($id){
@@ -66,6 +74,29 @@ class InformacionDepartamentoCtrl extends Controller
         $informacion->cuerpo = $request->cuerpo;
         $informacion->user_update = "Admin";
         
+        $informacion->save();
+        
+        return [ "success"=>true ];
+    }
+    
+    public  function postGuardarvideo(Request $request){
+        
+        $validator = \Validator::make($request->all(),[
+            'id' => 'required|exists:informacion_departamento,id',
+            'video' => 'required|string',
+        ],[
+            'id.required' => 'Error en los datos.',
+            'id.exists' => 'Error en los datos.',
+            'video.required' => 'El titulo es requerido.',
+            ]
+        );
+        
+        if($validator->fails()){ return ["success"=>false,"errores"=>$validator->errors()]; }
+        
+        $informacion = Informacion_departamento::find($request->id);
+        
+        $informacion->video = $request->video;
+        $informacion->user_update = "Admin";
         $informacion->save();
         
         return [ "success"=>true ];

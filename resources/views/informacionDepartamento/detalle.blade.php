@@ -1,4 +1,13 @@
+<?php
+function parse_yturl($url) 
+{
+    $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
+    preg_match($pattern, $url, $matches);
+    return (isset($matches[1])) ? $matches[1] : false;
+}
+?>
 @extends('layout._publicLayout')
+
 @section('title', '')
 
 @section ('estilos')
@@ -21,7 +30,7 @@
 @section('content')
     <div class="container">
         <h2 class="text-danger text-center">{{$informacion->titulo}}</h2>
-    </div>
+    
         @if(count($informacion->imagenes) > 0)
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
@@ -52,9 +61,20 @@
         </div>
         <br>
         @endif
-        <div class="container">
     <div id="contentDetalle">
-        {!! $informacion->cuerpo !!}
+        <div class="row">
+            @if($informacion->video)
+            <div class="col-xs-12 col-md-6">
+                <iframe src="https://www.youtube.com/embed/<?php echo parse_yturl($informacion->video) ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="width: 100%; height: 300px;"></iframe>
+                
+            </div>
+            @endif
+            <div class="col-xs-12 @if($informacion->video) col-md-6 @endif">
+                {!! $informacion->cuerpo !!}
+            </div>
+            
+        </div>
+        
     </div>
     
     </div>

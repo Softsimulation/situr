@@ -6,6 +6,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Actividad;
+<<<<<<< HEAD
+=======
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Comentario_Actividad;
+use Carbon\Carbon;
+
+>>>>>>> 17c5586132bf99e31971f2ae8d3d6036c6b09506
 use App\Models\Actividad_Favorita;
 
 class ActividadesController extends Controller
@@ -17,32 +26,36 @@ class ActividadesController extends Controller
         $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
         // $this->user = \Auth::user();
     }
+
     
     public function getVer($id){
+        
         if ($id == null){
             return response('Bad request.', 400);
         }elseif(Actividad::find($id) == null){
             return response('Not found.', 404);
         }
         
+        $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        
         $actividad = Actividad::with(['comentariosActividads'=> function ($queryComentario){
             $queryComentario->orderBy('fecha', 'DESC')->with(['user']);
         },
-            'actividadesConIdiomas' => function ($queryActividadesConIdiomas){
-            $queryActividadesConIdiomas->orderBy('idiomas')->select('actividades_id', 'idiomas', 'nombre', 'descripcion');
+            'actividadesConIdiomas' => function ($queryActividadesConIdiomas) use ($idioma){
+            $queryActividadesConIdiomas->where('idiomas', $idioma)->select('actividades_id', 'idiomas', 'nombre', 'descripcion')->get();
         }, 'multimediasActividades' => function($queryMultimediasActividades){
             $queryMultimediasActividades->orderBy('portada', 'desc')->select('actividades_id', 'ruta');
-        }, 'sitiosConActividades' => function ($querySitiosConActividades){
-            $querySitiosConActividades->with(['sitiosConIdiomas' => function($querySitiosConIdiomas){
-                $querySitiosConIdiomas->orderBy('idiomas_id')->select('idiomas_id', 'sitios_id', 'nombre', 'descripcion');
+        }, 'sitiosConActividades' => function ($querySitiosConActividades) use ($idioma){
+            $querySitiosConActividades->with(['sitiosConIdiomas' => function($querySitiosConIdiomas) use ($idioma){
+                $querySitiosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'sitios_id', 'nombre', 'descripcion');
             }])->select('sitios.id', 'sitios.latitud', 'sitios.longitud');
-        }, 'perfilesUsuariosConActividades' => function ($queryPerfilesUsuariosConActividades){
-            $queryPerfilesUsuariosConActividades->with(['perfilesUsuariosConIdiomas' => function($queryPerfilesUsuariosConIdiomas){
-                $queryPerfilesUsuariosConIdiomas->orderBy('idiomas_id')->select('idiomas_id', 'perfiles_usuarios_id', 'nombre');
+        }, 'perfilesUsuariosConActividades' => function ($queryPerfilesUsuariosConActividades) use ($idioma){
+            $queryPerfilesUsuariosConActividades->with(['perfilesUsuariosConIdiomas' => function($queryPerfilesUsuariosConIdiomas) use ($idioma){
+                $queryPerfilesUsuariosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'perfiles_usuarios_id', 'nombre');
             }])->select('perfiles_usuarios.id');
-        }, 'categoriaTurismoConActividades' => function($queryCategoriaTurismoConActividades){
-            $queryCategoriaTurismoConActividades->with(['categoriaTurismoConIdiomas' => function ($queryCategoriaTurismoConIdiomas){
-                $queryCategoriaTurismoConIdiomas->orderBy('idiomas_id')->select('categoria_turismo_id', 'idiomas_id', 'nombre');
+        }, 'categoriaTurismoConActividades' => function($queryCategoriaTurismoConActividades) use ($idioma){
+            $queryCategoriaTurismoConActividades->with(['categoriaTurismoConIdiomas' => function ($queryCategoriaTurismoConIdiomas) use ($idioma){
+                $queryCategoriaTurismoConIdiomas->where('idiomas_id', $idioma)->select('categoria_turismo_id', 'idiomas_id', 'nombre');
             }])->select('categoria_turismo.id');
         }])->where('id', $id)->select('id', 'valor_min', 'valor_max', 'calificacion_legusto', 'calificacion_llegar', 'calificacion_recomendar', 'calificacion_volveria')->first();
         
@@ -51,6 +64,10 @@ class ActividadesController extends Controller
         return view('actividades.Ver', ['actividad' => $actividad]);
     }
     
+<<<<<<< HEAD
+=======
+
+>>>>>>> 17c5586132bf99e31971f2ae8d3d6036c6b09506
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $actividad = Actividad::find($request->actividad_id);
@@ -144,6 +161,8 @@ class ActividadesController extends Controller
         
         return redirect('actividades/ver/'.$request->id)->with('success','Comentario guardado correctamente');
     }
+
+
     
     
 }

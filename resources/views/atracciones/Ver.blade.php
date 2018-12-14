@@ -70,7 +70,7 @@ function parse_yturl($url)
       
       <div class="carousel-inner">
         @for($i = 0; $i < count($atraccion->sitio->multimediaSitios); $i++)
-        <div class="item {{  $i === 0 ? 'active' : '' }}">
+        <div class="carousel-item {{  $i === 0 ? 'active' : '' }}">
           <img src="{{$atraccion->sitio->multimediaSitios[$i]->ruta}}" alt="Imagen de presentación de {{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}">
           
         </div>
@@ -103,7 +103,6 @@ function parse_yturl($url)
                   <span class="ion-android-favorite-outline" aria-hidden="true"></span><span class="sr-only">Marcar como favorito</span>
                 </button>
             @endif
-              
           </div>
       </div>
       <!-- Controls -->
@@ -123,27 +122,27 @@ function parse_yturl($url)
                 <li>
                     <a href="#informacionGeneral" class="toSection">
 						<i class="ionicons ion-information-circled" aria-hidden="true"></i>
-						<span class="hidden-xs">Información general</span>
+						<span class="hidden-xs">{{trans('resources.detalle.informacionGeneral')}}</span>
 					</a>
                 </li>
                 <li>
                     <a href="#caracteristicas" class="toSection">
 						<i class="ionicons ionicons ion-android-pin" aria-hidden="true"></i>
-						<span class="hidden-xs">Ubicación</span>
+						<span class="hidden-xs">{{trans('resources.detalle.ubicacion')}}</span>
 					</a>
                 </li>
                 @if($paraTenerEnCuentaContieneAlgo)
                 <li>
                     <a href="#paraTenerEnCuenta" class="toSection">
 						<i class="ionicons ion-help-circled" aria-hidden="true"></i>
-						<span class="hidden-xs">¿Qué debo tener en cuenta?</span>
+						<span class="hidden-xs">{{trans('resources.detalle.queDeboTenerEnCuenta')}}</span>
 					</a>
                 </li>
                 @endif
                 <li>
                     <a href="#comentarios" class="toSection">
 						<i class="ionicons ion-chatbubbles" aria-hidden="true"></i>
-						<span class="hidden-xs">Comentarios</span>
+						<span class="hidden-xs">{{trans('resources.detalle.comentarios')}}</span>
 					</a>
                 </li>
             </ul>
@@ -303,7 +302,7 @@ function parse_yturl($url)
                         </div>
                     </div>
                     <div class="col-xs-12 text-center">
-                        <a href="/actividades" class="btn btn-lg btn-success">Ver más</a>
+                        <a href="/quehacer?tipo=1" class="btn btn-lg btn-success">{{trans('resources.common.verMas')}}</a>
                     </div>
                 </div>
             @endif
@@ -315,7 +314,7 @@ function parse_yturl($url)
     
     <section id="comentarios">
         <div class="container">
-            <h3 class="title-section">Comentarios</h3>
+            <h3 class="title-section">{{trans('resources.detalle.comentarios')}} <small>({{count($atraccion->comentariosAtracciones)}})</small></h3>
             <p class="text-center">Te invitamos a que compartas tu opinión acerca de {{$atraccion->sitio->sitiosConIdiomas[0]->nombre}}.</p>   
             <div class="text-center">
                 <div class="text-center">
@@ -359,17 +358,29 @@ function parse_yturl($url)
             
         </div>
         
+        @if(count($atraccion->comentariosAtracciones) > 0)
+        <div class="container">
+            <hr>
+             <ul class="list-group list-group-flush no-list-style">
+                @foreach ($atraccion->comentariosAtracciones as $comentario)
+                     <li class="list-group-item">
+                         <p class="text-muted m-0"><i class="ion-person"></i> {{$comentario->user->username}} - <i class="ion-calendar"></i> {{date("j/m/y", strtotime($comentario->fecha))}}</p>
+    
+                        <blockquote>
+                        {{$comentario->comentario}}
+                        </blockquote>
+                    </li>
+                @endforeach
+                  
+                           
+            </ul>
+        </div>
         
-          <ul class="list-group list-group-flush">
-                    @foreach ($atraccion->comentariosAtracciones as $comentario)
-                         <li>{{$comentario->user->username}} {{$comentario->comentario}} {{$comentario->llegar}}</li>
-                    @endforeach
-                      
-        </ul>
+        @endif
     </section>
 @if(Auth::check())
         <div class="text-center">
-            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalComentario">Comentar</button>
+            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalComentario">{{trans('resources.detalle.comentar')}}</button>
         </div>
         <!-- Modal comentar-->
    <div class="modal fade" id="modalComentario" tabindex="-1" role="dialog" aria-labelledby="labelModalComentario" aria-hidden="true">
@@ -506,7 +517,7 @@ function parse_yturl($url)
         </div>
             @else
         <div class="text-center">
-            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalIniciarSesion">Comentar</button>
+            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#modalIniciarSesion">{{trans('resources.detalle.comentar')}}</button>
         </div>
         <!-- Modal iniciar sesión-->
         <div class="modal fade" id="modalIniciarSesion" tabindex="-1" role="dialog" aria-labelledby="labelModalIniciarSesion">

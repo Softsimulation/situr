@@ -580,7 +580,7 @@ header #bannerSitur, banner .nav-main{
 
 footer{
     width: 100%;
-    margin-top: 2%;
+    /*margin-top: 2%;*/
     background-color: #004a87;
     color: white;
 }
@@ -600,12 +600,13 @@ footer ul{
     padding-left: 1rem;
 }
 #logos{
-    width: 100%;
+    /*width: 100%;*/
     text-align: center;
     justify-content: center;
     align-items:center;
     background-color: white;
     padding: .5rem 0;
+    margin-top: 2%;
 }
 #logos img{
     margin: .5rem;
@@ -652,6 +653,31 @@ footer ul{
 }
 .justify-content-center {
     justify-content: center;
+}
+.list-group-flush .list-group-item:first-child {
+    border-radius: 0;
+    border-top: 0;
+}
+.list-group-flush .list-group-item:last-child {
+    border-radius: 0;
+    border-bottom: 0;
+}
+.list-group-flush .list-group-item {
+    border-left: 0;
+    border-right: 0;
+    padding: .5rem 1rem;
+    border-color: #eee;
+}
+.m-0{
+    margin: 0;
+}
+.no-list-style{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+blockquote {
+    margin-bottom: .5rem;
 }
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }

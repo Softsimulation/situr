@@ -31,7 +31,7 @@
         </li>
     </ul>
     
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content" id="myTabContent" style="padding: 25px;" >
         <div class="tab-pane fade in active" id="general" role="tabpanel" aria-labelledby="home-tab">
             
             
@@ -72,19 +72,31 @@
                     </div>
                 </fieldset>
                 
+                <br>
                 
-                
-                <div class="row">
-                    
-                </div>
                 
             </form>
                 
         </div>
         <div class="tab-pane fade" id="multimedia" role="tabpanel" aria-labelledby="profile-tab">
                
-            <div class="row" >
-                    <div class="col-md-12 text-center" >
+               <div class="row" >
+                     <div class="col-md-12" >
+                            <form role="form" name="formVideo" novalidate >
+                                <div class="input-group">
+                                  <input type="url" class="form-control" placeholder="URL de video" ng-model="informacion.video"  required >
+                                  <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit" ng-click="guardarvideo()" >Guardar</button>
+                                  </span>
+                                </div>
+                            </form>
+                     </div>
+               </div>
+               
+               <br><br>
+               
+                <div class="row" >
+                    <div class="col-md-12" >
                         <file-input id-input="galeria" ng-model="galeria" accept="image/*" label="Agregar imagenes" icon-class="ion-ios-photos" icon="" multiple ></file-input>
                         <button class="btn btn-success" ng-click="guardarGaleria()" ng-show="galeria.length>0" >
                             Guardar imagenes

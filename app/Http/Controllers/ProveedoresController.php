@@ -7,29 +7,30 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests;
 use App\Models\Proveedor;
-<<<<<<< HEAD
 use App\Models\Comentario_Proveedor;
 use Carbon\Carbon;
-=======
 use App\Models\Proveedor_Favorito;
-
->>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
 class ProveedoresController extends Controller
 {
-    
+  
     public function __construct()
-    {
-        
-        $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
-        // $this->user = \Auth::user();
-    }
-    
-    //
-    
-        public function __construct()
 	{
-	    $this->user = Auth::user();
+	    $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
 	}
+	
+	public function getIndex(){
+	    $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        $proveedores = Proveedor::with(['proveedorRnt' => function ($queryProveedorRnt) use ($idioma){
+            $queryProveedorRnt->with(['idiomas' => function ($queyProveedor_rnt_idioma) use ($idioma){
+                $queyProveedor_rnt_idioma->where('idioma_id', $idioma)->select('proveedor_rnt_id', 'idioma_id', 'descripcion', 'nombre')->orderBy('idioma_id');
+            }])->select('id', 'razon_social');
+        }, 'multimediaProveedores' => function ($queryMultimediaProveedores){
+            $queryMultimediaProveedores->where('tipo', false)->orderBy('portada', 'desc')->select('proveedor_id', 'ruta');
+        }])->select('id', 'valor_min', 'valor_max', 'calificacion_legusto', 'proveedor_rnt_id')->where('estado', true)->get();
+        
+        return view('proveedor.Index', ['proveedores' => $proveedores]);
+	}
+	
     //
     public function getVer($id){
         if ($id == null){
@@ -38,27 +39,29 @@ class ProveedoresController extends Controller
             return response('Not found.', 404);
         }
         
+        $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
+        
         $proveedor = Proveedor::with(['comentariosProveedores'=> function ($queryComentario){
             $queryComentario->orderBy('fecha', 'DESC')->with(['user']);
-        },'proveedorRnt' => function ($queryProveedorRnt){
-            $queryProveedorRnt->with(['idiomas' => function ($queyProveedor_rnt_idioma){
-                $queyProveedor_rnt_idioma->select('proveedor_rnt_id', 'idioma_id', 'descripcion')->orderBy('idioma_id');
+        },'proveedorRnt' => function ($queryProveedorRnt) use ($idioma){
+            $queryProveedorRnt->with(['idiomas' => function ($queyProveedor_rnt_idioma) use ($idioma){
+                $queyProveedor_rnt_idioma->where('idioma_id', $idioma)->select('proveedor_rnt_id', 'idioma_id', 'descripcion')->orderBy('idioma_id');
             }])->select('id', 'razon_social');
-        }, 'proveedoresConIdiomas' => function ($queryProveedoresConIdiomas){
-            $queryProveedoresConIdiomas->select('idiomas_id', 'proveedores_id', 'horario')->where('idiomas_id', 2);
+        }, 'proveedoresConIdiomas' => function ($queryProveedoresConIdiomas) use ($idioma){
+            $queryProveedoresConIdiomas->select('idiomas_id', 'proveedores_id', 'horario')->where('idiomas_id', $idioma);
         }, 'multimediaProveedores' => function ($queryMultimediaProveedores){
             $queryMultimediaProveedores->where('tipo', false)->orderBy('portada', 'desc')->select('proveedor_id', 'ruta');
-        }, 'actividadesProveedores' => function ($queryActividadesProveedores){
-            $queryActividadesProveedores->with(['actividadesConIdiomas' => function ($queryActividadesConIdiomas){
-                $queryActividadesConIdiomas->select('actividades_id', 'idiomas', 'nombre');
+        }, 'actividadesProveedores' => function ($queryActividadesProveedores) use ($idioma){
+            $queryActividadesProveedores->with(['actividadesConIdiomas' => function ($queryActividadesConIdiomas) use ($idioma){
+                $queryActividadesConIdiomas->where('idiomas', $idioma)->select('actividades_id', 'idiomas', 'nombre');
             }])->select('actividades.id');
-        }, 'perfilesUsuariosConProveedores' => function($queryPerfilesUsuariosConProveedores){
-            $queryPerfilesUsuariosConProveedores->with(['perfilesUsuariosConIdiomas' => function ($queryPerfilesUsuariosConIdiomas){
-                $queryPerfilesUsuariosConIdiomas->orderBy('idiomas_id')->select('idiomas_id', 'perfiles_usuarios_id', 'nombre');
+        }, 'perfilesUsuariosConProveedores' => function($queryPerfilesUsuariosConProveedores) use ($idioma){
+            $queryPerfilesUsuariosConProveedores->with(['perfilesUsuariosConIdiomas' => function ($queryPerfilesUsuariosConIdiomas) use ($idioma){
+                $queryPerfilesUsuariosConIdiomas->where('idiomas_id', $idioma)->select('idiomas_id', 'perfiles_usuarios_id', 'nombre');
             }])->select('perfiles_usuarios.id');
-        }, 'categoriaTurismoConProveedores' => function($queryCategoriaTurismoConProveedores){
-            $queryCategoriaTurismoConProveedores->with(['categoriaTurismoConIdiomas' => function($queryCategoriaTurismoConIdiomas){
-                $queryCategoriaTurismoConIdiomas->orderBy('idiomas_id')->select('categoria_turismo_id', 'idiomas_id', 'nombre');
+        }, 'categoriaTurismoConProveedores' => function($queryCategoriaTurismoConProveedores) use ($idioma){
+            $queryCategoriaTurismoConProveedores->with(['categoriaTurismoConIdiomas' => function($queryCategoriaTurismoConIdiomas) use ($idioma){
+                $queryCategoriaTurismoConIdiomas->where('idiomas_id')->select('categoria_turismo_id', 'idiomas_id', 'nombre');
             }])->select('categoria_turismo.id');
         }])->select('id', 'proveedor_rnt_id',  'telefono', 'sitio_web', 'valor_min', 'valor_max', 'calificacion_legusto')->where('id', $id)->first();
         
@@ -76,7 +79,6 @@ class ProveedoresController extends Controller
         return view('proveedor.Ver', ['proveedor' => $proveedor, 'video_promocional' => $video_promocional]);
     }
     
-<<<<<<< HEAD
     public function postGuardarcomentario(Request $request){
 	   
 	   $validator = \Validator::make($request->all(), [
@@ -115,7 +117,8 @@ class ProveedoresController extends Controller
         $proveedor->save();
         
         return redirect('proveedor/ver/'.$request->id)->with('success','Comentario guardado correctamente');
-=======
+    }
+
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $proveedor = Proveedor::find($request->proveedor_id);
@@ -156,7 +159,8 @@ class ProveedoresController extends Controller
                 return ["success" => true]; 
             }
         }
->>>>>>> 53d8fc323acc5f921ee6fd9448f7b6c38a0ec627
+
     }
+   
     
 }

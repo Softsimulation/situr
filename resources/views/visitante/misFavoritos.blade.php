@@ -1,12 +1,13 @@
 @extends('layout._publicLayout')
 
-@section('title', 'Mis favoritos')
+@section('Title', 'Mis favoritos')
 
 @section('estilos')
     <style>
     header{
         position: static;
         background-color: black;
+        margin: 0;
     }
     
     
@@ -24,8 +25,50 @@
     .ADMdtp-box header{
         background: white;
     }
-
-        
+    .parallax {
+        /* The image used */
+        background-image: url("/res/bg.jpg");
+    
+        /* Set a specific height */
+        min-height: 280px; 
+    
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .header-bg-fixed{
+        display:flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 2% 4%;
+        margin-bottom: 1rem;
+    }
+    .header-bg-fixed h2{
+        text-transform: uppercase;
+        background-color: white;
+        padding: .5rem 1rem;
+        border-radius: 4px;
+        margin-top: 0;
+        color: #18337e;
+    }
+    .list-group-item:first-child {
+        border-radius: 0;
+        border-top: 0;
+    }
+    .list-group-item:last-child {
+        border-radius: 0;
+        border-bottom: 0;
+    }
+    .list-group-item {
+        border-left: 0;
+        border-right: 0;
+        padding: .5rem 1rem;
+        border-color: #eee;
+    }
     </style>
     
     <link href="{{asset('/css/ADM-dateTimePicker.min.css')}}" rel='stylesheet' type='text/css' />
@@ -38,54 +81,51 @@
     <script src="{{asset('/js/plugins/angular.min.js')}}"></script>
 @endsection
 
-@section('TitleSection', 'Mis favoritos')
-
 
 
 @section('content')
 <div class="main-page" ng-app="visitanteApp" ng-controller="misFavoritosCtrl">
+    <div class="header-bg-fixed parallax">
+        <h2>Mis favoritos</h2>
+        
+    </div>
     
-    <div class="content-titulo">
-        <div>
-            <div style="text-align: center; margin-top: 1em;">
-                <a href="#" class="btn btn-default titulo-btn">Antes de viajar</a>
+    <div class="container">
+        <div class="row" ng-if="intrucciones.ver">
+            <div class="col-xs-12">
+                <p>Guarda como favorito los destinos, atracciones y actividades y demás elementos que SITUR Atlántico te ofrece y planifica los viajes que realices al departamento.</p>
             </div>
-            <div id="titulo">
-                <h1><strong>Planifica tu viaje</strong></h1>
+            <div class="col-xs-12 col-md-6">
+                <!--Para guardar tus favoritos-->
+                <h3>Para guardar tus favoritos</h3>
+                <ul class="text-muted">
+                    <!--Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.-->
+                    <li>Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.</li>
+                    <!--Presione en el botón Guardar como favorito indicado con el icono de un corazón.-->
+                    <li>Presione en el botón Guardar como favorito indicado con el icono de un corazón.</li>
+                    <!--Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación-->
+                    <li>Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación</li>
+                </ul>
+                <!--<img src="/Content/image/instruccion_planificador_1.png" style="width: 100%; margin: 1em;" />-->
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <!--Para crear un planificador-->
+                <h3>Para crear un planificador</h3>
+                <ul class="text-muted">
+                    <!--Presione el botón Crear planificador e ingrese la información solicitada.-->
+                    <li>Presione el botón Crear planificador e ingrese la información solicitada.</li>
+                    <!--Agregue los días en los que realizará alguna actividad.-->
+                    <li>Agregue los días en los que realizará alguna actividad.</li>
+                    <!--Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.-->
+                    <li>Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.</li>
+                    <!--Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.-->
+                    <li>Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.</li>
+                </ul>
+                <!--<img src="/Content/image/instruccion_planificador_2.png" style="width: 100%; margin: 1em;" />-->
             </div>
         </div>
     </div>
     
-    <div class="row" style="padding: 0; padding-left: 2%; padding-right: 2%;" ng-if="intrucciones.ver">
-        <div class="col-xs-12 col-md-6">
-            <!--Para guardar tus favoritos-->
-            <h2>Para guardar tus favoritos</h2>
-            <ul>
-                <!--Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.-->
-                <li>Navegue en el portal a través de las diferentes atracciones, actividades, proveedores de servicio turístico y eventos publicados.</li>
-                <!--Presione en el botón Guardar como favorito indicado con el icono de un corazón.-->
-                <li>Presione en el botón Guardar como favorito indicado con el icono de un corazón.</li>
-                <!--Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación-->
-                <li>Podrá listar sus favoritos en la opción Planifica tu viaje ubicado en la barra de navegación</li>
-            </ul>
-            <img src="/Content/image/instruccion_planificador_1.png" style="width: 100%; margin: 1em;" />
-        </div>
-        <div class="col-xs-12 col-md-6">
-            <!--Para crear un planificador-->
-            <h2>Para crear un planificador</h2>
-            <ul>
-                <!--Presione el botón Crear planificador e ingrese la información solicitada.-->
-                <li>Presione el botón Crear planificador e ingrese la información solicitada.</li>
-                <!--Agregue los días en los que realizará alguna actividad.-->
-                <li>Agregue los días en los que realizará alguna actividad.</li>
-                <!--Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.-->
-                <li>Arrastre sus favoritos y sueltelos en los días agregados. Podrá organizar los elementos arrastrados en los días.</li>
-                <!--Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.-->
-                <li>Cuando termine guarde los cambios para no perder la información. Luego podrá imprimir o compartir su planificador.</li>
-            </ul>
-            <img src="/Content/image/instruccion_planificador_2.png" style="width: 100%; margin: 1em;" />
-        </div>
-    </div>
     
     <div style="text-align: center;border-top: 1px solid lightgray;">
         <button type="button" class="btn btn-default" style="border-top-left-radius: 0; border-top-right-radius: 0;margin-bottom: 1em;border-top: 0;" ng-click="intrucciones.ver = !intrucciones.ver">
@@ -94,7 +134,7 @@
     </div>
     
     <div class="alert alert-danger" ng-if="errores != null">
-        <h3><b>Corrige los errores:</b></h3>
+        <h4><b>Corrige los errores:</b></h4>
         
         <div ng-repeat="error in errores">
             -@{{error[0]}}
@@ -194,7 +234,7 @@
                                                 <li class="list-group-item" ng-repeat="item in dia.Items|orderBy:'Orden'">
 
                                                     <span class="badge" ng-click="deleteItem($index,dia.Items)" title="Remover ítem"><i class="glyphicon glyphicon-remove"></i></span>
-                                                    <span class="badge" ng-show="!$first" ng-click="ordenarItem($index,dia.Items)" title="Ordenar ítem"><i class="glyphicon glyphicon-chevron-up"></i></span>
+                                                    <span class="badge" ng-show="!$first" ng-click="ordenarItem(item,dia.Items)" title="Ordenar ítem"><i class="glyphicon glyphicon-chevron-up"></i></span>
                                                     <img ng-src="@{{item.Imagen}}" alt="" width="50"> @{{item.Nombre}}
                                                 </li>
                                             </ul>
@@ -238,15 +278,18 @@
             
             <br />
             <div class="row" ng-show="listaPlanificadores.length > 0">
-                <h2>Planificadores anteriores</h2>
+                <h2 class="col-xs-12">Planificadores anteriores</h2>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-test" dir-paginate="planificador in listaPlanificadores | orderBy: 'Fecha_inicio'|itemsPerPage:6" pagination-id="plan" ng-show="listaPlanificadores.length > 0">
                     <div id="listaplanificadores" class="panel panel-default">
                         <div class="panel-heading heading-planificador">
                             <div class="row">
-                                <div class="col-xs-12">
+                                <div class="col-xs-8">
                                     @{{planificador.Nombre}} (@{{planificador.Fecha_inicio | date:'dd-MM-yyyy'}} - @{{planificador.Fecha_fin | date:'dd-MM-yyyy'}})
                                 </div>
-                                
+                                <div class="col-xs-3" style="text-align: right;">
+                                    <a href="/visitante/editarplanificador/@{{planificador.Id}}"><span class="glyphicon glyphicon-pencil" style="margin-right: 1em; cursor: pointer;" data-toggle="tooltip" data-placement="bottom"  title="Editar planificador"></span></a>
+                                    <span class="glyphicon glyphicon-remove" ng-click="eliminarPlanificador(planificador)" style="margin-right: 1em; cursor: pointer;" data-toggle="tooltip" data-placement="bottom"  title="Eliminar planificador"></span>
+                                </div>
                             </div>
 
 
@@ -364,7 +407,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary" ng-click="crearPlanificador()">Guardar</button>
+                                <button type="submit" class="btn btn-success" ng-click="crearPlanificador()">Guardar</button>
                             </div>
                         </form>
 
@@ -410,7 +453,7 @@
             				</div>
             				<div class="modal-footer">
             					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            					<button type="submit" class="btn btn-primary" ng-click="editarPlanificador()">Editar</button>
+            					<button type="submit" class="btn btn-success" ng-click="editarPlanificador()">Editar</button>
             				</div>
             			</form>
             		</div>
@@ -419,23 +462,29 @@
             
         </div>
     @else
-        <div class="row" style="padding: 0;">
-            <div class="jumbotron" style="text-align: center;font-size: 4em; padding-top: 2em; padding-bottom: 2em;">
-                <span class="glyphicon glyphicon-lock" style="font-size: 2.5em;"></span>
-                <!--Para acceder a esta funcionalidad debe iniciar sesión-->
-                <h2>Para acceder a esta funcionalidad debe iniciar sesión</h2>
-                <!--Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal-->
-                <p>Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal</p>
-                <div class="row">
-                    <div class="col-xs-6 col-md-6 col-md-6" style="text-align: right;">
-                        <a href="/Account/Login" class="btn btn-lg btn-default">Iniciar sesión</a>
-                    </div>
-                    <div class="col-xs-6 col-md-6 col-md-6" style="text-align: left;">
-                        <a href="/Account/Register" class="btn btn-lg btn-success">Registrarse</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="jumbotron" style="text-align: center;font-size: 4em; padding-top: 2em; padding-bottom: 2em;">
+                    <span class="glyphicon glyphicon-lock" style="font-size: 2.5em;"></span>
+                    <!--Para acceder a esta funcionalidad debe iniciar sesión-->
+                    <h2>Para acceder a esta funcionalidad debe iniciar sesión</h2>
+                    <!--Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal-->
+                    <p>Si aún no te encuentras registrado te invitamos a registrarte en nuestro Portal</p>
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6 col-md-6" style="text-align: right;">
+                            <a href="/login/login" class="btn btn-lg btn-default">Iniciar sesión</a>
+                        </div>
+                        <!--<div class="col-xs-6 col-md-6 col-md-6" style="text-align: left;">-->
+                        <!--    <a href="/Account/Register" class="btn btn-lg btn-success">Registrarse</a>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
+            
         </div>
+    </div>
+        
     @endif
     
     <div class='carga'>

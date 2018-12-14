@@ -36,7 +36,7 @@
 @section('content')
 <div class="content-head">
     <div class="container">
-        <h2 class="text-uppercase">Informes</h2>
+        <h2 class="text-uppercase">{{trans('resources.publicaciones.informes')}}</h2>
         <hr/>
         <form method="GET" action="/promocionInforme/listado">
             <div class="row">
@@ -54,9 +54,9 @@
                     
                     
                         <div class="form-group">
-                            <label for="tipoInforme" class="control-label sr-only">Tipo de informe</label>
+                            <label for="tipoInforme" class="control-label sr-only">{{trans('resources.listado.tipoDeInforme')}}</label>
                             <select class="form-control" id="tipoInforme" name="tipoInforme" onchange="this.form.submit()">
-                                <option value="" selected @if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] == "") disabled @endif>@if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] != "") Ver todos los registros @else - Seleccione el tipo de informe -  @endif</option>
+                                <option value="" selected @if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] == "") disabled @endif>@if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] != "") {{trans('resources.listado.verTodosLosRegistros')}} @else - {{trans('resources.listado.seleccioneElTipoDeInforme')}} -  @endif</option>
                                 @foreach($tipos as $tipo)
                                     <option value="{{$tipo->tipo_documento_id}}" @if(isset($_GET['tipoInforme']) && $_GET['tipoInforme'] == $tipo->tipo_documento_id) selected @endif>{{$tipo->nombre}}</option>
                                 @endforeach
@@ -69,9 +69,9 @@
                     
                     
                         <div class="form-group">
-                            <label for="categoriaInforme" class="control-label sr-only">Categoría de informe</label>
+                            <label for="categoriaInforme" class="control-label sr-only">{{trans('resources.listado.categoriaDeInforme')}}</label>
                             <select class="form-control" id="categoriaInforme" name="categoriaInforme" onchange="this.form.submit()">
-                                <option value="" selected @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == "") disabled @endif>@if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] != "") Ver todos los registros @else - Seleccione la categoría -  @endif</option>
+                                <option value="" selected @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == "") disabled @endif>@if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] != "") {{trans('resources.listado.verTodosLosRegistros')}} @else - {{trans('resources.listado.seleccioneLaCategoria')}} -  @endif</option>
                                 @foreach($categorias as $categoria)
                                     <option value="{{$categoria->categoria_documento_id}}" @if(isset($_GET['categoriaInforme']) && $_GET['categoriaInforme'] == $categoria->categoria_documento_id) selected @endif>{{$categoria->nombre}}</option>
                                 @endforeach
@@ -81,7 +81,7 @@
                     
                 </div>
                 <div class="col-xs-12 col-md-4 col-lg-2">
-        			<button type="submit" class="btn btn-block btn-success" title="Buscar"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+        			<button type="submit" class="btn btn-block btn-success" title="Buscar"><span class="glyphicon glyphicon-search"></span> {{trans('resources.listado.buscar')}}</button>
         		</div>
             </div>
         </form>
@@ -90,7 +90,7 @@
 <div class="container">
 @if(isset($_GET['buscar']) || isset($_GET['tipoInforme']) || isset($_GET['categoriaInforme']))
 <div class="text-center">
-    <a href="/promocionInforme/listado" class="btn btn-default">Limpiar filtros</a>
+    <a href="/promocionInforme/listado" class="btn btn-default">{{trans('resources.listado.limpiarFiltros')}}</a>
 </div>
 @endif
 <br>
@@ -105,27 +105,26 @@
                 <img src="/res/report.png" alt="" role="presentation">
                 @endif
                 <div class="text-overlap">
-                    <span class="label label-info">{{$informe->tipoInforme}}</span>
+                    <span class="label label-info">{{$informe->tipoInforme}}</span><br>
                     <span class="label label-warning">{{$informe->categoriaInforme}}</span>
                 </div>
             </div>
             <div class="tile-body">
                 <div class="tile-caption">
-                    <h3><a href="/promocionNoticia/ver/{{$informe->idNoticia}}">{{$informe->tituloInforme}}</a></h3>
+                    <h3><a target="_blank" href="{{$informe->ruta}}">{{$informe->tituloInforme}}</a></h3>
                 </div>
                 <p class="text-muted">{{$informe->descripcion}}</p>
                 <div class="text-right">
-                    <a target="_blank" href="{{$informe->ruta}}" class="btn btn-xs btn-link">Descargar PDF</a>
+                    <a target="_blank" href="{{$informe->ruta}}" class="btn btn-xs btn-link">{{trans('resources.listado.descargarPDF')}}</a>
                 </div>
             </div>
-        </div>
-   </div>    
+        </div>  
     @endforeach
     </div>
     {!!$informes->links()!!}
     @else
     <div class="alert alert-info">
-        <p>No hay elementos publicados en este momento.</p>
+        <p>{{trans('resources.listado.noHayElementos')}}.</p>
     </div>
     @endif
     <!--@if ($informes != null || count($informes) > 0)

@@ -22,6 +22,10 @@ use App\Models\Categoria_Documento_Idioma;
 
 class PublicoInformeController extends Controller
 {
+    public function __construct()
+    {
+        $this->idioma_id = \Config::get('app.locale') == "en" ? 2 : 1;
+    }
 	function getListado(Request $request){
         //publicaciones_idioma::where("publicaciones_id",">",1)->delete();
         //Publicacione::where("estado",true)->delete();
@@ -31,9 +35,9 @@ class PublicoInformeController extends Controller
                    join('publicaciones_idioma', 'publicaciones_idioma.publicaciones_id', '=', 'publicaciones.id')
                    ->join('tipo_documento_idioma', 'tipo_documento_idioma.tipo_documento_id', '=', 'publicaciones.tipo_documento_id')
                    ->join('categoria_documento_idioma', 'categoria_documento_idioma.categoria_documento_id', '=', 'publicaciones.categoria_doucmento_id')
-                   ->where('publicaciones_idioma.idioma_id',1)
-                   ->where('tipo_documento_idioma.idioma_id',1)
-                   ->where('categoria_documento_idioma.idioma_id',1)
+                   ->where('publicaciones_idioma.idioma_id',$this->idioma_id)
+                   ->where('tipo_documento_idioma.idioma_id',$this->idioma_id)
+                   ->where('categoria_documento_idioma.idioma_id',$this->idioma_id)
                    ->where(function($q)use($request){ if( isset($request->tipoInforme) && $request->tipoInforme != null ){$q->where('publicaciones.tipo_documento_id',$request->tipoInforme);}})
                     ->where(function($q)use($request){ if( isset($request->categoriaInforme) && $request->categoriaInforme != null ){$q->where('publicaciones.categoria_doucmento_id',$request->categoriaInforme);}})
                     ->where(function($q)use($request){ if( isset($request->buscar) && $request->buscar != null ){$q->where(strtolower('publicaciones_idioma.palabrasclaves'),'like','%',trim(strtolower($request->buscar)))
@@ -52,8 +56,10 @@ class PublicoInformeController extends Controller
                                                 ->where(function($q)use($request){ if( isset($request->tipoInforme) && $request->tipoInforme != null ){$q->where('tipo_documento_id',$request->tipoInforme);}})
                                                 ->where(function($q)use($request){ if( isset($request->categoriaInforme) && $request->categoriaInforme != null ){$q->where('categoria_doucmento_id',$request->categoriaInforme);}})
                                                 ->orderBy('id')->paginate(10),*/
-               "tipos"=> Tipo_Documento_Idioma::with(['tipoDocumento'=>function($s){$s->where('estado',true);}])->where('idioma_id',1)->get(),
-               "categorias"=> Categoria_Documento_Idioma::with(['categoriaDocumento'=>function($s){$s->where("estado",true);}])->where('idioma_id',1)->get(),
+               "tipos"=> Tipo_Documento_Idioma::with(['tipoDocumento'=>function($s){$s->where('estado',true);}])->where('idioma_id',$this->idioma_id)->get(),
+               "categorias"=> Categoria_Documento_Idioma::with(['categoriaDocumento'=>function($s){$s->where("estado",true);}])->where('idioma_id',$this->idioma_id)->get(),
+               "suscriptorExiste"=>null,
+               "exitoso"=>null
             ));
        
     }
@@ -65,9 +71,9 @@ class PublicoInformeController extends Controller
                    join('publicaciones_idioma', 'publicaciones_idioma.publicaciones_id', '=', 'publicaciones.id')
                    ->join('tipo_documento_idioma', 'tipo_documento_idioma.tipo_documento_id', '=', 'publicaciones.tipo_documento_id')
                    ->join('categoria_documento_idioma', 'categoria_documento_idioma.categoria_documento_id', '=', 'publicaciones.categoria_doucmento_id')
-                   ->where('publicaciones_idioma.idioma_id',1)
-                   ->where('tipo_documento_idioma.idioma_id',1)
-                   ->where('categoria_documento_idioma.idioma_id',1)
+                   ->where('publicaciones_idioma.idioma_id',$this->idioma_id)
+                   ->where('tipo_documento_idioma.idioma_id',$this->idioma_id)
+                   ->where('categoria_documento_idioma.idioma_id',$this->idioma_id)
                    ->where('publicaciones.id',$idInforme)
                    ->select("publicaciones.id","publicaciones.autores", "publicaciones.volumen", "publicaciones.portada", "publicaciones.ruta", "publicaciones.fecha_creacion", 
                         "publicaciones.fecha_publicacion", "tipo_documento_idioma.nombre as tipoInforme", "categoria_documento_idioma.nombre as categoriaInforme",

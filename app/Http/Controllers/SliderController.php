@@ -180,7 +180,6 @@ class SliderController extends Controller
                 case 3:
                     
                     $slider->enlace_acceso = "/destinos/ver/".$request->destinoIdSlider;
-                    return $slider->enlace_acceso;
                     break;
                 case 4:
                     $slider->enlace_acceso = "/eventos/ver/".$request->eventoIdSlider;
@@ -232,8 +231,9 @@ class SliderController extends Controller
         }else{
             $sliderIdioma->nombre = "No tiene";
         }*/
-        $sliderIdioma->nombre = $request->tituloSlider == null ? "No tiene" : $request->tituloSlider;
+        $sliderIdioma->nombre = $request->tituloSlider;
         $sliderIdioma->descripcion = $request->textoAlternativoSlider;
+        $sliderIdioma->descripcion_texto = $request->descripcionTextoSlider;
         $sliderIdioma->idioma_id = 1;
         $sliderIdioma->slider_id = $slider->id;
         $sliderIdioma->estado = true;
@@ -440,8 +440,9 @@ class SliderController extends Controller
         $slider->save();
         
         $sliderIdioma = Slider_Idioma::where('slider_id',$slider->id)->first();
-        $sliderIdioma->nombre = $request->tituloSlider == null ? "No tiene" : $request->tituloSlider;
+        $sliderIdioma->nombre = $request->tituloSlider;
         $sliderIdioma->descripcion = $request->textoAlternativoSlider;
+        $sliderIdioma->descripcion_texto = $request->descripcionTextoSlider;
         $sliderIdioma->user_update = $this->user->username;
         $sliderIdioma->updated_at = Carbon::now();
         $sliderIdioma->save();
@@ -503,8 +504,9 @@ class SliderController extends Controller
         }
         
 	    $sliderIdioma = new Slider_Idioma();
-        $sliderIdioma->nombre = $request->tituloSlider == null ? "No tiene" : $request->tituloSlider;
+        $sliderIdioma->nombre = $request->tituloSlider;
         $sliderIdioma->descripcion = $request->textoAlternativoSlider;
+        $sliderIdioma->descripcion_texto = $request->descripcionTextoSlider;
         $sliderIdioma->idioma_id = $request->idiomaIdSlider;
         $sliderIdioma->slider_id = $request->id;
         $sliderIdioma->estado = true;
@@ -551,6 +553,7 @@ class SliderController extends Controller
         if($validator->fails()){
             return ["success"=>false,"errores"=>$validator->errors()];
         }
+        $errores = [];
 	    $slider = Slider::find($request->id);
 	    if($slider->prioridad == 1){
 	        $errores["Prioridad1"][0] = "El slider posee la máxima prioridad.";
@@ -612,6 +615,7 @@ class SliderController extends Controller
         if($validator->fails()){
             return ["success"=>false,"errores"=>$validator->errors()];
         }
+        $errores = [];
 	    $slider = Slider::find($request->id);
 	    if($slider->prioridad == 8){
 	        $errores["Prioridad1"][0] = "El slider posee la mínima prioridad.";
@@ -675,6 +679,7 @@ class SliderController extends Controller
         if($validator->fails()){
             return ["success"=>false,"errores"=>$validator->errors()];
         }
+        $errores = [];
         if (($request->prioridadSliderActivar < 1 || $request->prioridadSliderActivar > 8) && $request->bandera==1) {
             $errores["Prioridad"][0] = "La prioridad debe estar entre 1 y 8.";
         }
