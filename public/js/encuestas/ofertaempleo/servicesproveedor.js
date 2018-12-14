@@ -30,7 +30,7 @@ app.factory("proveedorServi", ["$http", "$q", function ($http, $q) {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.get('/ofertaempleo/encuestasrealizadastotales/'+id).success(function (data) {
+            $http.get('/ofertaempleo/encuestasrealizadastotales').success(function (data) {
                 defered.resolve(data);
             }).error(function (err) {
                 defered.reject(err);
