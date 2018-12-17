@@ -35,7 +35,7 @@
 <div class="alert alert-warning" ng-if="(encuestas | filter:search).length == 0 && encuestas.length > 0">
     <p>No existen registros que coincidan con su búsqueda</p>
 </div>
-<div class="alert alert-info" role="alert"  ng-show="mostrarFiltro == false && (search.id.length > 0 || search.idgrupo.length > 0 || search.lugaraplicacion.length > 0 || search.fechaaplicacion.length > 0 || search.fechallegada.length > 0 || search.username.length > 0 || search.estado.length > 0 || search.ultima.length > 0)">
+<div class="alert alert-info" role="alert"  ng-show="mostrarFiltro == false && (search.codigoencuesta.length > 0 || search.fechaaplicacion.length > 0 || search.fechallegada.length > 0 || search.username.length > 0 || search.estado.length > 0 || search.ultima.length > 0)">
     Actualmente se encuentra algunos de los filtros en uso, para reiniciar el listado de las encuestas haga clic <span><a href="#" ng-click="search = ''">aquí</a></span>
 </div>
       
@@ -46,8 +46,6 @@
                         <tr>
                                                   
                             <th>No. de encuesta</th>
-                            <th style="width: 60px;">Grupo</th>
-                            <th>Lugar de aplicación</th>
                             <th style="width: 90px;">Fecha de digitación</th>
                             <th style="width: 90px;">Fecha de llegada</th>
                             <th>Encuestador</th>
@@ -59,9 +57,7 @@
                         <!--<tr dir-paginate="item in encuestas|filter:{Filtro:filtroEstadoEncuesta}| filter:filtrarCampo | filter:prop.search  |itemsPerPage:10 as results" pagination-id="paginacion_encuestas" >-->
                         <tr ng-show="mostrarFiltro == true">
                             
-                            <td><input type="text" ng-model="search.id" name="id" id="id" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
-                            <td><input type="text" ng-model="search.idgrupo" name="idgrupo" id="idgrupo" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
-                            <td><input type="text" ng-model="search.lugaraplicacion" name="lugaraplicacion" id="lugaraplicacion" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
+                            <td><input type="text" ng-model="search.codigoencuesta" name="codigoencuesta" id="codigoencuesta" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
                             <td><input type="text" ng-model="search.fechadigitacion" name="fechadigitacion" id="fechadigitacion" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
                             <td><input type="text" ng-model="search.fechallegada" name="fechallegada" id="fechallegada" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
                             <td><input type="text" ng-model="search.username" name="username" id="username" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
@@ -73,9 +69,7 @@
                     <tbody>
                         <tr dir-paginate="item in encuestas| filter:search  |itemsPerPage:10 as results" pagination-id="paginacion_encuestas" >
                         
-                            <td>@{{item.id}}</td>
-                            <td>@{{item.idgrupo}}</td>
-                            <td>@{{item.lugaraplicacion}}</td>
+                            <td>@{{item.codigoencuesta}}</td>
                             <td>@{{item.fechadigitacion | date:'dd-MM-yyyy'}}</td>
                             <td>@{{item.fechallegada | date:'dd-MM-yyyy'}}</td>
                             <td>@{{item.username}}</td>

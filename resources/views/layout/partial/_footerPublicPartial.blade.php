@@ -1,6 +1,5 @@
-<footer>
-    <div id="logos">
-        <div id="slider-logos" class="container">
+<div id="logos" class="container">
+        <div id="slider-logos">
             <img src="/res/logo_mincit.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Ministerio de Industria, Comercio y Turísmo'])}}" class="img-responsive">
             <img src="/res/logo_fontur.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Fontur'])}}" class="img-responsive">
             <img src="/res/logo_gobierno.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Gobierno de Colombia'])}}" class="img-responsive">
@@ -10,6 +9,8 @@
         </div>
         
     </div>
+<footer>
+    
     <div id="informacionFooter" class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-4 text-center" style="align-self:center;">
@@ -38,7 +39,7 @@
                 <p style="margin: 0">{{trans('resources.common.suscribase')}}</p>
                 <form class="form-inline" name="guardarSuscriptor" action="/suscriptores/guardarsuscriptor" method="post">
         			<div class="form-group" style="width: 80%;">
-        			    <label class="sr-only">{{trans('resources.common.suscribir')}}</label>
+        			    <label class="sr-only" for="emailSuscriptor">{{trans('resources.common.suscribir')}}</label>
                         <input type="email" class="form-control" style="width: 100%;" required name="emailSuscriptor" id="emailSuscriptor" placeholder="Ingrese el correo donde desea recibir las notificaciones"/>
     					
                     </div>
