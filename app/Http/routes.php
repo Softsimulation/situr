@@ -177,7 +177,7 @@ Route::controller('/registrar','RegistrarController');
 //Route::controller('/','HomeController');
 
 
-
+Route::controller('/periodoSostenibilidadPst','PeriodoSostenibilidadPstController');
 
 
 
