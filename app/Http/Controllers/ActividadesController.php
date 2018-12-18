@@ -6,15 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Actividad;
-<<<<<<< HEAD
-=======
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Comentario_Actividad;
-use Carbon\Carbon;
 
->>>>>>> 17c5586132bf99e31971f2ae8d3d6036c6b09506
 use App\Models\Actividad_Favorita;
 
 class ActividadesController extends Controller
@@ -64,10 +56,7 @@ class ActividadesController extends Controller
         return view('actividades.Ver', ['actividad' => $actividad]);
     }
     
-<<<<<<< HEAD
-=======
 
->>>>>>> 17c5586132bf99e31971f2ae8d3d6036c6b09506
     public function postFavorito(Request $request){
         $this->user = \Auth::user();
         $actividad = Actividad::find($request->actividad_id);
