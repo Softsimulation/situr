@@ -42,6 +42,7 @@ use App\Models\Estados_Encuesta;
 use App\Models\Historial_Encuesta_Pst_Sostenibilidad;
 use App\Models\ListadoEncuestasPst;
 use App\Models\Digitador;
+use App\Models\Periodo_Sostenibilidad_Pst;
 
 class SostenibilidadPstController extends Controller
 {
@@ -54,15 +55,26 @@ class SostenibilidadPstController extends Controller
             $this->user = User::where('id',Auth::user()->id)->first(); 
         }
     }
-    public function getConfiguracionencuesta(){
-        return view('sostenibilidadPst.configurarcionEncuesta');
+    
+    public function getConfiguracionencuesta($id = null){
+    	if($id != null){
+    		if(!Periodo_Sostenibilidad_Pst::find($id)){
+    			return \Redirect::to('/periodoSostenibilidadPst/listado')->with('message', 'Verifique que el periodo este ingresado en el sistema.')
+                        ->withInput();
+    		}
+    	}else{
+    		$id = -1;
+    	}
+    	
+        return view('sostenibilidadPst.configurarcionEncuesta', ['id' => $id]);
     }
     
     public function getCargarproveedoresrnt(){
         $proveedores = Proveedores_rnt::all();
         $encuestadores = Digitador::whereHas('user',function($q){$q->where('estado', true);})->with(['user'])->get();
+        $periodos = Periodo_Sostenibilidad_Pst::where('fecha_final','>=', date('Y-m-d') )->where('estado', true)->get();
         
-        return ['proveedores' => $proveedores, 'encuestadores' => $encuestadores];
+        return ['proveedores' => $proveedores, 'encuestadores' => $encuestadores, 'periodos' => $periodos];
     }
     
     public function postGuardarconfiguracion(Request $request){
@@ -73,7 +85,8 @@ class SostenibilidadPstController extends Controller
 			'cargo' => 'required|max:255',
 			'establecimiento' => 'required',
 			'establecimiento.id' => 'exists:proveedores_rnt,id',
-			'digitador_id' => 'required|exists:users,id'
+			'digitador_id' => 'required|exists:users,id',
+			'periodo' => 'required|exists:periodos_sostenibilidad_pst,id',
     	],[
        		'fechaAplicacion.required' => 'La fecha de apliación es requerida.',
        		'fechaAplicacion.date' => 'La fecha de apliación debe ser tipo fecha.',
@@ -97,6 +110,11 @@ class SostenibilidadPstController extends Controller
 		    return ["success"=>false,"errores"=> [ ["La fecha de aplicación no debe ser mayor a la actual."] ] ];
 		}
 		
+		$periodo = Periodo_Sostenibilidad_Pst::find($request->periodo);
+		if($periodo->fecha_inicial > date('Y-m-d',strtotime(str_replace("/","-",$request->fechaAplicacion))) || $periodo->fecha_final < date('Y-m-d',strtotime(str_replace("/","-",$request->fechaAplicacion))) ){
+			return ["success"=>false,"errores"=> [ ["Verifique que la fecha de aplicación se encuentre dentro el rango del periodo."] ] ];
+		}
+		
 		$encuesta = Encuesta_Pst_Sostenibilidad::create([
 		    'proveedores_rnt_id' => $request->establecimiento['id'],
 		    'nombre_contacto' => $request->nombre_contacto,
@@ -105,7 +123,9 @@ class SostenibilidadPstController extends Controller
 		    'fecha_aplicacion' => date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion))),
 		    'estado_encuesta_id' => 1,
 		    'numero_seccion' => 1,
-		    'digitador_id' => $request->digitador_id
+		    'digitador_id' => $request->digitador_id,
+		    'periodo_sostenibilidad_id' => $periodo->id,
+		    'codigo_encuesta' => $periodo->id . "_" . ($periodo->encuestas->count() + 1)
 	    ]);
 	    
 	    Historial_Encuesta_Pst_Sostenibilidad::create([
@@ -138,7 +158,9 @@ class SostenibilidadPstController extends Controller
         
         $encuestadores = Digitador::whereHas('user',function($q){$q->where('estado', true);})->with(['user'])->get();
         
-        return ['proveedores' => $proveedores, 'encuesta' => $encuesta, 'encuestadores' => $encuestadores];
+        $periodos = Periodo_Sostenibilidad_Pst::where('fecha_final','>=', date('Y-m-d') )->where('estado', true)->get();
+        
+        return ['proveedores' => $proveedores, 'encuesta' => $encuesta, 'encuestadores' => $encuestadores, 'periodos' => $periodos];
     }
     
     public function postGuardareditarencuesta(Request $request){
@@ -150,7 +172,8 @@ class SostenibilidadPstController extends Controller
 			'cargo' => 'required|max:255',
 			'establecimiento' => 'required',
 			'establecimiento.id' => 'exists:proveedores_rnt,id',
-			'digitador_id' => 'required|exists:users,id'
+			'digitador_id' => 'required|exists:users,id',
+			'periodo_sostenibilidad_id' => 'required|exists:periodos_sostenibilidad_pst,id'
     	],[
        		'fechaAplicacion.required' => 'La fecha de apliación es requerida.',
        		'fechaAplicacion.date' => 'La fecha de apliación debe ser tipo fecha.',
@@ -174,12 +197,18 @@ class SostenibilidadPstController extends Controller
 		    return ["success"=>false,"errores"=> [ ["La fecha de aplicación no debe ser mayor a la actual."] ] ];
 		}
 		
+		$periodo = Periodo_Sostenibilidad_Pst::find($request->periodo_sostenibilidad_id);
+		if($periodo->fecha_inicial > date('Y-m-d',strtotime(str_replace("/","-",$request->fechaAplicacion))) || $periodo->fecha_final < date('Y-m-d',strtotime(str_replace("/","-",$request->fechaAplicacion))) ){
+			return ["success"=>false,"errores"=> [ ["Verifique que la fecha de aplicación se encuentre dentro el rango del periodo."] ] ];
+		}
+		
 		$encuesta = Encuesta_Pst_Sostenibilidad::find($request->id);
 		$encuesta->nombre_contacto = $request->nombre_contacto;
 		$encuesta->proveedores_rnt_id = $request->establecimiento['id'];
 		$encuesta->nombre_contacto = $request->nombre_contacto;
 		$encuesta->lugar_encuesta = $request->lugar_encuesta;
 		$encuesta->digitador_id = $request->digitador_id;
+		//$encuesta->periodo_sostenibilidad_id = $request->periodo_sostenibilidad_id;
 		$encuesta->cargo = $request->cargo;
 		$encuesta->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
 		$encuesta->save();
