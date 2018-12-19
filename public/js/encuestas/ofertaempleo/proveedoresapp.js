@@ -133,7 +133,7 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
 
         $("body").attr("class", "cbp-spmenu-push charging");
         
-        proveedorServi.getEncuestasTotal($scope.id).then(function (data) {
+        proveedorServi.getEncuestasTotal().then(function (data) {
             $("body").attr("class", "cbp-spmenu-push");
             $scope.encuestas = data.encuestas;
             $scope.ruta = data.ruta;

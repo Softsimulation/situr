@@ -137,7 +137,7 @@
                     <table class="table table-striped">
                   <thead>
                         <tr>
-                            <th>Id</th>
+                    
                             <th>Codigo</th>
                             <th>Mes</th>
                             <th>Año</th>
@@ -149,7 +149,7 @@
                         </tr>
                         <tr ng-show="mostrarFiltro == true">
                                     
-                            <td><input type="text" ng-model="search.id" name="id" id="id" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
+                           
                             <td><input type="text" ng-model="search.codigo" name="codigo" id="codigo" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
                             <td><input type="text" ng-model="search.mes" name="mes" id="mes" class="form-control input-sm" id="inputSearch" maxlength="150" autocomplete="off"></td>
                             <td><input type="text" ng-model="search.anio" name="anio" id="anio" class="form-control input-sm" maxlength="150" autocomplete="off"></td>
@@ -162,7 +162,7 @@
                     </thead>
                      <tbody>
                         <tr dir-paginate="item in encuestas|filter:search |itemsPerPage:10 as results" pagination-id="paginacion_antiguos" >
-                            <td>@{{item.id}}</td>
+                        
                             <td>@{{item.codigo}}</td>
                             <td>@{{item.mes}}</td>
                             <td>@{{item.anio}}</td>
