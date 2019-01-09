@@ -81,7 +81,8 @@
                                         <option value="" disabled>--Seleccione--</option>
                                         <option value="receptor">Turismo Receptor</option>
                                         <option value="interno">Turismo Interno</option>
-                                        <option value="sostenibilidad">Sostebibilidad PST</option>
+                                        <option value="sostenibilidad">Sostenibilidad PST</option>
+                                        <option value="hogares">Sostenibilidad Hogares</option>
                                         <option value="ofertayempleo">Oferta y Empleo</option>
                                     </select>
                                 </div>

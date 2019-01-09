@@ -64,6 +64,9 @@ class ExportacionController extends Controller
             case 'ofertayempleo': 
                $url= $this->ExportacionOfertayEmpleo($request->categoria,$request->mes);
             break;
+            case 'hogares':
+                $url= $this->ExportacionSostenibilidadhogares($request->categoria,$request->mes);
+            break;
             
         }
         
@@ -191,7 +194,7 @@ class ExportacionController extends Controller
         
                \Excel::create('ExportacionSostenibilidadPst', function($excel) use($datos) {
         
-                    $excel->sheet('Sostebibilidad pst', function($sheet) use($datos) {
+                    $excel->sheet('Sostenibilidad pst', function($sheet) use($datos) {
                        
                 
                         $sheet->fromArray($datos, null, 'A1', false, true);
@@ -207,6 +210,56 @@ class ExportacionController extends Controller
                 $exportacion->save();
                 
                 return '/excel/exports/ExportacionSostenibilidadPst.xlsx'; 
+        
+        
+        }catch(Exception $e){
+            
+            
+            $exportacion=$e;
+            $exportacion->estado=3;
+            $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
+            $exportacion->save();
+            
+        }
+        
+    }
+    
+    protected function ExportacionSostenibilidadhogares($fecha_inicial,$fecha_final){
+        
+        $exportacion=new Exportacion();
+        $exportacion->nombre="Exportacion Sostenibilidad Hogares";
+        $exportacion->fecha_realizacion=\Carbon\Carbon::now();
+        $exportacion->fecha_inicio=$fecha_inicial;
+        $exportacion->fecha_fin=$fecha_final;
+        $exportacion->estado=1;
+        $exportacion->usuario_realizado=$this->user->username;
+        $exportacion->hora_comienzo=\Carbon\Carbon::now()->format('h:i:s');
+        $exportacion->save();
+        
+        $datos = \DB::select("SELECT *from exportacionsostenibilidadhogares(?,?)", array($fecha_inicial ,$fecha_final));
+        $array= json_decode( json_encode($datos), true);
+        $datos=$array;
+        
+        try{
+        
+               \Excel::create('ExportacionSostenibilidadhogares', function($excel) use($datos) {
+        
+                    $excel->sheet('Sostenibilidad hogares ', function($sheet) use($datos) {
+                       
+                
+                        $sheet->fromArray($datos, null, 'A1', false, true);
+                
+                    });
+                
+                })->store('xlsx', public_path('excel/exports'));
+                
+                
+                
+                $exportacion->estado=2;
+                $exportacion->hora_fin=\Carbon\Carbon::now()->format('h:i:s');
+                $exportacion->save();
+                
+                return '/excel/exports/ExportacionSostenibilidadhogares.xlsx'; 
         
         
         }catch(Exception $e){
