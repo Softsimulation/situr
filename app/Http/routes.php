@@ -23,7 +23,7 @@ Route::get('/Mapa/getData', 'MapaCtrl@getData');
 
 Route::controller('/EstadisticasSecundarias','EstadisticasSecundariasCtrl');
 Route::controller('/MuestraMaestra','MuestraMaestraCtrl');
-
+Route::controller('/equiposituradmin','EquipoSiturController');
 Route::controller('/indicadores','IndicadoresCtrl');
 
 
@@ -124,6 +124,7 @@ Route::group(['middleware' => 'cors'], function(){
 Route::controller('/usuario','UsuarioController');
 
 
+
 Route::get('/encuestaAdHoc/{encuesta}/registro', 'EncuestaDinamicaCtrl@getRegistrodeusuarios' );
 Route::get('/encuestaAdHoc/{encuesta}', 'EncuestaDinamicaCtrl@encuesta' );
 Route::get('/llenarEncuestaAdHoc/{idEncuesta}', 'EncuestaDinamicaCtrl@anonimos' );
@@ -177,7 +178,7 @@ Route::controller('/registrar','RegistrarController');
 //Route::controller('/','HomeController');
 
 
-
+Route::controller('/periodoSostenibilidadPst','PeriodoSostenibilidadPstController');
 
 
 

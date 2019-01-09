@@ -39,7 +39,7 @@
                 <p style="margin: 0">{{trans('resources.common.suscribase')}}</p>
                 <form class="form-inline" name="guardarSuscriptor" action="/suscriptores/guardarsuscriptor" method="post">
         			<div class="form-group" style="width: 80%;">
-        			    <label class="sr-only">{{trans('resources.common.suscribir')}}</label>
+        			    <label class="sr-only" for="emailSuscriptor">{{trans('resources.common.suscribir')}}</label>
                         <input type="email" class="form-control" style="width: 100%;" required name="emailSuscriptor" id="emailSuscriptor" placeholder="Ingrese el correo donde desea recibir las notificaciones"/>
     					
                     </div>

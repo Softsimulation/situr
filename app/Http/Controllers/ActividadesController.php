@@ -6,11 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Models\Actividad;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Comentario_Actividad;
-use Carbon\Carbon;
 
 use App\Models\Actividad_Favorita;
 
