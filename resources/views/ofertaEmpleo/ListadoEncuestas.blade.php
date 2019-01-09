@@ -125,7 +125,7 @@
                     <table class="table table-striped">
                   <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Codigo</th>
                             <th>Mes</th>
                             <th>Año</th>
                             <th>Estado</th>
@@ -134,7 +134,7 @@
                     </thead>
                      <tbody>
                         <tr dir-paginate="item in encuestas|filter:prop.searchAntiguo|itemsPerPage:10 as results" pagination-id="paginacion_antiguos" >
-                            <td>@{{item.id}}</td>
+                            <td>@{{item.codigo}}</td>
                             <td>@{{item.mes}}</td>
                             <td>@{{item.anio}}</td>
                             <td>@{{item.estado}}</td>
