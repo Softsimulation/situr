@@ -14,16 +14,16 @@
    <table style="width:60%" style="text-align:left" >
        <tr>
            <td colspan="8" >
-               <img src="img/brand/others/logos.png" />
+               <img src="res/logo/black/96.png" />
            </td>
        </tr>
        <tr>
            <td colspan="4" >DEPARTAMENTO:</td>
-           <td colspan="4" >Magdalena</td>
+           <td colspan="4" >Atlántico</td>
        </tr>
        <tr>
            <td colspan="4" >MUNICIPIO:</td>
-           <td colspan="4" >Santa Marta</td>
+           <td colspan="4" >Barranquilla</td>
        </tr>
        <tr>
            <td colspan="4" >IDENTIFICACION DE PLANILLA:</td>
