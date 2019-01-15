@@ -41,8 +41,8 @@
            <td colspan="4" >NOMBRE DEL VERIFICADOR/CODIGO:</td>
            <td colspan="4" >
                 @foreach ($zona['encargados'] as $encargado)
-                    {{$encargado['codigo'] . ","}} 
-                @endforeach        
+                    {{$encargado->user['nombre'] . ","}} 
+                @endforeach          
            </td>
        </tr>
    </table>
