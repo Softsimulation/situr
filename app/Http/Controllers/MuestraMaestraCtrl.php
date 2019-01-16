@@ -100,7 +100,7 @@ class MuestraMaestraCtrl extends Controller
                 "periodo"=> Periodos_medicion::where("id",$id)
                                              ->with([ "zonas"=>function($q){ $q->with(["encargados","coordenadas"]); } ])->first(),
                 
-                "digitadores"=>Digitador::get(),
+                "digitadores"=>Digitador::whereHas("user", function($q){ $q->where("estado",true); } )->with("user")->get(),
                 
                 "tiposProveedores"=>Tipo_Proveedor::with([ 
                                                        "tipoProveedoresConIdiomas"=>function($q){ $q->where("idiomas_id",1); },
@@ -117,7 +117,7 @@ class MuestraMaestraCtrl extends Controller
                                                                 ])->get(),
                 "estados"=> Estado_proveedor::where("id","!=",7)->get(),
                 
-                "municipios"=> municipio::where("departamento_id",1411)->select('id','nombre')->get() 
+                "municipios"=> municipio::where("departamento_id",1396)->select('id','nombre')->get() 
                 //Proveedores_rnt::join("municipios","municipios.id","=","municipio_id")->select('municipios.id','municipios.nombre')->distinct()->get()
                 
             ];
