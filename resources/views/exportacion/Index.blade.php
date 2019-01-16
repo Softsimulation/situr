@@ -88,14 +88,14 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-6 col-xs-12 col-sm-12" ng-show="exportacion.nombre == 'receptor' || exportacion.nombre == 'interno' || exportacion.nombre == 'sostenibilidad'">
+                            <div class="col-md-6 col-xs-12 col-sm-12" ng-show="exportacion.nombre == 'receptor' || exportacion.nombre == 'interno' || exportacion.nombre == 'sostenibilidad' || exportacion.nombre == 'hogares'">
                                 <div class="form-group" ng-class="{'has-error': (addForm.$submitted || addForm.fechainicio.$touched) && addForm.fechainicio.$error.required}">
                                     <label class="control-label" for="fechaInicio"><span class="asterisk">*</span> Fecha inicial</label>
                                     <adm-dtp name="fechainicio" id="fechaInicio" ng-model="exportacion.fecha_inicial" maxdate="'{{\Carbon\Carbon::now()->format('Y-m-d')}}'" options="optionFecha" ng-required="exportacion.nombre == 'receptor' || exportacion.nombre == 'interno' || exportacion.nombre == 'sostenibilidad'"></adm-dtp>
                                 </div>
                             </div>
 
-                            <div class="col-md-6 col-xs-12 col-sm-12"  ng-show="exportacion.nombre == 'receptor' || exportacion.nombre == 'interno' || exportacion.nombre == 'sostenibilidad'">
+                            <div class="col-md-6 col-xs-12 col-sm-12"  ng-show="exportacion.nombre == 'receptor' || exportacion.nombre == 'interno' || exportacion.nombre == 'sostenibilidad' || exportacion.nombre == 'hogares'">
                                 <div class="form-group" ng-class="{'has-error': (addForm.$submitted || addForm.fechafin.$touched) && addForm.fechafin.$error.required}">
                                     <label class="control-label" for="fechaFin"><span class="asterisk">*</span> Fecha final</label>
                                     <adm-dtp name="fechafin" id="fechaFin" ng-model="exportacion.fecha_final" maxdate="'{{\Carbon\Carbon::now()->format('Y-m-d')}}'" options="optionFecha" ng-required="exportacion.nombre == 'receptor' || exportacion.nombre == 'interno' || exportacion.nombre == 'sostenibilidad'"></adm-dtp>
