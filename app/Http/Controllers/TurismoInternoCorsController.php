@@ -194,7 +194,10 @@ class TurismoInternoCorsController extends Controller
              
          $i++;    
         }
-        return ["success"=>true,"id"=>$hogar->id];
+        
+        $hogaraux=Hogar::find($hogar->id);
+        
+        return ["success"=>true,"id"=>$hogar->id,"integrantes"=>$hogaraux->personas->pluck('id')];
     }
     
     public function postDatoseditar(Request $request){
