@@ -179,7 +179,7 @@ Route::controller('/registrar','RegistrarController');
 
 
 Route::controller('/periodoSostenibilidadPst','PeriodoSostenibilidadPstController');
-
+Route::controller('/calcularindicadores', 'IndicadorAdministradorController');
 
 
 
