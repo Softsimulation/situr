@@ -297,7 +297,7 @@ class OfertaEmpleoController extends Controller
             
         }
         
-        return view('ofertaEmpleo.Encuesta',array("meses"=>collect($pendientes),"id"=>$one));
+        return view('ofertaEmpleo.Encuesta',array("meses"=>collect($pendientes)->unique('mes','anio'),"id"=>$one));
     }
     
     public function getActividadcomercial($mes,$anio,$id){
@@ -642,23 +642,49 @@ class OfertaEmpleoController extends Controller
     }
     
     public function getCargardatosdmplmensual($id = null)  {
-        $empleo = collect();
-  
-        $empleo = collect();
-        $empleo["Empleo"] = Empleo::where("encuestas_id",$id)->get(); 
-        $vac = Vacante::where("encuestas_id",$id)->first(); 
-        if($vac != null){
+   
+      $encuesta = Encuesta::find($id);
+      $empleo = collect();
+      $vac = Vacante::where("encuestas_id",$id)->first(); 
+       if($vac != null){
+            $empleo["Empleo"] = Empleo::where("encuestas_id",$id)->get(); 
             $empleo["VacanteOperativo"] = $vac->operativo;
             $empleo["VacanteAdministrativo"] = $vac->administrativo;
             $empleo["VacanteGerencial"]  = $vac->gerencial;
+            $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$id)->first();
+            $empleo["ingles"] = Dominiosingles::where("encuestas_id",$id)->get();
+            $empleo["Vinculacion"] = Empleado_Vinculacion::where("encuestas_id",$id)->get();
+            $empleo["Edad"] = Edad_Empleado::where("encuestas_id",$id)->get();
+            $empleo["Educacion"] = Educacion_Empleado::where("encuestas_id",$id)->get();
+            $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$id)->get();
+            $empleo["Remuneracion"]  =  Remuneracion_Promedio::where("encuesta_id",$id)->get();
+        }else{
+                $ultimaEncuesta =  Encuesta::join("empleos","encuestas.id","=","empleos.encuestas_id")->where("sitios_para_encuestas_id",$encuesta->sitios_para_encuestas_id)->orderby("encuestas.id", "DES")->first();
+                if($ultimaEncuesta == null){
+                 
+                    $ultimaEncuesta =  Encuesta::find($id);
+                }
+     
+                $vac = Vacante::where("encuestas_id",$ultimaEncuesta->encuestas_id)->first(); 
+                $empleo["Empleo"] = Empleo::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get(); 
+               if($vac != null){
+                $empleo["VacanteOperativo"] = $vac->operativo;
+                $empleo["VacanteAdministrativo"] = $vac->administrativo;
+                $empleo["VacanteGerencial"]  = $vac->gerencial;
+               }
+                $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$ultimaEncuesta->encuestas_id)->first();
+                $empleo["ingles"] = Dominiosingles::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get();
+                $empleo["Vinculacion"] = Empleado_Vinculacion::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get();
+                $empleo["Edad"] = Edad_Empleado::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get();
+                $empleo["Educacion"] = Educacion_Empleado::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get();
+                $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get();
+                $empleo["Remuneracion"]  =  Remuneracion_Promedio::where("encuesta_id",$ultimaEncuesta->encuestas_id)->get();
+            
         }
-        $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$id)->first();
-        $empleo["ingles"] = Dominiosingles::where("encuestas_id",$id)->get();
-        $empleo["Vinculacion"] = Empleado_Vinculacion::where("encuestas_id",$id)->get();
-        $empleo["Edad"] = Edad_Empleado::where("encuestas_id",$id)->get();
-        $empleo["Educacion"] = Educacion_Empleado::where("encuestas_id",$id)->get();
-        $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$id)->get();
-        $empleo["Remuneracion"]  =  Remuneracion_Promedio::where("encuesta_id",$id)->get();
+       
+
+ 
+      
         
         $tipo_cargo = Tipo_Cargo::select("id as Id","nombre as Nombre")->get();
             
@@ -674,17 +700,38 @@ class OfertaEmpleoController extends Controller
     }
     
     public function getCargardatosempleo($id = null)  {
-        $empleo = collect();
+         $encuesta = Encuesta::find($id);
   
         $empleo = collect();
-        $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$id)->get();
+      
         $vac = Vacante::where("encuestas_id",$id)->first(); 
         if($vac != null){
             $empleo["VacanteOperativo"] = $vac->operativo;
             $empleo["VacanteAdministrativo"] = $vac->administrativo;
             $empleo["VacanteGerencial"]  = $vac->gerencial;
+            $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$id)->get();
+            $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$id)->first();
+        }else{
+            
+                            $ultimaEncuesta =  Encuesta::join("empleos","encuestas.id","=","empleos.encuestas_id")->where("sitios_para_encuestas_id",$encuesta->sitios_para_encuestas_id)->orderby("encuestas.id", "DES")->first();
+                if($ultimaEncuesta == null){
+                 
+                    $ultimaEncuesta =  Encuesta::find($id);
+                }
+     
+                $vac = Vacante::where("encuestas_id",$ultimaEncuesta->encuestas_id)->first(); 
+                $empleo["Empleo"] = Empleo::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get(); 
+               if($vac != null){
+                $empleo["VacanteOperativo"] = $vac->operativo;
+                $empleo["VacanteAdministrativo"] = $vac->administrativo;
+                $empleo["VacanteGerencial"]  = $vac->gerencial;
+               }
+                $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$ultimaEncuesta->encuestas_id)->first();
+                $empleo["Sexo"]  =  Sexo_Empleado::where("encuestas_id",$ultimaEncuesta->encuestas_id)->get();
+ 
+            
         }
-        $empleo["Razon"] = Razon_Vacante::where("encuesta_id",$id)->first();
+ 
 
 
         $tipo_cargo = Tipo_Cargo::select("id as Id","nombre as Nombre")->get();

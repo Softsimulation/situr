@@ -23,52 +23,44 @@
       
       return {
   
-     getListado: function(){ return http.get("/equiposituradmin/equipositur");  },
-     editarPublicacion: function (data) {
-                var defered = $q.defer();
-                var promise = defered.promise;
-
-                $http.post('/publicaciones/editPublicacion', data, {
-                    transformRequest: angular.identity,
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                }).success(function (data) {
-                    defered.resolve(data);
-                }).error(function (err) {
-                    defered.reject(err);
-                })
-                return promise;
-            },
-     cambiarEstadoPublicacion: function (model) {
-            var defered = $q.defer();
-            var promise = defered.promise;
-
-            $http.post('/publicaciones/cambiarEstadoPublicacion',model)
-            .success(function (data) {
-                defered.resolve(data);
-            }).error(function (err) {
-                defered.reject(err);
-            })
-            return promise;
-        },
-     eliminarPublicacion: function (model) {
-                var defered = $q.defer();
-                var promise = defered.promise;
+    getListado: function(){ return http.get("/equiposituradmin/equipositur");  },
+    agregarMiembro: function (data) {
+        var defered = $q.defer();
+        var promise = defered.promise;
     
-                $http.post('/publicaciones/eliminarPublicacion',model)
-                .success(function (data) {
-                    defered.resolve(data);
-                }).error(function (err) {
-                    defered.reject(err);
-                })
-                return promise;
-            },
-     EstadoPublicacion: function (model) {
+        $http.post('/equiposituradmin/guardarmiembro', data, {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined
+            }
+        }).success(function (data) {
+            defered.resolve(data);
+        }).error(function (err) {
+            defered.reject(err);
+        })
+        return promise;
+    },
+    editarMiembro: function (data) {
+        var defered = $q.defer();
+        var promise = defered.promise;
+    
+        $http.post('/equiposituradmin/editarmiembro', data, {
+            transformRequest: angular.identity,
+            headers: {
+                'Content-Type': undefined
+            }
+        }).success(function (data) {
+            defered.resolve(data);
+        }).error(function (err) {
+            defered.reject(err);
+        })
+        return promise;
+    },
+    cambiarEstado: function (model) {
             var defered = $q.defer();
             var promise = defered.promise;
 
-            $http.post('/publicaciones/EstadoPublicacion',model)
+            $http.post('/equiposituradmin/cambiarestadomiembro',model)
             .success(function (data) {
                 defered.resolve(data);
             }).error(function (err) {
