@@ -61,13 +61,86 @@ $("body").attr("class", "charging");
             $scope.miembroForm.$setUntouched();
             $scope.miembroForm.$submitted = false;
             $scope.errores = null;
+             $('#nombreImagenSlider').val('');
+             $scope.imagenSlider = null;
+             $('#imagen-slider-crear').attr('src', '');
             $('#modalCrearMiembro').modal('show');
         }
+
+      $scope.editarMiembro = function(obj){
+            
+            $scope.miembro =  angular.copy(obj);
+            $scope.index = $scope.equipo.indexOf(obj);
+            $scope.miembroEditForm.$setPristine();
+            $scope.miembroEditForm.$setUntouched();
+            $scope.miembroEditForm.$submitted = false;
+            $scope.errores = null;
+             $('#imagenSliderEditar').val('');
+             $scope.imagenSlider = null;
+             $('#imagen-slider-editar').attr('src', '');
+            $('#modalEditarMiembro').modal('show');
+        }        
         
-      $scope.cambiarEstado = function (obj) {
+
+     $scope.guardarMiembro = function () {
+        if (!$scope.miembroForm.$valid || $scope.miembroForm == null) {
+            swal("Error", "Error en el formulario, favor revisar.", "error");
+            return;
+        }
+       
+        // check for browser support (may need to be modified)
+         if ($scope.imagenSlider != null) {
+                var input = $('#imagenSlider');
+                if (input[0].files && input[0].files.length == 1) {
+                    if (input[0].files[0].size > 2097152) {
+                        swal("Error", "Por favor la imagen debe tener un peso menor de " + (2097152 / 1024 / 1024) + " MB", "error");
+                        // alert("The file must be less than " + (1572864/ 1024 / 1024) + "MB");
+                        return;
+                    }
+                }
+         }
+        var fd = new FormData();
+        for (nombre in $scope.miembro) {
+            if ($scope.miembro[nombre] != null && $scope.miembro[nombre] != "") {
+                fd.append(nombre, $scope.miembro[nombre]);
+            }
+        }
+        if ($scope.imagenSlider != null) {
+            fd.append("imagenSlider", $scope.imagenSlider[0]);
+        }
+        $("body").attr("class", "charging");
+        ServiEquipo.agregarMiembro(fd).then(function (data) {
+            if (data.success) {
+                $scope.errores = null;
+                $scope.equipo.push(data.miembro);
+                swal({
+                    title: "Agregado",
+                    text: "Se ha agregado satisfactoriamente el miembro.",
+                    type: "success",
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+                setTimeout(function () {
+
+                    $('#modalCrearMiembro').modal('hide');
+                }, 1000);
+            } else {
+                swal("Error", "Verifique la información y vuelva a intentarlo.", "error");
+                $scope.errores = data.errores;
+            }
+            $("body").attr("class", "cbp-spmenu-push");
+        }).catch(function () {
+            $("body").attr("class", "cbp-spmenu-push");
+            swal("Error", "Error en la carga, por favor recarga la página.", "error");
+        })
+
+    }
+    
+    
+         $scope.cambiarEstado = function (obj) {
         swal({
-            title: "cambiar estado publicación ",
-            text: "¿Está seguro que desea cambiar el estado de la publicación ?",
+            title: "cambiar estado del miembro del equipo ",
+            text: "¿Está seguro que desea cambiar el estado del miembro ?",
             type: "warning",
             confirmButtonText: "Aceptar",
             cancelButtonText: "Cancelar",
@@ -77,7 +150,7 @@ $("body").attr("class", "charging");
         },
         function () {
             $("body").attr("class", "charging");
-            ServiPublicacion.cambiarEstadoPublicacion(obj).then(function (data) {
+            ServiEquipo.cambiarEstado(obj).then(function (data) {
                  $("body").attr("class", "cbp-spmenu-push")
                 if (data.success) {
                     obj.estado = !obj.estado;
@@ -94,77 +167,61 @@ $("body").attr("class", "charging");
 
     }
     
-     $scope.cambiarEstadoPublicacion = function (item) {
-        $scope.estado = angular.copy(item);
-        $scope.indexitem = $scope.publicaciones.indexOf(item);
-        $scope.cambiarForm.$setPristine();
-        $scope.cambiarForm.$setUntouched();
-        $scope.cambiarForm.$submitted = false;
-       $scope.erroresEstado = null;
-        $('#modalCambiarEstado').modal('show');
-    }
     
-     $scope.cambioEstado = function () {
-         if (!$scope.cambiarForm.$valid) {
+    
+     $scope.guardarEditarMiembro = function () {
+        if (!$scope.miembroEditForm.$valid || $scope.miembroEditForm == null) {
+            swal("Error", "Error en el formulario, favor revisar.", "error");
             return;
         }
-       $scope.erroresEstado = null;
-         $("body").attr("class", "charging");
-        ServiPublicacion.EstadoPublicacion($scope.estado).then(function (data) {
-             $("body").attr("class", "cbp-spmenu-push")
+       
+        // check for browser support (may need to be modified)
+         if ($scope.imagenSliderEditar != null) {
+                var input = $('#imagenSliderEditar');
+                if (input[0].files && input[0].files.length == 1) {
+                    if (input[0].files[0].size > 2097152) {
+                        swal("Error", "Por favor la imagen debe tener un peso menor de " + (2097152 / 1024 / 1024) + " MB", "error");
+                        // alert("The file must be less than " + (1572864/ 1024 / 1024) + "MB");
+                        return;
+                    }
+                }
+         }
+        var fd = new FormData();
+        for (nombre in $scope.miembro) {
+            if ($scope.miembro[nombre] != null && $scope.miembro[nombre] != "") {
+                fd.append(nombre, $scope.miembro[nombre]);
+            }
+        }
+        if ($scope.imagenSliderEditar != null) {
+            fd.append("imagenSliderEditar", $scope.imagenSliderEditar[0]);
+        }
+        $("body").attr("class", "charging");
+        ServiEquipo.editarMiembro(fd).then(function (data) {
             if (data.success) {
-               $scope.errores = null;
-                $scope.publicaciones[$scope.indexitem] = data.publicacion;
+                $scope.errores = null;
+                $scope.equipo[$scope.index] = data.miembro;
                 swal({
+                    title: "Agregado",
+                    text: "Se ha editado satisfactoriamente el miembro.",
                     type: "success",
-                    title: "Realizado",
-                    text: "Se ha agregado satisfactoriamente la agenda.",
-                    timer: 2000,
+                    timer: 1000,
                     showConfirmButton: false
                 });
-                $('#modalCambiarEstado').modal('hide');
+                setTimeout(function () {
+
+                    $('#modalEditarMiembro').modal('hide');
+                }, 1000);
             } else {
-               $scope.erroresEstado  = data.errores;
                 swal("Error", "Verifique la información y vuelva a intentarlo.", "error");
+                $scope.errores = data.errores;
             }
-            $('#processing').removeClass('process-in');
+            $("body").attr("class", "cbp-spmenu-push");
         }).catch(function () {
-            $('#processing').removeClass('process-in');
+            $("body").attr("class", "cbp-spmenu-push");
             swal("Error", "Error en la carga, por favor recarga la página.", "error");
         })
-      
-          }
-    
-     $scope.eliminar = function (obj) {
-        swal({
-            title: "Eliminar publicación ",
-            text: "¿Está seguro que desea eliminar la publicación ?",
-            type: "warning",
-            confirmButtonText: "Aceptar",
-            cancelButtonText: "Cancelar",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true,
-        },
-        function () {
-             $("body").attr("class", "charging");
-            ServiPublicacion.eliminarPublicacion(obj).then(function (data) {
-                $("body").attr("class", "cbp-spmenu-push")
-                if (data.success) {
-                    $scope.publicaciones.splice($scope.publicaciones.indexOf(obj),1)
-                    swal("Exito", "Se realizó la operación exitosamente", "success");
-                } else {
-                    swal("Error", "Se ha manipulado la información, intente de nuevo", "error");
-                }
-            }).catch(function () {
-                swal("Error", "Error en la petición, intente de nuevo", "error");
-            })
-
-        })
-
 
     }
-        
         
     }]);
 
