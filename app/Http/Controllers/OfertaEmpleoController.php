@@ -1565,7 +1565,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         //return $request->all();
         $validator = \Validator::make($request->all(),[
         
-            'id' => 'required|exists:eguardarcuestas,id',
+            'id' => 'required|exists:encuestas,id',
             'Planes' => 'boolean|required',
             'TipoServicios' => 'required',
             
