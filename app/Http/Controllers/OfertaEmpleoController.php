@@ -251,7 +251,7 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -501,7 +501,7 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -622,7 +622,7 @@ class OfertaEmpleoController extends Controller
                      if($tipo->proveedor->categoria->id == 12){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
-                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 27 ){
+                   if($tipo->proveedor->categoria->id == 11 || $tipo->proveedor->categoria->id == 16 || $tipo->proveedor->categoria->id == 25 ){
                          $ruta = "/ofertaempleo/caracterizacionalimentos";
                     }
               }
@@ -1565,7 +1565,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         //return $request->all();
         $validator = \Validator::make($request->all(),[
         
-            'id' => 'required|exists:eguardarcuestas,id',
+            'id' => 'required|exists:encuestas,id',
             'Planes' => 'boolean|required',
             'TipoServicios' => 'required',
             
