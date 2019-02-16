@@ -52,8 +52,8 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation"  ng-class="{'active': nuevos.length > 0}" ng-if="nuevos.length > 0"><a href="#nuevos" aria-controls="nuevos" role="tab" data-toggle="tab">Registros nuevos</a></li>
-        <li role="presentation" ng-class="{'active': (nuevos.length == 0 && antiguos.length > 0)}" ng-if="antiguos.length > 0"><a href="#antiguo" aria-controls="antiguo" role="tab" data-toggle="tab">Registros antiguos</a></li>
-       
+        <li role="presentation" ng-class="{'active': (nuevos.length == 0 && antiguos.length > 0)}" ng-if="antiguos.length > 0"><a href="#antiguo" aria-controls="antiguo" role="tab" data-toggle="tab">Registros antiguos (Con cambios)</a></li>
+        <li role="presentation" ng-class="{'active': (nuevos.length == 0 && antiguos.length == 0 && sin_cambios.length > 0)}" ng-if="sin_cambios.length > 0"><a href="#sin_cambios" aria-controls="sin_cambios" role="tab" data-toggle="tab">Registros antiguos (Sin cambios)</a></li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -116,8 +116,8 @@
             </div>
         </div>
         <div role="tabpanel" class="tab-pane" ng-class="{'active': (nuevos.length == 0 && antiguos.length > 0)}" id="antiguo" ng-if="antiguos.length > 0">
-            <h2 class="title1 text-center">Registros antiguos pendientes de revisión</h2>
-                        
+            <h2 class="title1 text-center">Registros antiguos pendientes de revisión (Con cambios)</h2>
+            <button class="btn btn-lg btn-info" ng-click="sobreescribirTodos()">Sobreescribir todos</button>            
             <div class="flex-list">
                  
                 <div class="form-group has-feedback" style="display: inline-block;">
@@ -169,6 +169,63 @@
             <div class="row">
                 <div class="col-xs-12 text-center">
                     <dir-pagination-controls pagination-id="paginacion_antiguos"  max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" ng-class="{'active': (nuevos.length == 0 && antiguos.length == 0 && sin_cambios.length > 0)}" ng-if="sin_cambios.length > 0" id="sin_cambios">
+            <h2 class="title1 text-center">Registros antiguos pendientes de revisión (Sin cambios)</h2>
+                        
+            <div class="flex-list">
+                 
+                <div class="form-group has-feedback" style="display: inline-block;">
+                    <label class="sr-only" for="inputSearchNew">Búsqueda de registros antiguos</label>
+                    <input type="text" ng-model="prop.searchAntiguoSin" class="form-control input-lg" id="inputSearchOldWithOut" placeholder="Buscar registro...">
+                    <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                </div>      
+            </div>
+            <div class="text-center" ng-if="(sin_cambios | filter:prop.searchAntiguoSin).length > 0 && (prop.searchAntiguoSin != '' && prop.searchAntiguoSin != undefined)">
+                <p>Hay @{{(sin_cambios|filter:prop.searchAntiguoSin).length}} registro(s) que coinciden con su búsqueda</p>
+            </div>
+            <div class="alert alert-info" ng-if="sin_cambios.length == 0">
+                <p>No hay registros almacenados</p>
+            </div>
+            <div class="alert alert-warning" ng-if="(sin_cambios|filter:prop.searchAntiguoSin).length == 0 && sin_cambios.length > 0">
+                <p>No existen registros que coincidan con su búsqueda</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-xs-12 table-overflow">
+                    <table class="table table-hover table-striped">
+                        <tr>                        
+                            <th>No. de RNT</th>
+                            <th>Nombre comercial</th>
+                            <th>Sub-Categoría</th>
+                            <th>Categoría</th>
+                            <!-- <th>Correo</th>-->
+                            <th>Estado</th>
+                            <th style="width: 70px;"></th>
+                        </tr>
+                        <tr dir-paginate="item in sin_cambios|filter:prop.searchAntiguoSin|itemsPerPage:10 as results" pagination-id="paginacion_antiguos_sin" >
+                            
+                            <td>@{{item.numero_rnt}}</td>
+                            <td>@{{item.nombre_comercial}}</td>
+                            <td>@{{item.sub_categoria}}</td>
+                            <td>@{{item.categoria}}</td>
+                            <!-- <td>@{{item.correo}}</td>-->
+                            <td>@{{item.estado}}</td>
+                            <td style="text-align: center;">
+                                <button type="button" title="Editar registro" ng-click="abrirModalEditar(item)" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span><span class="sr-only">Editar registro</span></button>
+                                <button type="button" title="Ver registro" ng-click="abrirModalVer(item)" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-eye-open"></span><span class="sr-only">Ver registro</span></button>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <dir-pagination-controls pagination-id="paginacion_antiguos_sin"  max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                 </div>
             </div>
         </div>
