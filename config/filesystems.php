@@ -111,6 +111,11 @@ return [
             'root' => public_path().'/multimedia/proveedores',
             'visibility' => 'public',
         ],
+         'EquipoSitur' => [
+            'driver' => 'local',
+            'root' => public_path().'/EquipoSitur',
+            'visibility' => 'public',
+        ],
         
         'HojasDeVida' => [
            'driver' => 'local',

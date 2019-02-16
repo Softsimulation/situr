@@ -71,6 +71,35 @@ use App\Models\User;
 class AppOfertaEmpleoController extends Controller
 {
     
+    
+     public function getCargardatos(){
+        $proveedores = new Collection(DB::select("SELECT *from listado_sitios_para_encuestas"));
+        
+        foreach($proveedores as $proveedor){
+            $proveedor->{"encuestas"} = $this->getEncuestaspendientes( $proveedor->id )["encuestas"];
+            $proveedor->{"datos"} = Sitio_Para_Encuesta::where("id", $proveedor->id )->select("nombre_contacto as nombre","cargo_contacto as cargo", "email", "id as Sitio")->first();
+        }
+        
+        return  [
+                  "proveedores"=> [ "proveedores" => $proveedores],
+                  "encuestadores"=> Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get(),
+                  
+                  "alojamiento"=> [ "servicios"=>[ "habitacion"=>false, "apartamento"=>false, "casa"=>false, "cabana"=>false, "camping"=>false ] ],
+                  "transporte"=> [],//$this->getInfocaracterizaciontransporte(-1),
+                  "caracterizacionAlimentos"=> $this->getInfocaracterizacionalimentos(-1),
+                  "capacidadAlimentos"=>[ "capacidad"=>[] ], //$this->getInfocapalimentos(-1),
+                  "caracterizacionAgenciasOperadoras"=> $this->getInfocaracterizacionoperadora(-1),
+                  "ocupacionAgenciasOperadoras"=> [ "prestamo"=>null ], //$this->getCargardatosocupacionoperadoras(-1),
+                  "caracterizacionAgenciasViajes"=> $this->getAgencia(-1),
+                  "ofertaAgenciasViajes"=> $this->getOfertaagencia(-1),
+                  "empleoMensual"=> $this->getCargardatosdmplmensual(-1),
+                  "empleo"=> $this->getCargardatosempleo(-1),
+                  "empleoCaracterizacion"=> $this->getCargardatosemplcaract(-1),
+                ];
+    }
+    
+    
+    
     public function getMesencuesta($id){
         return new Collection( DB::select("SELECT *from listado_encuesta_oferta where id =".$id));
     }
@@ -1562,7 +1591,7 @@ $vacRazon = Razon_Vacante::where("encuesta_id",$request->Encuesta)->first();
         $actividades_servicios = Actividad_Servicio::all();
         $especialidades = Especialidad::all();
         
-        $encuesta = Encuesta::with('sitiosParaEncuesta')->where('id',$id)->firstOrFail();
+        $encuesta = Encuesta::with('sitiosParaEncuesta')->where('id',$id)->firstOrDeFaul();
         $especialidad = null;
         $sirvePlatos = null;
         $mesas = null;
