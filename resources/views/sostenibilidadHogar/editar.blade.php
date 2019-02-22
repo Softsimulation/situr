@@ -106,7 +106,7 @@
                             <span class="label label-danger" ng-show="crearForm.estratos.$error.required">*El campo es requerido.</span>
                         </span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Encuestado</label>
                             <select name="encuestadores" class="form-control" id="encuestadores" ng-model="social.digitador_id" required ng-options="ite.id as ite.user.username for ite in encuestadores">
@@ -117,7 +117,7 @@
                             <span class="label label-danger" ng-show="crearForm.encuestadores.$error.required">*El campo es requerido.</span>
                         </span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="control-label">Dirección</label>
                              <input type="text" name="direccion" id="direccion" class="form-control" ng-model="social.direccion" ng-maxlength="150" placeholder="Ingrese la dirección. Máximo 150 caracteres" required />
@@ -126,10 +126,21 @@
                             <span class="label label-danger" ng-show="crearForm.direccion.$error.required">*El campo es requerido.</span>
                         </span>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">Lugar de aplicación</label>
+                            <select name="lugar_aplicacion_id" class="form-control" id="lugar_aplicacion_id" ng-model="social.lugar_encuesta_id" required ng-options="ite.id as ite.nombre for ite in lugaresEncuesta">
+                                <option selected disable value="">Seleccione un lugar de aplicación</option>
+                            </select>
+                        </div>
+                        <span ng-show="crearForm.$submitted || crearForm.lugar_aplicacion_id.$touched">
+                            <span class="label label-danger" ng-show="crearForm.lugar_aplicacion_id.$error.required">*El campo es requerido.</span>
+                        </span>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">Celular</label>
-                             <input type="text" name="celular" id="celulargit" class="form-control" ng-model="social.celular" ng-maxlength="150" placeholder="Ingrese la dirección. Máximo 150 caracteres" required />
+                             <input type="text" name="celular" id="celulargit" class="form-control" ng-model="social.celular" ng-maxlength="150" placeholder="Ingrese celular. Máximo 150 caracteres" required />
                         </div>
                         <span ng-show="crearForm.$submitted || crearForm.celular.$touched">
                             <span class="label label-danger" ng-show="crearForm.celular.$error.required">*El campo es requerido.</span>
@@ -138,10 +149,9 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">Correo electrónico</label>
-                             <input type="email" name="email" id="email" class="form-control" ng-model="social.email" ng-maxlength="250" placeholder="Ingrese la dirección. Máximo 150 caracteres" required />
+                             <input type="email" name="email" id="email" class="form-control" ng-model="social.email" ng-maxlength="250" placeholder="Ingrese la dirección. Máximo 150 caracteres" />
                         </div>
                         <span ng-show="crearForm.$submitted || crearForm.email.$touched">
-                            <span class="label label-danger" ng-show="crearForm.email.$error.required">*El campo es requerido.</span>
                              <span class="label label-danger" ng-show="crearForm.email.$error.email">*No es un email válido.</span>
                         </span>
                     </div>
