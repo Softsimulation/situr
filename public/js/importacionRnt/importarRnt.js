@@ -53,6 +53,7 @@ angular.module('importarRntApp', ["checklist-model","proveedorService",'angularU
                 $("body").attr("class", "cbp-spmenu-push");
                 $scope.nuevos = data.nuevos;
                 $scope.antiguos = data.antiguos;
+                $scope.sin_cambios = data.sin_cambios;
             } else {
                 $("body").attr("class", "cbp-spmenu-push");
                 swal("Error", "Por favor corrija los errores", "error");
@@ -237,6 +238,41 @@ angular.module('importarRntApp', ["checklist-model","proveedorService",'angularU
             $("body").attr("class", "cbp-spmenu-push");
             swal("Error", "No se realizo la solicitud, reinicie la página","error");
         })
+    }
+    
+    $scope.sobreescribirTodos = function(){
+        swal({
+            title: "Sobreescribir",
+            text: "¿Está seguro? Se sobreescribirán todos los registros correctos mostrados en este panel",
+            type: "info",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            setTimeout(function () {
+                $("body").attr("class", "charging");
+                proveedorServi.SobreescribirProveedores( { 'proveedores' : $scope.antiguos } ).then(function(data){
+                    if(data.success){
+                        swal({
+                            title: "Editados",
+                            text: data.mensaje,
+                            type: "success",
+                            timer: 1000,
+                            showConfirmButton: false
+                        });
+                        $scope.errores = null;
+                    }else{
+                        swal("Error", "Verifique la información y vuelva a intentarlo.", "error");
+                        $scope.errores = data.errores; 
+                    }
+                     $("body").attr("class", "cbp-spmenu-push");
+                }).catch(function(){
+                    $("body").attr("class", "cbp-spmenu-push");
+                    swal("Error","Error en la petición, recargue la pagina","error");
+                })
+            }, 2000);
+        });
     }
     
    

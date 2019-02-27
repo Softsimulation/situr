@@ -38,6 +38,7 @@ angular.module('crear', [])
         $scope.estratos = data.estratos;
         $scope.barrios = data.barrios;
         $scope.encuestadores = data.encuestadores;
+        $scope.lugaresEncuesta = data.lugaresEncuesta;
          $("body").attr("class", "cbp-spmenu-push");
     }).catch(function(){
          $("body").attr("class", "cbp-spmenu-push");
@@ -122,6 +123,7 @@ angular.module('crear', [])
                 $scope.barrios = data.barrios;
                 $scope.encuestadores = data.encuestadores;
                 $scope.social = data.casa;
+                $scope.lugaresEncuesta = data.lugaresEncuesta;
                 $scope.social.fecha_aplicacion = $scope.social.fecha_aplicacion.substring(0,$scope.social.fecha_aplicacion.length-3);
                  $("body").attr("class", "cbp-spmenu-push");
             }).catch(function(){
