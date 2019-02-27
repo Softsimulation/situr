@@ -96,6 +96,7 @@ class ImportacionRntController extends Controller
 		$municipios = Municipio::where('departamento_id',1396)->select(\DB::raw('cambia_caracter(upper(nombre)) as nombre, id'))->get();
 		
  		$nuevos_retornar = array();
+ 		$sin_cambios_retornar = array();
 		foreach($nuevos as $registro){
 			$registro = $this->MutarRegistro($registro);
 		    $validar = $this->validarRegistro($registro,$estadosProveedor,$subCategorias,$municipios);
@@ -169,17 +170,52 @@ class ImportacionRntController extends Controller
 		foreach($antiguos as $registro){
 		    $registro = $this->MutarRegistro($registro);
 		    $proveedorIng = $proveedoresIngresados->where('numero_rnt',$registro["numero_rnt"])->first();
+		    if($this->compareObject($registro,$proveedorIng)){
+		    	$registro["id"] = $proveedorIng->id;
+			    $registro = $this->MutarEditarRegistro($registro,$proveedorIng);
+		        array_push($sin_cambios_retornar,$registro);
+		    }else{
+		    	$registro["id"] = $proveedorIng->id;
+			    $registro = $this->MutarEditarRegistro($registro,$proveedorIng);
+		        array_push($antiguos_retornar,$registro);
+		    }
 		    
-		    $registro["id"] = $proveedorIng->id;
-		    $registro = $this->MutarEditarRegistro($registro,$proveedorIng);
-            array_push($antiguos_retornar,$registro);
 		}
 		
 		
 		$reader->close();
 		
 		//return ['success' => true, 'nuevos' => json_encode($nuevos_retornar), 'antiguos' => json_encode($antiguos_retornar) ];
-		return response()->json(['success' => true, 'nuevos' => $nuevos_retornar, 'antiguos' => $antiguos_retornar]);
+		return response()->json(['success' => true, 'nuevos' => $nuevos_retornar, 'antiguos' => $antiguos_retornar, 'sin_cambios' => $sin_cambios_retornar]);
+    }
+    
+    public function compareObject($objeto, $proveedor){
+    	if(	$objeto["numero_rnt"] == $proveedor["numero_rnt"]&&
+        $objeto["estado"] == $proveedor["estado"]&&
+        $objeto["municipio"] == $proveedor["municipio"]&&
+        $objeto["nombre_comercial"] == $proveedor["nombre_comercial"]&&
+        $objeto["nombre_comercial_plataforma"] == $proveedor["nombre_comercial_plataforma"]&&
+        $objeto["categoria"] == $proveedor["categoria"]&&
+        $objeto["sub_categoria"] == $proveedor["sub_categoria"]&&
+        $objeto["direccion_comercial"] == $proveedor["direccion_comercial"]&&
+        $objeto["telefono"] == $proveedor["telefono"]&&
+        $objeto["celular"] == $proveedor["celular"]&&
+        $objeto["correo"] == $proveedor["correo"]&&
+        $objeto["latitud"] == $proveedor["latitud"]&&
+        $objeto["longitud"] == $proveedor["longitud"]&&
+        $objeto["nit"] == $proveedor["nit"]&&
+        $objeto["digito_verificacion"] == $proveedor["digito_verificacion"]&&
+        $objeto["nombre_gerente"] == $proveedor["nombre_gerente"]&&
+        $objeto["ultimo_anio_rnt"] == $proveedor["ultimo_anio_rnt"]&&
+        $objeto["sostenibilidad_rnt"] == $proveedor["sostenibilidad_rnt"]&&
+        $objeto["turismo_aventura"] == $proveedor["turismo_aventura"]&&
+        $objeto["hab2"] == $proveedor["hab2"]&&
+        $objeto["cam2"] == $proveedor["cam2"]&&
+        $objeto["emp2"] == $proveedor["emp2"]){
+        	return true;
+        }else{
+        	return false;
+        }
     }
     
     public function postEditarproveedor(Request $request){
@@ -770,5 +806,92 @@ class ImportacionRntController extends Controller
 
 		return $result;
 	}
+    
+    public function postEditararreglototal(Request $request){
+    	if(count($request->proveedores) == 0){
+    		return ["success"=>false,"errores"=> [["La lista de proveedores a actualizar debe tener por lo menos un registro."]] ];
+    	}
+    	
+    	$arregloValidaciones = [
+			'id' => 'required|exists:proveedores_rnt,id',
+			'numero_rnt' => 'required|max:50',
+			'estado' => 'required|max:255',
+			'municipio' => 'required|max:255',
+			//'departamento' => 'required|max:255',
+			'nombre_comercial' => 'required|max:455',
+			'nombre_comercial_plataforma' => 'max:455',
+			'categoria' => 'required|max:255',
+			'sub_categoria' => 'required|max:255',
+			'direccion_comercial' => 'required|max:455',
+			'telefono' => 'required|max:255',
+			'celular' => 'required|max:255',
+			'correo' => 'required|max:455',
+			//'latitud' => 'required',
+			//'longitud' => 'required',
+			'nit' => 'max:150',
+			'nombre_gerente' => 'max:250',
+			'sostenibilidad_rnt' => 'max:50',
+			'turismo_aventura' => 'max:50',
+    	];
+    	
+    	
+    	$count = 0;
+    	foreach($request->proveedores as $proveedor){
+    		$validator = \Validator::make($proveedor, $arregloValidaciones);
+    		$categoriaProveedor = Categoria_Proveedor_Con_Idioma::whereRaw('cambia_caracter(upper(nombre)) = ? and idiomas_id = 1',[ $this->MayusculaTilde(utf8_encode(strtoupper($proveedor["sub_categoria"]))) ])->first();
+	    	$municipio = Municipio::whereRaw('cambia_caracter(upper(nombre)) = ?',[$this->MayusculaTilde(utf8_encode(strtoupper($proveedor["municipio"])))])->first();
+	    	$estado = Estado_proveedor::whereRaw('cambia_caracter(upper(nombre)) = ?',[$this->MayusculaTilde(utf8_encode(strtoupper($proveedor["estado"])))])->first();
+	    	
+    		if(!$validator->fails() ){
+				
+				if($categoriaProveedor != null && $municipio != null && $estado != null){
+					$proveedorActualizar = Proveedores_rnt::find($proveedor['id']);
+					$proveedorActualizar->numero_rnt = $proveedor['numero_rnt'];
+					$proveedorActualizar->estados_proveedor_id = $estado->id;
+					$proveedorActualizar->municipio_id = $municipio->id;
+					$proveedorActualizar->razon_social = $proveedor['nombre_comercial'];
+					$proveedorActualizar->categoria_proveedores_id = $categoriaProveedor->categoria_proveedores_id;
+					$proveedorActualizar->direccion = $proveedor['direccion_comercial'];
+					$proveedorActualizar->telefono = $proveedor['telefono'];
+					$proveedorActualizar->celular = $proveedor['celular'];
+					$proveedorActualizar->email = $proveedor['correo'];
+					$proveedorActualizar->latitud = strlen($proveedor['latitud']) ? $proveedor['latitud'] : $proveedorActualizar->latitud;
+					$proveedorActualizar->longitud = strlen($proveedor['longitud']) ? $proveedor['longitud'] : $proveedorActualizar->longitud;
+					$proveedorActualizar->nit = strlen($proveedor['nit']) ? $proveedor['nit'] : $proveedorActualizar->nit;
+					$proveedorActualizar->digito_verificacion = strlen($proveedor['digito_verificacion']) ? $proveedor['digito_verificacion'] : $proveedorActualizar->digito_verificacion;
+					$proveedorActualizar->nombre_gerente = strlen($proveedor['nombre_gerente']) ? $proveedor['nombre_gerente'] : $proveedorActualizar->nombre_gerente;
+					$proveedorActualizar->ultimo_anio_rnt = strlen($proveedor['ultimo_anio_rnt']) ? $proveedor['ultimo_anio_rnt'] : $proveedorActualizar->ultimo_anio_rnt;
+					$proveedorActualizar->sostenibilidad_rnt = strlen($proveedor['sostenibilidad_rnt']) ? $proveedor['sostenibilidad_rnt'] : $proveedorActualizar->sostenibilidad_rnt;
+					$proveedorActualizar->turismo_aventura = strlen($proveedor['turismo_aventura']) ? $proveedor['turismo_aventura'] : $proveedorActualizar->turismo_aventura;
+					$proveedorActualizar->hab2 = strlen($proveedor['hab2']) ? $proveedor['hab2'] : $proveedorActualizar->hab2;
+					$proveedorActualizar->cam2 = strlen($proveedor['cam2']) ? $proveedor['cam2'] : $proveedorActualizar->cam2;
+					$proveedorActualizar->emp2 = strlen($proveedor['emp2']) ? $proveedor['emp2'] : $proveedorActualizar->emp2;
+					$proveedorActualizar->user_update = $this->user->username;
+					$proveedorActualizar->save();
+					
+					
+					if(strlen($proveedor['nombre_comercial_plataforma'])){
+						$proveedorIdioma = $proveedorActualizar->idiomas->where('idioma_id',1)->first();
+						if($proveedorIdioma){
+							$proveedorIdioma->nombre = $proveedor['nombre_comercial_plataforma'];
+							$proveedorIdioma->save();
+						}else{
+							Proveedores_rnt_idioma::create([
+				    			'idioma_id' => 1,
+				    			'proveedor_rnt_id' => $proveedor->id,
+				    			'nombre' => $proveedor['nombre_comercial_plataforma']
+				    		]);
+						}	
+					}
+					
+		    		$count++;	
+				}
+				
+			}
+    	}
+    	
+    	return ["success" => true, "mensaje" => "Se han actualizado ".$count." proveedores."];
+    	
+    }
     
 }

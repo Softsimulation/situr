@@ -31,6 +31,7 @@ use App\Models\Componente_Tecnico;
 use App\Models\Estados_Encuesta;
 use App\Models\Historial_Encuesta_Hogar_Sostenibilidad;
 use App\Models\ListadoEncuestasHogarSostenibilidad;
+use App\Models\Lugar_Aplicacion_Encuesta_Hogares;
 
 
 class SostenibilidadHogaresController extends Controller
@@ -54,8 +55,9 @@ class SostenibilidadHogaresController extends Controller
     	$estratos = Estrato::all();
         $barrios = Barrio::all();
     	$encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
+    	$lugaresEncuesta = Lugar_Aplicacion_Encuesta_Hogares::all();
     	
-    	return ["estratos"=>$estratos,"barrios"=>$barrios,"encuestadores"=>$encuestadores];
+    	return ["estratos"=>$estratos,"barrios"=>$barrios,"encuestadores"=>$encuestadores, 'lugaresEncuesta' => $lugaresEncuesta];
     }
     
     public function getInfoeditar($id){
@@ -63,7 +65,9 @@ class SostenibilidadHogaresController extends Controller
         $barrios = Barrio::all();
     	$encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
     	$casa = Casa_Sostenibilidad::find($id);
-    	return ["estratos"=>$estratos,"barrios"=>$barrios,"encuestadores"=>$encuestadores,"casa"=>$casa];
+    	$lugaresEncuesta = Lugar_Aplicacion_Encuesta_Hogares::all();
+    	
+    	return ["estratos"=>$estratos,"barrios"=>$barrios,"encuestadores"=>$encuestadores,"casa"=>$casa, 'lugaresEncuesta' => $lugaresEncuesta];
     }
     
     public function getEditar($id){
@@ -82,7 +86,8 @@ class SostenibilidadHogaresController extends Controller
 			'estrato_id' => 'required|exists:estratos,id',
 			'direccion' => 'required|string|max:150',
 			'celular' => 'required|string|max:150',
-			'email' => 'required|email|string|max:150',
+			'email' => 'email|string|max:150',
+			'lugar_encuesta_id' => 'required|exists:lugares_aplicacion_encuesta_hogares,id'
     	],[
        		
     	]);
@@ -100,9 +105,10 @@ class SostenibilidadHogaresController extends Controller
 		$casa->digitador_id = $request->digitador_id;
 		$casa->direccion = $request->direccion;
 		$casa->celular = $request->celular;
-		$casa->email = $request->email;
+		$casa->email = isset($request->email) ? $request->email : null;
 		$casa->estado_encuesta_id = 1;
 		$casa->numero_sesion = 1;
+		$casa->lugar_encuesta_id = $request->lugar_encuesta_id;
 		$casa->save();
 		
 		Historial_Encuesta_Hogar_Sostenibilidad::create([
@@ -131,7 +137,8 @@ class SostenibilidadHogaresController extends Controller
 			'estrato_id' => 'required|exists:estratos,id',
 			'direccion' => 'required|string|max:150',
 			'celular' => 'required|string|max:150',
-			'email' => 'required|email|string|max:150',
+			'email' => 'email|string|max:150',
+			'lugar_encuesta_id' => 'required|exists:lugares_aplicacion_encuesta_hogares,id'
     	],[
        		
     	]);
@@ -149,7 +156,8 @@ class SostenibilidadHogaresController extends Controller
 		$casa->digitador_id = $request->digitador_id;
 		$casa->direccion = $request->direccion;
 		$casa->celular = $request->celular;
-		$casa->email = $request->email;
+		$casa->email = isset($request->email) ? $request->email : null;
+		$casa->lugar_encuesta_id = $request->lugar_encuesta_id;
 		$casa->save();
 		
 		Historial_Encuesta_Hogar_Sostenibilidad::create([

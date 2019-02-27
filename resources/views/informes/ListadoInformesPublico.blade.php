@@ -30,6 +30,11 @@
             background-color: whitesmoke;
             box-shadow: 0px 2px 4px -2px rgba(0,0,0,.35);
         }
+        @media only screen and (min-width: 992px) {
+            .tiles .tile {
+                width: calc(33.33% - 1rem);
+            }
+        }
     </style>
 @endsection
 
