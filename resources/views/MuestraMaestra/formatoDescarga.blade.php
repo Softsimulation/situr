@@ -14,7 +14,7 @@
    <table style="width:60%" style="text-align:left" >
        <tr>
            <td colspan="8" >
-               <img src="img/brand/others/logos.png" />
+               <img src="res/logo/white/96.png" />
            </td>
        </tr>
        <tr>
