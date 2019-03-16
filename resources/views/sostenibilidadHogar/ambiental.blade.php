@@ -53,7 +53,7 @@
         
        <div class="panel panel-success">
             <div class="panel-heading">
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.14 ¿Cuáles áreas protegidas identifica en Atlántico? </b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.14 ¿Cuáles áreas protegidas identifica en el Departamento del Atlántico? </b></h3>
             </div>
             <div class="panel-footer"><b>Respuesta abierta</b></div>
             <div class="panel-body">
@@ -71,7 +71,7 @@
          <div class="panel panel-success">
                 <div class="panel-heading">
                     <!-- P2. ¿El viaje al departamento hizo parte de un paquete/plan turístico o excursión?-->
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>15. ¿Qué nivel de conocimiento tiene sobre las especies de flora y fauna características del Atlántico</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>15. ¿Qué nivel de conocimiento tiene sobre las especies de flora y fauna características del Departamento del Atlántico</b></h3>
                 </div>
                 <div class="panel-footer"><b>Respuesta única</b></div>
                 <div class="panel-body">
@@ -94,7 +94,7 @@
          <div class="panel panel-success" ng-show="ambiental.criterios_calificacion_id!=4 && ambiental.criterios_calificacion_id != undefined">
                 <div class="panel-heading">
                     <!-- P2. ¿El viaje al departamento hizo parte de un paquete/plan turístico o excursión?-->
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.15.1. ¿Sabe si en Atlántico existe una guía que caracterice la flora, fauna y especies en vía de extinción para la conservación de los mismos?</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.15.1. ¿Sabe si en el Departamento del Atlántico existe una guía que caracterice la flora, fauna y especies en vía de extinción para la conservación de los mismos?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Respuesta única</b></div>
                 <div class="panel-body">
@@ -123,7 +123,7 @@
         <div class="panel panel-success">
                 <div class="panel-heading">
                     <!-- P2. ¿El viaje al departamento hizo parte de un paquete/plan turístico o excursión?-->
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.16 ¿Ha  participado  en  alguna  de  las  siguientes  actividades  para  conservar  el  medio ambiente del Atlántico?</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.16 ¿Ha  participado  en  alguna  de  las  siguientes  actividades  para  conservar  el  medio ambiente del Departamento del Atlántico?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Respuesta múltiple</b></div>
                 <div class="panel-body">
@@ -193,7 +193,7 @@
         
                  <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.19 De los siguientes riesgos o problemáticas ambientales en función del turismo sostenible ¿Cuáles cree que representan un riesgo alto, medio o bajo en el departamento del Atlántico?</b></h3>
+                    <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.19 De los siguientes riesgos o problemáticas ambientales en función del turismo sostenible ¿Cuáles cree que representan un riesgo alto, medio o bajo en el departamento del Departamento del Atlántico?</b></h3>
                 </div>
                 <div class="panel-footer"><b>Respuesta múltiple</b></div>
                 <div class="panel-body">
@@ -209,7 +209,7 @@
                                 <tbody>
                                     <tr ng-repeat="item in riesgos">
                                         <td>
-                                            @{{item.nombre}} <input type="text" name="otroRiesgo" ng-required="verificarOtroTabla(riesgos,21)" class="form-control" ng-if="item.id==21" ng-model="item.otroRiesgo" >
+                                            @{{item.nombre}} <input type="text" name="otroRiesgo"  class="form-control" ng-if="item.id==21" ng-model="item.otroRiesgo" >
                                             <span class="label label-danger" ng-show="ambientalForm.riesgo_@{{item.id}}.$error.required && ambientalForm.$submitted">* Requerido.</span>
                                             <span class="label label-danger" ng-if="item.id==21"  ng-show="ambientalForm.otroRiesgo.$error.required && ambientalForm.$submitted">Campo Otro Requerido.</span>
                                         </td>
@@ -231,7 +231,7 @@
         <div class="panel panel-success">
             <div class="panel-heading">
                 <!-- P2. ¿El viaje al departamento hizo parte de un paquete/plan turístico o excursión?-->
-                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.20 Califique como positivo o negativo el efecto que ha tenido el turismo en el medio ambiente en Atlántico</b></h3>
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span>P.20 Califique como positivo o negativo el efecto que ha tenido el turismo en el medio ambiente en el Departamento del Atlántico</b></h3>
             </div>
             <div class="panel-footer"><b>Respuesta única</b></div>
             <div class="panel-body">

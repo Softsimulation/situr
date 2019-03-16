@@ -133,7 +133,7 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
 
         $("body").attr("class", "cbp-spmenu-push charging");
         
-        proveedorServi.getEncuestasTotal($scope.id).then(function (data) {
+        proveedorServi.getEncuestasTotal().then(function (data) {
             $("body").attr("class", "cbp-spmenu-push");
             $scope.encuestas = data.encuestas;
             $scope.ruta = data.ruta;
@@ -161,10 +161,8 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
                      if(obj.categoria_id == 22 || obj.categoria_id == 28){
                          window.location.href = "/ofertaempleo/caracterizaciontransporte/"+obj.id;
                     }
-                     if(obj.categoria_id == 12){
-                         window.location.href = "/ofertaempleo/caracterizacionalimentos/";+obj.id
-                    }
-                   if(obj.categoria_id == 11 || obj.categoria_id == 16 || obj.categoria_id == 27 ){
+             
+                   if(obj.categoria_id == 11 || obj.categoria_id == 12 || obj.categoria_id == 16 || obj.categoria_id == 25 ){
                          window.location.href = "/ofertaempleo/caracterizacionalimentos/"+obj.id;
                     }
               }

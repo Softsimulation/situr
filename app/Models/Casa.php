@@ -24,7 +24,7 @@ class Casa extends Model
     /**
      * @var array
      */
-    protected $fillable = ['alojamientos_id', 'total', 'capacidad', 'promedio', 'habitaciones', 'tarifa', 'viajeros', 'viajeros_colombia', 'viajeros_extranjeros', 'total_huespedes', 'capacidad_ocupadas'];
+    protected $fillable = ['alojamientos_id', 'total', 'capacidad', 'promedio', 'habitaciones', 'tarifa', 'viajeros', 'viajeros_colombia', 'viajeros_extranjeros', 'total_huespedes', 'capacidad_ocupadas','lugar_encuesta_id'];
     public $timestamps = false;
     
     protected $casts = [
@@ -39,4 +39,10 @@ class Casa extends Model
     {
         return $this->belongsTo('App\Alojamiento', 'alojamientos_id');
     }
+    
+    public function lugarEncuesta()
+    {
+        return $this->belongsTo('App\Models\Lugar_Aplicacion_Encuesta_Hogares', 'lugar_encuesta_id');
+    }
+    
 }

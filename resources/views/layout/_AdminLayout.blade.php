@@ -181,6 +181,18 @@
                                 </li>
                             </ul>
                         </li>
+                        
+                         <li>
+                            <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>
+                            <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">
+                                <li role="none">
+                                    <!--<a role="menuitem" href="{{asset('MuestraMaestra/periodos')}}">Periodos</a>-->
+                                    <a role="menuitem" href="{{asset('periodoSostenibilidadPst/listado')}}">Periodos PST</a>
+                                        <a role="menuitem" href="{{asset('sostenibilidadhogares/encuestas')}}">Hogares</a>
+                                </li>
+                            </ul>
+                        </li>
+                        
                         <li>
                             <a role="menuitem" href="{{asset('encuesta/listado')}}">Encuesta Personalizada</a>
                         
@@ -191,18 +203,9 @@
                         
                         </li>
                         <li>
-                            <a role="menuitem" href="{{asset('MuestraMaestra/periodos')}}">Muestra Maestra</a>
+                            <a role="menuitem " href="{{asset('MuestraMaestra/periodos')}}">Muestra Maestra</a>
                         
                         </li>
-                        <!--<li>-->
-                        <!--    <a role="menuitem" href="#menuSostenibilidad" aria-haspopup="true" aria-expanded="false">Sostenibilidad</a>-->
-                        <!--    <ul role="menu" id="menuSostenibilidad" aria-label="Sostenibilidad">-->
-                        <!--        <li role="none">-->
-                        <!--            <a role="menuitem" href="{{asset('sostenibilidadhogares')}}">Hogares</a>-->
-                        <!--            <a role="menuitem" href="{{asset('sostenibilidadpst')}}">PST</a>-->
-                        <!--        </li>-->
-                        <!--    </ul>-->
-                        <!--</li>-->
                         <li>
                             <a role="menuitem" href="#menuMuestraMaestra" aria-haspopup="true" aria-expanded="false">Proveedores RNT</a>
                             <ul role="menu" id="menuMuestraMaestra" aria-label="Muestra maestra">
@@ -216,13 +219,9 @@
                         <li>
                             <a role="menuitem" href="{{asset('exportacion')}}">Exportación</a>
                         </li>
-                        <!--<li>-->
-                        <!--    <a role="menuitem" href="{{asset('encuesta')}}">Encuestas ADHOC</a>-->
-                        <!--</li>-->
-                        <!--<li>-->
-                        <!--    <a role="menuitem" href="{{asset('ofertaempleo/listadoproveedoresrnt')}}">Proveedores RNT</a>-->
-                        <!--</li>-->
-                        
+                        <li>
+                            <a role="menuitem" href="{{asset('calcularindicadores')}}">Calcular indicadores</a>
+                        </li>
                         <li>
                             <a role="menuitem" href="#menuPaises" aria-haspopup="true" aria-expanded="false">Administrar países</a>
                             <ul role="menu" id="menuPaises" aria-label="Administrar países">

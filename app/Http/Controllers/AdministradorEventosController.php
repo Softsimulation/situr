@@ -14,6 +14,8 @@ use App\Models\Evento;
 use App\Models\Evento_Con_Idioma;
 use App\Models\Multimedia_Evento;
 use App\Models\Idioma;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 use Carbon\Carbon;
 use Storage;
@@ -21,7 +23,15 @@ use File;
 
 class AdministradorEventosController extends Controller
 {
-    //
+    public function __construct()
+    {
+       
+        $this->middleware('auth');
+        $this->middleware('role:Admin|Promocion');
+        if(Auth::user() != null){
+            $this->user = User::where('id',Auth::user()->id)->first(); 
+        }
+    }
     public function getCrear(){
         return view('administradoreventos.Crear');
     }
