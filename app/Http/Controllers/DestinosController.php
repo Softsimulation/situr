@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Destino;
 use App\Models\Comentario_Destino;
+use App\Models\Proveedores_rnt;
+use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Carbon\Carbon;
@@ -49,14 +51,20 @@ class DestinosController extends Controller
             $queryMultimediaDestinos->where('tipo', true);
         }])->first()->multimediaDestinos;
         
+        $proveedores = Proveedores_rnt::select(DB::raw('proveedores_rnt.id AS id, proveedores_rnt.razon_social AS razon_social, proveedores_rnt.latitud AS latitud
+        , proveedores_rnt.longitud AS longitud, proveedores_rnt.telefono AS telefono, proveedores_rnt.celular AS celular, proveedores_rnt.email AS email'))
+        ->join('municipios', 'municipios.id', '=', 'proveedores_rnt.municipio_id')
+        ->where('municipios.nombre', $destino->destinoConIdiomas[0]->nombre)->get();
+        
         if (count($video_promocional) > 0){
             $video_promocional = $video_promocional[0]->ruta;
         }else {
             $video_promocional = null;
         }
         
+        //return ['proveedores' => $proveedores];
         //return ['destino' => $destino, 'video_promocional' => $video_promocional];
-        return view('destinos.Ver', ['destino' => $destino, 'video_promocional' => $video_promocional]);
+        return view('destinos.Ver', ['destino' => $destino, 'video_promocional' => $video_promocional, 'proveedores' => $proveedores]);
     }
     
             public function postGuardarcomentario(Request $request){
