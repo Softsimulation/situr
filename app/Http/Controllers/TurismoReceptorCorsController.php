@@ -1099,9 +1099,9 @@ class TurismoReceptorCorsController extends Controller
             	            return ["success"=>false,"errores"=> [ ["El campo localizacion de empresa de alquiler  es requerido."] ] ];
             	        }
             	        break;
-            	    case 10:
+            	    case 12:
             	        if(!isset($request->Ropa)){
-            	            return ["success"=>false,"errores"=> [ ["El campo don es requerido."] ] ];
+            	            return ["success"=>false,"errores"=> [ ["El campo donde se compro los bienes duraderos es requerido."] ] ];
             	        }
             	        break;
             	    default:
