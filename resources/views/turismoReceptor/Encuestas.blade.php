@@ -26,6 +26,18 @@
     </a> 
     <button type="button" ng-click="mostrarFiltro=!mostrarFiltro" class="btn btn-lg btn-default" title="filtrar registros"><span class="glyphicon glyphicon-filter"></span><span class="sr-only">Filtros</span></button>
 </div>
+<div class="flex-list">
+    <p> Fecha inicial
+        <adm-dtp name="fecha_inicial" id="fecha_inicial" ng-model='fecha_inicial'  maxdate="'@{{fecha_final}}'"
+                                             options="optionFecha" ng-required="true"></adm-dtp>
+    </p>
+    <p> Fecha final
+        <adm-dtp name="fecha_final" id="fecha_final" ng-model='fecha_final' mindate="'@{{fecha_inicial}}'"
+                                             options="optionFecha" ng-required="true"></adm-dtp>
+    </p>
+    <button type="button" class="btn btn-info" ng-click="buscarEncuestasPorRango()">Buscar</button>
+    <button type="button" class="btn btn-info" ng-click="refrescar()">Refrescar</button>
+</div>
 <div class="text-center" ng-if="(encuestas | filter:search).length > 0 && (search != undefined)">
     <p>Hay @{{(encuestas | filter:search).length}} registro(s) que coinciden con su búsqueda</p>
 </div>
@@ -90,6 +102,9 @@
                                     <li><a href="/turismoreceptor/seccionfuentesinformacion/@{{item.id}}">Fuentes de información</a></li>
                                   </ul>
                                 </div>
+                                <button  id="dLabel" type="button" class="btn btn-xs btn-default" title="Eliminar encuesta" ng-click="eliminarEncuesta(item)">
+                                    <span class="glyphicon glyphicon-trash"></span><span class="sr-only">Eliminar</span>
+                                  </button>
                                 <a class="btn btn-xs btn-default" href="/turismoreceptor/editardatos/@{{item.id}}" title="Editar encuesta" ng-if="item.EstadoId != 7 && item.EstadoId != 8"><span class="glyphicon glyphicon-pencil"></span><span class="sr-only">Editar</span></a>
                             </td>
                         </tr>    
@@ -112,6 +127,7 @@
 @endsection
 @section('javascript')
 <script src="{{asset('/js/dir-pagination.js')}}"></script>
+<script src="{{asset('/js/plugins/ADM-dateTimePicker.min.js')}}"></script>
 <script src="{{asset('/js/administrador/listadoreceptor/listadoreceptor.js')}}"></script>
 <script src="{{asset('/js/administrador/listadoreceptor/services.js')}}"></script>
 @endsection 

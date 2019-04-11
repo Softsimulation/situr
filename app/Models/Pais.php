@@ -27,7 +27,7 @@ class Pais extends Model
     /**
      * @var array
      */
-    protected $fillable = ['user_create', 'user_update', 'estado', 'updated_at', 'created_at'];
+    protected $fillable = ['user_create', 'user_update', 'estado', 'updated_at', 'created_at','peso'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
