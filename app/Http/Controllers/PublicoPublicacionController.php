@@ -35,7 +35,7 @@ class PublicoPublicacionController extends Controller
         
         return view('publicaciones.ListadoPublicoPublicacion', array(
                "publicaciones"=> Publicacion::
-                where( $where )->orderBy('id')->paginate(10),
+                where( $where )->orderBy('id','desc')->paginate(10),
                    
                "tipos"=> TipoPublicacion::join("idiomas_has_tipos_publicaciones_obras","idiomas_has_tipos_publicaciones_obras.tipos_publicaciones_obras_id","=","tipos_publicaciones_obras.id")->where("idiomas_has_tipos_publicaciones_obras.idiomas_id","=",$this->idioma_id)->
                select("idiomas_has_tipos_publicaciones_obras.nombre as nombre ","tipos_publicaciones_obras.id as id")->get()    
