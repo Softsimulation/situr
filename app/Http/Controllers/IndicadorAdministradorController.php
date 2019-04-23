@@ -182,11 +182,16 @@ class IndicadorAdministradorController extends Controller
                     break;
                 case 4:
                     $idMes = Mes_Anio::where('mes_id',$request->mes)->where('anio_id',$request->anio)->first();
-                    $respuesta = $this->calcularOferta($request->indicador_id,$d_tiempo->id,$idMes,$indicador->id);
+                    if($idMes != null){
+                        $respuesta = $this->calcularOferta($request->indicador_id,$d_tiempo->id,$idMes->id,$indicador->id);
+                    }
+                    
                     break;
                 case 5:
                     $idMes = Mes_Anio::where('mes_id',$request->mes)->where('anio_id',$request->anio)->first();
-                    $respuesta = $this->calcularEmpleo($request->indicador_id,$d_tiempo->id,$idMes,$indicador->id);
+                     if($idMes != null){
+                        $respuesta = $this->calcularEmpleo($request->indicador_id,$d_tiempo->id,$idMes->id,$indicador->id);
+                     }
                     break;
             }
             
@@ -331,7 +336,6 @@ class IndicadorAdministradorController extends Controller
     public function calcularReceptor($indicadorMedicion, $dTiempo,$fecha_inicio,$fecha_final,$idIndicador){
         
         $importar = DB::select("SELECT *from importar_receptor()");
-        $importar = DB::select("SELECT *from importar_dimensiones_adicionales()");
         $indicador = Indicador::find($idIndicador);
 
         try{
