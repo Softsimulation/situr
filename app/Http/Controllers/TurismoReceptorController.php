@@ -1117,7 +1117,7 @@ class TurismoReceptorController extends Controller
     	    
     	    
     	    if(isset($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"]) && isset($rub["gastos_visitantes"][0]["divisas_magdalena"]) && isset($rub["gastos_visitantes"][0]["personas_cubiertas"])){
-    	        if($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"] != null && ($rub["gastos_visitantes"][0]["divisas_magdalena"] == null || $rub["gastos_visitantes"][0]["personas_cubiertas"] == null ) ){
+    	        if($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"] != "" && ($rub["gastos_visitantes"][0]["divisas_magdalena"] == null || $rub["gastos_visitantes"][0]["personas_cubiertas"] == null ) ){
     	            
     	            if($rub["gastos_visitantes"][0]["divisas_magdalena"] == null){
     	                return ["success"=>false,"errores"=> [ ["La divisa es requerida en el rubro dentro del magdalena."] ] ];
@@ -1142,9 +1142,9 @@ class TurismoReceptorController extends Controller
             	            return ["success"=>false,"errores"=> [ ["El campo localizacion de empresa de alquiler  es requerido."] ] ];
             	        }
             	        break;
-            	    case 10:
+            	    case 12:
             	        if(!isset($request->Ropa)){
-            	            return ["success"=>false,"errores"=> [ ["El campo don es requerido."] ] ];
+            	            return ["success"=>false,"errores"=> [ ["El campo donde se compro los bienes duraderos es requerido."] ] ];
             	        }
             	        break;
             	    default:
