@@ -150,7 +150,7 @@
                         <div class="form-group">
                             <label for="inputNombreEncuestado" class="col-xs-12 control-label">Telefono Fijo</label>
                             <div class="col-xs-12">
-                                <input type="text" class="form-control" id="inputNombreEncuestado" name="telefono" ng-model="encuesta.Telefono" ng-required="true" placeholder="Telefono fijo" />
+                                <input type="text" class="form-control" id="inputNombreEncuestado" name="telefono" ng-model="encuesta.Telefono"  placeholder="Telefono fijo" />
                                 <span ng-show="DatosForm.$submitted || DatosForm.telefono.$touched">
                                     <!--P4P1Input1. El campo fecha de aplicación es requerido-->
                                     <span class="label label-danger" ng-show="DatosForm.telefono.$error.required">*El campo es requerido</span>
