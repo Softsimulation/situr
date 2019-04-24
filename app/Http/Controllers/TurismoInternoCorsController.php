@@ -108,8 +108,9 @@ class TurismoInternoCorsController extends Controller
         $encuestadores = Digitador::with([ 'user'=>function($q){$q->select('id','username');} ])->get();
         $estados=EstadosCiviles::get();
         $ocupaciones=Ocupacion::get();
+        $barrios=Barrio::get();
         
-        return ["municipios"=>$municipios,'niveles'=>$niveles,'motivos'=>$motivos,'estratos'=>$estratos,'encuestadores'=>$encuestadores,'estados'=>$estados,'ocupaciones'=>$ocupaciones];
+        return ["municipios"=>$municipios,'niveles'=>$niveles,'motivos'=>$motivos,'estratos'=>$estratos,'encuestadores'=>$encuestadores,'estados'=>$estados,'ocupaciones'=>$ocupaciones,'barrios'=>$barrios];
         
     }
     
@@ -320,7 +321,9 @@ class TurismoInternoCorsController extends Controller
              }
         }
         
-        return ["success"=>true,"id"=>$hogar->id];
+        $hogaraux=Hogar::find($hogar->id);
+        
+        return ["success"=>true,"id"=>$hogar->id,"integrantes"=>$hogaraux->personas->pluck('id')];
     }
     
     public function getActividades($id = null){
