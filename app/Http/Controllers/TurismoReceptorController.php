@@ -102,7 +102,7 @@ class TurismoReceptorController extends Controller
             $q->whereHas('idioma', function($p){
                 $p->where('culture','es');
             })->select('pais_id','nombre');
-        }])->orderBy('peso', 'DESC')->get();
+        }])->get();
         
         $motivos = Motivo_Viaje::with(["motivosViajeConIdiomas" => function($q){
             $q->whereHas('idioma', function($p){
@@ -1126,7 +1126,7 @@ class TurismoReceptorController extends Controller
     	    
     	    
     	    if(isset($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"]) && isset($rub["gastos_visitantes"][0]["divisas_magdalena"]) && isset($rub["gastos_visitantes"][0]["personas_cubiertas"])){
-    	        if($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"] != null && ($rub["gastos_visitantes"][0]["divisas_magdalena"] == null || $rub["gastos_visitantes"][0]["personas_cubiertas"] == null ) ){
+    	        if($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"] != "" && ($rub["gastos_visitantes"][0]["divisas_magdalena"] == null || $rub["gastos_visitantes"][0]["personas_cubiertas"] == null ) ){
     	            
     	            if($rub["gastos_visitantes"][0]["divisas_magdalena"] == null){
     	                return ["success"=>false,"errores"=> [ ["La divisa es requerida en el rubro dentro del magdalena."] ] ];
@@ -1725,26 +1725,4 @@ class TurismoReceptorController extends Controller
         return ["success" => true, 'sw' => $sw, 'codigo' => $visitante->codigo_grupo];
     }
     
-    public function getEncuestasrango($fecha_inicial, $fecha_final){
-        $encuestas = \DB::select('select * from encuestas_turismo_receptor(?,?)',array($fecha_inicial,$fecha_final));
-        
-        return ["encuestas" => $encuestas];
-    }
-    
-    public function postEliminarencuesta(Request $request){
-        $validator = \Validator::make($request->all(), [
-			'encuesta_id' => 'required|exists:visitantes,id',
-    	],[
-    	    'encuesta_id.required' => 'Debe seleccionar el visitante a realizar la encuesta.',
-       		'encuesta_id.exists' => 'El visitante seleccionado no se encuentra seleccionado en el sistema.',
-    	]);
-    	
-    	if($validator->fails()){
-    		return ["success"=>false,"errores"=>$validator->errors()];
-		}
-		
-        $resultado = \DB::select('select eliminarEncuestaReceptor(?) as result',array($request['encuesta_id']))[0]->result;
-        
-        return ["success" => $resultado ];
-    }
 }
