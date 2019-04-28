@@ -172,7 +172,7 @@ class IndicadorAdministradorController extends Controller
                     $d_tiempo->trimestre = 'Abril-Junio';
                     $d_tiempo->trimestre_en = 'April-June';
                 }
-                if($request->mes <=9 && $request->mes >7){
+                if($request->mes <=9 && $request->mes >6){
                     $d_tiempo->trimestre = 'Julio-Septiembre';
                     $d_tiempo->trimestre_en = 'July-September';
                 }
