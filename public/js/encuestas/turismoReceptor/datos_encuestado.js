@@ -41,6 +41,7 @@ angular.module('encuestas.datos_encuestado', [])
             $scope.medicos = data.medicos;
             $scope.departamentos_colombia = data.departamentos;
             $scope.lugares_aplicacion = data.lugares_aplicacion;
+            $scope.sub_lugares_aplicacion = data.sub_lugares_aplicacion;
         }).catch(function () {
             swal("Error", "No se realizo la solicitud, reinicie la página");
         });
@@ -199,6 +200,7 @@ angular.module('encuestas.datos_encuestado', [])
                 $scope.motivos = data.datos.motivos;
                 $scope.medicos = data.datos.medicos;
                 $scope.lugares_aplicacion = data.datos.lugares_aplicacion;
+                $scope.sub_lugares_aplicacion = data.datos.sub_lugares_aplicacion;
                 $scope.departamentos_colombia = data.datos.departamentos;
                 $scope.encuesta = data.visitante;
                 $scope.pais_residencia = data.visitante.Pais;
