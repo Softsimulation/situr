@@ -173,7 +173,7 @@
                         <div class="row filtros" >
                             <div class="col-xs-12 col-md-3" >
                                 <div class="input-group">
-                                    <label class="input-group-addon">Período </label>
+                                    <label class="input-group-addon">Período</label>
                                     <select class="form-control" ng-model="yearSelect" ng-change="changePeriodo()" ng-options="y as y.year for y in periodos | unique: 'year'" requerid >
                                     </select>
                                 </div>
@@ -189,41 +189,23 @@
                             
                             <div class="col-xs-12 col-md-4" ng-show="yearSelect.temporada" >
                                 <div class="input-group">
-                                    <label class="input-group-addon">Temporadas</label>
+                                    <label class="input-group-addon">Temporada</label>
                                     <select class="form-control" id="SelectTemporada" ng-model="filtro.id" ng-change="filtrarDatos()" ng-options="t.id as t.temporada for t in periodos | filter:{ 'year': yearSelect.year }" ng-requerid="yearSelect.temporada"  >
                                     </select>
                                 </div>
                             </div>
                             
-                            @if( isset($aspectos) )
-                            <div class="col-xs-12 col-md-3" ng-if="indicadorSelect==44">
-                                <div class="input-group" >
-                                    <label class="input-group-addon colorInd">Aspecto </label>
-                                    <select class="form-control" ng-model="filtro.aspecto" id="aspecto" ng-change="filtrarDatos()" >
-                                        <option value="" selectd >Todos</option>
-                                        @for ($i = 0; $i < count($aspectos); $i++)
-                                           <option value="{{$aspectos[$i]->aspecto_evaluacion}}" >{{$aspectos[$i]->nombre}}</option>
-                                        @endfor
+                            <div class="col-xs-12 col-md-4" ng-show="yearSelect.trimestre" >
+                                <div class="input-group">
+                                    <label class="input-group-addon">Trimestre</label>
+                                    <select class="form-control" id="SelectTrimestre" ng-model="filtro.id" ng-change="filtro.id=SelectTrimestre.id;filtro.trimestre=SelectTrimestre.trimestre;filtrarDatos()" ng-options="t.id as t.trimestre for t in periodos | filter:{ 'year': yearSelect.year }" ng-requerid="yearSelect.trimestre"  >
                                     </select>
                                 </div>
                             </div>
-                            @endif
-                            
-                            @if( isset($tipoExperiencia) )
-                            <div class="col-xs-12 col-md-4" ng-if="indicadorSelect==61 || indicadorSelect==77">
-                                <div class="input-group" ng-init="filtro.tipoExperiencia='{{$tipoExperiencia[0]['key']}}' " >
-                                    <label class="input-group-addon colorInd">Tipo experiencia </label>
-                                    <select class="form-control" ng-model="filtro.tipoExperiencia" id="experiencia" ng-change="filtrarDatos()" >
-                                        <option value="{{$tipoExperiencia[0]['key']}}" >{{$tipoExperiencia[0]['nombre']}}</option>
-                                        <option value="{{$tipoExperiencia[1]['key']}}" >{{$tipoExperiencia[1]['nombre']}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            @endif
                             
                             <div class="col-xs-12 col-md-3" ng-if="indicadorSelect==5">
                                 <div class="input-group" >
-                                    <label class="input-group-addon colorInd">Gasto promedio </label>
+                                    <label class="input-group-addon colorInd">Gasto promedio</label>
                                     <select class="form-control" ng-model="filtro.tipoGasto" id="SelectTipoGasto" ng-change="filtrarDatos()" >
                                         <option value="1" selectd >Total</option>
                                         <option value="2">Por día</option>
@@ -233,7 +215,7 @@
                             
                             <div class="col-xs-12 col-sm-6 col-md-3" >
                                 <div class="input-group" id="selectGrafica" >
-                                    <label class="input-group-addon">Gráfica </label>
+                                    <label class="input-group-addon">Gráfica</label>
                                     <div class="btn-group" style="width: 100%;">
                                         <button type="button" class="btn btn-default btn-select">
                                            <img src="@{{graficaSelect.icono}}" class="icono" ></img> @{{graficaSelect.nombre || " "}}
