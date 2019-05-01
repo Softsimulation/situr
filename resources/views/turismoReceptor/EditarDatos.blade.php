@@ -132,6 +132,25 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p1">
+                <!-- P2. Encuestador-->
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Código de encuesta</b></h3>
+            </div>
+            <div class="panel-footer"><b>Al editar el codigo de la encuesta se actualizará este valor en el código de grupo</b></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="inputNombreEncuestado" name="numeroEncuesta" ng-model="encuesta.numeroEncuesta" placeholder="Presione aquí para ingresar el código de la encuesta" ng-required="true" />
+                        <span ng-show="DatosForm.$submitted || DatosForm.numeroEncuesta.$touched">
+                            <!--P4P1Input1. El campo nombre es requerido-->
+                            <span class="label label-danger" ng-show="DatosForm.numeroEncuesta.$error.required">*El campo es requerido</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-success">
+            <div class="panel-heading p1">
                 <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Datos de encuesta</b></h3>
             </div>
             <div class="panel-footer"><b>Complete la siguiente información</b></div>
