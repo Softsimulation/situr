@@ -336,6 +336,7 @@ class TurismoReceptorController extends Controller
             $visitante['Salud'] = count($visitanteCargar->tiposAtencionSaluds) > 0 ? $visitanteCargar->tiposAtencionSaluds->first()->id : null;
             $visitante['Horas'] = $visitanteCargar->visitantesTransito != null ? $visitanteCargar->visitantesTransito->horas_transito : null ;
             $visitante['Otro'] = $visitanteCargar->otrosMotivo != null ? $visitanteCargar->otrosMotivo->otro_motivo : null ;
+            $visitante['numeroEncuesta'] = $visitanteCargar->codigo_encuesta;
             
             $departamentosr = Departamento::where('pais_id', $visitanteCargar->municipioResidencia->departamento->pais_id)->orderBy('nombre')->get(["id","nombre"]);
             $municipiosr = Municipio::where('departamento_id',$visitanteCargar->municipioResidencia->departamento_id)->orderBy('nombre')->get(["id","nombre"]);
@@ -381,7 +382,8 @@ class TurismoReceptorController extends Controller
 			//'codigo_encuesta' => 'required|max:50',
 			//'codigo_grupo' => 'required|unique:visitantes,codigo_grupo,'.$request->Id.',id',
 			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id',
-			'sub_lugar_aplicacion_id' => 'required|exists:sub_lugares_aplicacion_encuesta_receptor,id'
+			'sub_lugar_aplicacion_id' => 'required|exists:sub_lugares_aplicacion_encuesta_receptor,id',
+			'numeroEncuesta' => 'required|numeric'
     	],[
     	    'Id.required' => 'Debe seleccionar el visitante a realizar la encuesta.',
        		'Id.exists' => 'El visitante seleccionado no se encuentra seleccionado en el sistema.',
@@ -453,6 +455,13 @@ class TurismoReceptorController extends Controller
 		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
 		$visitante->lugar_aplicacion_id = $request->aplicacion;
 		$visitante->sub_lugar_aplicacion_id = $request->sub_lugar_aplicacion_id;
+		
+		$visitante->codigo_encuesta = $request->numeroEncuesta;
+		$arregloCodigoGrupo = explode("_",$visitante->codigo_grupo);
+		$lastPosition = count($arregloCodigoGrupo) - 1;
+		$arregloCodigoGrupo[$lastPosition] = $request->numeroEncuesta;
+		$visitante->codigo_grupo = implode("_",$arregloCodigoGrupo);
+		
 		
 		$visitante->visitantesTransito()->delete();
 		$visitante->tiposAtencionSaluds()->detach();
