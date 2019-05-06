@@ -277,6 +277,7 @@ class TurismoInternoController extends Controller
         $hogar->fecha_realizacion=$request->Fecha_aplicacion;
         $hogar->digitadores_id=$request->Encuestador;
         $hogar->telefono=$request->Telefono;
+        $hogar->codigo=$request->codigo;
         $hogar->save();
         
         $edificacion=Edificacion::find($hogar->edificaciones_id);

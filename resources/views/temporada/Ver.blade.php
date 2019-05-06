@@ -82,6 +82,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
+                                    <th>Codigo Hogar</th>
                                     <th>Barrio</th>
                                     <th>Dirección</th>
                                     <th>Estrato</th>
@@ -104,6 +105,7 @@
                             <tbody>
                                 <tr dir-paginate="item in temporada.Hogares|filter:prop.search|itemsPerPage:10 as results" pagination-id="hogarP" style="border-bottom: .5px solid lightgray">
                                     <td>@{{$index+1}}</td>
+                                    <td>@{{item.codigo}}</td>
                                     <td>@{{item.edificacione.barrio.nombre}}</td>
                                     <td>@{{item.edificacione.direccion}}</td>
                                     <td>@{{item.edificacione.estrato.nombre}}</td>
@@ -155,7 +157,6 @@
                         <table class="table table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>Cod. encuesta</th>
                                     <th>Fecha Realización</th>
                                     <th style="width: 70px;">Fecha Inicio</th>
                                     <th style="width: 70px;">Fecha Final</th>
@@ -168,7 +169,6 @@
                             </thead>
                             <tbody>
                                 <tr dir-paginate="item in temporada.encuestas|filter:prop.searchPersona|itemsPerPage:10 as results" pagination-id="personaP" style="border-bottom: .5px solid lightgray">
-                                    <td>@{{item.codigo_encuesta}}</td>
                                     <td>@{{item.persona.hogare.fecha_realizacion }}</td>
                                     <td>@{{item.fecha_inicio }}</td>
                                     <td>@{{item.fecha_final }}</td>
