@@ -180,7 +180,7 @@
                 
                 <div class="row">
                     
-                    <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
                         <div class="form-group">
 
                             <label for="inputDepartamentoResidencia" class="col-xs-12 control-label">Encuestador</label>
@@ -194,6 +194,16 @@
                                 <span ng-show="DatosForm.$submitted || DatosForm.barrio.$touched">
                                     <span class="label label-danger" ng-show="DatosForm.encuestador.$error.required">*El campo es requerido</span>
                                 </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <label for="inputNombreEncuestado" class="col-xs-12 control-label">Codigo Hogar</label>
+                            <div class="col-xs-12">
+                                <input type="text" class="form-control" id="inputNombreEncuestado"  name="codigohogar"  ng-model="encuesta.codigo" placeholder="Codigo Hogar" />
+                                
                             </div>
                         </div>
                     </div>
