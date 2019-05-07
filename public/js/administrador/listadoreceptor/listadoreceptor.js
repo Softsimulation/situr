@@ -114,7 +114,7 @@ situr.controller('listadoEncuestasCtrl', ['$scope','adminService', function ($sc
                           $scope.encuestas[i].Filtro = 'calculadas';
                       }
                   }
-                $("body").attr("class", "cbp-spmenu-push");
+                $('#processing').removeClass('process-in');
                 
             }).catch(function () {
                 $('#processing').removeClass('process-in');
