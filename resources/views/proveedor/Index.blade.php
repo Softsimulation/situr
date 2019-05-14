@@ -35,7 +35,7 @@ function getItemType($type){
     return (object)array('name'=>$name, 'path'=>$path);
 }
 
-$tituloPagina = "Proveedores";
+$tituloPagina = "Proveedores de servicios turísticos";
 if(!is_null($tipoProveedor)){
     $tituloPagina = $tipoProveedor->tipoProveedoresConIdiomas->first()->nombre;
 }
@@ -131,11 +131,14 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
     <div id="opciones">
         <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','tile-list')" title="Vista de lista"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.vistaLista')}}</span></button>
         <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','')" title="Vista de mosaico"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.vistaMosaico')}}</span></button>
-        <form class="form-inline">
+        <form class="form-inline" action="/proveedor/index" method="GET">
+            @if(isset($_GET['tipo']) && $_GET['tipo'] != null)
+            <input type="hidden" name="tipo" value="{{$_GET['tipo']}}">
+            @endif
             <div class="form-group">
                 <label class="sr-only" for="searchMain">{{trans('resources.listado.buscadorGeneral')}}</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchMain" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" maxlength="255">
+                    <input type="text" class="form-control" id="searchMain" name="buscar" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" maxlength="255" @if(isset($_GET['buscar']) && $_GET['buscar'] != null) value="{{$_GET['buscar']}}" @endif>
                     <div class="input-group-addon"><button type="submit" class="btn btn-default" title="Buscar"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.buscar')}}</span></button></div>
                 </div>
                 

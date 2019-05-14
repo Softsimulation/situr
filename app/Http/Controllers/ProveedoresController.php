@@ -58,6 +58,11 @@ class ProveedoresController extends Controller
             if(!is_null($request->input('tipo'))){
                 $q->where('tipo_proveedores_id', $request->input('tipo'));
             }
+            
+        })->whereHas('proveedorRnt.idiomas',function($q) use($request){
+            if(isset($request->buscar) && $request->buscar != null){
+                $q->whereRaw('lower(nombre) like lower(?)', ["%{$request->buscar}%"]);
+            }
         })->get();
         //return $proveedores;
         
@@ -101,6 +106,8 @@ class ProveedoresController extends Controller
         $video_promocional = Proveedor::with(['multimediaProveedores' => function ($queryMultimediaProveedores){
             $queryMultimediaProveedores->where('tipo', true)->select('proveedor_id', 'ruta');
         }])->first()->multimediaProveedores;
+        
+        //return $proveedor;
 
         if (count($video_promocional) > 0){
             $video_promocional = $video_promocional[0]->ruta;
