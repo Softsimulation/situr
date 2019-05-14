@@ -50,7 +50,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																		<input type="password" name="password" placeholder="Contraseña">
 																		<div class="submit"><input type="submit" value="Iniciar"/></div>
 																		<div class="clearfix"></div>
-																		
+																		<div><a href="/postulado/crear">Registro de usuario</a></div>
 																		<div class="new">																
 																			<div class="clearfix"></div>
 																		</div>

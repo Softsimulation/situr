@@ -27,15 +27,19 @@
         color: #fff!important;
         font-weight: 700!important;
     }
-    .menu-descraga, .menu-descraga .dropdown{
+    .menu-descarga{
+        position: absolute;
+        right: 80px;
+    }
+    .menu-descarga, .menu-descarga .dropdown{
             float: right;
     }
-    .menu-descraga .dropdown button{
+    .menu-descarga .dropdown button{
         display:flex;
         align-items:center;
         background: transparent;
     }
-    .menu-descraga .dropdown button .material-icons{
+    .menu-descarga .dropdown button .material-icons{
         margin-right: .5rem;
     }
     #descargarTABLA{
@@ -50,7 +54,7 @@
         padding-top:20px !important;
     }
     .icono{
-        height: 22px;
+        height: 20px;
         margin-right: 5px;
     }
     .btn-outline-primary{
@@ -62,6 +66,10 @@
     .btn-outline-primary:hover{
         background-color: #004A87;
         color: white;
+    }
+    .dropdown-menu>li>a {
+        text-align: left;
+        white-space: normal;
     }
     .dropdown-menu{
         width: 100%;
@@ -99,10 +107,10 @@
         color: #fff!important;
         font-weight: 700!important;
     }
-    .menu-descraga, .menu-descraga .dropdown{
+    .menu-descarga, .menu-descarga .dropdown{
             float: right;
     }
-    .menu-descraga .dropdown button{
+    .menu-descarga .dropdown button{
         border: none;
         background: transparent;
     }
@@ -144,7 +152,7 @@
 <br>
 
 <div ng-if="indicador == undefined" class="text-center">
-    <img src="/res/spinner-200px.gif" alt="" role="presentation" style="display:inline-block; margin: 0 auto;">    
+    <img src="/img/spinner-200px.gif" alt="" role="presentation" style="display:inline-block; margin: 0 auto;">    
 </div>
 
 <div class="card" ng-init="indicadorSelect={{$indicadores[0]['id']}}" ng-show="indicador != undefined">
@@ -153,7 +161,7 @@
     
     <ul class="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#tab1">Información</a></li>
-      <li><a data-toggle="tab" href="#tab2">Tabla dinamica</a></li>
+      <li ><a data-toggle="tab" href="#tab2" >Tabla dinamica</a></li>
     </ul>
     
     <div class="tab-content">
@@ -165,7 +173,7 @@
                         <div class="row filtros" >
                             <div class="col-xs-12 col-md-3" >
                                 <div class="input-group">
-                                    <label class="input-group-addon">Período </label>
+                                    <label class="input-group-addon">Período</label>
                                     <select class="form-control" ng-model="yearSelect" ng-change="changePeriodo()" ng-options="y as y.year for y in periodos | unique: 'year'" requerid >
                                     </select>
                                 </div>
@@ -179,25 +187,25 @@
                                 </div>
                             </div>
                             
-                            <div class="col-xs-12 col-md-3" ng-show="yearSelect.meses" >
-                                <div class="input-group">
-                                    <label class="input-group-addon">Meses</label>
-                                    <select class="form-control" ng-model="filtro.mes" ng-change="filtrarDatos()" ng-options="m.id as m.nombre for m in yearSelect.meses" ng-requerid="yearSelect.meses"  >
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="col-xs-12 col-md-3" ng-show="yearSelect.temporadas" >
+                            <div class="col-xs-12 col-md-4" ng-show="yearSelect.temporada" >
                                 <div class="input-group">
                                     <label class="input-group-addon">Temporada</label>
-                                    <select class="form-control" ng-model="filtro.temporada" ng-change="filtrarDatos()" ng-options="m.id as m.nombre for m in yearSelect.temporadas" ng-requerid="yearSelect.temporadas"  >
+                                    <select class="form-control" id="SelectTemporada" ng-model="filtro.id" ng-change="filtrarDatos()" ng-options="t.id as t.temporada for t in periodos | filter:{ 'year': yearSelect.year }" ng-requerid="yearSelect.temporada"  >
                                     </select>
                                 </div>
                             </div>
                             
-                            <div class="col-xs-12 col-md-4" ng-if="indicadorSelect==5 || indicadorSelect==13 || indicadorSelect==19">
+                            <div class="col-xs-12 col-md-4" ng-show="yearSelect.trimestre" >
+                                <div class="input-group">
+                                    <label class="input-group-addon">Trimestre</label>
+                                    <select class="form-control" id="SelectTrimestre" ng-model="filtro.id" ng-change="filtro.id=SelectTrimestre.id;filtro.trimestre=SelectTrimestre.trimestre;filtrarDatos()" ng-options="t.id as t.trimestre for t in periodos | filter:{ 'year': yearSelect.year }" ng-requerid="yearSelect.trimestre"  >
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-12 col-md-3" ng-if="indicadorSelect==5">
                                 <div class="input-group" >
-                                    <label class="input-group-addon colorInd">Gasto promedio </label>
+                                    <label class="input-group-addon colorInd">Gasto promedio</label>
                                     <select class="form-control" ng-model="filtro.tipoGasto" id="SelectTipoGasto" ng-change="filtrarDatos()" >
                                         <option value="1" selectd >Total</option>
                                         <option value="2">Por día</option>
@@ -207,7 +215,7 @@
                             
                             <div class="col-xs-12 col-sm-6 col-md-3" >
                                 <div class="input-group" id="selectGrafica" >
-                                    <label class="input-group-addon">Gráfica </label>
+                                    <label class="input-group-addon">Gráfica</label>
                                     <div class="btn-group" style="width: 100%;">
                                         <button type="button" class="btn btn-default btn-select">
                                            <img src="@{{graficaSelect.icono}}" class="icono" ></img> @{{graficaSelect.nombre || " "}}
@@ -224,25 +232,27 @@
                                 </div>
                             </div> 
                             
-                            <div class="col-xs-12 col-md-2 menu-descraga" >
-                            
-                                <div class="dropdown">
-                                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                                      <i class="material-icons">cloud_download</i> Descargar
-                                  </button>
-                                  <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a href id="descargarPNG" >Descargar gráfica : PNG</a></li>
-                                   <!-- <li><a href id="descargarJPG" >Download JPG image</a></li> -->
-                                    <li><a href id="descargarPDF" >Descargar gráfica : PDF</a></li>
-                                    <li><a href id="descargarGraficaTabla" >Descargar gráfica y tabla de datos : PDF</a></li>
-                                  </ul>
-                                </div>
-                                
-                            </div>
                         </div>    
                     </form>
                 </div>
                 <div class="panel-body">
+                    
+                    <div class="menu-descarga" >
+                            
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                              <i class="material-icons">cloud_download</i> Descargar
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href id="descargarPNG" >Descargar gráfica : PNG</a></li>
+                           <!-- <li><a href id="descargarJPG" >Download JPG image</a></li> -->
+                            <li><a href id="descargarPDF" >Descargar gráfica : PDF</a></li>
+                            <li><a href id="descargarGraficaTabla" >Descargar gráfica y tabla de datos : PDF</a></li>
+                          </ul>
+                        </div>
+                        
+                    </div>
+                    
                     <canvas id="base" class="chart-base" chart-type="graficaSelect.codigo" fill="black" style="background: white;"
                       chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-colors="colores" chart-dataset-override="override" >
                     </canvas>
@@ -333,7 +343,6 @@
     <script src="{{asset('/js/plugins/jspdf.min.js')}}"></script>
     <script src="{{asset('/js/plugins/Chart.min.js')}}"></script>
     <script src="{{asset('/js/plugins/angular-chart.min.js')}}"></script>
-    <script src="{{asset('/js/plugins/chartsjs-plugin-data-labels.js')}}"></script>
     <script src="{{asset('/js/plugins/angular-filter.js')}}"></script>
     <script src="{{asset('/js/indicadores/appIndicadores.js')}}"></script>
     <script src="{{asset('/js/indicadores/servicios.js')}}"></script> 
@@ -364,12 +373,12 @@
             var imgData = canvas.toDataURL();
             var pdf = new jsPDF('l', 'pt', 'letter');
             pdf.addImage(imgData, 'JPEG', 0, 20, 800,400);
-            pdf.save("download.pdf");
+            pdf.save( $("#tituloIndicadorGrafica").html() +".pdf");
         });
         
         function descargar(img){
             var link = document.createElement("a");
-            link.download = "Grafica";
+            link.download = $("#tituloIndicadorGrafica").html();
             link.href = img;
             document.body.appendChild(link);
             link.click();
@@ -390,7 +399,7 @@
             var ctx = { worksheet : 'Worksheet', table : htmls };
 
             var link = document.createElement("a");
-            link.download = "datos.xls";
+            link.download = $("#tituloIndicadorGrafica").html();
             link.href = uri + base64(format(template, ctx));
             link.click();
         });
@@ -415,7 +424,7 @@
                     'width': margins.width, // max width of content on PDF
                     'elementHandlers': { '#bypassme': function (element, renderer) { return true; } }
                 },
-                function (dispose) { pdf.save('datos.pdf'); },
+                function (dispose) { pdf.save( $("#tituloIndicadorGrafica").html() +'.pdf'); },
                 margins
             );
             
@@ -435,7 +444,7 @@
             var ctx = { worksheet : 'Worksheet', table : htmls };
 
             var link = document.createElement("a");
-            link.download = "datos.xls";
+            link.download = $("#tituloIndicadorGrafica").html();
             link.href = uri + base64(format(template, ctx));
             link.click();
         });

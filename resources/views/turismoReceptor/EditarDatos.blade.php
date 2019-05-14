@@ -132,12 +132,31 @@
         
         <div class="panel panel-success">
             <div class="panel-heading p1">
+                <!-- P2. Encuestador-->
+                <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Código de encuesta</b></h3>
+            </div>
+            <div class="panel-footer"><b>Al editar el codigo de la encuesta se actualizará este valor en el código de grupo</b></div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" id="inputNombreEncuestado" name="numeroEncuesta" ng-model="encuesta.numeroEncuesta" placeholder="Presione aquí para ingresar el código de la encuesta" ng-required="true" />
+                        <span ng-show="DatosForm.$submitted || DatosForm.numeroEncuesta.$touched">
+                            <!--P4P1Input1. El campo nombre es requerido-->
+                            <span class="label label-danger" ng-show="DatosForm.numeroEncuesta.$error.required">*El campo es requerido</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-success">
+            <div class="panel-heading p1">
                 <h3 class="panel-title"><b><span class="asterik glyphicon glyphicon-asterisk"></span> Datos de encuesta</b></h3>
             </div>
             <div class="panel-footer"><b>Complete la siguiente información</b></div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
                         <div class="form-group">
                             <!--P3P1. Fecha de aplicación-->
                             <label for="fechaLlegada" class="col-xs-12 control-label">Fecha de aplicación</label>
@@ -148,7 +167,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="col-xs-12 col-sm-4 col-md-4">
                         <div class="form-group">
                             <!--P4P7. Lugar de aplicación-->
                             <label for="aplicacion" class="col-xs-12 control-label">Lugar de aplicación</label>
@@ -160,6 +179,22 @@
                                 <!--P4P7Alert1. El campo en donde nació es requerido-->
                                 <span ng-show="DatosForm.$submitted || DatosForm.aplicacion.$touched">
                                     <span class="label label-danger" ng-show="DatosForm.aplicacion.$error.required">*El campo es requerido</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4" ng-show="encuesta.aplicacion">
+                        <div class="form-group">
+                            <!--P4P7. Lugar de aplicación-->
+                            <label for="sub_lugar_aplicacion_id" class="col-xs-12 control-label">Sub lugar de aplicación</label>
+                            <div class="col-xs-12">
+                                <!--P4P7Select1. Seleccione el lugar de nacimiento-->
+                                <select class="form-control" id="sub_lugar_aplicacion_id" name="sub_lugar_aplicacion_id" ng-model="encuesta.sub_lugar_aplicacion_id" ng-options="item.id as item.nombre for item in sub_lugares_aplicacion | filter: {opcion_id: encuesta.aplicacion}" ng-required="true">
+                                    <option value="" disabled>Seleccione el lugar de aplicación</option>
+                                </select>
+                                <!--P4P7Alert1. El campo en donde nació es requerido-->
+                                <span ng-show="DatosForm.$submitted || DatosForm.sub_lugar_aplicacion_id.$touched">
+                                    <span class="label label-danger" ng-show="DatosForm.sub_lugar_aplicacion_id.$error.required">*El campo es requerido</span>
                                 </span>
                             </div>
                         </div>

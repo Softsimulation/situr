@@ -66,6 +66,7 @@ use App\Models\Visitante_Transporte_Llegada;
 use App\Models\Lugar_Aplicacion_Encuesta;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Sub_Lugar_Aplicacion_Receptor;
 
 class TurismoReceptorController extends Controller
 {
@@ -119,6 +120,8 @@ class TurismoReceptorController extends Controller
         
         $lugares_aplicacion = Lugar_Aplicacion_Encuesta::all();
         
+        $sub_lugares_aplicacion = Sub_Lugar_Aplicacion_Receptor::all();
+        
         $result = [ 
             //'grupos' => $grupos, 
             'encuestadores' => $encuestadores, 
@@ -127,7 +130,8 @@ class TurismoReceptorController extends Controller
             'motivos' => $motivos,
             'medicos' => $medicos,
             'departamentos' => $departamentos,
-            'lugares_aplicacion' => $lugares_aplicacion
+            'lugares_aplicacion' => $lugares_aplicacion,
+            'sub_lugares_aplicacion' => $sub_lugares_aplicacion
         ];
         
         return $result;
@@ -156,7 +160,8 @@ class TurismoReceptorController extends Controller
 			//'Actor' => 'required',
 			//'codigo_encuesta' => 'required|max:50',
 			//'codigo_grupo' => 'required|unique:visitantes,codigo_grupo',
-			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id'
+			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id',
+			'sub_lugar_aplicacion_id' => 'required|exists:sub_lugares_aplicacion_encuesta_receptor,id'
     	],[
        		'Grupo.required' => 'Debe seleccionar el grupo de viaje.',
        		'Grupo.exists' => 'El grupo de viaje seleccionado no se encuentra registrado en el sistema.',
@@ -214,70 +219,81 @@ class TurismoReceptorController extends Controller
 // 		if( count($grupo->visitantes) >= $grupo->personas_encuestadas ){
 // 		    return ["success"=>false,"errores"=> [ ["El grupo seleccionado ya tiene el número de encuestas completas."] ] ];
 // 		}
+
+        $proceso = false;
+        $intentos = 5;
+        
+        for($i = 0; $i < $intentos; $i++){
+            \DB::beginTransaction();
+    		try{
+    		    
+    		    $year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+        		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+        		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
+        		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
+        		
+        		$digitador = Digitador::find($request->Encuestador);
+        		
+        		$visitante = new Visitante();
+        		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
+        		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
+        		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
+        		$visitante->digitada = $this->user->digitador->id;
+        		$visitante->edad = $request->Edad;
+        		$visitante->email = isset($request->Email) ? $request->Email : null;
+        		$visitante->encuestador_creada = $request->Encuestador;
+        		$visitante->fecha_llegada = $request->Llegada;
+        		$visitante->fecha_salida = $request->Salida;
+        		//$visitante->grupo_viaje_id = $request->Grupo;
+        		$visitante->motivo_viaje = $request->Motivo;
+        		$visitante->municipio_residencia = $request->Municipio;
+        		$visitante->nombre = $request->Nombre;
+        		$visitante->opciones_lugares_id = $request->Nacimiento;
+        		$visitante->pais_nacimiento = $request->Nacimiento != 3 ? 47 : $request->Pais_Nacimiento;
+        		$visitante->sexo = $request->Sexo;
+        		$visitante->ultima_sesion = 1;
+        		$visitante->codigo_encuesta = $numeroEncuesta;
+        		$visitante->codigo_grupo = $year.'_'.$month.'_'.$digitador->codigo.'_'.$numeroEncuesta;
+        		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
+        		$visitante->lugar_aplicacion_id = $request->aplicacion;
+        		$visitante->sub_lugar_aplicacion_id = $request->sub_lugar_aplicacion_id;
+        		$visitante->save();
+        		
+        		switch ($visitante->motivo_viaje)
+                {
+        
+                    case 3:
+                        $visitante->visitantesTransito()->save( new Visitante_Transito(['horas_transito' => $request->Horas]) );
+                        break;
+                    case 5:
+                        $visitante->tiposAtencionSaluds()->attach($request->Salud);
+                        break;
+                    case 18:
+                        $visitante->otrosMotivo()->save( new Otro_Motivo([ 'otro_motivo' => $request->Otro ]) );
+                        break;
+                }
+                
+                $condicion = ($visitante->motivo_viaje == 3 && $request->Horas <5) || ($visitante->motivo_viaje == 17) ? 1 : 0;
+                
+                $visitante->historialEncuestas()->save(new Historial_Encuesta([
+                    'estado_id' => $condicion == 1  ? 3 : 1,
+                    'fecha_cambio' => date('Y-m-d H:i:s'), 
+                    'mensaje' => 'La encuesta ha sido creada',
+                    'usuario_id' => $this->user->id
+                ]));
+    		    
+    		    
+    		    \DB::commit();
+    	        $proceso = true;
+    	        break;
+    		}catch(\Exception $e){
+    		    \DB::rollback();
+    		}    
+        }
 		
-		\DB::beginTransaction();
-		
-		try{
-		    
-		    $year = date('Y',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-    		$month = date('m',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-    		$retornadoProcedimiento = \DB::select('SELECT codigo_encuesta(?, ?)', array($month, $year) );
-    		$numeroEncuesta = $retornadoProcedimiento[0]->codigo_encuesta;
-    		
-    		$digitador = Digitador::find($request->Encuestador);
-    		
-    		$visitante = new Visitante();
-    		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
-    		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
-    		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
-    		$visitante->digitada = $this->user->digitador->id;
-    		$visitante->edad = $request->Edad;
-    		$visitante->email = isset($request->Email) ? $request->Email : null;
-    		$visitante->encuestador_creada = $request->Encuestador;
-    		$visitante->fecha_llegada = $request->Llegada;
-    		$visitante->fecha_salida = $request->Salida;
-    		//$visitante->grupo_viaje_id = $request->Grupo;
-    		$visitante->motivo_viaje = $request->Motivo;
-    		$visitante->municipio_residencia = $request->Municipio;
-    		$visitante->nombre = $request->Nombre;
-    		$visitante->opciones_lugares_id = $request->Nacimiento;
-    		$visitante->pais_nacimiento = $request->Nacimiento != 3 ? 47 : $request->Pais_Nacimiento;
-    		$visitante->sexo = $request->Sexo;
-    		$visitante->ultima_sesion = 1;
-    		$visitante->codigo_encuesta = $numeroEncuesta;
-    		$visitante->codigo_grupo = $year.'_'.$month.'_'.$digitador->codigo.'_'.$numeroEncuesta;
-    		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
-    		$visitante->lugar_aplicacion_id = $request->aplicacion;
-    		$visitante->save();
-    		
-    		switch ($visitante->motivo_viaje)
-            {
-    
-                case 3:
-                    $visitante->visitantesTransito()->save( new Visitante_Transito(['horas_transito' => $request->Horas]) );
-                    break;
-                case 5:
-                    $visitante->tiposAtencionSaluds()->attach($request->Salud);
-                    break;
-                case 18:
-                    $visitante->otrosMotivo()->save( new Otro_Motivo([ 'otro_motivo' => $request->Otro ]) );
-                    break;
-            }
-            
-            $condicion = ($visitante->motivo_viaje == 3 && $request->Horas <5) || ($visitante->motivo_viaje == 17) ? 1 : 0;
-            
-            $visitante->historialEncuestas()->save(new Historial_Encuesta([
-                'estado_id' => $condicion == 1  ? 3 : 1,
-                'fecha_cambio' => date('Y-m-d H:i:s'), 
-                'mensaje' => 'La encuesta ha sido creada',
-                'usuario_id' => $this->user->id
-            ]));
-		    
-		    
-		    \DB::commit();
+		if($proceso){
 		    return ["success" => true, 'id' => $visitante->id, 'terminada' => $condicion];
-		}catch(\Exception $e){
-		    \DB::rollback();
+		}else{
 		    return ["success" => false];
 		}
     }
@@ -312,6 +328,7 @@ class TurismoReceptorController extends Controller
             $visitante['Salida'] = $visitanteCargar->fecha_salida;
             $visitante['fechaAplicacion'] = $visitanteCargar->fecha_aplicacion;
             $visitante['aplicacion'] = $visitanteCargar->lugar_aplicacion_id;
+            $visitante['sub_lugar_aplicacion_id'] = $visitanteCargar->sub_lugar_aplicacion_id;
             $visitante['Nombre'] = $visitanteCargar->nombre;
             $visitante['Edad'] = $visitanteCargar->edad;
             $visitante['Sexo'] = $visitanteCargar->sexo ? 1 : 0;
@@ -329,6 +346,7 @@ class TurismoReceptorController extends Controller
             $visitante['Salud'] = count($visitanteCargar->tiposAtencionSaluds) > 0 ? $visitanteCargar->tiposAtencionSaluds->first()->id : null;
             $visitante['Horas'] = $visitanteCargar->visitantesTransito != null ? $visitanteCargar->visitantesTransito->horas_transito : null ;
             $visitante['Otro'] = $visitanteCargar->otrosMotivo != null ? $visitanteCargar->otrosMotivo->otro_motivo : null ;
+            $visitante['numeroEncuesta'] = $visitanteCargar->codigo_encuesta;
             
             $departamentosr = Departamento::where('pais_id', $visitanteCargar->municipioResidencia->departamento->pais_id)->orderBy('nombre')->get(["id","nombre"]);
             $municipiosr = Municipio::where('departamento_id',$visitanteCargar->municipioResidencia->departamento_id)->orderBy('nombre')->get(["id","nombre"]);
@@ -373,7 +391,9 @@ class TurismoReceptorController extends Controller
 			'Otro' => 'required_if:Motivo,18|max:150',
 			//'codigo_encuesta' => 'required|max:50',
 			//'codigo_grupo' => 'required|unique:visitantes,codigo_grupo,'.$request->Id.',id',
-			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id'
+			'aplicacion' => 'required|exists:lugares_aplicacion_encuesta,id',
+			'sub_lugar_aplicacion_id' => 'required|exists:sub_lugares_aplicacion_encuesta_receptor,id',
+			'numeroEncuesta' => 'required|numeric'
     	],[
     	    'Id.required' => 'Debe seleccionar el visitante a realizar la encuesta.',
        		'Id.exists' => 'El visitante seleccionado no se encuentra seleccionado en el sistema.',
@@ -427,6 +447,17 @@ class TurismoReceptorController extends Controller
 		}
 		
 		$visitante = Visitante::find($request->Id);
+		
+		$visitante->codigo_encuesta = $request->numeroEncuesta;
+		$arregloCodigoGrupo = explode("_",$visitante->codigo_grupo);
+		$lastPosition = count($arregloCodigoGrupo) - 1;
+		$arregloCodigoGrupo[$lastPosition] = $request->numeroEncuesta;
+		$visitante->codigo_grupo = implode("_",$arregloCodigoGrupo);
+		
+		if(Visitante::where('codigo_grupo', $visitante->codigo_grupo)->where('id', '<>', $visitante->id)->first()){
+		 return ["success"=>false,"errores"=> [ ["Ya hay una encuesta registrada con el mismo código para este encuestador."] ] ];   
+		}
+		
 		$visitante->telefono = isset($request->Telefono) ? $request->Telefono : null;
 		$visitante->celular = isset($request->Celular) ? $request->Celular : null;
 		$visitante->destino_principal = isset($request->Destino) ? $request->Destino : null;
@@ -444,6 +475,8 @@ class TurismoReceptorController extends Controller
 		$visitante->sexo = $request->Sexo;
 		$visitante->fecha_aplicacion = date('Y-m-d H:i',strtotime(str_replace("/","-",$request->fechaAplicacion)));
 		$visitante->lugar_aplicacion_id = $request->aplicacion;
+		$visitante->sub_lugar_aplicacion_id = $request->sub_lugar_aplicacion_id;
+		
 		
 		$visitante->visitantesTransito()->delete();
 		$visitante->tiposAtencionSaluds()->detach();
@@ -722,6 +755,12 @@ class TurismoReceptorController extends Controller
         $encuestas = Visitante_estado::all();
         
         return $encuestas;
+    }
+    
+    public function getEncuestasrango($fecha_inicial, $fecha_final){
+        $encuestas = \DB::select('select * from encuestas_turismo_receptor(?,?)',array($fecha_inicial,$fecha_final));
+        
+        return ["encuestas" => $encuestas];
     }
     
     public function getListadoencuestas(){
@@ -1117,7 +1156,7 @@ class TurismoReceptorController extends Controller
     	    
     	    
     	    if(isset($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"]) && isset($rub["gastos_visitantes"][0]["divisas_magdalena"]) && isset($rub["gastos_visitantes"][0]["personas_cubiertas"])){
-    	        if($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"] != null && ($rub["gastos_visitantes"][0]["divisas_magdalena"] == null || $rub["gastos_visitantes"][0]["personas_cubiertas"] == null ) ){
+    	        if($rub["gastos_visitantes"][0]["cantidad_pagada_magdalena"] != "" && ($rub["gastos_visitantes"][0]["divisas_magdalena"] == null || $rub["gastos_visitantes"][0]["personas_cubiertas"] == null ) ){
     	            
     	            if($rub["gastos_visitantes"][0]["divisas_magdalena"] == null){
     	                return ["success"=>false,"errores"=> [ ["La divisa es requerida en el rubro dentro del magdalena."] ] ];
@@ -1142,9 +1181,9 @@ class TurismoReceptorController extends Controller
             	            return ["success"=>false,"errores"=> [ ["El campo localizacion de empresa de alquiler  es requerido."] ] ];
             	        }
             	        break;
-            	    case 10:
+            	    case 12:
             	        if(!isset($request->Ropa)){
-            	            return ["success"=>false,"errores"=> [ ["El campo don es requerido."] ] ];
+            	            return ["success"=>false,"errores"=> [ ["El campo donde se compro los bienes duraderos es requerido."] ] ];
             	        }
             	        break;
             	    default:
@@ -1714,6 +1753,23 @@ class TurismoReceptorController extends Controller
 		
         $visitante->save();
         return ["success" => true, 'sw' => $sw, 'codigo' => $visitante->codigo_grupo];
+    }
+    
+    public function postEliminarencuesta(Request $request){
+        $validator = \Validator::make($request->all(), [
+			'encuesta_id' => 'required|exists:visitantes,id',
+    	],[
+    	    'encuesta_id.required' => 'Debe seleccionar el visitante a realizar la encuesta.',
+       		'encuesta_id.exists' => 'El visitante seleccionado no se encuentra seleccionado en el sistema.',
+    	]);
+    	
+    	if($validator->fails()){
+    		return ["success"=>false,"errores"=>$validator->errors()];
+		}
+		
+        $resultado = \DB::select('select eliminarEncuestaReceptor(?) as result',array($request['encuesta_id']))[0]->result;
+        
+        return ["success" => $resultado ];
     }
     
 }
