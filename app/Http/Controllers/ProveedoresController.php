@@ -10,6 +10,7 @@ use App\Models\Proveedor;
 use App\Models\Comentario_Proveedor;
 use Carbon\Carbon;
 use App\Models\Proveedor_Favorito;
+use App\Models\Tipo_Proveedor;
 class ProveedoresController extends Controller
 {
   
@@ -18,17 +19,49 @@ class ProveedoresController extends Controller
 	    $this->middleware('auth',["only"=>["postFavorito","postFavoritoclient"]]);
 	}
 	
-	public function getIndex(){
+	public function getIndex(Request $request){
 	    $idioma = \Config::get('app.locale') == 'es' ? 1 : 2;
-        $proveedores = Proveedor::with(['proveedorRnt' => function ($queryProveedorRnt) use ($idioma){
-            $queryProveedorRnt->with(['idiomas' => function ($queyProveedor_rnt_idioma) use ($idioma){
-                $queyProveedor_rnt_idioma->where('idioma_id', $idioma)->select('proveedor_rnt_id', 'idioma_id', 'descripcion', 'nombre')->orderBy('idioma_id');
-            }])->select('id', 'razon_social');
-        }, 'multimediaProveedores' => function ($queryMultimediaProveedores){
-            $queryMultimediaProveedores->where('tipo', false)->orderBy('portada', 'desc')->select('proveedor_id', 'ruta');
-        }])->select('id', 'valor_min', 'valor_max', 'calificacion_legusto', 'proveedor_rnt_id')->where('estado', true)->get();
+        // $proveedores = Proveedor::with(['proveedorRnt' => function ($queryProveedorRnt) use ($idioma){
+        //     $queryProveedorRnt->with(['idiomas' => function ($queyProveedor_rnt_idioma) use ($idioma){
+        //         $queyProveedor_rnt_idioma->where('idioma_id', $idioma)->select('proveedor_rnt_id', 'idioma_id', 'descripcion', 'nombre')->orderBy('idioma_id');
+        //     }, 'categoriaProveedor' => function($categoriaProveedor){
+        //         $categoriaProveedor->with('tipoProveedor');
+        //     }])->select('id', 'razon_social');
+        // }, 'multimediaProveedores' => function ($queryMultimediaProveedores){
+        //     $queryMultimediaProveedores->where('tipo', false)->orderBy('portada', 'desc')->select('proveedor_id', 'ruta');
+        // }, 'categoriaProveedor' => function($categoriaProveedor){
+        //     $categoriaProveedor->with('tipoProveedor');
+        // }
+        // ])->select('id', 'valor_min', 'valor_max', 'calificacion_legusto', 'proveedor_rnt_id')->where('estado', true)->get();
+        $tipoProveedor = null;
+        if(!is_null($request->input('tipo'))){
+            $tipoProveedor = Tipo_Proveedor::with(['tipoProveedoresConIdiomas' => function($tipoProveedoresConIdiomas){
+                $tipoProveedoresConIdiomas->where('idiomas_id',1);
+            }])->where('id',$request->input('tipo'))->first();
+        }
         
-        return view('proveedor.Index', ['proveedores' => $proveedores]);
+        //return $tipoProveedor;
+        
+        $proveedores = Proveedor::with(['proveedorRnt' => function($proveedorRnt){
+            $proveedorRnt->with(['idiomas','categoriaProveedor' => function($categoriaProveedor){
+                $categoriaProveedor->with(['tipoProveedor' => function($tipoProveedor){
+                    $tipoProveedor->with(['tipoProveedoresConIdiomas' => function($tipoProveedoresConIdiomas){
+                        $tipoProveedoresConIdiomas->where('idiomas_id',1);
+                    }]);
+                }]);
+            }]);
+        }, 'proveedoresConIdiomas' => function($proveedoresConIdiomas){
+            $proveedoresConIdiomas->where('idiomas_id', 1);
+        }, 'multimediaProveedores' => function($multimediaProveedores){
+            $multimediaProveedores->where('portada',true);
+        }])->where('estado',true)->whereHas('proveedorRnt.categoriaProveedor.tipoProveedor', function($q) use($request){
+            if(!is_null($request->input('tipo'))){
+                $q->where('tipo_proveedores_id', $request->input('tipo'));
+            }
+        })->get();
+        //return $proveedores;
+        
+        return view('proveedor.Index', ['tipoProveedor' => $tipoProveedor,'proveedores' => $proveedores]);
 	}
 	
     //
