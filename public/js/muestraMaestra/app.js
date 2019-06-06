@@ -218,7 +218,7 @@
         $scope.dataPerido = { zonas:[] };
         $scope.zona = {};
         $scope.styloMapa = [{featureType:'poi.school',elementType:'labels',stylers:[{visibility:'off'}]} , {featureType:'poi.business',elementType:'labels',stylers:[{visibility:'off'}]} , {featureType:'poi.attraction',elementType:'labels',stylers:[{visibility:'off'}]} ];
-        $scope.centro = [10.4113014,-74.4056612];
+        $scope.centro = [10.7500084,-75.0000086];
         $scope.filterTabla = {};
         $scope.clusterProveedores = null;
         $scope.markersProveedores = [];
