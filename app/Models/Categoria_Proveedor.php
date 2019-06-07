@@ -34,7 +34,7 @@ class Categoria_Proveedor extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tipoProveedore()
+    public function tipoProveedor()
     {
         return $this->belongsTo('App\Models\Tipo_Proveedor', 'tipo_proveedores_id');
     }
@@ -53,6 +53,11 @@ class Categoria_Proveedor extends Model
     public function proveedores()
     {
         return $this->hasMany('App\Models\Proveedor', 'categoria_proveedores_id');
+    }
+    
+    public function proveedoresRnt()
+    {
+        return $this->hasMany('App\Models\Proveedores_rnt', 'categoria_proveedores_id');
     }
 
     /**

@@ -54,7 +54,7 @@ class Proveedor extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function categoriaProveedore()
+    public function categoriaProveedor()
     {
         return $this->belongsTo('App\Models\Categoria_Proveedor', 'categoria_proveedores_id');
     }

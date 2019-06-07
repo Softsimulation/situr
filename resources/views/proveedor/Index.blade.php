@@ -12,30 +12,33 @@ function getItemType($type){
     $path = ""; $name = "";
     switch($type){
         case(1):
-            $name = trans('resources.entidad.actividades');
-            $path = "/actividades/ver/";
+            $name = "Alojamiento";
+            $path = "/proveedor/ver/";
             break;
         case(2):
-            $name = trans('resources.entidad.atracciones');
+            $name = "Establecimientos de gastronomía";
             $path = "/atracciones/ver/";
             break;
         case(3):
-            $name = trans('resources.entidad.destinos');
+            $name = "Agencias de viaje";
             $path = "/destinos/ver/";
             break;
         case(4):
-            $name = trans('resources.entidad.eventos');
+            $name = "Establecimientos de esparcimiento y similares";
             $path = "/eventos/ver/";
             break; 
         case(5):
-            $name = trans('resources.entidad.rutasTuristicas');
+            $name = "Transporte especializado ";
             $path = "/rutas/ver/";
             break;
     }
     return (object)array('name'=>$name, 'path'=>$path);
 }
 
-$tituloPagina = "Proveedores";
+$tituloPagina = "Proveedores de servicios turísticos";
+if(!is_null($tipoProveedor)){
+    $tituloPagina = $tipoProveedor->tipoProveedoresConIdiomas->first()->nombre;
+}
 
 $colorTipo = ['primary','success','danger', 'info', 'warning'];
 
@@ -106,7 +109,7 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
     
 @endsection
 
-@section('TitleSection','Actividades')
+@section('TitleSection','Proveedores de servicios turísticos')
 
 @section('meta_og')
 <meta property="og:title" content="que hacer" />
@@ -128,11 +131,14 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
     <div id="opciones">
         <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','tile-list')" title="Vista de lista"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.vistaLista')}}</span></button>
         <button type="button" class="btn btn-default" onclick="changeViewList(this,'listado','')" title="Vista de mosaico"><span class="glyphicon glyphicon-th-large" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.vistaMosaico')}}</span></button>
-        <form class="form-inline">
+        <form class="form-inline" action="/proveedor/index" method="GET">
+            @if(isset($_GET['tipo']) && $_GET['tipo'] != null)
+            <input type="hidden" name="tipo" value="{{$_GET['tipo']}}">
+            @endif
             <div class="form-group">
                 <label class="sr-only" for="searchMain">{{trans('resources.listado.buscadorGeneral')}}</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchMain" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" maxlength="255">
+                    <input type="text" class="form-control" id="searchMain" name="buscar" placeholder="{{trans('resources.listado.queDeseaBuscar')}}" maxlength="255" @if(isset($_GET['buscar']) && $_GET['buscar'] != null) value="{{$_GET['buscar']}}" @endif>
                     <div class="input-group-addon"><button type="submit" class="btn btn-default" title="Buscar"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><span class="sr-only">{{trans('resources.listado.buscar')}}</span></button></div>
                 </div>
                 
@@ -144,41 +150,39 @@ $colorTipo = ['primary','success','danger', 'info', 'warning'];
     <hr/>
     
     @if(count($proveedores))
+    
     <div id="listado" class="tiles">
-    @for($i = 0; $i < count($proveedores); $i++)
+        @foreach($proveedores as $proveedor)
         <div class="tile">
-            
             <div class="tile-img">
-                @if($proveedores[$i]->portada != null && $proveedores[$i]->portada != "")
-                <img src="{{$proveedores[$i]->portada}}" alt="Imagen de presentación de {{$proveedores[$i]->nombre}}"/>
+                @if(!is_null($proveedor->multimediaProveedores) && count($proveedor->multimediaProveedores) > 0)
+                <img src="{{$proveedor->multimediaProveedores->first()->ruta}}" alt="{{$proveedor->multimediaProveedores->first()->texto_alternativo}}">
+                @else
+                <img src="" alt="" role="presentation" aria-hidden="true">
                 @endif
                 <div class="text-overlap">
-                    <span class="label label-{{$colorTipo[1]}}">{{getItemType(5)->name}}</span>
+                    <span class="label label-success">{{$proveedor->proveedorRnt->categoriaProveedor->tipoProveedor->tipoProveedoresConIdiomas->first()->nombre}}</span>
                 </div>
             </div>
-            
             <div class="tile-body">
                 <div class="tile-caption">
                     
-                    <h3><a href="{{getItemType(1)->path}}{{$proveedores[$i]->id}}">{{$proveedores[$i]->nombre}}</a></h3>
+                    <h3><a href="/proveedor/ver/{{$proveedor->id}}">{{$proveedor->proveedorRnt->idiomas->first()->nombre}}</a></h3>
                 </div>
-                @if($proveedores[$i]->tipo == 4)
-                <p class="tile-date">{{trans('resources.listado.fechaEvento', ['fechaInicio' => date('d/m/Y', strtotime($proveedores[$i]->fecha_inicio)), 'fechaFin' => date('d/m/Y', strtotime($proveedores[$i]->fecha_fin))])}}</p>
-                @endif
                 <div class="btn-block ranking">
-    	              <span class="{{ ($proveedores[$i]->calificacion_legusto > 0.0) ? (($proveedores[$i]->calificacion_legusto <= 0.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
-    	              <span class="{{ ($proveedores[$i]->calificacion_legusto > 1.0) ? (($proveedores[$i]->calificacion_legusto <= 1.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
-    	              <span class="{{ ($proveedores[$i]->calificacion_legusto > 2.0) ? (($proveedores[$i]->calificacion_legusto <= 2.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
-    	              <span class="{{ ($proveedores[$i]->calificacion_legusto > 3.0) ? (($proveedores[$i]->calificacion_legusto <= 3.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
-    	              <span class="{{ ($proveedores[$i]->calificacion_legusto > 4.0) ? (($proveedores[$i]->calificacion_legusto <= 5.0) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
-    	              <span class="sr-only">Posee una calificación de {{$proveedores[$i]->calificacion_legusto}}</span>
+    	              <span class="{{ ($proveedor->calificacion_legusto > 0.0) ? (($proveedor->calificacion_legusto <= 0.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
+    	              <span class="{{ ($proveedor->calificacion_legusto > 1.0) ? (($proveedor->calificacion_legusto <= 1.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
+    	              <span class="{{ ($proveedor->calificacion_legusto > 2.0) ? (($proveedor->calificacion_legusto <= 2.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
+    	              <span class="{{ ($proveedor->calificacion_legusto > 3.0) ? (($proveedor->calificacion_legusto <= 3.9) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
+    	              <span class="{{ ($proveedor->calificacion_legusto > 4.0) ? (($proveedor->calificacion_legusto <= 5.0) ? 'ionicons-inline ion-android-star-half' : 'ionicons-inline ion-android-star') : 'ionicons-inline ion-android-star-outline'}}" aria-hidden="true"></span>
+    	              <span class="sr-only">Posee una calificación de {{$proveedor->calificacion_legusto}}</span>
     	            
-    	          </div>
-    	          
+    	        </div>
             </div>
         </div>
-    @endfor
+        @endforeach
     </div>
+   
     @else
     <div class="alert alert-info">
         <p>{{trans('resources.listado.noHayElementos')}}</p>

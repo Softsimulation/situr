@@ -114,10 +114,9 @@ situr.controller('listadoEncuestasCtrl', ['$scope','adminService', function ($sc
                           $scope.encuestas[i].Filtro = 'calculadas';
                       }
                   }
-                $('#processing').removeClass('process-in');
-                
+                $("body").attr("class", "cbp-spmenu-push");
             }).catch(function () {
-                $('#processing').removeClass('process-in');
+                $("body").attr("class", "cbp-spmenu-push");
                 swal("Error", "Error en la carga, por favor recarga la página.", "error");
             })
         }else{
