@@ -110,10 +110,10 @@
                         <!--    <a role="menuitem" href="#">{{trans('resources.entidad.guias')}}</a>-->
                         <!--</li>-->
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.entidad.alojamientos')}}</a>
+                            <a role="menuitem" href="/proveedor/index?tipo=1">{{trans('resources.entidad.alojamientos')}}</a>
                         </li>
                         <li role="none">
-                            <a role="menuitem" href="#">{{trans('resources.entidad.restaurantes')}}</a>
+                            <a role="menuitem" href="/proveedor/index?tipo=2">{{trans('resources.entidad.restaurantes')}}</a>
                         </li>
                         <li role="none">
                             <a role="menuitem" href="/Mapa">{{trans('resources.menu.mapa')}}</a>

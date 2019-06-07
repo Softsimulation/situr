@@ -31,6 +31,11 @@ protected $table = 'proveedores_rnt';
         return $this->hasOne('App\Models\Categoria_Proveedor', 'id', 'categoria_proveedores_id'); 
     }
     
+    public function categoriaProveedor()
+    {
+        return $this->belongsTo('App\Models\Categoria_Proveedor', 'categoria_proveedores_id');
+    }
+    
     public function municipio(){
         return $this->hasOne('App\Models\Municipio', 'id', 'municipio_id'); 
     }
