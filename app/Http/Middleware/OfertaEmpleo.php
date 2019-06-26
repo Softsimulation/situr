@@ -228,7 +228,7 @@ class OfertaEmpleo
         
     if(strlen(strstr($request->path(),'ofertaempleo/alojamientomensual'))>0){
             
-            if($encuesta->sitiosParaEncuesta->proveedor->categoria->tipoProveedore->id == 1){
+            if($encuesta->sitiosParaEncuesta->proveedor->categoria->tipo_proveedores_id == 1){
                
                  if($data[0]->mes_id%3 == 0){
                         return redirect('/ofertaempleo/alojamientotrimestral/'.$request->one);
@@ -244,7 +244,7 @@ class OfertaEmpleo
         
     if(strlen(strstr($request->path(),'ofertaempleo/alojamientotrimestral'))>0){
             
-            if($encuesta->sitiosParaEncuesta->proveedor->categoria->tipoProveedore->id == 1){
+            if($encuesta->sitiosParaEncuesta->proveedor->categoria->tipo_proveedores_id == 1){
                   if($data[0]->mes_id%3 != 0){
                         return redirect('/ofertaempleo/alojamientomensual/'.$request->one);
                   }else{
