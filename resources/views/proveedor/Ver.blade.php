@@ -100,6 +100,12 @@ function parse_yturl($url)
       </div>
       
     </div>
+    @else
+    <div class="text-center">
+        <img style="height: 96px;" src="/hotel.png" alt="" role="presentation" aria-hidden="true" class="img-responsive">
+        <h2 class="text-center text-uppercase" style="margin-bottom: 1rem;">{{$proveedor->proveedorRnt->razon_social}}</h2>    
+    </div>
+    
     @endif
     <div id="menu-page">
     	<div class="container">
@@ -136,8 +142,9 @@ function parse_yturl($url)
     </div>
     <section id="informacionGeneral">
         <div class="container">
+            @if(isset($proveedor->multimediaProveedores) && count($proveedor->multimediaProveedores) > 0)
             <h3 class="title-section">{{$proveedor->proveedorRnt->razon_social}}</h3>
-            
+            @endif
             <div class="text-center">
             @if(Auth::check())
                 <form role="form" action="/proveedor/favorito" method="post">
@@ -174,6 +181,7 @@ function parse_yturl($url)
                 </div>
                 <div class="col-xs-12 col-md-4">
                     <ul class="list">
+                        @if(count($proveedor->proveedoresConIdiomas) > 0)
                         <li>
                             <div class="row align-items-center">
                                 <div class="col-xs-2">
@@ -191,6 +199,7 @@ function parse_yturl($url)
                                 
                             </div>
                         </li>
+                        @endif
                         <li>
                             <div class="row align-items-center">
                                 <div class="col-xs-2">
@@ -249,75 +258,6 @@ function parse_yturl($url)
         </div>
         
     </section>
-    <!--<section id="caracteristicas">-->
-    <!--    <div class="container">-->
-    <!--        <h3>Características</h3>-->
-            <!--<p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam porttitor, augue quis tempus dictum, augue dui molestie sem, vitae molestie augue ipsum id turpis. Fusce feugiat vestibulum ante. Sed a consequat eros, finibus luctus nisl. In ut diam congue, condimentum sem vel, sagittis dolor. Nunc ut vestibulum ex, vitae eleifend metus. Proin id ex eu erat aliquet egestas. Fusce id suscipit velit, ut sodales turpis. Aliquam turpis risus, luctus vitae lobortis finibus, condimentum in felis. Pellentesque vel erat tellus. Suspendisse potenti. Integer porta sed lorem ac iaculis. Pellentesque pretium ex et convallis condimentum. In luctus leo nulla, eu finibus justo volutpat quis.</p>-->
-    <!--        <div class="row">-->
-    <!--            <div class="col-xs-12 col-md-8">-->
-    <!--                <div id="map"></div>-->
-    <!--            </div>-->
-    <!--            <div class="col-xs-12 col-md-4">-->
-    <!--                <ul class="list-group list-group-flush">-->
-    <!--                    <li class="list-group-item active text-uppercase"><strong>Detalles</strong></li>-->
-                        
-    <!--                    <li class="list-group-item">-->
-    <!--                        <div class="row">-->
-    <!--                            <div class="col-xs-2">-->
-    <!--                                <span class="ion-cash" aria-hidden="true"></span> <span class="sr-only">Valor</span>-->
-    <!--                            </div>-->
-    <!--                            <div class="col">-->
-    <!--                                ${{number_format(intval($proveedor->valor_min))}} - ${{number_format(intval($proveedor->valor_max))}}-->
-    <!--                            </div>-->
-                                
-    <!--                        </div>-->
-    <!--                        <div class="row">-->
-    <!--                            <div class="col-xs-2">-->
-    <!--                                <span class="ion-android-time" aria-hidden="true"></span> <span class="sr-only">Horario</span>-->
-    <!--                            </div>-->
-    <!--                            <div class="col">-->
-    <!--                                {{$proveedor->proveedoresConIdiomas[0]->horario}}-->
-    <!--                            </div>-->
-                                
-    <!--                        </div>-->
-    <!--                        @if($proveedor->telefono != null)-->
-    <!--                        <div class="row">-->
-    <!--                            <div class="col-xs-2">-->
-    <!--                                <span class="ion-android-call" aria-hidden="true"></span> <span class="sr-only">Telefóno</span>-->
-    <!--                            </div>-->
-    <!--                            <div class="col">-->
-    <!--                                {{$proveedor->telefono}}-->
-    <!--                            </div>-->
-                                
-    <!--                        </div>-->
-    <!--                        @endif-->
-    <!--                        @if($proveedor->sitio_web != null)-->
-    <!--                        <div class="row">-->
-    <!--                            <div class="col-xs-2">-->
-    <!--                                <span class="ion-android-globe" aria-hidden="true"></span> <span class="sr-only">Sitio web</span>-->
-    <!--                            </div>-->
-    <!--                            <div class="col">-->
-    <!--                                <a href="{{$proveedor->sitio_web}}" target="_blank" rel="noopener noreferrer">Clic para ir al sitio web</a>-->
-    <!--                            </div>-->
-    <!--                        </div>-->
-    <!--                        @endif-->
-    <!--                    </li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</section>-->
-    <!--@if(count($proveedor->actividadesProveedores) > 0)-->
-    <!--Actividades-->
-    <!--<div class="row">-->
-    <!--    @foreach ($proveedor->actividadesProveedores as $actividad)-->
-    <!--    <div class="col-sm-12 col-md-12 col-xs-12">-->
-    <!--        Actividad {{$actividad->id}}: {{$actividad->actividadesConIdiomas[0]->nombre}}-->
-    <!--    </div>-->
-    <!--    @endforeach-->
-    <!--</div>-->
-
-    <!--@endif-->
     <section id="comentarios">
         <div class="container">
             <h3 class="title-section">Comentarios <small>({{count($proveedor->comentariosProveedores)}})</small></h3>

@@ -2,7 +2,7 @@
         <div id="slider-logos">
             <img src="/res/logo_mincit.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Ministerio de Industria, Comercio y Turísmo'])}}" class="img-responsive">
             <img src="/res/logo_fontur.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Fontur'])}}" class="img-responsive">
-           <!-- <img src="/res/logo_gobierno.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Gobierno de Colombia'])}}" class="img-responsive">-->
+            <!--<img src="/res/logo_gobierno.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Gobierno de Colombia'])}}" class="img-responsive">-->
             <img src="/res/gobernacion.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Gobernación del Atlántico'])}}" class="img-responsive">
             <img src="/res/alcaldia.png" alt="{{trans('resources.common.logoDe', ['logo' => 'alcaldía de Barranquilla'])}}" class="img-responsive">
             <img src="/res/logo_cotelco.png" alt="{{trans('resources.common.logoDe', ['logo' => 'Cotelco Atlántico'])}}" class="img-responsive">    
