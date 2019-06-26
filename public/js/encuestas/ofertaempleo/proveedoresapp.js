@@ -146,6 +146,7 @@ angular.module('proveedoresoferta', ["checklist-model","proveedorServices",'angu
       $scope.ofertaEmpleo = function(obj){
              
               if(obj.tipo_id == 1){
+                 window.location.href = "/ofertaempleo/alojamientomensual/"+obj.id;
             
               }else{
                   
