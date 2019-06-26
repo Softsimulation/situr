@@ -220,6 +220,9 @@
                             <a role="menuitem" href="{{asset('exportacion')}}">Exportación</a>
                         </li>
                         <li>
+                            <a role="menuitem" href="{{asset('/indicadoresMedicion/listado')}}">Gestión de gráficos</a>
+                        </li>
+                        <li>
                             <a role="menuitem" href="{{asset('calcularindicadores')}}">Calcular indicadores</a>
                         </li>
                         <li>

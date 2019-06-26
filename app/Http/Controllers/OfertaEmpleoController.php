@@ -232,7 +232,7 @@ class OfertaEmpleoController extends Controller
           $ruta = null;
           $tipo = Sitio_Para_Encuesta::where("id",$id)->first();
          
-          if($tipo->proveedor->categoria->tipoProveedore->id == 1){
+          if($tipo->proveedor->categoria->tipo_proveedores_id== 1){
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
@@ -482,7 +482,7 @@ class OfertaEmpleoController extends Controller
     
        $tipo = Sitio_Para_Encuesta::where("id",$encuesta->sitios_para_encuestas_id)->first();
          
-          if($tipo->proveedor->categoria->tipoProveedore->id == 1){
+          if($tipo->proveedor->categoria->tipo_proveedores_id== 1){
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
@@ -603,7 +603,7 @@ class OfertaEmpleoController extends Controller
         $encuesta = Encuesta::find($one);
         $tipo = Sitio_Para_Encuesta::where("id",$encuesta->sitios_para_encuestas_id)->first();
          
-          if($tipo->proveedor->categoria->tipoProveedore->id == 1){
+          if($tipo->proveedor->categoria->tipo_proveedores_id == 1){
               $ruta = "/ofertaempleo/alojamientomensual";
               }else{
                   
