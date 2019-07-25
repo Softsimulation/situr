@@ -9,23 +9,22 @@
 @section('subtitulo','Ingresar información de zona')
 
 @section('content')
-   
+
    <input type="hidden" id="id" value="{{$zona}}" />
-   
+
     <h1>@{{zona.nombre}}</h1>
-   
+
     <form name="form" novalidate>
-        
+
         <div class="btn-group">
             <a href="/MuestraMaestra/periodo/@{{zona.periodo_medicion_id}}"  class="btn btn-primary" >Volver</a>
-            @if(Auth::user()->contienePermiso('llenarInfo-zona'))
+
                 <button type="submit" class="btn btn-success" ng-click="guardar()" >Guardar</button>
-            @endif
-            @if(Auth::user()->contienePermiso('excel-infoZona'))
+
                 <a ng-click="exportarFileExcelZona()"  class="btn btn-primary" >Descargar excel</a>
-            @endif
+
         </div>
-        @if(Auth::user()->contienePermiso('llenarInfo-zona'))
+
             <table>
               <tr>
                 <th style="width:4%">ID</th>
@@ -37,25 +36,25 @@
                 <th style="width:15%">SUBCATEGORÍA</th>
                 <th style="width:15%">NOVEDADES</th>
               </tr>
-             
+
               <tr ng-repeat="item in proveedores" >
                 <th>@{{item.codigo}}</th>
-                <td ng-class="{ 'error': ( (form.$submitted || form.rnt@{{$index}}.$touched) && form.rnt@{{$index}}.$invalid  ) }" >  
-                    <p title="@{{item.numero_rnt}}" >@{{item.rnt || 'No tiene'}}</p> 
+                <td ng-class="{ 'error': ( (form.$submitted || form.rnt@{{$index}}.$touched) && form.rnt@{{$index}}.$invalid  ) }" >
+                    <p title="@{{item.numero_rnt}}" >@{{item.rnt || 'No tiene'}}</p>
                     <input type="number" class="form-control" name="rnt@{{$index}}" min="0" placeholder="RNT" ng-model="item.rnt_muestra" ng-disabled="!item.rnt" >
                 </td>
                 <td ng-class="{ 'error': ( (form.$submitted || form.estado@{{$index}}.$touched) && form.estado@{{$index}}.$invalid  ) }" >
-                    <p title="@{{item.estadop.nombre}}" >@{{item.estado_rnt}} </p> 
+                    <p title="@{{item.estadop.nombre}}" >@{{item.estado_rnt}} </p>
                     <select class="form-control" name="estado@{{$index}}"  ng-options="it.id as it.nombre for it in estados" ng-model="item.estado_muestra_id" >
                         <option value="" selected disabled >Estado</option>
                     </select>
                 </td>
                 <td ng-class="{ 'error': ( (form.$submitted || form.rz@{{$index}}.$touched) && form.rz@{{$index}}.$invalid  ) }" >
-                    <p class="text-table" title="@{{item.razon_social}}" >@{{item.nombre_rnt}}</p> 
-                    <input type="text" class="form-control" name="rz@{{$index}}" placeholder="Nombre" ng-model="item.nombre_muestra" > 
+                    <p class="text-table" title="@{{item.razon_social}}" >@{{item.nombre_rnt}}</p>
+                    <input type="text" class="form-control" name="rz@{{$index}}" placeholder="Nombre" ng-model="item.nombre_muestra" >
                 </td>
                 <td ng-class="{ 'error': ( (form.$submitted || form.dir@{{$index}}.$touched) && form.dir@{{$index}}.$invalid  ) }" >
-                    <p class="text-table" title="@{{item.direccion}}" >@{{item.direccion_rnt}}</p> 
+                    <p class="text-table" title="@{{item.direccion}}" >@{{item.direccion_rnt}}</p>
                     <input type="text" class="form-control" name="dir@{{$index}}" placeholder="Dirección" ng-model="item.direccion_muestra" >
                 </td>
                 <td ng-class="{ 'error': ( (form.$submitted || form.tp@{{$index}}.$touched) && form.tp@{{$index}}.$invalid  ) }" >
@@ -74,27 +73,27 @@
                      <textarea class="form-control" name="obs@{{$index}}" style="resize:none" placeholder="Novedades" ng-model="item.observaciones_muestra" ></textarea>
                 </td>
               </tr>
-              
-              
+
+
               <tr ng-if="proveedores.length==0" >
                   <td colspan="8" class="alert alert-info" >No se encontraron proveedores en la zona.</td>
               </tr>
         </table>
-        @endif
+
     </form>
-    
+
     <style>
         table, td, th {
             border: 1px solid #000000;
             padding: 0px 4px;
             text-align:center;
         }
-        
+
         table {
             border-collapse: collapse;
             margin-top: 30px;
         }
-        
+
         table .form-control{
             padding: 1px 3px !important;
         }

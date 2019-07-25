@@ -10,7 +10,7 @@
         <meta name="copyright" content="Softsimulation S.A.S, SITUR Atlántico" />
         <meta property="og:title" content="SITUR Atlántico" />
         <meta property="og:type" content="website" />
-        
+
         @yield('meta_og')
         <title>@yield('Title') SITUR Atlantico</title>
         <meta name='mobile-web-app-capable' content='yes'>
@@ -28,8 +28,8 @@
         <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" type="text/css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link href="{{asset('/css/public/style.css')}}" rel="stylesheet">
-        <link href="{{asset('/css/public/main.css')}}" rel="stylesheet">
+        <link href="http://situratlantico.com/css/public/style.css" rel="stylesheet">
+        <link href="{{secure_asset('/css/public/main.css')}}" rel="stylesheet">
         <link href="{{asset('/css/public/style_768.css')}}" rel="stylesheet" media="(min-width: 768px)">
         <link href="{{asset('/css/public/style_992.css')}}" rel="stylesheet" media="(min-width: 992px)">
         <link href="{{asset('/css/public/style_1200.css')}}" rel="stylesheet" media="(min-width: 1200px)">
@@ -97,9 +97,9 @@
         <main id="content-main">
             @yield('content')
         </main>
-        
+
         @include('layout.partial._footerPublicPartial')
-        
+
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -130,16 +130,16 @@
         @yield("javascript")
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", function (event) {
-                
+
                 $('.loadingContent').delay(500).fadeOut("fast");
                 $('.carousel').carousel({
                   pause: null
                 });
-            
+
             });
-            
+
         </script>
-       
+
     <!-- Global site tag (gtag.js) -Código de seguimiento Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106392208-1"></script>
 <script>
